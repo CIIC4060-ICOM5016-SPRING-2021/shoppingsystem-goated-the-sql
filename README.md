@@ -2,7 +2,7 @@
 
 ## Resources
 
-- ER Model Diagram - [LucidChart](https://lucid.app/lucidchart/b2668bd4-91ad-4557-98c1-7552a31da417/edit?invitationId=inv_c934d6b0-ed3e-4e4b-8bd4-0e2b8dbb394a-92b0-c5b40708225c)
+- ER Model Diagram - [Figma](https://www.figma.com/file/BE6ktsqv7nknhJ9fYy1rro/ER-Model?node-id=0%3A1)
 - Relational Table Diagram - [LucidChart](https://lucid.app/lucidchart/b2668bd4-91ad-4557-98c1-7552a31da417/edit?invitationId=inv_c934d6b0-ed3e-4e4b-8bd4-0e2b8dbb394a)
 - User Interface Design - [Figma](https://www.figma.com/file/J1X31z9Cp49qTKD4zxnrQc/Shopping-System-Project-CIIC4060%2FICOM5016)
 
