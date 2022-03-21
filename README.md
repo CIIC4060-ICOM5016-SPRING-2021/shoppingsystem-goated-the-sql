@@ -12,3 +12,19 @@
 - Ivan G Jackson Rivera - ivan.jackson@upr.edu
 - Orlando E Saldana Ramirez - orlando.saldana@upr.edu
 - Edwin J Vega Reyes - edwin.vega4@upr.edu
+
+## Credentials
+- **Host**
+    - ec2-34-192-83-52.compute-1.amazonaws.com
+- **Database**
+    - d6baf03n1mkeui
+- **User**
+    - fbblbczlnhnneg
+- **Port**
+    - 5432
+- **Password**
+    - 15b7ce404fc3da7b0349fc13b4290b96512502574c680afecc7387a783244944
+- **URI**
+    - postgres://fbblbczlnhnneg:15b7ce404fc3da7b0349fc13b4290b96512502574c680afecc7387a783244944@ec2-34-192-83-52.compute-1.amazonaws.com:5432/d6baf03n1mkeui
+- **Heroku CLI**
+    - heroku pg:psql postgresql-perpendicular-56204 --app goated-the-sql-db
