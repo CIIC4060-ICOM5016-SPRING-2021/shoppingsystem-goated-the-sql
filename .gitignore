@@ -11,4 +11,5 @@ venv.bak/
 instance/
 .webassets-cache
 
+# IntelliJ stuff:
 .idea
