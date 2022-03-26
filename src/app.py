@@ -2,6 +2,7 @@ from flask import Flask
 
 from controllers.product import ProductController
 from controllers.cart import CartController
+from src.models.dao.data_access_object import DataAccessObject
 
 app = Flask(__name__)
 

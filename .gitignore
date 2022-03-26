@@ -13,3 +13,6 @@ instance/
 
 # IntelliJ stuff:
 .idea
+
+# Sensitive files
+credentials.txt
