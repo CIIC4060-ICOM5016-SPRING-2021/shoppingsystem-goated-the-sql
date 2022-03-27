@@ -1,21 +1,21 @@
 import unittest
 
 from src.models.dao.backend import BackEnd
-from src.models.dao.data_access_object import DataAccessObject
+from src.models.dao.db_access import DBAccess
 from src.models.user import UserModel
 
 
 class DAOTest(unittest.TestCase):
-    # NOTE: Make the functions public before testing otherwise they will always fail
+    # NOTE: Make the functions public before testing the service below otherwise it will always fail
     def test_db_credentials_getter(self):
-        test_subject = DataAccessObject().__get_db_credentials("./files/test_credentials.txt")
+        test_subject = DBAccess().__get_db_credentials("./files/test_credentials.txt")
 
         self.assertEqual(test_subject.host, "goomba")
         self.assertEqual(test_subject.username, "goomber3000")
         self.assertEqual(test_subject.password, "toogoomboyou")
         self.assertEqual(test_subject.database, "bowsercastle")
 
-    def test_user_registration(self):
+    def test_backend_user_creation(self):
         test_usr = UserModel()
         test_usr.f_name = "goomberson"
         test_usr.l_name = "goomba"

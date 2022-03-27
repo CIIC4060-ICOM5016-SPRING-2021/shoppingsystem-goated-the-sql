@@ -1,11 +1,11 @@
-from src.models.dao.data_access_object import DataAccessObject
+from src.models.dao.db_access import DBAccess
 
 
 class BackEnd:
     def create_element(self, model):
         # Registers a user
         if model.__class__.__name__ == 'UserModel':
-            db_connection = DataAccessObject().connect_to_db()
+            db_connection = DBAccess().connect_to_db()
             cursor = db_connection.cursor()
 
             cursor.execute(
@@ -17,7 +17,6 @@ class BackEnd:
 
             db_connection.commit()
             db_connection.close()
-
         elif model.__class__.__name__ == 'ProductModel':
             # TODO: implement logic
             return "goomba"
