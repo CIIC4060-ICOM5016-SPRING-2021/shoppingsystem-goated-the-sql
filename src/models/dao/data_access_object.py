@@ -1,9 +1,8 @@
-from src.models.dao.helpers.dir_traversal import DirectoryTraversal
+from src.models.dao.helpers.dir_traversal import Directories
 from src.models.dao.helpers.parser import Parser
 from src.models.dao.credentials import Credentials
 import psycopg2
 import os
-
 
 current_dir = os.path.dirname(__file__)
 
@@ -11,15 +10,12 @@ current_dir = os.path.dirname(__file__)
 class DataAccessObject:
 
     def init_db(self):
-        creds = self.__get_db_credentials(DirectoryTraversal().go_up_dir(2, current_dir) + "/files/credentials.txt")
+        creds = self.__get_db_credentials(Directories().go_up_dir(2, current_dir) + "/files/credentials.txt")
         try:
             db = self.__connect_to_db(creds)
             return db
-
-        # I have no idea what type of error this could produce, that is why it is currently generic
-        # TODO: find out what type of error this could be/produce
-        except:
-            print("An error has occurred when connecting to the database")
+        except psycopg2.Error:
+            pass
 
     # Initiates the connection to the database using the given credentials and returns the connection
     def __connect_to_db(self, credentials_obj: Credentials):

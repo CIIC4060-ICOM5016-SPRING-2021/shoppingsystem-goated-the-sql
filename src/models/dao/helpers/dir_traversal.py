@@ -1,4 +1,4 @@
-class DirectoryTraversal:
+class Directories:
     def go_up_dir(self, amount: int, path: str):
         # Makes a list of all the directories leading up the given one, cleaning up the empty values just in case
         # something weird happens

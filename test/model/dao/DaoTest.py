@@ -14,16 +14,16 @@ class DAOTest(unittest.TestCase):
         self.assertEqual(test_subject.database, "bowsercastle")
 
     # Generates a simple table in the database that correlates to the files stored in the credentials.txt file
-    def test_table_creation(self):
+    # def test_table_creation(self):
 
-            # REMOVE COMMENTING IN THE LINES BELOW IF YOU ARE COMPLETELY SURE YOU WANT A TEST TABLE IN YOUR DATABASE
+    # REMOVE COMMENTING IN THE LINES BELOW IF YOU ARE COMPLETELY SURE YOU WANT A TEST TABLE IN YOUR DATABASE
 
-        # db = DataAccessObject().init_db()
-        # db_cursor = db.cursor()
-        # db_cursor.execute("""CREATE TABLE goomba(user_id serial PRIMARY KEY, name VARCHAR(50))""")
-        #
-        # db.commit()
+    # db_connection = DataAccessObject().init_db()
+    # db_cursor = db_connection.cursor()
+    # db_cursor.execute("""CREATE TABLE goomba(user_id serial PRIMARY KEY, name VARCHAR(50))""")
+    #
+    # db_connection.commit()
+    # db_connection.close()
 
-
-        # I manually checked the database to check if the table was created since I do not wanna spend
-        # time developing whatever this mess of a check will be
+    # I manually checked the database to check if the table was created since I do not wanna spend
+    # time developing whatever this mess of a check will be
