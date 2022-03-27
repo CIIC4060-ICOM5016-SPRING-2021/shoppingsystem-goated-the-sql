@@ -8,6 +8,5 @@ class Parser:
         with open(file_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
 
-            # TODO: implement a bit more lazy searching (ie. including spaces surrounding the '=')
-            result = re.search(re.escape(value) + r'=\S+', ' '.join(lines)).group()
+            result = re.search(re.escape(value) + r'[[:space:]]?=[[:space:]]?\S+', ' '.join(lines)).group()
             return str.replace(result, value + "=", "")
