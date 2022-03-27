@@ -1,6 +1,8 @@
 import unittest
 
+from src.models.dao.backend import BackEnd
 from src.models.dao.data_access_object import DataAccessObject
+from src.models.user import UserModel
 
 
 class DAOTest(unittest.TestCase):
@@ -12,6 +14,15 @@ class DAOTest(unittest.TestCase):
         self.assertEqual(test_subject.username, "goomber3000")
         self.assertEqual(test_subject.password, "toogoomboyou")
         self.assertEqual(test_subject.database, "bowsercastle")
+
+    def test_user_registration(self):
+        test_usr = UserModel()
+        test_usr.f_name = "goomberson"
+        test_usr.l_name = "goomba"
+        test_usr.phone = "123-123-1234"
+        test_usr.pwd = "toogoombfoyou"
+
+        BackEnd().create_element(test_usr)
 
     # Generates a simple table in the database that correlates to the files stored in the credentials.txt file
     # def test_table_creation(self):

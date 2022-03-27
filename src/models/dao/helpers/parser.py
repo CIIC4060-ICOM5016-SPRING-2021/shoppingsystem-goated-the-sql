@@ -8,5 +8,12 @@ class Parser:
         with open(file_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
 
-            result = re.search(re.escape(value) + r'[[:space:]]?=[[:space:]]?\S+', ' '.join(lines)).group()
-            return str.replace(result, value + "=", "")
+            try:
+                result = re.search(re.escape(value) + r'\s?=\s?\S+', ' '.join(lines)).group()
+            except AttributeError:
+                result = re.search(re.escape(value) + r'\s?=\s?\S+', ' '.join(lines))
+
+            if result is not None:
+                return str.replace(result.replace(" ", ""), value + "=", "")
+            else:
+                return ValueError("The value queried was not found within the given file")
