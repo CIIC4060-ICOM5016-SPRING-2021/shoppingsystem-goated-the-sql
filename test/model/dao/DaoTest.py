@@ -71,6 +71,15 @@ class DAOTest(unittest.TestCase):
 
         BackEnd().create_element(test_prod)
 
+    def test_change_product_visibility(self):
+        ProductModel().db_set_visibility(1, 1, False)
+
+    def test_change_product_price(self):
+        ProductModel().db_set_price(1, 1, 499.99)
+
+    def test_change_product_quantity(self):
+        ProductModel().db_set_quantity(1, 1, 100)
+
     # Generates a simple table in the database that correlates to the files stored in the credentials.txt file
     # def test_table_creation(self):
 

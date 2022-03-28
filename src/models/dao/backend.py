@@ -40,14 +40,14 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def get_element(cls, model, pk=""):
+    def get_element(cls, model, pk):
         if model.__class__.__name__ == 'UserModel':
             return cls.__db_fetch_one(
                 """
                 SELECT first_name, last_name, valid, phone, admin
                 FROM usr
                 WHERE user_id = {}
-                """.format(pk),
+                """.format(str(pk)),
 
                 'UserModel'
             )
@@ -57,7 +57,7 @@ class BackEnd:
                 SELECT name, description, price, category, liked_count, quantity, visible
                 FROM products
                 WHERE product_id = {}
-                """.format(pk),
+                """.format(str(pk)),
                 'ProductModel'
             )
         elif model.__class__.__name__ == 'OrderModel':
@@ -94,17 +94,17 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def get_all_elements(cls, model, select_attributes: str, where_clause_statement):
+    def get_all_elements(cls, model, select_attributes: str, filter_clause: str):
         if model.__class__.__name__ == 'ProductModel':
 
             # If the where_clause_statement is not empty
-            if where_clause_statement:
+            if filter_clause:
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
                     FROM products
                     WHERE {}
-                    """.format(select_attributes, where_clause_statement),
+                    """.format(select_attributes, filter_clause),
                     'ProductModel'
                 )
             else:
@@ -127,17 +127,17 @@ class BackEnd:
 
     @classmethod
     def get_all_elements_ordered(
-            cls, model, select_attributes: str, where_clause_statement, order_attribute: str, sort: str):
+            cls, model, select_attributes: str, filter_clause: str, order_attribute: str, sort: str):
         if model.__class__.__name__ == 'ProductModel':
             # If the where_clause_statement is not empty (ie no filter required)
-            if where_clause_statement:
+            if filter_clause:
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
                     FROM products
                     WHERE {}
                     ORDER BY {} {}
-                    """.format(select_attributes, where_clause_statement, order_attribute, sort),
+                    """.format(select_attributes, filter_clause, order_attribute, sort),
                     'ProductModel'
                 )
             else:
@@ -158,6 +158,51 @@ class BackEnd:
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
+
+    @classmethod
+    def update_element_attribute(cls, table: str, change: str, filter_clause: str):
+        # Registers a user
+        if table.lower() == 'usr':
+            cls.__db_run_command(
+                """
+                UPDATE {}
+                SET {}
+                WHERE {}
+                """.format(table, change, filter_clause)
+            )
+
+        elif table.lower() == 'products':
+            cls.__db_run_command(
+                """
+                UPDATE {}
+                SET {}
+                WHERE {}
+                """.format(table, change, filter_clause)
+            )
+        elif table.lower() == 'orders':
+            cls.__db_run_command(
+                """
+                UPDATE {}
+                SET {}
+                WHERE {}
+                """.format(table, change, filter_clause)
+            )
+        elif table.lower() == 'likedlist':
+            cls.__db_run_command(
+                """
+                UPDATE {}
+                SET {}
+                WHERE {}
+                """.format(table, change, filter_clause)
+            )
+        elif table.lower() == 'cart':
+            cls.__db_run_command(
+                """
+                UPDATE {}
+                SET {}
+                WHERE {}
+                """.format(table, change, filter_clause)
+            )
 
     @classmethod
     def __db_fetch_one(cls, command: str, return_type: str):

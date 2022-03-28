@@ -87,10 +87,6 @@ class ProductModel:
     def get_product(cls, prod_id):
         return BackEnd().get_element(ProductModel(), prod_id)
 
-    @classmethod
-    def update_product(cls, prod_id, product):
-        # TODO: Implement this
-        return "goomba"
 
     @classmethod
     def get_all_products_by_price(cls, ascending=True):
@@ -114,11 +110,10 @@ class ProductModel:
     def db_set_visibility(cls, user_id: int, prod_id: int, new_visibility: bool):
         from src.models.user import UserModel
 
-        user = BackEnd().get_element(UserModel(), pk=user_id)
-        if user.db_is_admin():
-            product = BackEnd().get_element(ProductModel(), pk=prod_id)
-            product.set_visibility(new_visibility)
-            product.update_product(prod_id, product)
+        if UserModel().db_is_admin(user_id):
+            BackEnd().update_element_attribute(
+                'products', 'visible = ' + str(new_visibility).lower(), 'product_id = ' + str(prod_id)
+            )
         else:
             raise ValueError("User does not have the rights to make this change.")
 
@@ -126,11 +121,10 @@ class ProductModel:
     def db_set_price(cls, user_id: int, prod_id: int, new_price: float):
         from src.models.user import UserModel
 
-        user = BackEnd().get_element(UserModel(), pk=user_id)
-        if user.db_is_admin():
-            product = BackEnd().get_element(ProductModel(), pk=prod_id)
-            product.set_price(new_price)
-            product.update_product(prod_id, product)
+        if UserModel().db_is_admin(user_id):
+            BackEnd().update_element_attribute(
+                'products', 'price = ' + str(new_price), 'product_id = ' + str(prod_id)
+            )
         else:
             raise ValueError("User does not have the rights to make this change.")
 
@@ -138,11 +132,9 @@ class ProductModel:
     def db_set_quantity(cls, user_id: int, prod_id: int, new_quantity: int):
         from src.models.user import UserModel
 
-        user = BackEnd().get_element(UserModel(), pk=user_id)
-        if user.db_is_admin():
-            product = BackEnd().get_element(ProductModel(), pk=prod_id)
-            product.set_quantity(new_quantity)
-            product.update_product(prod_id, product)
+        if UserModel().db_is_admin(user_id):
+            BackEnd().update_element_attribute(
+                'products', 'quantity = ' + str(new_quantity), 'product_id = ' + str(prod_id)
+            )
         else:
             raise ValueError("User does not have the rights to make this change.")
-

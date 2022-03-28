@@ -86,11 +86,11 @@ class UserModel:
 
     @classmethod
     def get_user(cls, user_id):
-        return BackEnd.get_element(UserModel(), pk=user_id)
+        return BackEnd.get_element(UserModel(), user_id)
 
     @classmethod
     def db_is_admin(cls, user_id):
-        user = BackEnd().get_element(UserModel(), pk=user_id)
+        user = BackEnd().get_element(UserModel(), user_id)
         if user.get_admin_status():
             return True
         else:
