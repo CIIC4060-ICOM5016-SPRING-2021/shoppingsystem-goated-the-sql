@@ -45,7 +45,16 @@ class DAOTest(unittest.TestCase):
 
     def test_get_all_products(self):
         # Used debugger to make sure the objects were correctly returned
-        ProductModel().get_all_products()
+        result = ProductModel().get_all_products()
+        for product in result:
+            print("Product ID: " + str(product.get_prod_id()))
+            print("Name: " + product.get_name())
+            print("Description: " + product.get_desc())
+            print("Price: " + str(product.get_price()))
+            print("Category: " + product.get_category())
+            print("Likes: " + str(product.get_likes()))
+            print("Quantity: " + str(product.get_quantity()))
+            print("Visible? " + str(product.get_visibility()))
 
     def test_backend_product_creation(self):
         test_prod = ProductModel()

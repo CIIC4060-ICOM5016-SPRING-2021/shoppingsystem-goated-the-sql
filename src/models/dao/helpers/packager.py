@@ -28,13 +28,14 @@ class Packager:
             from src.models.product import ProductModel
             result = ProductModel()
 
-            result.set_name(item[0])
-            result.set_desc(item[1])
-            result.set_price(item[2])
-            result.set_category(item[3])
-            result.set_likes(item[4])
-            result.set_quantity(item[5])
-            result.set_visibility(item[6])
+            result.set_prod_id(item[0])
+            result.set_name(item[1])
+            result.set_desc(item[2])
+            result.set_price(item[3])
+            result.set_category(item[4])
+            result.set_likes(item[5])
+            result.set_quantity(item[6])
+            result.set_visibility(item[7])
 
             return result
         elif to_obj == 'OrderModel':

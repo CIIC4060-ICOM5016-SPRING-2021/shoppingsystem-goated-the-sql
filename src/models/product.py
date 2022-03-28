@@ -2,6 +2,7 @@ from src.models.dao.backend import BackEnd
 
 
 class ProductModel:
+    __prod_id: int
     __name: str
     __desc: str
     __price: float
@@ -9,6 +10,14 @@ class ProductModel:
     __liked_count: int
     __quantity: int
     __visible: bool
+
+    # Product ID Getter
+    def get_prod_id(self):
+        return self.__prod_id
+
+    # Product ID Setter
+    def set_prod_id(self, prod_id: int):
+        self.__prod_id = prod_id
 
     # Name Getter
     def get_name(self):
