@@ -4,12 +4,21 @@ import hashlib
 
 # TODO: Missing update-user-in-database functionality (CRD/CRUD implemented)
 class UserModel:
+    __user_id: int
     __f_name: str
     __l_name: str
     __valid: bool
     __password: str
     __phone: str
     __admin: bool
+
+    # User ID Getter
+    def get_user_id(self):
+        return self.__user_id
+
+    # User ID Setter
+    def set_user_id(self, user_id: int):
+        self.__user_id = user_id
 
     # First Name Getter
     def get_first_name(self):

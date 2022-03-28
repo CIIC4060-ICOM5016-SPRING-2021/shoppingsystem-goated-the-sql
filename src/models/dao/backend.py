@@ -126,6 +126,40 @@ class BackEnd:
             return "goomba"
 
     @classmethod
+    def get_all_elements_ordered(
+            cls, model, select_attributes: str, where_clause_statement, order_attribute: str, sort: str):
+        if model.__class__.__name__ == 'ProductModel':
+            # If the where_clause_statement is not empty (ie no filter required)
+            if where_clause_statement:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM products
+                    WHERE {}
+                    ORDER BY {} {}
+                    """.format(select_attributes, where_clause_statement, order_attribute, sort),
+                    'ProductModel'
+                )
+            else:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM products
+                    ORDER BY {} {}
+                    """.format(select_attributes, order_attribute, sort),
+                    'ProductModel'
+                )
+        elif model.__class__.__name__ == 'OrderModel':
+            # TODO: implement logic
+            return "goomba"
+        elif model.__class__.__name__ == 'LikedListModel':
+            # TODO: implement logic
+            return "goomba"
+        elif model.__class__.__name__ == 'CartModel':
+            # TODO: implement logic
+            return "goomba"
+
+    @classmethod
     def __db_fetch_one(cls, command: str, return_type: str):
         db_connection = DBAccess().connect_to_db()
         cursor = db_connection.cursor()

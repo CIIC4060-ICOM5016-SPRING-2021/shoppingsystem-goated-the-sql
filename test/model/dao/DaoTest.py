@@ -33,6 +33,11 @@ class DAOTest(unittest.TestCase):
         print("Phone: " + result.get_phone_num())
         print("Admin? " + str(result.get_admin_status()))
 
+    def test_user_is_admin(self):
+        self.assertEqual(UserModel().db_is_admin(1), True)
+        self.assertEqual(UserModel().db_is_admin(13), False)
+        self.assertIsNot(UserModel().db_is_admin(23), True)
+
     def test_get_product(self):
         result = ProductModel().get_product("1")
         print("Name: " + result.get_name())
