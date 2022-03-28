@@ -17,8 +17,8 @@ class ProductController:
 
     @classmethod
     def change_visibility(cls, prod_id, user_id, visibility: bool):
-        ProductModel().db_set_visibility(user_id, prod_id, visibility)
+        ProductModel().db_change_visibility(user_id, prod_id, visibility)
 
     @classmethod
     def change_price(cls, prod_id, user_id, new_price):
-        ProductModel().db_set_price(user_id, prod_id, new_price)
+        ProductModel().db_change_price(user_id, prod_id, new_price)

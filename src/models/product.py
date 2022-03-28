@@ -87,7 +87,6 @@ class ProductModel:
     def get_product(cls, prod_id):
         return BackEnd().get_element(ProductModel(), prod_id)
 
-
     @classmethod
     def get_all_products_by_price(cls, ascending=True):
         if ascending:
@@ -107,7 +106,7 @@ class ProductModel:
         return BackEnd().get_all_elements(ProductModel(), "*", "category = " + category)
 
     @classmethod
-    def db_set_visibility(cls, user_id: int, prod_id: int, new_visibility: bool):
+    def db_change_visibility(cls, user_id: int, prod_id: int, new_visibility: bool):
         from src.models.user import UserModel
 
         if UserModel().db_is_admin(user_id):
@@ -118,7 +117,7 @@ class ProductModel:
             raise ValueError("User does not have the rights to make this change.")
 
     @classmethod
-    def db_set_price(cls, user_id: int, prod_id: int, new_price: float):
+    def db_change_price(cls, user_id: int, prod_id: int, new_price: float):
         from src.models.user import UserModel
 
         if UserModel().db_is_admin(user_id):
@@ -129,7 +128,7 @@ class ProductModel:
             raise ValueError("User does not have the rights to make this change.")
 
     @classmethod
-    def db_set_quantity(cls, user_id: int, prod_id: int, new_quantity: int):
+    def db_change_quantity(cls, user_id: int, prod_id: int, new_quantity: int):
         from src.models.user import UserModel
 
         if UserModel().db_is_admin(user_id):
