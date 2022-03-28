@@ -62,3 +62,31 @@ class BackEnd:
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
+
+    def delete_element(self, model, user_id):
+        if model.__class__.__name__ == 'UserModel':
+            db_connection = DBAccess().connect_to_db()
+            cursor = db_connection.cursor()
+
+            cursor.execute(
+                """
+                DELETE FROM usr
+                WHERE user_id = {}
+                """.format(user_id)
+            )
+
+            db_connection.commit()
+            db_connection.close()
+
+        elif model.__class__.__name__ == 'ProductModel':
+            # TODO: implement logic
+            return "goomba"
+        elif model.__class__.__name__ == 'OrderModel':
+            # TODO: implement logic
+            return "goomba"
+        elif model.__class__.__name__ == 'LikedListModel':
+            # TODO: implement logic
+            return "goomba"
+        elif model.__class__.__name__ == 'CartModel':
+            # TODO: implement logic
+            return "goomba"

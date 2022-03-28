@@ -54,5 +54,8 @@ class UserModel:
     def register_user(self):
         BackEnd().create_element(self)
 
+    def delete_user(self, user_id):
+        BackEnd().delete_element(UserModel(), user_id)
+
     def get_user(self, user_id):
         BackEnd.read_element(UserModel(), pk=user_id)
