@@ -53,3 +53,6 @@ class UserModel:
 
     def register_user(self):
         BackEnd().create_element(self)
+
+    def get_user(self, user_id):
+        BackEnd.read_element(UserModel(), pk=user_id)

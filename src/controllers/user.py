@@ -2,9 +2,9 @@ from src.models.user import UserModel
 
 
 class UserController:
-    def get_user(self):
-        # TODO: Implement calls to logic in models package
-        return "goomba"
+    def get_user(self, user_id):
+        # This will only return the verification of the account and first & last name for security purposes
+        UserModel().get_user(user_id)
 
     def register_user(self):
         new_user = UserModel()
