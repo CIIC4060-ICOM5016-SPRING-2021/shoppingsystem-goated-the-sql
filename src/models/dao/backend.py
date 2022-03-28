@@ -12,7 +12,7 @@ class BackEnd:
                 """
                 INSERT INTO usr (first_name, last_name, created_on, valid, password, phone, admin) \n
                 VALUES ('{}', '{}', current_timestamp, false, '{}', '{}', false)
-                """.format(model.f_name, model.l_name, model.pwd, model.phone)
+                """.format(model.get_first_name(), model.get_last_name(), model.get_password(), model.get_phone_num())
             )
 
             db_connection.commit()
@@ -63,7 +63,7 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
 
-    def delete_element(self, model, user_id):
+    def delete_element(self, model, pk):
         if model.__class__.__name__ == 'UserModel':
             db_connection = DBAccess().connect_to_db()
             cursor = db_connection.cursor()
@@ -72,7 +72,7 @@ class BackEnd:
                 """
                 DELETE FROM usr
                 WHERE user_id = {}
-                """.format(user_id)
+                """.format(pk)
             )
 
             db_connection.commit()

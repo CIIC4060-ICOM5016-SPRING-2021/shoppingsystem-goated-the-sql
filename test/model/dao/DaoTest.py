@@ -17,10 +17,10 @@ class DAOTest(unittest.TestCase):
 
     def test_backend_user_creation(self):
         test_usr = UserModel()
-        test_usr.f_name = "goomberson"
-        test_usr.l_name = "goomba"
-        test_usr.phone = "123-123-1234"
-        test_usr.pwd = "toogoombfoyou"
+        test_usr.set_first_name("goomberson")
+        test_usr.set_last_name("goomba")
+        test_usr.set_phone_num("123-123-1234")
+        test_usr.set_password("toogoombfoyou")
 
         BackEnd().create_element(test_usr)
 
