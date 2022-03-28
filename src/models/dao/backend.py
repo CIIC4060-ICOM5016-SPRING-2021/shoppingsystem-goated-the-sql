@@ -43,8 +43,13 @@ class BackEnd:
                 """.format(pk)
             )
 
+            result_list = cursor.fetchall()
+
             db_connection.commit()
             db_connection.close()
+
+            return result_list
+
         elif model.__class__.__name__ == 'ProductModel':
             # TODO: implement logic
             return "goomba"
