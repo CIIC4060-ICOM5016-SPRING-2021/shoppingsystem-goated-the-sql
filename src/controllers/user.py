@@ -8,6 +8,6 @@ class UserController:
 
     def register_user(self):
         new_user = UserModel()
-        # TODO: Get values from the page and add them into a user
+        # TODO: Get values from the page and combine them into a user
 
-        new_user.register_user()
+        new_user.add_user()

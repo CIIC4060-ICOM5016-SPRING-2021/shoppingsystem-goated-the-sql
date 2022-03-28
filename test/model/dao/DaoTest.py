@@ -2,6 +2,7 @@ import unittest
 
 from src.models.dao.backend import BackEnd
 from src.models.dao.db_access import DBAccess
+from src.models.product import ProductModel
 from src.models.user import UserModel
 
 
@@ -23,6 +24,38 @@ class DAOTest(unittest.TestCase):
         test_usr.set_password("toogoombfoyou")
 
         BackEnd().create_element(test_usr)
+
+    def test_get_user(self):
+        result = UserModel().get_user("1")
+        print("First Name: " + result.get_first_name())
+        print("Last Name: " + result.get_last_name())
+        print("Valid? " + str(result.get_validity()))
+        print("Phone: " + result.get_phone_num())
+        print("Admin? " + str(result.get_admin_status()))
+
+    def test_get_product(self):
+        result = ProductModel().get_product("1")
+        print("Name: " + result.get_name())
+        print("Description: " + result.get_desc())
+        print("Price: " + str(result.get_price()))
+        print("Category: " + result.get_category())
+        print("Likes: " + str(result.get_likes()))
+        print("Quantity: " + str(result.get_quantity()))
+        print("Visible? " + str(result.get_visibility()))
+
+    def test_get_all_products(self):
+        # Used debugger to make sure the objects were correctly returned
+        ProductModel().get_all_products()
+
+    def test_backend_product_creation(self):
+        test_prod = ProductModel()
+        test_prod.set_name("Goomba Statue")
+        test_prod.set_desc("The largest Goomba Mario has ever seen")
+        test_prod.set_price(1299.99)
+        test_prod.set_category("Figurines")
+        test_prod.set_quantity(1)
+
+        BackEnd().create_element(test_prod)
 
     # Generates a simple table in the database that correlates to the files stored in the credentials.txt file
     # def test_table_creation(self):

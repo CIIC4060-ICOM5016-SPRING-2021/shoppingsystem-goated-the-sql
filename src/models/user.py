@@ -2,6 +2,7 @@ from src.models.dao.backend import BackEnd
 import hashlib
 
 
+# TODO: Missing update-user-in-database functionality (CRD/CRUD implemented)
 class UserModel:
     __f_name: str
     __l_name: str
@@ -36,11 +37,16 @@ class UserModel:
 
     # Password Getter
     # TODO: Find a more secure way of passing the password to store in the database
+
+    #       Maybe make it so that the password is hashed in logic outside the controller and within the class itself?
+    #       ie. whenever the password value gets initiated?
+    #       too much work to solve for the project atm gonna just leave it for later
     def get_password(self):
         return self.__password
 
     # Password Setter
     def set_password(self, password: str):
+        # TODO: Update the Relational Table Diagram to represent the varchar limit increment
         pwd_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
         self.__password = pwd_hash
 
@@ -56,11 +62,28 @@ class UserModel:
     def get_admin_status(self):
         return self.__admin
 
-    def register_user(self):
-        BackEnd().create_element(self)
+    # Admin Status Setter
+    def set_admin_status(self, status: bool):
+        self.__admin = status
 
-    def delete_user(self, user_id):
+    @classmethod
+    def add_user(cls):
+        BackEnd().create_element(cls)
+
+    # TODO: Ask if this should be a toggle for visibility or an outright deletion of user records
+    @classmethod
+    def delete_user(cls, user_id):
         BackEnd().delete_element(UserModel(), user_id)
 
-    def get_user(self, user_id):
-        BackEnd.read_element(UserModel(), pk=user_id)
+    @classmethod
+    def get_user(cls, user_id):
+        return BackEnd.get_element(UserModel(), pk=user_id)
+
+    @classmethod
+    def db_is_admin(cls, user_id):
+        user = BackEnd().get_element(UserModel(), pk=user_id)
+        if user.get_admin_status():
+            return True
+        else:
+            return False
+

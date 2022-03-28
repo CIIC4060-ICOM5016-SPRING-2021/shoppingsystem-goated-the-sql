@@ -23,7 +23,8 @@ class DBAccess:
                 """, e)
 
     # Initiates the connection to the database using the given credentials and returns the connection
-    def __connect_to_db(self, credentials_obj: Credentials):
+    @classmethod
+    def __connect_to_db(cls, credentials_obj: Credentials):
         db_connection = psycopg2.connect(
             host=credentials_obj.host,
             user=credentials_obj.username,
@@ -33,7 +34,8 @@ class DBAccess:
         return db_connection
 
     # Parses through the given file for the values that it is looking for
-    def __get_db_credentials(self, file_path: str):
+    @classmethod
+    def __get_db_credentials(cls, file_path: str):
         cred = Credentials()
         cred.host = Parser().get_file_value(file_path, "host")
         cred.username = Parser().get_file_value(file_path, "username")
