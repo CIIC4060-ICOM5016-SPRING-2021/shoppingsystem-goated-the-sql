@@ -54,7 +54,7 @@ class BackEnd:
         elif model.__class__.__name__ == 'ProductModel':
             return cls.__db_fetch_one(
                 """
-                SELECT name, description, price, category, liked_count, quantity, visible
+                SELECT product_id, name, description, price, category, liked_count, quantity, visible
                 FROM products
                 WHERE product_id = {}
                 """.format(str(pk)),

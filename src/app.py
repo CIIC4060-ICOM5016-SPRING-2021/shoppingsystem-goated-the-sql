@@ -2,8 +2,6 @@ from flask import Flask
 
 from controllers.product import ProductController
 from controllers.cart import CartController
-from src.models.dao.db_access import DBAccess
-
 app = Flask(__name__)
 
 #The requests won't be handled here. We call our controllers to do that for us
