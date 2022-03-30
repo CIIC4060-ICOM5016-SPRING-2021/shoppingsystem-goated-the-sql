@@ -2,6 +2,7 @@ from flask import Flask
 
 from controllers.product import ProductController
 from controllers.cart import CartController
+from controllers.user import UserController
 from src.models.dao.db_access import DBAccess
 
 app = Flask(__name__)
@@ -15,17 +16,27 @@ def handler():
     return 'Hello, World!'
 
 
-@app.route('/product/<int:prod_id>')
+@app.route('/goated_the_sql/product/<int:prod_id>')
 def item_handler(prod_id):
     return ProductController.get_product(prod_id)
 
 
-@app.route('/products/all')
+@app.route('/goated_the_sql/products/all')
 def products_handler():
-    return ProductController().get_all_products()
+    return ProductController.get_all_products()
 
 
-@app.route('/cart')
+@app.route('/goated_the_sql/user/all')
+def users_handler():
+    return UserController.get_all_users()
+
+
+@app.route('/goated_the_sql/user/<int:usr_id>')
+def user_handler(usr_id):
+    return UserController.get_user(usr_id)
+
+
+@app.route('/goated_the_sql/cart')
 def carts_handler():
     return CartController().get_cart()
 
