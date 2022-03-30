@@ -1,3 +1,5 @@
+
+
 class Packager:
     @classmethod
     def package_response(cls, response, obj_type):
@@ -6,7 +8,6 @@ class Packager:
 
             for item in response:
                 result.append(cls.convert(item, obj_type))
-
             return result
         else:
             return cls.convert(response, obj_type)
@@ -26,8 +27,8 @@ class Packager:
             return result
         elif to_obj == 'ProductModel':
             from src.models.product import ProductModel
-            result = ProductModel()
 
+            result = ProductModel()
             result.set_prod_id(item[0])
             result.set_name(item[1])
             result.set_desc(item[2])

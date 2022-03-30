@@ -29,7 +29,8 @@ class DBAccess:
             host=credentials_obj.host,
             user=credentials_obj.username,
             password=credentials_obj.password,
-            database=credentials_obj.database
+            database=credentials_obj.database,
+            port=credentials_obj.port
         )
         return db_connection
 
@@ -41,6 +42,7 @@ class DBAccess:
         cred.username = Parser().get_file_value(file_path, "username")
         cred.password = Parser().get_file_value(file_path, "password")
         cred.database = Parser().get_file_value(file_path, "database")
+        cred.port = Parser().get_file_value(file_path, "port")
 
         return cred
 
