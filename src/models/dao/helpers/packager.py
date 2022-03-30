@@ -28,16 +28,8 @@ class Packager:
             return result
         elif to_obj == 'ProductModel':
             from src.models.product import ProductModel
-            result = ProductModel()
-            result2=[item[0],
-                     item[1],
-                     item[2],
-                     item[3],
-                     item[4],
-                     item[5],
-                     item[6],
-                     item[7]]
 
+            result = ProductModel()
             result.set_prod_id(item[0])
             result.set_name(item[1])
             result.set_desc(item[2])
@@ -47,7 +39,7 @@ class Packager:
             result.set_quantity(item[6])
             result.set_visibility(item[7])
 
-            return result2
+            return result
         elif to_obj == 'OrderModel':
             from src.models.order import OrderModel
             result = OrderModel()
