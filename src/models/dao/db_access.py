@@ -10,7 +10,7 @@ current_dir = os.path.dirname(__file__)
 class DBAccess:
 
     def connect_to_db(self):
-        creds = self.__get_db_credentials(Directories().go_up_dir(2, current_dir) + "/files/credentials.txt")
+        creds = self.__get_db_credentials(Directories().go_up_dir(2, current_dir) + "/files/credentials_example.txt")
         try:
             db = self.__connect_to_db(creds)
             return db
@@ -19,7 +19,7 @@ class DBAccess:
                 """
                 There has been an error connecting to the database, please make sure the connection credentials
                 are saved in a folder within the root directory named 'files' and the document is named 
-                'credentials.txt'. Error: 
+                'credentials_example.txt'. Error: 
                 """, e)
 
     # Initiates the connection to the database using the given credentials and returns the connection
@@ -29,7 +29,8 @@ class DBAccess:
             host=credentials_obj.host,
             user=credentials_obj.username,
             password=credentials_obj.password,
-            database=credentials_obj.database
+            database=credentials_obj.database,
+            port=credentials_obj.port
         )
         return db_connection
 
@@ -41,6 +42,7 @@ class DBAccess:
         cred.username = Parser().get_file_value(file_path, "username")
         cred.password = Parser().get_file_value(file_path, "password")
         cred.database = Parser().get_file_value(file_path, "database")
+        cred.port = Parser().get_file_value(file_path, "port")
 
         return cred
 

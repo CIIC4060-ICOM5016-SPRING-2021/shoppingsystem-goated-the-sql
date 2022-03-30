@@ -3,3 +3,4 @@ class Credentials:
     username: str
     password: str
     database: str
+    port: str

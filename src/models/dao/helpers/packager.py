@@ -1,3 +1,6 @@
+from flask import jsonify
+
+
 class Packager:
     @classmethod
     def package_response(cls, response, obj_type):
@@ -6,7 +9,6 @@ class Packager:
 
             for item in response:
                 result.append(cls.convert(item, obj_type))
-
             return result
         else:
             return cls.convert(response, obj_type)
@@ -27,6 +29,14 @@ class Packager:
         elif to_obj == 'ProductModel':
             from src.models.product import ProductModel
             result = ProductModel()
+            result2=[item[0],
+                     item[1],
+                     item[2],
+                     item[3],
+                     item[4],
+                     item[5],
+                     item[6],
+                     item[7]]
 
             result.set_prod_id(item[0])
             result.set_name(item[1])
@@ -37,7 +47,7 @@ class Packager:
             result.set_quantity(item[6])
             result.set_visibility(item[7])
 
-            return result
+            return result2
         elif to_obj == 'OrderModel':
             from src.models.order import OrderModel
             result = OrderModel()

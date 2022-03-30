@@ -6,6 +6,9 @@ from src.models.dao.db_access import DBAccess
 
 app = Flask(__name__)
 
+#The requests won't be handled here. We call our controllers to do that for us
+#There is a library that allows you to do the routing on other files, but this is
+#the simplest way
 
 @app.route('/')
 def handler():
