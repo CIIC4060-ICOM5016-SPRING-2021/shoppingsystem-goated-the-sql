@@ -31,7 +31,14 @@ class ProductController:
 
     @classmethod
     def preparer(cls, product):
-        prodict = {'id': product.get_prod_id(), 'name': product.get_name(), 'desc': product.get_desc(),
-                   'price': product.get_price(), 'category': product.get_category(), 'likes': product.get_likes(),
-                   'quantity': product.get_quantity(), 'visibility': product.get_visibility()}
+        prodict = {
+            'id': product.get_prod_id(),
+            'name': product.get_name(),
+            'desc': product.get_desc(),
+            'price': product.get_price(),
+            'category': product.get_category(),
+            'likes': product.get_likes(),
+            'quantity': product.get_quantity(),
+            'visibility': product.get_visibility()
+        }
         return prodict
