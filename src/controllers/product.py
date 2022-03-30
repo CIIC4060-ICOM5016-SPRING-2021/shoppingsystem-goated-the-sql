@@ -17,7 +17,7 @@ class ProductController:
         queried_product = ProductModel().get_product(prod_id)
 
         if not queried_product:
-            return jsonify("Not Found"), 404
+            return jsonify("Product Not Found"), 404
         else:
             return jsonify(ProductController().preparer(queried_product)), 200
 
