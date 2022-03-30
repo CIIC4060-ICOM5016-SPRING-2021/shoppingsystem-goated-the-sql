@@ -3,7 +3,9 @@
 class Packager:
     @classmethod
     def package_response(cls, response, obj_type):
-        if type(response) == list:
+        if response is None:
+            return None
+        elif type(response) == list:
             result = list()
 
             for item in response:
