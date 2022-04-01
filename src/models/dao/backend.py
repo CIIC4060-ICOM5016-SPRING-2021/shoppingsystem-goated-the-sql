@@ -40,26 +40,29 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def get_element(cls, model, pk):
+    def get_element(cls, model, pk, select_attributes: str):
         if model.__class__.__name__ == 'UserModel':
+            # If the where_clause_statement is not empty
+            # TODO: What happens if there are no results?
             return cls.__db_fetch_one(
                 """
-                SELECT first_name, last_name, valid, phone, admin, password
-                FROM usr
-                WHERE user_id = {}
-                """.format(str(pk)),
-
+                    SELECT {}
+                    FROM usr
+                    WHERE usr_id = {}
+                    """.format(select_attributes, pk),
                 'UserModel'
             )
+
         elif model.__class__.__name__ == 'ProductModel':
             return cls.__db_fetch_one(
                 """
-                SELECT name, description, price, category, liked_count, quantity, visible
-                FROM products
-                WHERE product_id = {}
-                """.format(str(pk)),
+                    SELECT {}
+                    FROM products
+                    WHERE product_id = {}
+                    """.format(select_attributes, pk),
                 'ProductModel'
             )
+
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
             return "goomba"
