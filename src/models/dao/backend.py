@@ -48,7 +48,7 @@ class BackEnd:
                 """
                     SELECT {}
                     FROM usr
-                    WHERE usr_id = {}
+                    WHERE user_id = {}
                     """.format(select_attributes, pk),
                 'UserModel'
             )
