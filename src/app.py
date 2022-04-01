@@ -60,7 +60,7 @@ def users_handler():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/product/add', methods=['POST'])
+@app.route('/goated_the_sql/user/add', methods=['POST'])
 def user_add():
     if request.method == 'POST':
         # this post is simulating what the professor did it class. Unsure what to

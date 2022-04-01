@@ -13,12 +13,15 @@ class UserController:
         else:
             return jsonify(UserController().preparer(queried_user)), 200
 
-    def register_user(self, json):
-        # new_user = UserModel()
-        # TODO: Get values from the page and combine them into a user
-
-        # new_user.add_user()
-        pass
+    @classmethod
+    def register_user(cls, json):
+        temp_user = UserModel()
+        temp_user.set_first_name(json['first_name'])
+        temp_user.set_last_name(json['last_name'])
+        temp_user.set_password(json['password'])
+        temp_user.set_phone_num(json['phone'])
+        new_user = temp_user.add_user()
+        return new_user
 
     @classmethod
     def get_all_users(cls):

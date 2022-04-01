@@ -7,16 +7,19 @@ class BackEnd:
     def create_element(cls, model):
         # Registers a user
         if model.__class__.__name__ == 'UserModel':
-            cls.__db_run_command(
+            cls.__db_fetch_one(
                 """
-                INSERT INTO usr (first_name, last_name, created_on, valid, password, phone, admin) \n
-                VALUES ('{}', '{}', current_timestamp, false, '{}', '{}', false)
+                INSERT INTO usr (first_name, last_name, created_on, valid, password, phone, admin) 
+                VALUES ('{}', '{}', current_timestamp, false, '{}', '{}', false) 
+                RETURNING *
                 """.format(
                     model.get_first_name(),
                     model.get_last_name(),
                     model.get_password(),
-                    model.get_phone_num())
+                    model.get_phone_num()),
+                "UserModel"
             )
+
         elif model.__class__.__name__ == 'ProductModel':
             cls.__db_run_command(
                 """

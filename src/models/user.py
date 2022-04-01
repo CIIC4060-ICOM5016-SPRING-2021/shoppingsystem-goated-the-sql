@@ -87,9 +87,9 @@ class UserModel:
     def set_admin_status(self, status: bool):
         self.__admin = status
 
-    @classmethod
-    def add_user(cls):
-        BackEnd().create_element(cls)
+    # @classmethod
+    def add_user(self):
+        return BackEnd().create_element(self)
 
     # TODO: Ask if this should be a toggle for visibility or an outright deletion of user records
     @classmethod
