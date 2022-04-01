@@ -1,10 +1,9 @@
 from flask import Flask, request, jsonify
 
-from controllers.product import ProductController
 from controllers.cart import CartController
+from controllers.product import ProductController
 from controllers.user import UserController
 from models.user import UserModel
-from src.models.dao.db_access import DBAccess
 
 app = Flask(__name__)
 
@@ -53,13 +52,19 @@ def products_handler():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/users/all', methods=['GET', 'POST'])
+@app.route('/goated_the_sql/users/all', methods=['GET'])
 def users_handler():
     if request.method == 'GET':
         return UserController.get_all_users()
-    elif request.method == 'POST':
+    else:
+        return jsonify("Operation not suGOATED."), 405
+
+
+@app.route('/goated_the_sql/product/add', methods=['POST'])
+def user_add():
+    if request.method == 'POST':
         # this post is simulating what the professor did it class. Unsure what to
-        # do with it rn (03/31/2022)
+        # do with it rn (04/01/2022)
         return UserController.register_user(request.json)
     else:
         return jsonify("Operation not suGOATED."), 405
