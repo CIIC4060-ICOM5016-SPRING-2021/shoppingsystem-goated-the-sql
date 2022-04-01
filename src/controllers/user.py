@@ -8,11 +8,12 @@ class UserController:
         # This will only return the verification of the account and first & last name for security purposes
         return jsonify(UserController().preparer(UserModel().get_user(user_id)))
 
-    def register_user(self):
+    def register_user(self, json):
         new_user = UserModel()
         # TODO: Get values from the page and combine them into a user
 
         new_user.add_user()
+        pass
 
     @classmethod
     def get_all_users(cls):
@@ -31,3 +32,11 @@ class UserController:
                      'password': user.get_password(),
                      'admin': user.get_admin_status()}
         return user_dict
+
+    @classmethod
+    def change_user(cls, usr_id, param, list_of_changes):
+        pass
+
+    @classmethod
+    def delete_user(cls, usr_id, param):
+        pass

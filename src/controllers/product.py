@@ -15,7 +15,6 @@ class ProductController:
 
     @classmethod
     def get_product(cls, prod_id):
-        # TODO: Make this usable by a web browser
         return jsonify(ProductController().preparer(ProductModel().get_product(prod_id)))
 
     @classmethod
@@ -25,6 +24,25 @@ class ProductController:
     @classmethod
     def change_price(cls, prod_id, user_id, new_price):
         ProductModel().db_change_price(user_id, prod_id, new_price)
+
+    @classmethod
+    def change_product(cls, prod_id, user_id, changes_list):
+        # TODO: Implement method. Must be given a product to change and the list of changes done to it
+        pass
+
+    @classmethod
+    def add_product(cls, json):
+        # TODO: Implement method. Must be given a product in a json and the
+        # method must add it
+        #Return id of added product
+        pass
+
+    @classmethod
+    def delete_product(cls, prod_id, user_id):
+        # TODO: Implement method. Must be given a product, and a user to validate, and the
+        # method must delete it
+        #Return id of deleted product
+        pass
 
     @classmethod
     def preparer(cls, product):

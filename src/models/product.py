@@ -75,9 +75,6 @@ class ProductModel:
     def set_visibility(self, new_visibility: bool):
         self.__visible = new_visibility
 
-    @classmethod
-    def add_product(cls):
-        BackEnd().create_element()
 
     @classmethod
     def get_all_products(cls):
