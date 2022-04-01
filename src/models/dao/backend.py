@@ -5,6 +5,11 @@ from src.models.dao.helpers.packager import Packager
 class BackEnd:
     @classmethod
     def create_element(cls, model):
+        """
+            Creates a new element within the corresponding Entity Model table in the database
+
+        :param model: Entity Model
+        """
         # Registers a user
         if model.__class__.__name__ == 'UserModel':
             cls.__db_run_command(
@@ -31,16 +36,23 @@ class BackEnd:
             )
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
-            return "goomba"
+            "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
             # TODO: implement logic
-            return "goomba"
+            "goomba"
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
-            return "goomba"
+            "goomba"
 
     @classmethod
     def get_element(cls, model, pk):
+        """
+            Queries the corresponding entity table in the database for the given primary key.
+
+        :param model: class instance of the desired Entity Model
+        :param pk: primary key corresponding to the Entity Model
+        :return: Desired Entity Model with the information corresponding to the primary key queried
+        """
         if model.__class__.__name__ == 'UserModel':
             return cls.__db_fetch_one(
                 """
@@ -54,7 +66,7 @@ class BackEnd:
         elif model.__class__.__name__ == 'ProductModel':
             return cls.__db_fetch_one(
                 """
-                SELECT name, description, price, category, liked_count, quantity, visible
+                SELECT product_id, name, description, price, category, liked_count, quantity, visible
                 FROM products
                 WHERE product_id = {}
                 """.format(str(pk)),
@@ -72,6 +84,12 @@ class BackEnd:
 
     @classmethod
     def delete_element(cls, model, pk):
+        """
+            Completely removes a row from the corresponding table.
+
+        :param model: class instance of the desired Entity Model
+        :param pk: primary key corresponding to the Entity Model
+        """
         if model.__class__.__name__ == 'UserModel':
             cls.__db_run_command(
                 """
@@ -95,6 +113,14 @@ class BackEnd:
 
     @classmethod
     def get_all_elements(cls, model, select_attributes: str, filter_clause: str):
+        """
+            Queries the database for all the elements of the given corresponding Entity.
+
+        :param model: class instance of the desired Entity Model
+        :param select_attributes: attributes desired from the query
+        :param filter_clause: specific filters desired for the query
+        :return: list containing the desired Entity Models of matching query results
+        """
         if model.__class__.__name__ == 'ProductModel':
 
             # If the where_clause_statement is not empty
@@ -147,6 +173,16 @@ class BackEnd:
     @classmethod
     def get_all_elements_ordered(
             cls, model, select_attributes: str, filter_clause: str, order_attribute: str, sort: str):
+        """
+            Queries the database for all the elements of the given corresponding Entity in a specified order.
+
+        :param model: class instance of the desired Entity Model
+        :param select_attributes: attributes desired from the query
+        :param filter_clause: specific filters desired for the query
+        :param order_attribute: specific attribute to order
+        :param sort: ascending (ASC) or descending (DESC)
+        :return: list containing the desired Entity Models of matching query results in the specified order
+        """
         if model.__class__.__name__ == 'ProductModel':
             # If the where_clause_statement is not empty (ie no filter required)
             if filter_clause:
@@ -180,6 +216,13 @@ class BackEnd:
 
     @classmethod
     def update_element_attribute(cls, table: str, change: str, filter_clause: str):
+        """
+            Updates a specific attribute in a given table.
+
+        :param table: table where
+        :param change: specific change to attribute
+        :param filter_clause: specific filters for desired change
+        """
         # Registers a user
         if table.lower() == 'usr':
             cls.__db_run_command(
@@ -225,6 +268,13 @@ class BackEnd:
 
     @classmethod
     def __db_fetch_one(cls, command: str, return_type: str):
+        """
+            Backend private function. Runs a query that returns a single result.
+
+        :param command: command to be run in database
+        :param return_type: type of entity model desired (String)
+        :return: desired Entity Model of matching query result
+        """
         db_connection = DBAccess().connect_to_db()
         cursor = db_connection.cursor()
 
@@ -232,13 +282,19 @@ class BackEnd:
 
         response = cursor.fetchone()
 
-        db_connection.commit()
         db_connection.close()
 
         return Packager().package_response(response, return_type)
 
     @classmethod
     def __db_fetch_all(cls, command: str, return_type: str):
+        """
+            Backend private function. Runs a query that returns multiple results.
+
+        :param command: command to be run in database
+        :param return_type: type of entity model desired (String)
+        :return: list containing the desired Entity Models of matching query results
+        """
         db_connection = DBAccess().connect_to_db()
         cursor = db_connection.cursor()
 
@@ -246,12 +302,16 @@ class BackEnd:
 
         response = cursor.fetchall()
 
-        db_connection.commit()
         db_connection.close()
         return Packager().package_response(response, return_type)
 
     @classmethod
     def __db_run_command(cls, command: str):
+        """
+            Backend private function. Runs a custom query in the database.
+
+        :param command: command to be run in database
+        """
         db_connection = DBAccess().connect_to_db()
         cursor = db_connection.cursor()
 
