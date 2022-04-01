@@ -1,18 +1,18 @@
 from flask import jsonify
 
 from src.models.product import ProductModel
-from src.models.user import UserModel
 
 
 class ProductController:
     @classmethod
     def get_all_products(cls):
-        products = []
         """
-                 Prompts the database to get the full catalog of products
+            Prompts the database to get the full catalog of products
 
-             :return: list of JSONs containing all the products in the database
-             """
+        :return: list of JSONs containing all the products in the database
+        """
+        products = []
+
         for product in ProductModel().get_all_products():
             products.append(ProductController().preparer(product))
         return jsonify(products)
@@ -20,7 +20,7 @@ class ProductController:
     @classmethod
     def get_product(cls, prod_id):
         """
-        Prompts the database to search for a product
+            Prompts the database to search for a product
 
         :param prod_id: id of the product being searched for
         :return: JSON containing the queried product, 404 error if not found
@@ -35,11 +35,11 @@ class ProductController:
     @classmethod
     def change_visibility(cls, prod_id, user_id, visibility: bool):
         """
-          Prompts the database to make a visibility parameter change to a product.
+            Prompts the database to make a visibility parameter change to a product.
 
-            :param prod_id: id of the product to be altered
-            :param user_id: id of the user requesting the change
-            :param visibility: updated visibility state of the product
+        :param prod_id: id of the product to be altered
+        :param user_id: id of the user requesting the change
+        :param visibility: updated visibility state of the product
         """
         ProductModel().db_change_visibility(user_id, prod_id, visibility)
 
@@ -76,11 +76,11 @@ class ProductController:
     @classmethod
     def preparer(cls, product):
         """
-                  Creates a python dictionary equivalent of a given Product Model
+            Creates a python dictionary equivalent of a given Product Model
 
-              :param product: ProductModel to convert
-              :return: dictionary equivalent of the ProductModel given
-              """
+        :param product: ProductModel to convert
+        :return: dictionary equivalent of the ProductModel given
+        """
         prodict = {
             'id': product.get_prod_id(),
             'name': product.get_name(),
