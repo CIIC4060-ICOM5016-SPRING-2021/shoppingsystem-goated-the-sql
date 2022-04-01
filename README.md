@@ -28,3 +28,8 @@
     - postgres://fbblbczlnhnneg:15b7ce404fc3da7b0349fc13b4290b96512502574c680afecc7387a783244944@ec2-34-192-83-52.compute-1.amazonaws.com:5432/d6baf03n1mkeui
 - **Heroku CLI**
     - heroku pg:psql postgresql-perpendicular-56204 --app goated-the-sql-db
+
+## Team Link
+- DBGoats
+Video call link: https://meet.google.com/moc-tmac-mor
+Or dial: ‪(US) +1 601-844-2894‬ PIN: ‪638 374 102‬#
