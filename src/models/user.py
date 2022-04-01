@@ -1,8 +1,11 @@
+from datetime import datetime
+
 from src.models.dao.backend import BackEnd
 import hashlib
 
 
 # TODO: Missing update-user-in-database functionality (CRD/CRUD implemented)
+
 class UserModel:
     __user_id: int
     __f_name: str
@@ -11,6 +14,7 @@ class UserModel:
     __password: str
     __phone: str
     __admin: bool
+    __created_on: datetime
 
     # User ID Getter
     def get_user_id(self):
@@ -19,6 +23,12 @@ class UserModel:
     # User ID Setter
     def set_user_id(self, user_id: int):
         self.__user_id = user_id
+
+    # All users getter
+    @classmethod
+    def get_all_users(cls):
+        # return BackEnd().get_all_elements(UserModel(), "first_name, last_name, valid, phone, password, admin", "")
+        return BackEnd().get_all_elements(UserModel(), "*", "")
 
     # First Name Getter
     def get_first_name(self):
@@ -35,6 +45,14 @@ class UserModel:
     # Last Name Setter
     def set_last_name(self, new_last_name: str):
         self.__l_name = new_last_name
+
+    # Created_on Getter
+    def get_created_on(self):
+        return self.__created_on
+
+    # Created_on Setter
+    def set_created_on(self, created_on: datetime):
+        self.__created_on = created_on
 
     # Validity Getter
     def get_validity(self):
@@ -95,4 +113,3 @@ class UserModel:
             return True
         else:
             return False
-
