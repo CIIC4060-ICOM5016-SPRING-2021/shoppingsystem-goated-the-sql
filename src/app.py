@@ -40,11 +40,11 @@ def item_handler(prod_id):
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/products/all', methods=['GET', 'PUT'])
+@app.route('/goated_the_sql/products/all', methods=['GET', 'POST'])
 def products_handler():
     if request.method == 'GET':
         return ProductController.get_all_products()
-    elif request.method == 'PUT':
+    elif request.method == 'POST':
         # this post is simulating what the professor did it class. Unsure what to
         # do with it rn (03/31/2022)
         # dummy code to get the idea through
@@ -53,11 +53,11 @@ def products_handler():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/users/all', methods=['GET', 'PUT'])
+@app.route('/goated_the_sql/users/all', methods=['GET', 'POST'])
 def users_handler():
     if request.method == 'GET':
         return UserController.get_all_users()
-    elif request.method == 'PUT':
+    elif request.method == 'POST':
         # this post is simulating what the professor did it class. Unsure what to
         # do with it rn (03/31/2022)
         return UserController.register_user(request.json)
