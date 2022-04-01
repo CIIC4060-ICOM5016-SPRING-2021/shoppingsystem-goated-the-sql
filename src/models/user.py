@@ -98,10 +98,20 @@ class UserModel:
 
     @classmethod
     def get_user(cls, user_id):
+        """
+
+        :param user_id: user identification number
+        :return: UserModel of found Model, None if not found
+        """
         return BackEnd().get_element(UserModel(), user_id, "*")
 
     @classmethod
     def get_all_users(cls):
+        """
+        Queries the database for all users in the catalog
+
+        :return: list containing UserModels
+        """
         return BackEnd().get_all_elements(UserModel(), "*", "")
 
     @classmethod

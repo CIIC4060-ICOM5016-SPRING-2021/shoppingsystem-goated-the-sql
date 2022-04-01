@@ -6,13 +6,18 @@ class UserController:
     @classmethod
     def get_user(self, user_id):
         # This will only return the verification of the account and first & last name for security purposes
-        return jsonify(UserController().preparer(UserModel().get_user(user_id)))
+        queried_user = UserModel().get_user(user_id)
+
+        if not queried_user:
+            return jsonify("User Not Found"), 404
+        else:
+            return jsonify(UserController().preparer(queried_user)), 200
 
     def register_user(self, json):
-        #new_user = UserModel()
+        # new_user = UserModel()
         # TODO: Get values from the page and combine them into a user
 
-        #new_user.add_user()
+        # new_user.add_user()
         pass
 
     @classmethod

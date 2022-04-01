@@ -25,11 +25,11 @@ def handler():
     return 'Hello, World!'
 
 
-@app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'POST', 'DELETE'])
+@app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE'])
 def item_handler(prod_id):
     if request.method == 'GET':
         return ProductController.get_product(prod_id)
-    elif request.method == 'POST':
+    elif request.method == 'PUT':
         # dummy code to get the idea through
         list_of_changes = []
         return ProductController.change_product(prod_id, user.get_user_id(), list_of_changes)
@@ -40,11 +40,11 @@ def item_handler(prod_id):
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/products/all', methods=['GET', 'POST'])
+@app.route('/goated_the_sql/products/all', methods=['GET', 'PUT'])
 def products_handler():
     if request.method == 'GET':
         return ProductController.get_all_products()
-    elif request.method == 'POST':
+    elif request.method == 'PUT':
         # this post is simulating what the professor did it class. Unsure what to
         # do with it rn (03/31/2022)
         # dummy code to get the idea through
@@ -53,11 +53,11 @@ def products_handler():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/user/all', methods=['GET', 'POST'])
+@app.route('/goated_the_sql/users/all', methods=['GET', 'PUT'])
 def users_handler():
     if request.method == 'GET':
         return UserController.get_all_users()
-    elif request.method == 'POST':
+    elif request.method == 'PUT':
         # this post is simulating what the professor did it class. Unsure what to
         # do with it rn (03/31/2022)
         return UserController.register_user(request.json)
@@ -65,11 +65,11 @@ def users_handler():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/user/<int:usr_id>', methods=['GET', 'POST', 'DELETE'])
+@app.route('/goated_the_sql/user/<int:usr_id>', methods=['GET', 'PUT', 'DELETE'])
 def user_handler(usr_id):
     if request.method == 'GET':
         return UserController.get_user(usr_id)
-    elif request.method == 'POST':
+    elif request.method == 'PUT':
         # dummy code to get the idea through
         list_of_changes = []
         return UserController.change_user(usr_id, user.get_user_id(), list_of_changes)
