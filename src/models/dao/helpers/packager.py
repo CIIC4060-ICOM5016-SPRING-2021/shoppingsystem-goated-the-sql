@@ -1,5 +1,3 @@
-
-
 class Packager:
     @classmethod
     def package_response(cls, response, obj_type):
@@ -19,7 +17,8 @@ class Packager:
                 result.append(cls.convert_tuple_to_obj(item, obj_type))
             return result
         else:
-            return cls.convert_tuple_to_obj(response, obj_type)
+            converted_obj = cls.convert_tuple_to_obj(response, obj_type)
+            return converted_obj
 
     @classmethod
     def convert_tuple_to_obj(cls, item: tuple, to_obj):
