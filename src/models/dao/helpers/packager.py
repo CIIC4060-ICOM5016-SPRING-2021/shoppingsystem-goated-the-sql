@@ -32,13 +32,16 @@ class Packager:
         """
         if to_obj == 'UserModel':
             from src.models.user import UserModel
-            result = UserModel()
 
-            result.set_first_name(item[0])
-            result.set_last_name(item[1])
-            result.set_validity(item[2])
-            result.set_phone_num(item[3])
-            result.set_admin_status(item[4])
+            result = UserModel()
+            result.set_user_id(item[0])
+            result.set_first_name(item[1])
+            result.set_last_name(item[2])
+            result.set_created_on(item[3])
+            result.set_validity(item[4])
+            result.set_password(item[5])
+            result.set_phone_num(item[6])
+            result.set_admin_status(item[7])
 
             return result
         elif to_obj == 'ProductModel':

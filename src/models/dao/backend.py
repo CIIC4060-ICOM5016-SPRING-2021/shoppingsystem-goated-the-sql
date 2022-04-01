@@ -56,7 +56,7 @@ class BackEnd:
         if model.__class__.__name__ == 'UserModel':
             return cls.__db_fetch_one(
                 """
-                SELECT first_name, last_name, valid, phone, admin
+                SELECT first_name, last_name, valid, phone, admin, password
                 FROM usr
                 WHERE user_id = {}
                 """.format(str(pk)),
@@ -150,6 +150,25 @@ class BackEnd:
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
+        elif model.__class__.__name__ == 'UserModel':
+            # If the where_clause_statement is not empty
+            if filter_clause:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM usr
+                    WHERE {}
+                    """.format(select_attributes, filter_clause),
+                    'UserModel'
+                )
+            else:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM usr
+                    """.format(select_attributes),
+                    'UserModel'
+                )
 
     @classmethod
     def get_all_elements_ordered(
