@@ -64,7 +64,7 @@ def users_handler():
 def user_add():
     if request.method == 'POST':
         created_user = UserController.register_user(request.json)
-        return jsonify(UserController.preparer(created_user))
+        return created_user
     else:
         return jsonify("Operation not suGOATED."), 405
 
