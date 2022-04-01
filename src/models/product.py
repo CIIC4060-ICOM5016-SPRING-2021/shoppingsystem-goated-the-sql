@@ -82,7 +82,7 @@ class ProductModel:
 
     @classmethod
     def get_product(cls, prod_id):
-        return BackEnd().get_element(ProductModel(), prod_id)
+        return BackEnd().get_element(ProductModel(), prod_id, "*")
 
     @classmethod
     def get_all_products_by_price(cls, ascending=True):

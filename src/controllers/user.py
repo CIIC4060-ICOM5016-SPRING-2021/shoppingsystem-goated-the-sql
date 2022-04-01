@@ -9,10 +9,10 @@ class UserController:
         return jsonify(UserController().preparer(UserModel().get_user(user_id)))
 
     def register_user(self, json):
-        new_user = UserModel()
+        #new_user = UserModel()
         # TODO: Get values from the page and combine them into a user
 
-        new_user.add_user()
+        #new_user.add_user()
         pass
 
     @classmethod

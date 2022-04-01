@@ -24,12 +24,6 @@ class UserModel:
     def set_user_id(self, user_id: int):
         self.__user_id = user_id
 
-    # All users getter
-    @classmethod
-    def get_all_users(cls):
-        # return BackEnd().get_all_elements(UserModel(), "first_name, last_name, valid, phone, password, admin", "")
-        return BackEnd().get_all_elements(UserModel(), "*", "")
-
     # First Name Getter
     def get_first_name(self):
         return self.__f_name
@@ -104,11 +98,15 @@ class UserModel:
 
     @classmethod
     def get_user(cls, user_id):
-        return BackEnd.get_element(UserModel(), user_id)
+        return BackEnd().get_element(UserModel(), user_id, "*")
+
+    @classmethod
+    def get_all_users(cls):
+        return BackEnd().get_all_elements(UserModel(), "*", "")
 
     @classmethod
     def db_is_admin(cls, user_id):
-        user = BackEnd().get_element(UserModel(), user_id)
+        user = BackEnd().get_element(UserModel(), user_id, "*")
         if user.get_admin_status():
             return True
         else:
