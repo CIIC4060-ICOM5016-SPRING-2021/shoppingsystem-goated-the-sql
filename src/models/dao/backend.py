@@ -7,7 +7,7 @@ class BackEnd:
     def create_element(cls, model):
         # Registers a user
         if model.__class__.__name__ == 'UserModel':
-            cls.__db_fetch_one(
+            return cls.__db_fetch_one(
                 """
                 INSERT INTO usr (first_name, last_name, created_on, valid, password, phone, admin) 
                 VALUES ('{}', '{}', current_timestamp, false, '{}', '{}', false) 
@@ -17,7 +17,7 @@ class BackEnd:
                     model.get_last_name(),
                     model.get_password(),
                     model.get_phone_num()),
-                "UserModel"
+                'UserModel'
             )
 
         elif model.__class__.__name__ == 'ProductModel':
@@ -241,7 +241,8 @@ class BackEnd:
         db_connection.commit()
         db_connection.close()
 
-        return Packager().package_response(response, return_type)
+        response_object = Packager.package_response(response, return_type)
+        return response_object
 
     @classmethod
     def __db_fetch_all(cls, command: str, return_type: str):

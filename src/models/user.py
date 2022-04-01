@@ -1,7 +1,7 @@
+import hashlib
 from datetime import datetime
 
 from src.models.dao.backend import BackEnd
-import hashlib
 
 
 # TODO: Missing update-user-in-database functionality (CRD/CRUD implemented)
@@ -87,11 +87,9 @@ class UserModel:
     def set_admin_status(self, status: bool):
         self.__admin = status
 
-    # @classmethod
     def add_user(self):
-        return BackEnd().create_element(self)
+        return BackEnd.create_element(self)
 
-    # TODO: Ask if this should be a toggle for visibility or an outright deletion of user records
     @classmethod
     def delete_user(cls, user_id):
         BackEnd().delete_element(UserModel(), user_id)

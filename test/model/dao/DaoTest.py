@@ -2,7 +2,6 @@ import unittest
 
 from src.controllers.user import UserController
 from src.models.dao.backend import BackEnd
-from src.models.dao.db_access import DBAccess
 from src.models.product import ProductModel
 from src.models.user import UserModel
 
@@ -96,11 +95,11 @@ class DAOTest(unittest.TestCase):
     # I manually checked the database to check if the table was created since I do not wanna spend
     # time developing whatever this mess of a check will be
 
-    # def test_create_user(cls):
-    #     json = {
-    #         "first_name": "Ivan",
-    #         "last_name": "Jackson",
-    #         "password": "OrlandoSokea",
-    #         "phone": "123456789"
-    #     }
-    #     print(UserController().register_user(json).get_user_id())
+    def test_create_user(self):
+        json = {
+            "first_name": "Ivan",
+            "last_name": "Jackson",
+            "password": "OrlandoSokea",
+            "phone": "123456789"
+        }
+        print(UserController().register_user(json).get_user_id())

@@ -1,10 +1,11 @@
-from src.models.user import UserModel
 from flask import jsonify
+
+from src.models.user import UserModel
 
 
 class UserController:
     @classmethod
-    def get_user(self, user_id):
+    def get_user(cls, user_id):
         # This will only return the verification of the account and first & last name for security purposes
         queried_user = UserModel().get_user(user_id)
 
