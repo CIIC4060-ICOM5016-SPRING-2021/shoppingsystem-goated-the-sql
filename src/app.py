@@ -63,9 +63,8 @@ def users_handler():
 @app.route('/goated_the_sql/user/add', methods=['POST'])
 def user_add():
     if request.method == 'POST':
-        # this post is simulating what the professor did it class. Unsure what to
-        # do with it rn (04/01/2022)
-        return UserController.register_user(request.json)
+        created_user = UserController.register_user(request.json)
+        return jsonify(UserController.preparer(created_user))
     else:
         return jsonify("Operation not suGOATED."), 405
 
