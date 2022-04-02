@@ -6,6 +6,8 @@ from src.models.product import ProductModel
 
 class LikedListModel:
     __likes: int
+    __elements: list
+    __element: int
 
     # User ID Getter
     # def get_user_id(self):

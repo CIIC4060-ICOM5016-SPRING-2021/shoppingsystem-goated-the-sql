@@ -29,7 +29,7 @@ def handler():
 def item_handler(prod_id):
     if request.method == 'GET':
         return_list = [ProductController.get_product(prod_id),
-                       {"liked_count:": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+                       {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
         return jsonify(return_list)
     elif request.method == 'PUT':
         # dummy code to get the idea through
