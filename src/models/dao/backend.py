@@ -155,8 +155,15 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            # TODO: implement logic
-            return "goomba"
+            return cls.__db_fetch_all(
+                """
+                SELECT {}
+                FROM likedlist
+                WHERE {}
+                """.format(select_attributes, filter_clause),
+                'LikedListModel'
+            )
+
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"

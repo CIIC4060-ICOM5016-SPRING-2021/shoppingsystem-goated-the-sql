@@ -10,7 +10,7 @@ class Packager:
         """
         if response is None:
             return None
-        elif type(response) == list:
+        elif type(response) == list and obj_type != 'LikedListModel':
             result = list()
 
             for item in response:
@@ -63,9 +63,11 @@ class Packager:
             # TODO: Insert logic
             return result
         elif to_obj == 'LikedListModel':
+            # each result will have the same user_id but a different
+            # product.
             from src.models.liked_list import LikedListModel
             result = LikedListModel()
-            # TODO: Insert logic
+            result.set_like_count(item[0][0])
             return result
         elif to_obj == 'CartModel':
             from src.models.cart import CartModel

@@ -30,7 +30,7 @@ class ProductController:
         if not queried_product:
             return jsonify("Product Not Found"), 404
         else:
-            return jsonify(ProductController().preparer(queried_product)), 200
+            return ProductController().preparer(queried_product)
 
     @classmethod
     def change_visibility(cls, prod_id, user_id, visibility: bool):
