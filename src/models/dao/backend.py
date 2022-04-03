@@ -120,12 +120,16 @@ class BackEnd:
                 return False
 
         elif model.__class__.__name__ == 'ProductModel':
-            cls.__db_run_command(
-                """
-                DELETE FROM products
-                WHERE product_id = {}
-                """.format(pk)
-            )
+            try:
+                cls.__db_run_command(
+                    """
+                    DELETE FROM products
+                    WHERE product_id = {}
+                    """.format(pk)
+                )
+                return True
+            except psycopg2.Error:
+                return False
 
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic

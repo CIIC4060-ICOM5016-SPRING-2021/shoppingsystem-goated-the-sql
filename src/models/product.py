@@ -190,11 +190,7 @@ class ProductModel:
         from src.models.user import UserModel
 
         if UserModel.db_is_admin(user_id):
-            try:
-                BackEnd.delete_element(ProductModel(), prod_id)
-                return True
-            except psycopg2.Error:
-                return False
+            return BackEnd.delete_element(ProductModel(), prod_id)
         else:
             raise ValueError("User does not have the rights to make this change.")
 
