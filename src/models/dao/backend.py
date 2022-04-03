@@ -4,7 +4,7 @@ from src.models.dao.helpers.packager import Packager
 
 class BackEnd:
     @classmethod
-    def create_element(cls, model):
+    def create_element(cls, model, user_id=None, prod_id=None):
         """
            Creates a new element within the corresponding Entity Model table in the database
 
@@ -35,20 +35,29 @@ class BackEnd:
                     model.get_desc(),
                     model.get_price(),
                     model.get_category(),
-                    model.get_quantity())
+                    model.get_stock())
             )
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
             # TODO: implement logic
+            cls.__db_run_command(
+                """
+                INSERT INTO likedlist (user_id, product_id, time_like)
+                VALUES ('{}','{}', current_timestamp)
+                """.format(
+                    user_id,
+                    prod_id
+                )
+            )
             return "goomba"
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
 
     @classmethod
-    def get_element(cls, model, pk, select_attributes: str):
+    def get_element(cls, model, select_attributes: str, pk):
         """
             Queries the corresponding entity table in the database for the given primary key.
 
@@ -83,8 +92,14 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            # TODO: implement logic
-            return "goomba"
+            return cls.__db_fetch_one(
+                """
+                SELECT {}
+                FROM likedlist
+                WHERE product_id={}
+                """.format(select_attributes, pk),
+                'LikedListModel'
+            )
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"

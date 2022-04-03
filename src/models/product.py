@@ -98,18 +98,9 @@ class ProductModel:
         """
         :return: quantity available of product
         """
-        return self.__quantity
+        self.__stock = new_stock
 
-        # Quantity Setter
-
-    def set_quantity(self, new_quantity: int):
-        """
-        :param new_quantity: quantity available for the product
-        """
-        self.__quantity = new_quantity
-
-        # Visibility Getter
-
+    # Visibility Getter
     def get_visibility(self):
         """
         :return: visibility state of the product
@@ -141,7 +132,7 @@ class ProductModel:
         :param prod_id: product identification number
         :return: ProductModel of found product, None if not found
         """
-        return BackEnd().get_element(ProductModel(), prod_id, "*")
+        return BackEnd().get_element(ProductModel(), "*", prod_id)
 
     @classmethod
     def get_all_products_by_price(cls, ascending=True):

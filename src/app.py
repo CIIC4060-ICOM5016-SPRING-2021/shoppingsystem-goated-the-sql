@@ -11,7 +11,7 @@ app = Flask(__name__)
 # Sign up must be done, probably not on this page, to validate the user
 # before granting powers over the DB
 user = UserModel()
-user.set_user_id(17)
+user.set_user_id(14)
 
 
 # methods=['GET','POST','PUT','DELETE']

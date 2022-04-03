@@ -45,7 +45,7 @@ class LikedListModel:
 
     @classmethod
     def get_likes(cls, prod_id: int):
-        likes = BackEnd().get_element(LikedListModel(), "count(*)", "product_id={}".format(prod_id))
+        likes = BackEnd().get_element(LikedListModel(), "count(*)", "{}".format(prod_id))
         return likes
 
     @classmethod
