@@ -1,5 +1,7 @@
 from flask import jsonify
 
+from src.models.dao.backend import BackEnd
+from src.models.liked_list import LikedListModel
 from src.models.product import ProductModel
 
 
@@ -57,7 +59,13 @@ class ProductController:
     @classmethod
     def change_product(cls, prod_id, user_id, changes_list):
         # TODO: Implement method. Must be given a product to change and the list of changes done to it
-        pass
+        # Must validate user before letting the change go through. If the user
+        # doesn't hae admin status, return action forbidden error. If it is an user and not an admin
+        # the change can only be a like.
+
+        # adding a like to a product, nothing more
+        if changes_list['like'] == 1:
+            BackEnd().create_element(LikedListModel(), user_id, prod_id)
 
     @classmethod
     def add_product(cls, json):

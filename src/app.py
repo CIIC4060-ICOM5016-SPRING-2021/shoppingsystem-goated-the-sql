@@ -11,7 +11,7 @@ app = Flask(__name__)
 # Sign up must be done, probably not on this page, to validate the user
 # before granting powers over the DB
 user = UserModel()
-user.set_user_id(1)
+user.set_user_id(17)
 
 
 # methods=['GET','POST','PUT','DELETE']
@@ -33,8 +33,11 @@ def item_handler(prod_id):
         return jsonify(return_list)
     elif request.method == 'PUT':
         # dummy code to get the idea through
-        list_of_changes = []
-        return ProductController.change_product(prod_id, user.get_user_id(), list_of_changes)
+        list_of_changes = {"like": 1}
+        ProductController.change_product(prod_id, user.get_user_id(), list_of_changes)
+        return_list = [ProductController.get_product(prod_id),
+                       {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+        return jsonify(return_list)
     elif request.method == 'DELETE':
         # dummy code to get the idea through
         return ProductController.delete_product(prod_id, user.get_user_id())
