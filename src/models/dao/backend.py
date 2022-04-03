@@ -90,8 +90,14 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            # TODO: implement logic
-            return "goomba"
+            return cls.__db_fetch_one(
+                """
+                SELECT {}
+                FROM likedlist
+                WHERE {}
+                """.format(select_attributes, pk),
+                'LikedListModel'
+            )
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
@@ -176,7 +182,7 @@ class BackEnd:
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
             # TODO: implement logic
-            return "goomba"
+            return "Bojaaaaackckkckckck"
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
