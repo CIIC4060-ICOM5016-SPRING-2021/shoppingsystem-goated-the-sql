@@ -33,13 +33,19 @@ class ProductController:
         return jsonify(products)
 
     @classmethod
-    def add_product(cls, json):
+    def add_product(cls, request_json):
+        """
+            Prompts the database to add a new product to the catalog
+
+        :param request_json:
+        :return: 200 and product details when successfully created, 500 on failed product creation
+        """
         temp_product = ProductModel()
-        temp_product.set_name(json['name'])
-        temp_product.set_desc(json['desc'])
-        temp_product.set_price(json['price'])
-        temp_product.set_category(json['category'])
-        temp_product.set_stock(json['stock'])
+        temp_product.set_name(request_json['name'])
+        temp_product.set_desc(request_json['description'])
+        temp_product.set_price(request_json['price'])
+        temp_product.set_category(request_json['category'])
+        temp_product.set_stock(request_json['stock'])
         new_product = temp_product.add_product()
 
         if new_product:
@@ -48,17 +54,37 @@ class ProductController:
             return jsonify("Unable to create the product."), 500
 
     @classmethod
-    def update_product(cls, prod_id, json):
-        product_model = cls.json_to_model(json)
+    def update_product(cls, request_json, user_id_json_obj):
+        """
+            Prompts the database for an attribute change in the requested product.
+
+        :param request_json: json object containing product information received
+        :param user_id_json_obj: json object containing the id of the user requesting the change
+        :return: 200 if completed successfully, 500 if problem was encountered while making the change, 403 if user is
+        not authorized to request the change, 406 if no changes are detected
+        """
+        product_model = cls.json_to_model(request_json)
+
+        try:
+            updated = ProductModel.db_update_product(product_model, user_id_json_obj['user_id'])
+            if updated:
+                return jsonify("Product Updated"), 200
+            else:
+                return jsonify("Unable to update product"), 500
+        except ValueError:
+            return jsonify("User is not authorized"), 403
+        except AttributeError:
+            return jsonify("No changes to product detected"), 406
 
     @classmethod
     def delete_product(cls, prod_id, user_id):
         """
             Prompts the database to delete a product.
 
-        :param prod_id:
-        :param user_id:
-        :return:
+        :param prod_id: id of the product requested to delete
+        :param user_id: id of the user requesting the deletion
+        :return: 200 if successfully deleted, 500 if problem was encountered while making the deletion, 403 if user is
+        not authorized to request the deletion
         """
         try:
             deleted = ProductModel().db_delete_product(prod_id, user_id)
@@ -89,14 +115,21 @@ class ProductController:
         return prodict
 
     @classmethod
-    def json_to_model(cls, json):
-        result = ProductModel()
+    def json_to_model(cls, request):
+        """
+            Creates a Product Entity Model from a received request in JSON.
 
-        # TODO: figure out how to deal with this
-        result.get_name(json['name'])
-        result.get_desc(json['desc'])
-        result.get_price(json['price'])
-        result.get_category(json['category'])
-        result.get_stock(json['stock'])
+        :param request: request received via HTTP
+        :return: Product Entity Model
+        """
+        model = ProductModel()
 
-        return result
+        model.set_prod_id(request['product_id'])
+        model.set_visibility(request['visible'])
+        model.set_name(request['name'])
+        model.set_desc(request['description'])
+        model.set_price(request['price'])
+        model.set_category(request['category'])
+        model.set_stock(request['stock'])
+
+        return model

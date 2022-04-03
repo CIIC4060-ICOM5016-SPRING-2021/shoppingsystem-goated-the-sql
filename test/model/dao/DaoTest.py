@@ -73,6 +73,24 @@ class DAOTest(unittest.TestCase):
     def test_product_deletion(self):
         ProductController.delete_product(11, 1)
 
+    def test_product_update(self):
+        test_request = [
+            {
+                "user_id": 1
+            },
+            {
+                "product_id": 13,
+                "name": "Mario Statue",
+                "description": "The tiniest mario statue you have ever laid your eyes upon",
+                "price": 1299.99,
+                "category": "Figurines",
+                "stock": 85,
+                "visible": True
+            }
+        ]
+
+        ProductController.update_product(13, test_request[1], test_request[0])
+
     # Generates a simple table in the database that correlates to the files stored in the credentials.txt file
     # def test_table_creation(self):
 

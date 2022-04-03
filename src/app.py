@@ -46,7 +46,7 @@ def product_page(prod_id):
     if request.method == 'GET':
         return ProductController.get_product(prod_id)
     elif request.method == 'PUT':
-        return ProductController.update_product(prod_id, request.json)
+        return ProductController.update_product(request.json[1], request.json[0])
     elif request.method == 'DELETE':
         """ 
         I have no idea how to get the user id securely, Imma be honest...

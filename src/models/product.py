@@ -48,16 +48,12 @@ class ProductModel:
         """
         return self.__desc
 
-        # Description Setter
-
     # Description Setter
     def set_desc(self, new_desc: str):
         """
         :param new_desc: description for the product
         """
         self.__desc = new_desc
-
-        # Price Getter
 
     # Price Getter
     def get_price(self):
@@ -66,8 +62,6 @@ class ProductModel:
         """
         return self.__price
 
-        # Price Setter
-
     # Price Setter
     def set_price(self, new_price: float):
         """
@@ -75,16 +69,12 @@ class ProductModel:
         """
         self.__price = new_price
 
-        # Category Getter
-
     # Category Setter
     def get_category(self):
         """
         :return: category of the product
         """
         return self.__category
-
-        # Category Setter
 
     # Category Setter
     def set_category(self, new_category: str):
@@ -187,33 +177,71 @@ class ProductModel:
         """
         return BackEnd().get_all_elements(ProductModel(), "*", "category = " + category)
 
-    # @classmethod
-    # def db_change_visibility(cls, user_id: int, prod_id: int, new_visibility: bool):
-    #     """
-    #         Changes the visibility parameter for products in the database. Either hiding them or showing them
-    #
-    #     :param user_id: id of the user requesting the change
-    #     :param prod_id: id of the product being altered
-    #     :param new_visibility: updated visibility state of the product
-    #     :raise ValueError: user id does not have administrator rights
-    #     """
-    #     from src.models.user import UserModel
-    #
-    #     if UserModel().db_is_admin(user_id):
-    #         BackEnd().update_element_attribute(
-    #             'products', 'visible = ' + str(new_visibility).lower(), 'product_id = ' + str(prod_id)
-    #         )
-    #     else:
-    #         raise ValueError("User does not have the rights to make this change.")
-
     @classmethod
     def db_delete_product(cls, prod_id, user_id):
+        """
+            Queries a deletion in the database if the user has administrative rights to make this change.
+
+        :param prod_id: id of the product being requested to delete
+        :param user_id: id of the user requesting the deletion
+        :return: True if the product is deleted successfully, False if there is problem deleting the product
+        :raises ValueError: user does not have rights to delete the product
+        """
         from src.models.user import UserModel
 
         if UserModel.db_is_admin(user_id):
             try:
                 BackEnd.delete_element(ProductModel(), prod_id)
                 return True
+            except psycopg2.Error:
+                return False
+        else:
+            raise ValueError("User does not have the rights to make this change.")
+
+    @classmethod
+    def db_update_product(cls, model, user_id):
+        """
+            Compares a given product with one in the database with the same id number. Then queries an update to a
+            product in the database.
+
+        :param model: Product Entity Model containing all the changes to the product
+        :param user_id: id of the user requesting the update
+        :return: True if the product is successfully updated or there are no changes found between the requested updates
+        and the database,
+        """
+        from src.models.user import UserModel
+
+        if UserModel.db_is_admin(user_id):
+            try:
+                db_model = ProductModel.get_product(model.get_prod_id())
+
+                changes = []
+                if db_model.get_name() != model.get_name():
+                    changes.append("name = '{}'".format(model.get_name()))
+
+                if db_model.get_desc() != model.get_desc():
+                    changes.append("description = '{}'".format(model.get_desc()))
+
+                if db_model.get_price() != model.get_price():
+                    changes.append("price = {}".format(model.get_price()))
+
+                if db_model.get_category() != model.get_category():
+                    changes.append("category = '{}'".format(model.get_category()))
+
+                if db_model.get_stock() != model.get_stock():
+                    changes.append("stock = {}".format(model.get_stock()))
+
+                if db_model.get_visibility() != model.get_visibility():
+                    changes.append("visible = {}".format(model.get_visibility()))
+
+                if changes:
+                    BackEnd.update_element_attribute("products",
+                                                     ", ".join(changes),
+                                                     "product_id  = {}".format(model.get_prod_id())
+                                                     )
+                    return True
+                else:
+                    raise AttributeError("No differences were found between the database and give product.")
             except psycopg2.Error:
                 return False
         else:
