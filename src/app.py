@@ -4,14 +4,13 @@ from controllers.cart import CartController
 from controllers.product import ProductController
 from controllers.user import UserController
 from models.user import UserModel
-from controllers.liked_list import LikedListController
 
 app = Flask(__name__)
 
 # Sign up must be done, probably not on this page, to validate the user
 # before granting powers over the DB
 user = UserModel()
-user.set_user_id(17)
+user.set_user_id(1)
 
 
 # methods=['GET','POST','PUT','DELETE']
@@ -25,8 +24,25 @@ def handler():
     return 'Hello, World!'
 
 
+# ================================================= v PRODUCTS v =======================================================
+@app.route('/goated_the_sql/products/all', methods=['GET'])
+def all_products():
+    if request.method == 'GET':
+        return ProductController.get_all_products()
+    else:
+        return jsonify("Operation not suGOATED."), 405
+
+
+@app.route('/goated_the_sql/product/add', methods=['POST'])
+def register_product():
+    if request.method == 'POST':
+        return ProductController.add_product(request.json)
+    else:
+        return jsonify("Operation not suGOATED."), 405
+
+
 @app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE'])
-def item_handler(prod_id):
+def product_page(prod_id):
     if request.method == 'GET':
         return_list = [ProductController.get_product(prod_id),
                        {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
@@ -38,26 +54,22 @@ def item_handler(prod_id):
         return_list = [ProductController.get_product(prod_id),
                        {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
         return jsonify(return_list)
+    return ProductController.update_product(request.json[1], request.json[0])
+
     elif request.method == 'DELETE':
-        # dummy code to get the idea through
-        return ProductController.delete_product(prod_id, user.get_user_id())
+        """ 
+        I have no idea how to get the user id securely, Imma be honest...
+            The following line is way too easy to bypass in terms of security, someone could just spam numbers until 
+            they get a user id that has admin rights
+        """
+        return ProductController.delete_product(prod_id, request.json['user_id'])
     else:
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/products/all', methods=['GET', 'POST'])
-def products_handler():
-    if request.method == 'GET':
-        return ProductController.get_all_products()
-    elif request.method == 'POST':
-        # this post is simulating what the professor did it class. Unsure what to
-        # do with it rn (03/31/2022)
-        # dummy code to get the idea through
-        return ProductController.add_product(request.json)
-    else:
-        return jsonify("Operation not suGOATED."), 405
+# ======================================================================================================================
 
-
+# =================================================== v USERS v ========================================================
 @app.route('/goated_the_sql/users/all', methods=['GET'])
 def users_handler():
     if request.method == 'GET':
@@ -66,13 +78,7 @@ def users_handler():
         return jsonify("Operation not suGOATED."), 405
 
 
-# MUST
-# FIX METHOD
-# USED TO GET
-# ITEM COUNT
-# USE FETCH ONE
-
-@app.route('/goated_the_sql/user/add', methods=['POST'])
+@app.route('/goated_the_sql/sign-up', methods=['POST'])
 def user_add():
     if request.method == 'POST':
         created_user = UserController.register_user(request.json)
@@ -81,21 +87,24 @@ def user_add():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/user/<int:user_id>', methods=['GET', 'PUT', 'DELETE'])
-def user_handler(user_id):
+@app.route('/goated_the_sql/user/<int:usr_id>', methods=['GET', 'PUT', 'DELETE'])
+def user_handler(usr_id):
     if request.method == 'GET':
-        return UserController.get_user(user_id)
+        return UserController.get_user(usr_id)
     elif request.method == 'PUT':
         # dummy code to get the idea through
         list_of_changes = []
-        return UserController.change_user(user_id, user.get_user_id(), list_of_changes)
+        return UserController.change_user(usr_id, user.get_user_id(), list_of_changes)
     elif request.method == 'DELETE':
         # dummy code to get the idea through
-        return UserController.delete_user(user_id, user.get_user_id())
+        return UserController.delete_user(usr_id, user.get_user_id())
     else:
         return jsonify("Operation not suGOATED."), 405
 
 
+# ======================================================================================================================
+
+# =================================================== v CART v =========================================================
 @app.route('/goated_the_sql/cart')
 def carts_handler():
     return CartController().get_cart()
@@ -109,6 +118,6 @@ def liked_list(user_id):
     else:
         return jsonify("Operation not suGOATED."), 405
 
-
+# ======================================================================================================================
 if __name__ == "__main__":
     app.run(debug=True)

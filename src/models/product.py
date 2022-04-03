@@ -1,3 +1,5 @@
+import psycopg2
+
 from src.models.dao.backend import BackEnd
 
 
@@ -7,7 +9,7 @@ class ProductModel:
     __desc: str
     __price: float
     __category: str
-    __quantity: int
+    __stock: int
     __visible: bool
 
     # Product ID Getter
@@ -46,86 +48,76 @@ class ProductModel:
         """
         return self.__desc
 
-        # Description Setter
-
+    # Description Setter
     def set_desc(self, new_desc: str):
         """
         :param new_desc: description for the product
         """
         self.__desc = new_desc
 
-        # Price Getter
-
+    # Price Getter
     def get_price(self):
         """
         :return: price of the product
         """
         return self.__price
 
-        # Price Setter
-
+    # Price Setter
     def set_price(self, new_price: float):
         """
         :param new_price: price for the product
         """
         self.__price = new_price
 
-        # Category Getter
-
+    # Category Setter
     def get_category(self):
         """
         :return: category of the product
         """
         return self.__category
 
-        # Category Setter
-
+    # Category Setter
     def set_category(self, new_category: str):
         """
         :param new_category: category for the product
         """
         self.__category = new_category
 
-        # Quantity Getter
-
-    def get_quantity(self):
+    # Stock Getter
+    def get_stock(self):
         """
-        :return: quantity available of product
+        :return: stock available of product
         """
-        return self.__quantity
+        return self.__stock
 
-        # Quantity Setter
-
-    def set_quantity(self, new_quantity: int):
+    # Stock Setter
+    def set_stock(self, new_stock: int):
         """
-        :param new_quantity: quantity available for the product
+        :param new_stock: stock available for the product
         """
-        self.__quantity = new_quantity
+        self.__stock = new_stock
 
-        # Visibility Getter
-
+    #  Visibility Setter
     def get_visibility(self):
         """
         :return: visibility state of the product
         """
         return self.__visible
 
-        # Visibility Setter
+    # Visibility Getter
+    def set_visibility(self, state: bool):
+        """
+        :param state: boolean visible state of the product
+        """
+        self.__visible = state
 
-    def set_visibility(self, new_visibility: bool):
+    def add_product(self):
         """
-        :param new_visibility: visibility state for the product
-        """
-        self.__visible = new_visibility
+            Queries the database to add the product to the catalog.
 
-    @classmethod
-    def get_all_products(cls):
+        :return: product created in the database
         """
-        Queries the database for all products in the catalog
-
-        :return: list containing ProductModels
-        """
-        return BackEnd().get_all_elements(ProductModel(), "*", "")
+        return BackEnd.create_element(self)
 
     @classmethod
     def get_product(cls, prod_id):
@@ -136,6 +128,15 @@ class ProductModel:
         :return: ProductModel of found product, None if not found
         """
         return BackEnd().get_element(ProductModel(), "*", prod_id)
+
+    @classmethod
+    def get_all_products(cls):
+        """
+        Queries the database for all products in the catalog
+
+        :return: list containing ProductModels
+        """
+        return BackEnd().get_all_elements(ProductModel(), "*", "")
 
     @classmethod
     def get_all_products_by_price(cls, ascending=True):
@@ -177,58 +178,67 @@ class ProductModel:
         return BackEnd().get_all_elements(ProductModel(), "*", "category = " + category)
 
     @classmethod
-    def db_change_visibility(cls, user_id: int, prod_id: int, new_visibility: bool):
+    def db_delete_product(cls, prod_id, user_id):
         """
-            Changes the visibility parameter for products in the database. Either hiding them or showing them
+            Queries a deletion in the database if the user has administrative rights to make this change.
 
-        :param user_id: id of the user requesting the change
-        :param prod_id: id of the product being altered
-        :param new_visibility: updated visibility state of the product
-        :raise ValueError: user id does not have administrator rights
+        :param prod_id: id of the product being requested to delete
+        :param user_id: id of the user requesting the deletion
+        :return: True if the product is deleted successfully, False if there is problem deleting the product
+        :raises ValueError: user does not have rights to delete the product
         """
         from src.models.user import UserModel
 
-        if UserModel().db_is_admin(user_id):
-            BackEnd().update_element_attribute(
-                'products', 'visible = ' + str(new_visibility).lower(), 'product_id = ' + str(prod_id)
-            )
+        if UserModel.db_is_admin(user_id):
+            return BackEnd.delete_element(ProductModel(), prod_id)
         else:
             raise ValueError("User does not have the rights to make this change.")
 
     @classmethod
-    def db_change_price(cls, user_id: int, prod_id: int, new_price: float):
+    def db_update_product(cls, model, user_id):
         """
-            Changes the price parameter for the product in the database.
+            Compares a given product with one in the database with the same id number. Then queries an update to a
+            product in the database.
 
-        :param user_id: id of the user requesting the change
-        :param prod_id: id of the product being altered
-        :param new_price: updated price of the product
-        :raise ValueError: user id does not have administrator rights
-        """
-        from src.models.user import UserModel
-
-        if UserModel().db_is_admin(user_id):
-            BackEnd().update_element_attribute(
-                'products', 'price = ' + str(new_price), 'product_id = ' + str(prod_id)
-            )
-        else:
-            raise ValueError("User does not have the rights to make this change.")
-
-    @classmethod
-    def db_change_quantity(cls, user_id: int, prod_id: int, new_quantity: int):
-        """
-            Changes the quantity available of the product in the database.
-
-        :param user_id: id of the user requesting the change
-        :param prod_id: id of the product being altered
-        :param new_quantity: updated quantity of the product
-        :raise ValueError: user id does not have administrator rights
+        :param model: Product Entity Model containing all the changes to the product
+        :param user_id: id of the user requesting the update
+        :return: True if the product is successfully updated or there are no changes found between the requested updates
+        and the database,
         """
         from src.models.user import UserModel
 
-        if UserModel().db_is_admin(user_id):
-            BackEnd().update_element_attribute(
-                'products', 'quantity = ' + str(new_quantity), 'product_id = ' + str(prod_id)
-            )
+        if UserModel.db_is_admin(user_id):
+            try:
+                db_model = ProductModel.get_product(model.get_prod_id())
+
+                changes = []
+                if db_model.get_name() != model.get_name():
+                    changes.append("name = '{}'".format(model.get_name()))
+
+                if db_model.get_desc() != model.get_desc():
+                    changes.append("description = '{}'".format(model.get_desc()))
+
+                if db_model.get_price() != model.get_price():
+                    changes.append("price = {}".format(model.get_price()))
+
+                if db_model.get_category() != model.get_category():
+                    changes.append("category = '{}'".format(model.get_category()))
+
+                if db_model.get_stock() != model.get_stock():
+                    changes.append("stock = {}".format(model.get_stock()))
+
+                if db_model.get_visibility() != model.get_visibility():
+                    changes.append("visible = {}".format(model.get_visibility()))
+
+                if changes:
+                    BackEnd.update_element_attribute("products",
+                                                     ", ".join(changes),
+                                                     "product_id  = {}".format(model.get_prod_id())
+                                                     )
+                    return True
+                else:
+                    raise AttributeError("No differences were found between the database and give product.")
+            except psycopg2.Error:
+                return False
         else:
             raise ValueError("User does not have the rights to make this change.")
