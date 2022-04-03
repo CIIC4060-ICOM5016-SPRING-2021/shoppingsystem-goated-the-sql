@@ -1,5 +1,6 @@
 import unittest
 
+from src.controllers.product import ProductController
 from src.controllers.user import UserController
 from src.models.dao.backend import BackEnd
 from src.models.product import ProductModel
@@ -44,8 +45,7 @@ class DAOTest(unittest.TestCase):
         print("Description: " + result.get_desc())
         print("Price: " + str(result.get_price()))
         print("Category: " + result.get_category())
-        print("Likes: " + str(result.get_likes()))
-        print("Quantity: " + str(result.get_quantity()))
+        print("Quantity: " + str(result.get_stock()))
         print("Visible? " + str(result.get_visibility()))
 
     def test_get_all_products(self):
@@ -57,8 +57,7 @@ class DAOTest(unittest.TestCase):
             print("Description: " + product.get_desc())
             print("Price: " + str(product.get_price()))
             print("Category: " + product.get_category())
-            print("Likes: " + str(product.get_likes()))
-            print("Quantity: " + str(product.get_quantity()))
+            print("Quantity: " + str(product.get_stock()))
             print("Visible? " + str(product.get_visibility()))
 
     def test_backend_product_creation(self):
@@ -67,18 +66,30 @@ class DAOTest(unittest.TestCase):
         test_prod.set_desc("The largest Goomba Mario has ever seen")
         test_prod.set_price(1299.99)
         test_prod.set_category("Figurines")
-        test_prod.set_quantity(1)
+        test_prod.set_stock(1)
 
         BackEnd().create_element(test_prod)
 
-    def test_change_product_visibility(self):
-        ProductModel().db_change_visibility(1, 1, False)
+    def test_product_deletion(self):
+        ProductController.delete_product(11, 1)
 
-    def test_change_product_price(self):
-        ProductModel().db_change_price(1, 1, 499.99)
+    def test_product_update(self):
+        test_request = [
+            {
+                "user_id": 1
+            },
+            {
+                "product_id": 13,
+                "name": "Mario Statue",
+                "description": "The tiniest mario statue you have ever laid your eyes upon",
+                "price": 1299.99,
+                "category": "Figurines",
+                "stock": 85,
+                "visible": True
+            }
+        ]
 
-    def test_change_product_quantity(self):
-        ProductModel().db_change_quantity(1, 1, 100)
+        ProductController.update_product(13, test_request[1], test_request[0])
 
     # Generates a simple table in the database that correlates to the files stored in the credentials.txt file
     # def test_table_creation(self):

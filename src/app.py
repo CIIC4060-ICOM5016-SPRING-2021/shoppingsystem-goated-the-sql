@@ -24,34 +24,43 @@ def handler():
     return 'Hello, World!'
 
 
-@app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE'])
-def item_handler(prod_id):
+# ================================================= v PRODUCTS v =======================================================
+@app.route('/goated_the_sql/products/all', methods=['GET'])
+def all_products():
     if request.method == 'GET':
-        return ProductController.get_product(prod_id)
-    elif request.method == 'PUT':
-        # dummy code to get the idea through
-        list_of_changes = []
-        return ProductController.change_product(prod_id, user.get_user_id(), list_of_changes)
-    elif request.method == 'DELETE':
-        # dummy code to get the idea through
-        return ProductController.delete_product(prod_id, user.get_user_id())
+        return ProductController.get_all_products()
     else:
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/products/all', methods=['GET', 'POST'])
-def products_handler():
-    if request.method == 'GET':
-        return ProductController.get_all_products()
-    elif request.method == 'POST':
-        # this post is simulating what the professor did it class. Unsure what to
-        # do with it rn (03/31/2022)
-        # dummy code to get the idea through
+@app.route('/goated_the_sql/product/add', methods=['POST'])
+def register_product():
+    if request.method == 'POST':
         return ProductController.add_product(request.json)
     else:
         return jsonify("Operation not suGOATED."), 405
 
 
+@app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE'])
+def product_page(prod_id):
+    if request.method == 'GET':
+        return ProductController.get_product(prod_id)
+    elif request.method == 'PUT':
+        return ProductController.update_product(request.json[1], request.json[0])
+    elif request.method == 'DELETE':
+        """ 
+        I have no idea how to get the user id securely, Imma be honest...
+            The following line is way too easy to bypass in terms of security, someone could just spam numbers until 
+            they get a user id that has admin rights
+        """
+        return ProductController.delete_product(prod_id, request.json['user_id'])
+    else:
+        return jsonify("Operation not suGOATED."), 405
+
+
+# ======================================================================================================================
+
+# =================================================== v USERS v ========================================================
 @app.route('/goated_the_sql/users/all', methods=['GET'])
 def users_handler():
     if request.method == 'GET':
@@ -60,7 +69,7 @@ def users_handler():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/user/add', methods=['POST'])
+@app.route('/goated_the_sql/sign-up', methods=['POST'])
 def user_add():
     if request.method == 'POST':
         created_user = UserController.register_user(request.json)
@@ -84,10 +93,15 @@ def user_handler(usr_id):
         return jsonify("Operation not suGOATED."), 405
 
 
+# ======================================================================================================================
+
+# =================================================== v CART v =========================================================
 @app.route('/goated_the_sql/cart')
 def carts_handler():
     return CartController().get_cart()
 
+
+# ======================================================================================================================
 
 if __name__ == "__main__":
     app.run(debug=True)

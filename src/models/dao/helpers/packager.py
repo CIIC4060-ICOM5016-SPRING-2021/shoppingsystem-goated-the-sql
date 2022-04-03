@@ -52,9 +52,8 @@ class Packager:
             result.set_desc(item[2])
             result.set_price(item[3])
             result.set_category(item[4])
-            result.set_likes(item[5])
-            result.set_quantity(item[6])
-            result.set_visibility(item[7])
+            result.set_stock(item[5])
+            result.set_visibility(item[6])
 
             return result
         elif to_obj == 'OrderModel':
