@@ -17,7 +17,7 @@ class ProductController:
         if not queried_product:
             return jsonify("Product Not Found"), 404
         else:
-            return jsonify(ProductController().model_to_dict(queried_product)), 200
+            return jsonify(ProductController().model_to_dict(queried_product))
 
     @classmethod
     def get_all_products(cls):
