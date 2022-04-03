@@ -48,7 +48,7 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def get_element(cls, model, pk, select_attributes: str):
+    def get_element(cls, model, select_attributes, pk: str):
         """
             Queries the corresponding entity table in the database for the given primary key.
 
@@ -83,8 +83,14 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            # TODO: implement logic
-            return "goomba"
+            return cls.__db_fetch_one(
+                """
+                SELECT {}
+                FROM likedlist
+                WHERE {}
+                """.format(select_attributes, pk),
+                'LikedListModel'
+            )
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
@@ -155,15 +161,7 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            return cls.__db_fetch_all(
-                """
-                SELECT {}
-                FROM likedlist
-                WHERE {}
-                """.format(select_attributes, filter_clause),
-                'LikedListModel'
-            )
-
+            return "Bojaaaaackckkckckck"
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"

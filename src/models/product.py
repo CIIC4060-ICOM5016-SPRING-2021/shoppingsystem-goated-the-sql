@@ -7,7 +7,6 @@ class ProductModel:
     __desc: str
     __price: float
     __category: str
-    __liked_count: int
     __quantity: int
     __visible: bool
 
@@ -87,22 +86,6 @@ class ProductModel:
         """
         self.__category = new_category
 
-        # Liked Count Getter
-
-    def get_likes(self):
-        """
-        :return: like count of the product
-        """
-        return self.__liked_count
-
-        # Liked Count Setter
-
-    def set_likes(self, likes: int):
-        """
-        :param likes: like count for the product
-        """
-        self.__liked_count = likes
-
         # Quantity Getter
 
     def get_quantity(self):
@@ -152,7 +135,7 @@ class ProductModel:
         :param prod_id: product identification number
         :return: ProductModel of found product, None if not found
         """
-        return BackEnd().get_element(ProductModel(), prod_id, "*")
+        return BackEnd().get_element(ProductModel(), "*", prod_id)
 
     @classmethod
     def get_all_products_by_price(cls, ascending=True):

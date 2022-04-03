@@ -87,7 +87,6 @@ class ProductController:
             'desc': product.get_desc(),
             'price': product.get_price(),
             'category': product.get_category(),
-            'likes': product.get_likes(),
             'quantity': product.get_quantity(),
             'visibility': product.get_visibility()
         }

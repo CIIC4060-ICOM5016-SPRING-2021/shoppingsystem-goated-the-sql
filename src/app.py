@@ -63,6 +63,12 @@ def users_handler():
         return jsonify("Operation not suGOATED."), 405
 
 
+# MUST
+# FIX METHOD
+# USED TO GET
+# ITEM COUNT
+# USE FETCH ONE
+
 @app.route('/goated_the_sql/user/add', methods=['POST'])
 def user_add():
     if request.method == 'POST':
