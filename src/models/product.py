@@ -7,7 +7,7 @@ class ProductModel:
     __desc: str
     __price: float
     __category: str
-    __quantity: int
+    __stock: int
     __visible: bool
 
     # Product ID Getter
@@ -86,9 +86,15 @@ class ProductModel:
         """
         self.__category = new_category
 
-        # Quantity Getter
+    # Stock Getter
+    def get_stock(self):
+        """
+        :return: stock available of product
+        """
+        return self.__stock
 
-    def get_quantity(self):
+    # Stock Setter
+    def set_stock(self, new_stock: int):
         """
         :return: quantity available of product
         """
@@ -135,7 +141,7 @@ class ProductModel:
         :param prod_id: product identification number
         :return: ProductModel of found product, None if not found
         """
-        return BackEnd().get_element(ProductModel(), "*", prod_id)
+        return BackEnd().get_element(ProductModel(), prod_id, "*")
 
     @classmethod
     def get_all_products_by_price(cls, ascending=True):

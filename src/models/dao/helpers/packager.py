@@ -52,8 +52,9 @@ class Packager:
             result.set_desc(item[2])
             result.set_price(item[3])
             result.set_category(item[4])
-            result.set_quantity(item[5])
-            result.set_visibility(item[6])
+            result.set_likes(item[5])
+            result.set_quantity(item[6])
+            result.set_visibility(item[7])
 
             return result
         elif to_obj == 'OrderModel':
@@ -62,11 +63,9 @@ class Packager:
             # TODO: Insert logic
             return result
         elif to_obj == 'LikedListModel':
-            # each result will have the same user_id but a different
-            # product.
             from src.models.liked_list import LikedListModel
             result = LikedListModel()
-            result.set_like_count(item[0])
+            # TODO: Insert logic
             return result
         elif to_obj == 'CartModel':
             from src.models.cart import CartModel

@@ -1,7 +1,5 @@
 from flask import jsonify
 
-from src.models.dao.backend import BackEnd
-from src.models.liked_list import LikedListModel
 from src.models.product import ProductModel
 
 
@@ -68,11 +66,25 @@ class ProductController:
             BackEnd().create_element(LikedListModel(), user_id, prod_id)
 
     @classmethod
-    def add_product(cls, json):
-        # TODO: Implement method. Must be given a product in a json and the
-        # method must add it
-        # Return id of added product
-        pass
+    def add_product(cls, request_json):
+        """
+            Prompts the database to add a new product to the catalog
+
+        :param request_json:
+        :return: 200 and product details when successfully created, 500 on failed product creation
+        """
+        temp_product = ProductModel()
+        temp_product.set_name(request_json['name'])
+        temp_product.set_desc(request_json['description'])
+        temp_product.set_price(request_json['price'])
+        temp_product.set_category(request_json['category'])
+        temp_product.set_stock(request_json['stock'])
+        new_product = temp_product.add_product()
+
+        if new_product:
+            return jsonify(cls.model_to_dict(new_product)), 200
+        else:
+            return jsonify("Unable to create the product."), 500
 
     @classmethod
     def delete_product(cls, prod_id, user_id):
@@ -95,7 +107,27 @@ class ProductController:
             'desc': product.get_desc(),
             'price': product.get_price(),
             'category': product.get_category(),
-            'quantity': product.get_quantity(),
-            'visibility': product.get_visibility()
+            'quantity': product.get_stock(),
+            'visible': product.get_visibility()
         }
         return prodict
+
+    @classmethod
+    def json_to_model(cls, request):
+        """
+            Creates a Product Entity Model from a received request in JSON.
+
+        :param request: request received via HTTP
+        :return: Product Entity Model
+        """
+        model = ProductModel()
+
+        model.set_prod_id(request['product_id'])
+        model.set_visibility(request['visible'])
+        model.set_name(request['name'])
+        model.set_desc(request['description'])
+        model.set_price(request['price'])
+        model.set_category(request['category'])
+        model.set_stock(request['stock'])
+
+        return model
