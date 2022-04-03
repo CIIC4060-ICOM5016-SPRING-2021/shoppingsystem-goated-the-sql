@@ -4,6 +4,7 @@ from controllers.cart import CartController
 from controllers.product import ProductController
 from controllers.user import UserController
 from models.user import UserModel
+from src.controllers.liked_list import LikedListController
 
 app = Flask(__name__)
 
@@ -44,7 +45,9 @@ def register_product():
 @app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE'])
 def product_page(prod_id):
     if request.method == 'GET':
-        return ProductController.get_product(prod_id)
+        return_list = [ProductController.get_product(prod_id),
+                       {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+        return jsonify(return_list)
     elif request.method == 'PUT':
         return ProductController.update_product(request.json[1], request.json[0])
     elif request.method == 'DELETE':
@@ -78,17 +81,17 @@ def user_add():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/user/<int:usr_id>', methods=['GET', 'PUT', 'DELETE'])
-def user_handler(usr_id):
+@app.route('/goated_the_sql/user/<int:user_id>', methods=['GET', 'PUT', 'DELETE'])
+def user_handler(user_id):
     if request.method == 'GET':
-        return UserController.get_user(usr_id)
+        return UserController.get_user(user_id)
     elif request.method == 'PUT':
         # dummy code to get the idea through
         list_of_changes = []
-        return UserController.change_user(usr_id, user.get_user_id(), list_of_changes)
+        return UserController.change_user(user_id, user.get_user_id(), list_of_changes)
     elif request.method == 'DELETE':
         # dummy code to get the idea through
-        return UserController.delete_user(usr_id, user.get_user_id())
+        return UserController.delete_user(user_id, user.get_user_id())
     else:
         return jsonify("Operation not suGOATED."), 405
 
@@ -99,6 +102,17 @@ def user_handler(usr_id):
 @app.route('/goated_the_sql/cart')
 def carts_handler():
     return CartController().get_cart()
+
+
+# ======================================================================================================================
+# ================================================ v LIKED LIST v ======================================================
+@app.route('/goated_the_sql/<int:user_id>/liked_list', methods=['GET'])
+def liked_list(user_id):
+    if request.method == 'GET':
+        likes_list = LikedListController().get_likes(user_id)
+        return jsonify(likes_list)
+    else:
+        return jsonify("Operation not suGOATED."), 405
 
 
 # ======================================================================================================================
