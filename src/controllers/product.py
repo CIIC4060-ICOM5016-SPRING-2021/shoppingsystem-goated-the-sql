@@ -74,7 +74,7 @@ class ProductController:
         except ValueError:
             return jsonify("User is not authorized"), 403
         except AttributeError:
-            return jsonify("No changes to product detected"), 406
+            return jsonify("No changes to product detected"), 204
 
     @classmethod
     def delete_product(cls, prod_id, user_id):
