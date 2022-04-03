@@ -5,19 +5,6 @@ from src.models.product import ProductModel
 
 class ProductController:
     @classmethod
-    def get_all_products(cls):
-        """
-            Prompts the database to get the full catalog of products
-
-        :return: list of JSONs containing all the products in the database
-        """
-        products = []
-
-        for product in ProductModel().get_all_products():
-            products.append(ProductController().preparer(product))
-        return jsonify(products)
-
-    @classmethod
     def get_product(cls, prod_id):
         """
             Prompts the database to search for a product
@@ -30,51 +17,60 @@ class ProductController:
         if not queried_product:
             return jsonify("Product Not Found"), 404
         else:
-            return jsonify(ProductController().preparer(queried_product)), 200
+            return jsonify(ProductController().model_to_dict(queried_product)), 200
 
     @classmethod
-    def change_visibility(cls, prod_id, user_id, visibility: bool):
+    def get_all_products(cls):
         """
-            Prompts the database to make a visibility parameter change to a product.
+            Prompts the database to get the full catalog of products
 
-        :param prod_id: id of the product to be altered
-        :param user_id: id of the user requesting the change
-        :param visibility: updated visibility state of the product
+        :return: list of JSONs containing all the products in the database
         """
-        ProductModel().db_change_visibility(user_id, prod_id, visibility)
+        products = []
 
-    @classmethod
-    def change_price(cls, prod_id, user_id, new_price):
-        """
-            Prompts the database to make a price change to a product.
-
-        :param prod_id: id of the product to be altered
-        :param user_id: id of the user requesting the change
-        :param new_price: updated price of the product
-        """
-        ProductModel().db_change_price(user_id, prod_id, new_price)
-
-    @classmethod
-    def change_product(cls, prod_id, user_id, changes_list):
-        # TODO: Implement method. Must be given a product to change and the list of changes done to it
-        pass
+        for product in ProductModel().get_all_products():
+            products.append(ProductController().model_to_dict(product))
+        return jsonify(products)
 
     @classmethod
     def add_product(cls, json):
-        # TODO: Implement method. Must be given a product in a json and the
-        # method must add it
-        # Return id of added product
-        pass
+        temp_product = ProductModel()
+        temp_product.set_name(json['name'])
+        temp_product.set_desc(json['desc'])
+        temp_product.set_price(json['price'])
+        temp_product.set_category(json['category'])
+        temp_product.set_stock(json['stock'])
+        new_product = temp_product.add_product()
+
+        if new_product:
+            return jsonify(cls.model_to_dict(new_product)), 200
+        else:
+            return jsonify("Unable to create the product."), 500
+
+    @classmethod
+    def update_product(cls, prod_id, json):
+        product_model = cls.json_to_model(json)
 
     @classmethod
     def delete_product(cls, prod_id, user_id):
-        # TODO: Implement method. Must be given a product, and a user to validate, and the
-        # method must delete it
-        # Return id of deleted product
-        pass
+        """
+            Prompts the database to delete a product.
+
+        :param prod_id:
+        :param user_id:
+        :return:
+        """
+        try:
+            deleted = ProductModel().db_delete_product(prod_id, user_id)
+            if deleted:
+                return jsonify("Product Deleted"), 200
+            else:
+                return jsonify("Unable to delete product"), 500
+        except ValueError:
+            return jsonify("User is not authorized"), 403
 
     @classmethod
-    def preparer(cls, product):
+    def model_to_dict(cls, product):
         """
             Creates a python dictionary equivalent of a given Product Model
 
@@ -87,8 +83,20 @@ class ProductController:
             'desc': product.get_desc(),
             'price': product.get_price(),
             'category': product.get_category(),
-            'likes': product.get_likes(),
-            'quantity': product.get_quantity(),
-            'visibility': product.get_visibility()
+            'quantity': product.get_stock(),
+            'visible': product.get_visibility()
         }
         return prodict
+
+    @classmethod
+    def json_to_model(cls, json):
+        result = ProductModel()
+
+        # TODO: figure out how to deal with this
+        result.get_name(json['name'])
+        result.get_desc(json['desc'])
+        result.get_price(json['price'])
+        result.get_category(json['category'])
+        result.get_stock(json['stock'])
+
+        return result
