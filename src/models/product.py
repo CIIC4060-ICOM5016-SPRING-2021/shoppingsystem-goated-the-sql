@@ -136,7 +136,7 @@ class ProductModel:
 
         :return: list containing ProductModels
         """
-        return BackEnd().get_all_elements(ProductModel(), "", "*")
+        return BackEnd().get_all_elements(ProductModel(), "*", "")
 
     @classmethod
     def get_all_products_by_price(cls, ascending=True):
