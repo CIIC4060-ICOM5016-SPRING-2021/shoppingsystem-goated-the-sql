@@ -57,6 +57,11 @@ def product_page(prod_id):
         # return jsonify(return_list)
         return ProductController.update_product(request.json[1], request.json[0])
 
+    elif request.method == 'POST':
+        # Need the request to be a json of the product
+        # request.json[0] is the quantity
+        return CartController.add_product(user.get_user_id(), prod_id, request.json[0])
+
     elif request.method == 'DELETE':
         """ 
         I have no idea how to get the user id securely, Imma be honest...
@@ -106,7 +111,7 @@ def user_handler(usr_id):
 # ======================================================================================================================
 
 # =================================================== v CART v =========================================================
-@app.route('/goated_the_sql/cart/<int:usr_id>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/goated_the_sql/cart/<int:usr_id>', methods=['GET', 'PUT', 'DELETE'])
 def carts_handler(usr_id):
     if request.method == 'GET':
         return CartController.get_cart(usr_id)
@@ -114,9 +119,6 @@ def carts_handler(usr_id):
         return jsonify("Im working on it")
     elif request.method == 'DELETE':
         return jsonify("Im working on it")
-    elif request.method == 'POST':
-        # Need the request to be a json of the product
-        return CartController.add_product(usr_id, request.json)
     else:
         return jsonify("Lmao no"), 405
 
