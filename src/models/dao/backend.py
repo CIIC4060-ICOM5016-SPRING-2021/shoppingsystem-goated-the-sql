@@ -30,7 +30,7 @@ class BackEnd:
         elif model.__class__.__name__ == 'ProductModel':
             return cls.__db_fetch_one(
                 """
-                INSERT INTO products (name, description, price, category, liked_count, quantity, visible) \n
+                INSERT INTO products (name, description, price, category, stock, visible) \n
                 VALUES ('{}', '{}', '{}', '{}','{}', true)
                 RETURNING *
                 """.format(
