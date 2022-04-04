@@ -1,3 +1,5 @@
+import psycopg2
+
 from src.models.dao.db_access import DBAccess
 from src.models.dao.helpers.packager import Packager
 
@@ -26,16 +28,19 @@ class BackEnd:
             )
 
         elif model.__class__.__name__ == 'ProductModel':
-            cls.__db_run_command(
+            return cls.__db_fetch_one(
                 """
                 INSERT INTO products (name, description, price, category, liked_count, quantity, visible) \n
-                VALUES ('{}', '{}', {}, '{}', 0, {}, true)
+                VALUES ('{}', '{}', '{}', '{}','{}', true)
+                RETURNING *
                 """.format(
                     model.get_name(),
                     model.get_desc(),
                     model.get_price(),
                     model.get_category(),
-                    model.get_stock())
+                    model.get_stock()
+                ),
+                'ProductModel'
             )
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
@@ -116,16 +121,29 @@ class BackEnd:
 
         # TODO: Make the function return the boolean on completion
         if model.__class__.__name__ == 'UserModel':
-            cls.__db_run_command(
-                """
-                DELETE FROM usr
-                WHERE user_id = {}
-                """.format(pk)
-            )
+            try:
+                cls.__db_run_command(
+                    """
+                    DELETE FROM usr
+                    WHERE user_id = {}
+                    """.format(pk)
+                )
+                return True
+            except psycopg2.Error:
+                return False
 
-        elif model.__class__.__name__ == 'ProductModel':
-            # TODO: implement logic
-            return "goomba"
+        elif model.__class.name == 'ProductModel':
+            try:
+                cls.__db_run_command(
+                    """
+                    DELETE FROM products
+                    WHERE product_id = {}
+                    """.format(pk)
+                )
+                return True
+            except psycopg2.Error:
+                return False
+
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
             return "goomba"
