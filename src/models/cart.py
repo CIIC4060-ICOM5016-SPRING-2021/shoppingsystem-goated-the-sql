@@ -52,3 +52,10 @@ class CartModel:
     def get_cart(cls, user_id):
         list_of_products = BackEnd.get_all_elements(CartModel(), "*", "user_id={}".format(user_id))
         return jsonify(list_of_products)
+
+    def add_item(self):
+        # TODO: connect to the backend so that it can add the given record
+        # need to add the price to self with a query to products
+        # need to figure out how to generate cart id
+
+        pass
