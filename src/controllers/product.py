@@ -76,7 +76,7 @@ class ProductController:
         except ValueError:
             return jsonify("User is not authorized"), 403
         except AttributeError:
-            return jsonify("No changes to product detected"), 204
+            return jsonify("No changes to product detected")
 
     @classmethod
     def delete_product(cls, prod_id, user_id):
@@ -90,10 +90,11 @@ class ProductController:
         """
         try:
             deleted = ProductModel().db_delete_product(prod_id, user_id)
-            if deleted:
+            if deleted is True:
                 return jsonify("Product Deleted"), 200
             else:
-                return jsonify("Unable to delete product"), 500
+                # TODO: after cascading delete is complete erase the error message
+                return jsonify("Unable to delete product" + str(deleted)), 500
         except ValueError:
             return jsonify("User is not authorized"), 403
 

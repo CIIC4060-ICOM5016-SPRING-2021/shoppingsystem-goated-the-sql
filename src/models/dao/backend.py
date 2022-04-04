@@ -110,7 +110,7 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def delete_element(cls, model, pk):
+    def delete_element(cls, model, pk: int):
         """
             Completely removes a row from the corresponding table.
 
@@ -141,7 +141,8 @@ class BackEnd:
                     """.format(pk)
                 )
                 return True
-            except psycopg2.Error:
+            except psycopg2.Error as e:
+                # return e
                 return False
 
         elif model.__class__.__name__ == 'OrderModel':
