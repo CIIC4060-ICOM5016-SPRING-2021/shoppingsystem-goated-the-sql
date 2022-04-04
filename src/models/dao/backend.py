@@ -31,7 +31,7 @@ class BackEnd:
             return cls.__db_fetch_one(
                 """
                 INSERT INTO products (name, description, price, category, stock, visible) \n
-                VALUES ('{}', '{}', {}, '{}',{}, true)
+                VALUES ('{}', '{}', {}, '{}', {}, true)
                 RETURNING *
                 """.format(
                     model.get_name(),
@@ -132,7 +132,7 @@ class BackEnd:
             except psycopg2.Error:
                 return False
 
-        elif model.__class.__name__ == 'ProductModel':
+        elif model.__class__.__name__ == 'ProductModel':
             try:
                 cls.__db_run_command(
                     """
