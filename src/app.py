@@ -4,6 +4,7 @@ from controllers.cart import CartController
 from controllers.product import ProductController
 from controllers.user import UserController
 from models.user import UserModel
+from src.controllers.liked_list import LikedListController
 
 app = Flask(__name__)
 
@@ -49,12 +50,12 @@ def product_page(prod_id):
         return jsonify(return_list)
     elif request.method == 'PUT':
         # dummy code to get the idea through
-        list_of_changes = {"like": 1}
-        ProductController.change_product(prod_id, user.get_user_id(), list_of_changes)
-        return_list = [ProductController.get_product(prod_id),
-                       {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
-        return jsonify(return_list)
-    return ProductController.update_product(request.json[1], request.json[0])
+        # list_of_changes = {"like": 1}
+        # ProductController.change_product(prod_id, user.get_user_id(), list_of_changes)
+        # return_list = [ProductController.get_product(prod_id),
+        #              {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+        # return jsonify(return_list)
+        return ProductController.update_product(request.json[1], request.json[0])
 
     elif request.method == 'DELETE':
         """ 
@@ -117,6 +118,7 @@ def liked_list(user_id):
         return jsonify(likes_list)
     else:
         return jsonify("Operation not suGOATED."), 405
+
 
 # ======================================================================================================================
 if __name__ == "__main__":

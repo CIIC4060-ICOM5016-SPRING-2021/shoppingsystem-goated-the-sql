@@ -101,7 +101,7 @@ class UserModel:
         :param user_id: user identification number
         :return: UserModel of found Model, None if not found
         """
-        return BackEnd().get_element(UserModel(), user_id, "*")
+        return BackEnd().get_element(UserModel(), "*", user_id)
 
     @classmethod
     def get_all_users(cls):
@@ -114,7 +114,7 @@ class UserModel:
 
     @classmethod
     def db_is_admin(cls, user_id):
-        user = BackEnd().get_element(UserModel(), user_id, "*")
+        user = BackEnd().get_element(UserModel(), "*", user_id)
         if user.get_admin_status():
             return True
         else:

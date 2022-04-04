@@ -12,7 +12,7 @@ class UserController:
         if not queried_user:
             return jsonify("User Not Found"), 404
         else:
-            return jsonify(UserController().preparer(queried_user)), 200
+            return jsonify(UserController().model_to_dict(queried_user)), 200
 
     @classmethod
     def register_user(cls, json):
@@ -25,18 +25,18 @@ class UserController:
         if not new_user:
             jsonify("Unable to complete request"), 500
         else:
-            return jsonify(cls.preparer(new_user))
+            return jsonify(cls.model_to_dict(new_user))
 
     @classmethod
     def get_all_users(cls):
         users = []
         for user in UserModel().get_all_users():
-            users.append(UserController().preparer(user))
+            users.append(UserController().model_to_dict(user))
 
         return jsonify(users)
 
     @classmethod
-    def preparer(cls, user):
+    def model_to_dict(cls, user):
         user_dict = {
             'first name': user.get_first_name(),
             'last name': user.get_last_name(),
