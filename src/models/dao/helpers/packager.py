@@ -69,5 +69,10 @@ class Packager:
         elif to_obj == 'CartModel':
             from src.models.cart import CartModel
             result = CartModel()
-            # TODO: Insert logic
+            result.set_cart_id(item[0])
+            result.set_product_id(item[1])
+            result.set_user_id(item[2])
+            result.set_product_quantity(item[3])
+            result.set_product_price(item[4])
+
             return result

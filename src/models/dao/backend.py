@@ -178,8 +178,14 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'CartModel':
-            # TODO: implement logic
-            return "goomba"
+            return cls.__db_fetch_all(
+                """
+                SELECT {}
+                FROM cart
+                WHERE {}
+                """.format(select_attributes, filter_clause),
+                'CartModel'
+            )
         elif model.__class__.__name__ == 'UserModel':
             # If the where_clause_statement is not empty
             if filter_clause:

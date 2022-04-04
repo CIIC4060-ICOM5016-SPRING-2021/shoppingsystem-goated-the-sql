@@ -96,9 +96,16 @@ def user_handler(usr_id):
 # ======================================================================================================================
 
 # =================================================== v CART v =========================================================
-@app.route('/goated_the_sql/cart')
-def carts_handler():
-    return CartController().get_cart()
+@app.route('/goated_the_sql/cart/<int:usr_id>', methods=['GET', 'PUT', 'DELETE'])
+def carts_handler(usr_id):
+    if request.method == 'GET':
+        return CartController().get_cart(usr_id)
+    elif request.method == 'PUT':
+        return jsonify("Im working on it")
+    elif request.method == 'DELETE':
+        return jsonify("Im working on it")
+    else:
+        return jsonify("Lmao no"), 405
 
 
 # ======================================================================================================================
