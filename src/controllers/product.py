@@ -19,18 +19,7 @@ class ProductController:
         if not queried_product:
             return jsonify("Product Not Found"), 404
         else:
-            return ProductController().preparer(queried_product)
-
-    @classmethod
-    def change_visibility(cls, prod_id, user_id, visibility: bool):
-        """
-            Prompts the database to make a visibility parameter change to a product.
-
-        :param prod_id: id of the product to be altered
-        :param user_id: id of the user requesting the change
-        :param visibility: updated visibility state of the product
-        """
-        ProductModel().db_change_visibility(user_id, prod_id, visibility)
+            return ProductController().model_to_dict(queried_product)
 
     @classmethod
     def get_all_products(cls):
