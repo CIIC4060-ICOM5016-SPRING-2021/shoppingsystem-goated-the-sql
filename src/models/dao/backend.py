@@ -31,7 +31,7 @@ class BackEnd:
             return cls.__db_fetch_one(
                 """
                 INSERT INTO products (name, description, price, category, stock, visible) \n
-                VALUES ('{}', '{}', '{}', '{}','{}', true)
+                VALUES ('{}', '{}', {}, '{}',{}, true)
                 RETURNING *
                 """.format(
                     model.get_name(),
