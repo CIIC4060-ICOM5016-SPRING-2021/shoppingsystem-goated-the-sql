@@ -62,7 +62,7 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def get_element(cls, model, select_attributes: str, pk):
+    def get_element(cls, model, pk, select_attributes: str):
         """
             Queries the corresponding entity table in the database for the given primary key.
 
@@ -132,7 +132,7 @@ class BackEnd:
             except psycopg2.Error:
                 return False
 
-        elif model.__class.name == 'ProductModel':
+        elif model.__class.__name__ == 'ProductModel':
             try:
                 cls.__db_run_command(
                     """

@@ -127,7 +127,7 @@ class ProductModel:
         :param prod_id: product identification number
         :return: ProductModel of found product, None if not found
         """
-        return BackEnd().get_element(ProductModel(), "*", prod_id)
+        return BackEnd().get_element(ProductModel(), prod_id, "*")
 
     @classmethod
     def get_all_products(cls):
@@ -136,7 +136,7 @@ class ProductModel:
 
         :return: list containing ProductModels
         """
-        return BackEnd().get_all_elements(ProductModel(), "*", "")
+        return BackEnd().get_all_elements(ProductModel(), "", "*")
 
     @classmethod
     def get_all_products_by_price(cls, ascending=True):
