@@ -62,8 +62,6 @@ class Packager:
             # TODO: Insert logic
             return result
         elif to_obj == 'LikedListModel':
-            # each result will have the same user_id but a different
-            # product.
             from src.models.liked_list import LikedListModel
             result = LikedListModel()
             result.set_like_count(item[0])

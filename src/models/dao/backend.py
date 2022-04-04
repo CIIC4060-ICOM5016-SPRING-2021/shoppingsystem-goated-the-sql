@@ -1,5 +1,3 @@
-import psycopg2
-
 from src.models.dao.db_access import DBAccess
 from src.models.dao.helpers.packager import Packager
 
@@ -10,8 +8,6 @@ class BackEnd:
         """
            Creates a new element within the corresponding Entity Model table in the database
 
-        :param prod_id: product associated with the creation of an element
-        :param user_id: user creating the element
         :param model: Entity Model
         :return: A copy of the information added to the database (same Entity Model as the model given)
         """
@@ -25,38 +21,35 @@ class BackEnd:
                     model.get_first_name(),
                     model.get_last_name(),
                     model.get_password(),
-                    model.get_phone_num()
-                ),
+                    model.get_phone_num()),
                 'UserModel'
             )
 
         elif model.__class__.__name__ == 'ProductModel':
-            return cls.__db_fetch_one(
+            cls.__db_run_command(
                 """
-                INSERT INTO products (name, description, price, category, stock, visible) \n
-                VALUES ('{}', '{}', {}, '{}', {}, true)
-                RETURNING *
+                INSERT INTO products (name, description, price, category, liked_count, quantity, visible) \n
+                VALUES ('{}', '{}', {}, '{}', 0, {}, true)
                 """.format(
                     model.get_name(),
                     model.get_desc(),
                     model.get_price(),
                     model.get_category(),
-                    model.get_stock()
-                ),
-                'ProductModel'
+                    model.get_stock())
             )
-
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
             # TODO: implement logic
-
             cls.__db_run_command(
                 """
                 INSERT INTO likedlist (user_id, product_id, time_like)
                 VALUES ('{}','{}', current_timestamp)
-                """.format(user_id, prod_id)
+                """.format(
+                    user_id,
+                    prod_id
+                )
             )
             return "goomba"
         elif model.__class__.__name__ == 'CartModel':
@@ -64,7 +57,7 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def get_element(cls, model, select_attributes, pk: str):
+    def get_element(cls, model, select_attributes: str, pk):
         """
             Queries the corresponding entity table in the database for the given primary key.
 
@@ -103,7 +96,7 @@ class BackEnd:
                 """
                 SELECT {}
                 FROM likedlist
-                WHERE {}
+                WHERE product_id={}
                 """.format(select_attributes, pk),
                 'LikedListModel'
             )
@@ -123,29 +116,16 @@ class BackEnd:
 
         # TODO: Make the function return the boolean on completion
         if model.__class__.__name__ == 'UserModel':
-            try:
-                cls.__db_run_command(
-                    """
-                    DELETE FROM usr
-                    WHERE user_id = {}
-                    """.format(pk)
-                )
-                return True
-            except psycopg2.Error:
-                return False
+            cls.__db_run_command(
+                """
+                DELETE FROM usr
+                WHERE user_id = {}
+                """.format(pk)
+            )
 
         elif model.__class__.__name__ == 'ProductModel':
-            try:
-                cls.__db_run_command(
-                    """
-                    DELETE FROM products
-                    WHERE product_id = {}
-                    """.format(pk)
-                )
-                return True
-            except psycopg2.Error:
-                return False
-
+            # TODO: implement logic
+            return "goomba"
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
             return "goomba"
@@ -190,7 +170,8 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            return "Bojaaaaackckkckckck"
+            # TODO: implement logic
+            return "goomba"
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
