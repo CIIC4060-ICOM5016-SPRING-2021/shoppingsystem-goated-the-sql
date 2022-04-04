@@ -4,6 +4,7 @@ from controllers.cart import CartController
 from controllers.product import ProductController
 from controllers.user import UserController
 from models.user import UserModel
+from src.controllers.liked_list import LikedListController
 
 app = Flask(__name__)
 
@@ -44,9 +45,18 @@ def register_product():
 @app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE'])
 def product_page(prod_id):
     if request.method == 'GET':
-        return ProductController.get_product(prod_id)
+        return_list = [ProductController.get_product(prod_id),
+                       {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+        return jsonify(return_list)
     elif request.method == 'PUT':
+        # dummy code to get the idea through
+        # list_of_changes = {"like": 1}
+        # ProductController.change_product(prod_id, user.get_user_id(), list_of_changes)
+        # return_list = [ProductController.get_product(prod_id),
+        #              {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+        # return jsonify(return_list)
         return ProductController.update_product(request.json[1], request.json[0])
+
     elif request.method == 'DELETE':
         """ 
         I have no idea how to get the user id securely, Imma be honest...
@@ -101,7 +111,15 @@ def carts_handler():
     return CartController().get_cart()
 
 
-# ======================================================================================================================
+@app.route('/goated_the_sql/<int:user_id>/liked_list', methods=['GET'])
+def liked_list(user_id):
+    if request.method == 'GET':
+        likes_list = LikedListController().get_likes(user_id)
+        return jsonify(likes_list)
+    else:
+        return jsonify("Operation not suGOATED."), 405
 
+
+# ======================================================================================================================
 if __name__ == "__main__":
     app.run(debug=True)

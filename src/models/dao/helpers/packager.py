@@ -64,7 +64,7 @@ class Packager:
         elif to_obj == 'LikedListModel':
             from src.models.liked_list import LikedListModel
             result = LikedListModel()
-            # TODO: Insert logic
+            result.set_like_count(item[0])
             return result
         elif to_obj == 'CartModel':
             from src.models.cart import CartModel
