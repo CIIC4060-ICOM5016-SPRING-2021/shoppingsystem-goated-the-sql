@@ -71,7 +71,7 @@ class DAOTest(unittest.TestCase):
         BackEnd().create_element(test_prod)
 
     def test_product_deletion(self):
-        ProductController.delete_product(11, 1)
+        ProductController.delete_product(16, 1)
 
     def test_product_update(self):
         test_request = [

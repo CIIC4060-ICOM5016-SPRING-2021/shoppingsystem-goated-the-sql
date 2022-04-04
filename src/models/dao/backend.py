@@ -6,7 +6,7 @@ from src.models.dao.helpers.packager import Packager
 
 class BackEnd:
     @classmethod
-    def create_element(cls, model):
+    def create_element(cls, model, user_id=None, prod_id=None):
         """
            Creates a new element within the corresponding Entity Model table in the database
 
@@ -23,8 +23,7 @@ class BackEnd:
                     model.get_first_name(),
                     model.get_last_name(),
                     model.get_password(),
-                    model.get_phone_num()
-                ),
+                    model.get_phone_num()),
                 'UserModel'
             )
 
@@ -43,12 +42,20 @@ class BackEnd:
                 ),
                 'ProductModel'
             )
-
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
             # TODO: implement logic
+            cls.__db_run_command(
+                """
+                INSERT INTO likedlist (user_id, product_id, time_like)
+                VALUES ('{}','{}', current_timestamp)
+                """.format(
+                    user_id,
+                    prod_id
+                )
+            )
             return "goomba"
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
@@ -90,14 +97,20 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            # TODO: implement logic
-            return "goomba"
+            return cls.__db_fetch_one(
+                """
+                SELECT {}
+                FROM likedlist
+                WHERE product_id={}
+                """.format(select_attributes, pk),
+                'LikedListModel'
+            )
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
 
     @classmethod
-    def delete_element(cls, model, pk):
+    def delete_element(cls, model, pk: int):
         """
             Completely removes a row from the corresponding table.
 
@@ -128,7 +141,8 @@ class BackEnd:
                     """.format(pk)
                 )
                 return True
-            except psycopg2.Error:
+            except psycopg2.Error as e:
+                # return e
                 return False
 
         elif model.__class__.__name__ == 'OrderModel':
