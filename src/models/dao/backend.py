@@ -110,7 +110,7 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def delete_element(cls, model, pk):
+    def delete_element(cls, model, pk: int):
         """
             Completely removes a row from the corresponding table.
 
@@ -119,6 +119,7 @@ class BackEnd:
         :return: boolean if the deletion was successfully completed
         """
 
+        # TODO: Make the function return the boolean on completion
         if model.__class__.__name__ == 'UserModel':
             try:
                 cls.__db_run_command(
