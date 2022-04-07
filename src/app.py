@@ -5,6 +5,7 @@ from controllers.product import ProductController
 from controllers.user import UserController
 from models.user import UserModel
 from src.controllers.liked_list import LikedListController
+from src.controllers.order import OrderController
 
 app = Flask(__name__)
 
@@ -79,26 +80,25 @@ def users_handler():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/sign-up', methods=['POST'])
-def user_add():
-    if request.method == 'POST':
-        created_user = UserController.register_user(request.json)
-        return created_user
+@app.route('/goated_the_sql/user/<int:user_id>', methods=['GET', 'PUT', 'DELETE'])
+def user_handler(user_id):
+    if request.method == 'GET':
+        return UserController.get_user(user_id)
+    elif request.method == 'PUT':
+        return UserController.update_user(user_id, user.get_user_id(), request.json)
+    elif request.method == 'DELETE':
+        # CartController.delete_cart(user_id, user.get_user_id())
+        # OrderController.delete_order(user_id, user.get_user_id())
+        LikedListController.delete_liked_list(user_id, user.get_user_id())
+        return UserController.delete_user(user_id, user.get_user_id())
     else:
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/user/<int:usr_id>', methods=['GET', 'PUT', 'DELETE'])
-def user_handler(usr_id):
-    if request.method == 'GET':
-        return UserController.get_user(usr_id)
-    elif request.method == 'PUT':
-        # dummy code to get the idea through
-        list_of_changes = []
-        return UserController.change_user(usr_id, user.get_user_id(), list_of_changes)
-    elif request.method == 'DELETE':
-        # dummy code to get the idea through
-        return UserController.delete_user(usr_id, user.get_user_id())
+@app.route('/goated_the_sql/sign-up', methods=['POST'])
+def register_user():
+    if request.method == 'POST':
+        return UserController.add_user(request.json)
     else:
         return jsonify("Operation not suGOATED."), 405
 
