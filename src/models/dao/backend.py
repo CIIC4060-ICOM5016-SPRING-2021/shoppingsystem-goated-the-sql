@@ -141,7 +141,8 @@ class BackEnd:
                     """.format(pk)
                 )
                 return True
-            except psycopg2.Error:
+            except psycopg2.Error as e:
+                print(e)
                 return False
 
         elif model.__class__.__name__ == 'OrderModel':
@@ -156,7 +157,8 @@ class BackEnd:
                     """.format(pk)
                 )
                 return True
-            except psycopg2.Error:
+            except psycopg2.Error as e:
+                print(e)
                 return False
 
         elif model.__class__.__name__ == 'CartModel':

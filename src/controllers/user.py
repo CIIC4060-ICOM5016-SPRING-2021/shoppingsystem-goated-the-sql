@@ -44,6 +44,7 @@ class UserController:
            :return: 200 and user information when successfully created, 500 on failed user creation
         """
         new_user = cls.json_to_model(request_json)
+        # Changes new_user from a json to a UserModel after creating the user in the DB.
         new_user = new_user.add_user()
 
         if new_user:
