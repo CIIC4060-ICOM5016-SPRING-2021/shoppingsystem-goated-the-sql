@@ -129,7 +129,8 @@ class BackEnd:
                     """.format(pk)
                 )
                 return True
-            except psycopg2.Error:
+            except psycopg2.Error as e:
+                print(e)
                 return False
 
         elif model.__class__.__name__ == 'ProductModel':
@@ -142,15 +143,25 @@ class BackEnd:
                 )
                 return True
             except psycopg2.Error as e:
-                # return e
+                print(e)
                 return False
 
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            # TODO: implement logic
-            return "goomba"
+            try:
+                cls.__db_run_command(
+                    """
+                    DELETE FROM likedlist
+                    WHERE user_id = {}
+                    """.format(pk)
+                )
+                return True
+            except psycopg2.Error as e:
+                print(e)
+                return False
+
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
