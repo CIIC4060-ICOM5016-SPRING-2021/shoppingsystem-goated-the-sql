@@ -1,6 +1,8 @@
 import hashlib
 from datetime import datetime
 
+import psycopg2
+
 from src.models.dao.backend import BackEnd
 
 
@@ -93,6 +95,72 @@ class UserModel:
     @classmethod
     def delete_user(cls, user_id):
         BackEnd().delete_element(UserModel(), user_id)
+
+    @classmethod
+    def db_delete_user(cls, user_id, updater_id):
+        """
+           Queries a deletion in the database if the user has administrative rights to make this change.
+
+       :param user_id: id of the user being requested to delete
+       :param updater_id: id of the user requesting the change
+       :return: True if the product is deleted successfully, False if there is problem deleting the product
+       :raises ValueError: user does not have rights to delete the product
+       """
+
+        if UserModel.db_is_admin(updater_id):
+            return BackEnd.delete_element(UserModel(), user_id)
+        else:
+            raise ValueError("User does not have the rights to make this change.")
+
+    @classmethod
+    def db_update_user(cls, model, user_id, updater_id):
+        """
+            Compares a given product with one in the database with the same id number. Then queries an update to a
+            product in the database.
+
+
+        :param model: User Entity Model containing all the changes to the user
+        :param user_id: id of the user being updated
+        :param updater_id: id of the user requesting the update
+        :return: True if the product is successfully updated or there are no changes found between the requested updates
+        and the database,
+        """
+
+        if UserModel.db_is_admin(updater_id):
+            try:
+                db_model = UserModel.get_user(user_id)
+
+                changes = []
+                if db_model.get_first_name() != model.get_first_name():
+                    changes.append("first_name = '{}'".format(model.get_first_name()))
+
+                if db_model.get_last_name() != model.get_last_name():
+                    changes.append("last_name = '{}'".format(model.get_last_name()))
+
+                if db_model.get_validity() != model.get_validity():
+                    changes.append("valid = {}".format(model.get_validity()))
+
+                if db_model.get_password() != model.get_password():
+                    changes.append("password = '{}'".format(model.get_password()))
+
+                if db_model.get_phone_num() != model.get_phone_num():
+                    changes.append("phone = {}".format(model.get_phone_num()))
+
+                if db_model.get_admin_status() != model.get_admin_status():
+                    changes.append("admin = {}".format(model.get_admin_status()))
+
+                if changes:
+                    BackEnd.update_element_attribute("usr",
+                                                     ", ".join(changes),
+                                                     "user_id  = {}".format(user_id)
+                                                     )
+                    return True
+                else:
+                    raise AttributeError("No differences were found between the database and given user.")
+            except psycopg2.Error:
+                return False
+        else:
+            raise ValueError("User does not have the rights to make this change.")
 
     @classmethod
     def get_user(cls, user_id):
