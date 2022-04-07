@@ -6,7 +6,7 @@ from src.models.product import ProductModel
 class CartController:
     @classmethod
     def get_cart(cls, usr_id: int):
-        return CartModel.get_cart(usr_id)
+        return jsonify(CartModel.get_cart(usr_id))
 
     @classmethod
     def add_product(cls, usr_id, prod_id, quantity):

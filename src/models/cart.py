@@ -2,19 +2,10 @@ from flask import jsonify
 from src.models.dao.backend import BackEnd
 
 class CartModel:
-    __cart_id: int
     __product_id: int
     __usr_id: int
     __product_quantity: int
     __product_price: float
-
-    # Cart ID Getter:
-    def get_cart_id(self):
-        return self.__cart_id
-
-    # Cart ID Setter:
-    def set_cart_id(self, cart_id: int):
-        self.__cart_id = cart_id
 
     # Product ID Getter:
     def get_product_id(self):
@@ -38,7 +29,7 @@ class CartModel:
 
     # Product Quantity Setter:
     def set_product_quantity(self, product_quantity: int):
-        self.__cart_id = product_quantity
+        self.__product_quantity = product_quantity
 
     # Product Price Getter:
     def get_product_price(self):
@@ -46,16 +37,12 @@ class CartModel:
 
     # Product Price Setter:
     def set_product_price(self, product_price: int):
-        self.__cart_id = product_price
+        self.__product_price = product_price
 
     @classmethod
     def get_cart(cls, user_id):
         list_of_products = BackEnd.get_all_elements(CartModel(), "*", "user_id={}".format(user_id))
-        return jsonify(list_of_products)
+        return list_of_products
 
     def add_item(self):
-        # TODO: connect to the backend so that it can add the given record
-        # need to add the price to self with a query to products
-        # need to figure out how to generate cart id
-
-        pass
+        return BackEnd.create_element(self)

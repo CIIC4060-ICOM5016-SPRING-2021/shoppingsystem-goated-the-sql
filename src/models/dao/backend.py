@@ -58,8 +58,17 @@ class BackEnd:
             )
             return "goomba"
         elif model.__class__.__name__ == 'CartModel':
-            # TODO: implement logic
-            return "goomba"
+            return cls.__db_run_command(
+                """
+                INSERT INTO cart (product_id, user_id, product_quantity, product_price)
+                VALUES ({}, {}, {}, {})
+                """.format(
+                    model.get_product_id(),
+                    model.get_user_id(),
+                    model.get_product_quantity(),
+                    model.get_product_price()
+                )
+            )
 
     @classmethod
     def get_element(cls, model, pk, select_attributes: str):
@@ -261,7 +270,6 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'CartModel':
-            # TODO: implement logic
             return "goomba"
 
     @classmethod
