@@ -87,9 +87,6 @@ def user_handler(user_id):
     elif request.method == 'PUT':
         return UserController.update_user(user_id, user.get_user_id(), request.json)
     elif request.method == 'DELETE':
-        # CartController.delete_cart(user_id, user.get_user_id())
-        # OrderController.delete_order(user_id, user.get_user_id())
-        LikedListController.delete_liked_list(user_id, user.get_user_id())
         return UserController.delete_user(user_id, user.get_user_id())
     else:
         return jsonify("Operation not suGOATED."), 405
