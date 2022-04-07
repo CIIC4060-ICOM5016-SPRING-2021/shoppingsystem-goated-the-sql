@@ -9,8 +9,14 @@ class CartController:
         return jsonify(CartModel.get_cart(usr_id))
 
     @classmethod
-    def add_product(cls, usr_id, prod_id, quantity):
+    def add_product(cls, usr_id, json):
+        if not json:
+            return False
+
+        prod_id = json['product_id']
+        quantity = json['quantity']
         item = ProductModel.get_product(prod_id)
+        # TODO check if item is already in the users cart and add quantity to the record
         if quantity > item.get_stock():
             return False
         temp_cart = CartModel()
