@@ -6,7 +6,27 @@ from src.models.product import ProductModel
 class CartController:
     @classmethod
     def get_cart(cls, usr_id: int):
-        return jsonify(CartModel.get_cart(usr_id))
+        user_cart = []
+        for item in CartModel.get_cart(usr_id):
+            user_cart.append(CartController.model_to_dict(item))
+
+        return user_cart
+
+    @classmethod
+    def model_to_dict(cls, cart: CartModel):
+        """
+            Creates a python dictionary equivalent of a given Cart Model
+
+        :param cart: CartModel to convert
+        :return: dictionary equivalent of the CartModel given
+        """
+        cartdict = {
+            'product_id': cart.get_product_id(),
+            'usr_id': cart.get_user_id(),
+            'quantity': cart.get_product_quantity(),
+            'product_price': cart.get_product_price()
+        }
+        return cartdict
 
     @classmethod
     def add_product(cls, usr_id, json):
