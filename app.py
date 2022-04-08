@@ -1,3 +1,6 @@
+import logging
+import sys
+
 from flask import Flask, request, jsonify
 
 from src.controllers.cart import CartController
@@ -7,6 +10,9 @@ from src.controllers.user import UserController
 from src.models.user import UserModel
 
 app = Flask(__name__)
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 # Sign up must be done, probably not on this page, to validate the user
 # before granting powers over the DB
