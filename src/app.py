@@ -1,11 +1,10 @@
 from flask import Flask, request, jsonify
 
-from controllers.cart import CartController
-from controllers.product import ProductController
-from controllers.user import UserController
-from models.user import UserModel
+from src.controllers.cart import CartController
 from src.controllers.liked_list import LikedListController
-from src.controllers.order import OrderController
+from src.controllers.product import ProductController
+from src.controllers.user import UserController
+from src.models.user import UserModel
 
 app = Flask(__name__)
 
@@ -130,7 +129,4 @@ def liked_list(user_id):
     else:
         return jsonify("Operation not suGOATED."), 405
 
-
 # ======================================================================================================================
-if __name__ == "__main__":
-    app.run(debug=True)
