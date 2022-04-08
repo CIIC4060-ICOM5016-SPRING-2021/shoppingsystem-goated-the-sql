@@ -1,7 +1,7 @@
 from flask import jsonify
 
 from src.models.liked_list import LikedListModel
-
+from src.models.dao.backend import BackEnd
 from src.models.liked_list import LikedListModel
 
 
@@ -34,3 +34,8 @@ class LikedListController:
                 return jsonify("Unable to delete user"), 500
         except ValueError:
             return jsonify("User is not authorized"), 403
+
+    @classmethod
+    def toggle_like(cls, prod_id, user_id):
+        # previously_liked = BackEnd.get_element(LikedListModel(), "{}"count(*)", )
+        pass

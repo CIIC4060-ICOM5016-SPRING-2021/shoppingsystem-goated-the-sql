@@ -89,7 +89,7 @@ class DAOTest(unittest.TestCase):
             }
         ]
 
-        ProductController.update_product(13, test_request[1], test_request[0])
+        ProductController.update_product(13, test_request[1])
 
     # Generates a simple table in the database that correlates to the files stored in the credentials.txt file
     # def test_table_creation(self):
