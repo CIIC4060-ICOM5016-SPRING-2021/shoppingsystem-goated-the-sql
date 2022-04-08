@@ -119,7 +119,7 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def delete_element(cls, model, pk: int):
+    def delete_element(cls, model, pk: int, prod_id=None):
         """
             Completely removes a row from the corresponding table.
 
@@ -172,8 +172,30 @@ class BackEnd:
                 return False
 
         elif model.__class__.__name__ == 'CartModel':
-            # TODO: implement logic
-            return "goomba"
+            if prod_id is not None:
+                try:
+                    cls.__db_run_command(
+                        """
+                        DELETE FROM cart
+                        WHERE user_id = {} AND product_id = {}
+                        """.format(pk, prod_id)
+                    )
+                    return True
+                except psycopg2.Error as e:
+                    print(e)
+                    return False
+            else:
+                try:
+                    cls.__db_run_command(
+                        """
+                        DELETE FROM cart
+                        WHERE user_id = {}
+                        """.format(pk)
+                    )
+                    return True
+                except psycopg2.Error as e:
+                    print(e)
+                    return False
 
     @classmethod
     def get_all_elements(cls, model, select_attributes: str, filter_clause: str):

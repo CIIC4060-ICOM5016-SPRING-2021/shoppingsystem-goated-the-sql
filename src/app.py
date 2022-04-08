@@ -117,7 +117,7 @@ def carts_handler(usr_id):
     elif request.method == 'POST':
         return jsonify(CartController.add_product(usr_id, request.json))
     elif request.method == 'DELETE':
-        return jsonify("Im working on it")
+        return jsonify(CartController.delete_cart(usr_id, request.json))
     else:
         return jsonify("Lmao no"), 405
 

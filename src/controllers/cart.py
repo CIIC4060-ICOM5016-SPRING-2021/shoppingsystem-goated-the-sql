@@ -46,3 +46,10 @@ class CartController:
         temp_cart.set_product_quantity(quantity)
 
         return temp_cart.add_item()
+
+    @classmethod
+    def delete_cart(cls, usr_id, json):
+        if not json:
+            return CartModel.clear_cart(usr_id)
+        else:
+            return CartModel.delete_item(usr_id, json['product_id'])

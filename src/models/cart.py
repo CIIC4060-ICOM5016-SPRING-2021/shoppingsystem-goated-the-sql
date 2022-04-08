@@ -46,3 +46,11 @@ class CartModel:
 
     def add_item(self):
         return BackEnd.create_element(self)
+
+    @classmethod
+    def clear_cart(cls, usr_id):
+        return BackEnd.delete_element(CartModel(), usr_id)
+
+    @classmethod
+    def delete_item(cls, usr_id, product_id):
+        return BackEnd.delete_element(CartModel(), usr_id, product_id)
