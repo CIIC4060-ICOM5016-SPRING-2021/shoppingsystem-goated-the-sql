@@ -58,8 +58,17 @@ class BackEnd:
             )
             return "goomba"
         elif model.__class__.__name__ == 'CartModel':
-            # TODO: implement logic
-            return "goomba"
+            return cls.__db_run_command(
+                """
+                INSERT INTO cart (product_id, user_id, product_quantity, product_price)
+                VALUES ({}, {}, {}, {})
+                """.format(
+                    model.get_product_id(),
+                    model.get_user_id(),
+                    model.get_product_quantity(),
+                    model.get_product_price()
+                )
+            )
 
     @classmethod
     def get_element(cls, model, pk, select_attributes: str):
@@ -110,7 +119,7 @@ class BackEnd:
             return "goomba"
 
     @classmethod
-    def delete_element(cls, model, pk: int):
+    def delete_element(cls, model, pk: int, prod_id=None):
         """
             Completely removes a row from the corresponding table.
 
@@ -163,8 +172,30 @@ class BackEnd:
                 return False
 
         elif model.__class__.__name__ == 'CartModel':
-            # TODO: implement logic
-            return "goomba"
+            if prod_id is not None:
+                try:
+                    cls.__db_run_command(
+                        """
+                        DELETE FROM cart
+                        WHERE user_id = {} AND product_id = {}
+                        """.format(pk, prod_id)
+                    )
+                    return True
+                except psycopg2.Error as e:
+                    print(e)
+                    return False
+            else:
+                try:
+                    cls.__db_run_command(
+                        """
+                        DELETE FROM cart
+                        WHERE user_id = {}
+                        """.format(pk)
+                    )
+                    return True
+                except psycopg2.Error as e:
+                    print(e)
+                    return False
 
     @classmethod
     def get_all_elements(cls, model, select_attributes: str, filter_clause: str):
@@ -203,8 +234,14 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'CartModel':
-            # TODO: implement logic
-            return "goomba"
+            return cls.__db_fetch_all(
+                """
+                SELECT {}
+                FROM cart
+                WHERE {}
+                """.format(select_attributes, filter_clause),
+                'CartModel'
+            )
         elif model.__class__.__name__ == 'UserModel':
             # If the where_clause_statement is not empty
             if filter_clause:
@@ -266,7 +303,6 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'CartModel':
-            # TODO: implement logic
             return "goomba"
 
     @classmethod
