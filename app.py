@@ -58,9 +58,10 @@ def product_page(prod_id):
         return ProductController.update_product(request.json[1], request.json[0])
 
     elif request.method == 'POST':
+        pass
         # Need the request to be a json of the product
         # request.json[0] is the quantity
-        return CartController.add_product(user.get_user_id(), prod_id, request.json[0])
+        # return CartController.add_product(user.get_user_id(), prod_id, request.json[0])
 
     elif request.method == 'DELETE':
         """ 
