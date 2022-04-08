@@ -113,7 +113,7 @@ def carts_handler(usr_id):
     if request.method == 'GET':
         return jsonify(CartController.get_cart(usr_id))
     elif request.method == 'PUT':
-        return jsonify("Im working on it")
+        return jsonify(CartController.update_quantity(usr_id, request.json))
     elif request.method == 'POST':
         return jsonify(CartController.add_product(usr_id, request.json))
     elif request.method == 'DELETE':

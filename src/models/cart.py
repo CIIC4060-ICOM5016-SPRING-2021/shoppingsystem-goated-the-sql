@@ -54,3 +54,8 @@ class CartModel:
     @classmethod
     def delete_item(cls, usr_id, product_id):
         return BackEnd.delete_element(CartModel(), usr_id, product_id)
+
+    @classmethod
+    def update_quantity(cls, usr_id, product_id, quantity):
+        return BackEnd.update_element_attribute('cart', 'product_quantity={}'.format(quantity),
+                                                'user_id={} AND product_id={}'.format(usr_id, product_id))
