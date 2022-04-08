@@ -129,4 +129,7 @@ def liked_list(user_id):
     else:
         return jsonify("Operation not suGOATED."), 405
 
+
 # ======================================================================================================================
+if __name__ == "__main__":
+    app.run(debug=True)
