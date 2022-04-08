@@ -74,3 +74,15 @@ class LikedListModel:
             return BackEnd.delete_element(LikedListModel(), user_id)
         else:
             raise ValueError("User does not have the rights to make this change.")
+
+    @classmethod
+    def toggle_like(cls, prod_id, user_id):
+        return BackEnd.get_element(LikedListModel(), prod_id, "count(*)", user_id)
+
+    @classmethod
+    def delete_like(cls, prod_id, user_id):
+        return BackEnd.delete_element(LikedListModel(), user_id, prod_id)
+
+    @classmethod
+    def add_like(cls, prod_id, user_id):
+        return BackEnd.create_element(LikedListModel(), user_id, prod_id)

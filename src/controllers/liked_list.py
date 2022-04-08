@@ -37,5 +37,10 @@ class LikedListController:
 
     @classmethod
     def toggle_like(cls, prod_id, user_id):
-        # previously_liked = BackEnd.get_element(LikedListModel(), "{}"count(*)", )
-        pass
+        previously_liked = LikedListModel().toggle_like(prod_id, user_id)
+        if previously_liked.get_like_count() == 1:
+            # quitar like
+            LikedListModel.delete_like(prod_id, user_id)
+        else:
+            # darle like
+            LikedListModel.add_like(prod_id, user_id)
