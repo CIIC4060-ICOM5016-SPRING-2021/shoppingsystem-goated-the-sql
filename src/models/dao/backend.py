@@ -10,6 +10,8 @@ class BackEnd:
         """
            Creates a new element within the corresponding Entity Model table in the database
 
+        :param prod_id:
+        :param user_id:
         :param model: Entity Model
         :return: A copy of the information added to the database (same Entity Model as the model given)
         """
@@ -78,8 +80,7 @@ class BackEnd:
         :param model: class instance of the desired Entity Model
         :param pk: primary key corresponding to the Entity Model
         :param select_attributes: attributes to retrieve from the database
-        :param prod_id: in the case of the liked list, the prod_id that is
-                        is being liked/disliked
+        :param helper: in the case of the liked list, the prod_id that is being liked/disliked
         :return: Desired Entity Model with the information corresponding to the primary key queried
         """
         if model.__class__.__name__ == 'UserModel':
