@@ -1,12 +1,8 @@
 import hashlib
 from datetime import datetime
-
 import psycopg2
-
 from src.models.dao.backend import BackEnd
 
-
-# TODO: Missing update-user-in-database functionality (CRD/CRUD implemented)
 
 class UserModel:
     __user_id: int

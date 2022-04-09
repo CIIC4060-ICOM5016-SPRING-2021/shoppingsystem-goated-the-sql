@@ -1,14 +1,10 @@
 from flask import jsonify
-
-from src.models.liked_list import LikedListModel
-
 from src.models.liked_list import LikedListModel
 
 
 class LikedListController:
     @classmethod
     def get_likes(cls, user_id):
-        # TODO: Implement calls to logic in models package
         likes_list = len(LikedListModel().get_all_elements(user_id))
         return likes_list
 
@@ -34,3 +30,13 @@ class LikedListController:
                 return jsonify("Unable to delete user"), 500
         except ValueError:
             return jsonify("User is not authorized"), 403
+
+    @classmethod
+    def toggle_like(cls, prod_id, user_id):
+        previously_liked = LikedListModel().toggle_like(prod_id, user_id)
+        if previously_liked.get_like_count() == 1:
+            # quitar like
+            LikedListModel.delete_like(prod_id, user_id)
+        else:
+            # darle like
+            LikedListModel.add_like(prod_id, user_id)

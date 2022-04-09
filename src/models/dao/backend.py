@@ -10,6 +10,8 @@ class BackEnd:
         """
            Creates a new element within the corresponding Entity Model table in the database
 
+        :param prod_id:
+        :param user_id:
         :param model: Entity Model
         :return: A copy of the information added to the database (same Entity Model as the model given)
         """
@@ -71,13 +73,14 @@ class BackEnd:
             )
 
     @classmethod
-    def get_element(cls, model, pk, select_attributes: str):
+    def get_element(cls, model, pk, select_attributes: str, helper=None):
         """
             Queries the corresponding entity table in the database for the given primary key.
 
         :param model: class instance of the desired Entity Model
         :param pk: primary key corresponding to the Entity Model
         :param select_attributes: attributes to retrieve from the database
+        :param helper: in the case of the liked list, the prod_id that is being liked/disliked
         :return: Desired Entity Model with the information corresponding to the primary key queried
         """
         if model.__class__.__name__ == 'UserModel':
@@ -106,14 +109,24 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            return cls.__db_fetch_one(
-                """
-                SELECT {}
-                FROM likedlist
-                WHERE product_id={}
-                """.format(select_attributes, pk),
-                'LikedListModel'
-            )
+            if helper is not None:
+                return cls.__db_fetch_one(
+                    """
+                    SELECT {}
+                    FROM likedlist
+                    WHERE product_id={} AND user_id={}
+                    """.format(select_attributes, pk, helper),
+                    'LikedListModel'
+                )
+            else:
+                return cls.__db_fetch_one(
+                    """
+                    SELECT {}
+                    FROM likedlist
+                    WHERE product_id={}
+                    """.format(select_attributes, pk),
+                    'LikedListModel'
+                )
         elif model.__class__.__name__ == 'CartModel':
             # TODO: implement logic
             return "goomba"
@@ -159,17 +172,30 @@ class BackEnd:
             # TODO: implement logic
             return "goomba"
         elif model.__class__.__name__ == 'LikedListModel':
-            try:
-                cls.__db_run_command(
-                    """
-                    DELETE FROM likedlist
-                    WHERE user_id = {}
-                    """.format(pk)
-                )
-                return True
-            except psycopg2.Error as e:
-                print(e)
-                return False
+            if prod_id is not None:
+                try:
+                    cls.__db_run_command(
+                        """
+                        DELETE FROM likedlist
+                        WHERE user_id = {} and product_id={}
+                        """.format(pk, prod_id)
+                    )
+                    return True
+                except psycopg2.Error as e:
+                    print(e)
+                    return False
+            else:
+                try:
+                    cls.__db_run_command(
+                        """
+                        DELETE FROM likedlist
+                        WHERE user_id = {}
+                        """.format(pk)
+                    )
+                    return True
+                except psycopg2.Error as e:
+                    print(e)
+                    return False
 
         elif model.__class__.__name__ == 'CartModel':
             if prod_id is not None:

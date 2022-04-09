@@ -1,41 +1,11 @@
 from src.models.dao.backend import BackEnd
 from src.models.product import ProductModel
 
-from src.models.dao.backend import BackEnd
-from src.models.product import ProductModel
-
 
 class LikedListModel:
     __likes: int
     __elements: list
     __element: int
-
-    # User ID Getter
-    # def get_user_id(self):
-    #    return self.__user_id
-
-    # User ID Setter
-    # def set_user_id(self, user_id: int):
-    #    self.__user_id = user_id
-
-    # Elements Getter
-    # def get_elements(self):
-    #    return self.__elements
-
-    # Elements Setter
-    # def set_elements(self, elements: list):
-    #    self.__elements = elements
-
-    # the getter and setters for element are helpers for organizing
-    # the data down at the packager.py file. If it seems weird to
-    # have a liked list with both one and multiple elements, its
-    # because it is. It just helps us package the data, for now
-    # 04/01/2022
-    # def get_product_id(self):
-    #    return self.__element
-
-    # def set_product_id(self, prod_id: int):
-    #    self.__element = prod_id
 
     def get_like_count(self):
         return self.__likes
@@ -74,3 +44,15 @@ class LikedListModel:
             return BackEnd.delete_element(LikedListModel(), user_id)
         else:
             raise ValueError("User does not have the rights to make this change.")
+
+    @classmethod
+    def toggle_like(cls, prod_id, user_id):
+        return BackEnd.get_element(LikedListModel(), prod_id, "count(*)", user_id)
+
+    @classmethod
+    def delete_like(cls, prod_id, user_id):
+        return BackEnd.delete_element(LikedListModel(), user_id, prod_id)
+
+    @classmethod
+    def add_like(cls, prod_id, user_id):
+        return BackEnd.create_element(LikedListModel(), user_id, prod_id)

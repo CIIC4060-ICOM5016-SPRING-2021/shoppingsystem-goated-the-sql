@@ -1,7 +1,4 @@
 from flask import jsonify
-
-from src.models.dao.backend import BackEnd
-from src.models.liked_list import LikedListModel
 from src.models.product import ProductModel
 
 
@@ -56,19 +53,19 @@ class ProductController:
             return jsonify("Unable to create the product."), 500
 
     @classmethod
-    def update_product(cls, request_json, user_id_json_obj):
+    def update_product(cls, product_json, user_id_json_obj):
         """
             Prompts the database for an attribute change in the requested product.
 
-        :param request_json: json object containing product information received
+        :param product_json: json object containing product information received
         :param user_id_json_obj: json object containing the id of the user requesting the change
         :return: 200 if completed successfully, 500 if problem was encountered while making the change, 403 if user is
         not authorized to request the change, 406 if no changes are detected
         """
-        product_model = cls.json_to_model(request_json)
+        product_model = cls.json_to_model(product_json)
 
         try:
-            updated = ProductModel.db_update_product(product_model, user_id_json_obj['user_id'])
+            updated = ProductModel.db_update_product(product_json, user_id_json_obj['user_id'])
             if updated:
                 return jsonify("Product Updated"), 200
             else:

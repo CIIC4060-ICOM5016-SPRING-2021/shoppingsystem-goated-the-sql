@@ -17,7 +17,7 @@ app.logger.setLevel(logging.ERROR)
 # Sign up must be done, probably not on this page, to validate the user
 # before granting powers over the DB
 user = UserModel()
-user.set_user_id(1)
+user.set_user_id(14)
 
 
 # methods=['GET','POST','PUT','DELETE']
@@ -61,7 +61,14 @@ def product_page(prod_id):
         # return_list = [ProductController.get_product(prod_id),
         #              {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
         # return jsonify(return_list)
-        return ProductController.update_product(request.json[1], request.json[0])
+        if UserModel.db_is_admin(user.get_user_id()):
+            return ProductController.update_product(request.json[1], request.json[0])
+        else:
+            # Will check if this user has liked this product before, toggling the like status
+            LikedListController.toggle_like(prod_id, user.get_user_id())
+            return_list = [ProductController.get_product(prod_id),
+                           {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+            return jsonify(return_list)
 
     elif request.method == 'POST':
         # Need the request to be a json of the product
