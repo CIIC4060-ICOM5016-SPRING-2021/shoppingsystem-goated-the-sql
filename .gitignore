@@ -15,4 +15,3 @@ instance/
 .idea
 
 # Sensitive files
-credentials.txt
