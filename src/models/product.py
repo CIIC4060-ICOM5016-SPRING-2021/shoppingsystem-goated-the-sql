@@ -174,7 +174,7 @@ class ProductModel:
 
         :param category: category of the products
         :return: list containing ProductModels with the same category
-        :raises AttributeError:
+        :raises AttributeError: category was not found in the database
         """
         categories = cls.get_all_categories()
 
