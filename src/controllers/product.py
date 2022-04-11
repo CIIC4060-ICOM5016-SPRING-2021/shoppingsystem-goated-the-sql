@@ -33,7 +33,7 @@ class ProductController:
         return jsonify(products)
 
     @classmethod
-    def get_all_products_ordered(cls, order_by: str, order_in_ascending: bool):
+    def get_all_products_organized(cls, order_by: str, order_in_ascending: bool):
         """
             Prompts the database to get the full catalog organized by the specific attribute requested
 

@@ -38,8 +38,8 @@ def all_products():
         if request.json:
             if 'request' in request.json.keys():
                 if request.json['request'] == 'ordered':
-                    return ProductController.get_all_products_ordered(request.json['filter'],
-                                                                      request.json['in_ascending_order'])
+                    return ProductController.get_all_products_organized(request.json['filter'],
+                                                                        request.json['in_ascending_order'])
                 elif request.json['request'] == 'filtered':
                     return ProductController.get_all_products_by_category(request.json['category'])
 
