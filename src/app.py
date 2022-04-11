@@ -35,7 +35,16 @@ def handler():
 @app.route('/goated_the_sql/products/all', methods=['GET'])
 def all_products():
     if request.method == 'GET':
-        return ProductController.get_all_products()
+        if request.json:
+            if 'request' in request.json.keys():
+                if request.json['request'] == 'ordered':
+                    return ProductController.get_all_products_ordered(request.json['filter'],
+                                                                      request.json['in_ascending_order'])
+                elif request.json['request'] == 'filtered':
+                    return ProductController.get_all_products_by_category(request.json['category'])
+
+        else:
+            return ProductController.get_all_products()
     else:
         return jsonify("Operation not suGOATED."), 405
 
@@ -55,17 +64,12 @@ def product_page(prod_id):
                        {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
         return jsonify(return_list)
     elif request.method == 'PUT':
-        # dummy code to get the idea through
-        # list_of_changes = {"like": 1}
-        # ProductController.change_product(prod_id, user.get_user_id(), list_of_changes)
-        # return_list = [ProductController.get_product(prod_id),
-        #              {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
-        # return jsonify(return_list)
-        if UserModel.db_is_admin(user.get_user_id()):
+        # If it receives no JSON request then it will assume the user wants to like the
+        if type(request.json) is list:
             return ProductController.update_product(request.json[1], request.json[0])
         else:
             # Will check if this user has liked this product before, toggling the like status
-            LikedListController.toggle_like(prod_id, user.get_user_id())
+            LikedListController.toggle_like(prod_id, request.json['user_id'])
             return_list = [ProductController.get_product(prod_id),
                            {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
             return jsonify(return_list)

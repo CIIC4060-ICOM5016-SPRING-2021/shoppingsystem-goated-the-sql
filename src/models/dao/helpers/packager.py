@@ -74,3 +74,7 @@ class Packager:
             result.set_product_quantity(item[2])
             result.set_product_price(item[3])
             return result
+
+        # NOTE: USE THIS ONLY WHEN YOU ARE SURE YOU WILL RECEIVE TUPLES OF SIZE 1(ONE)
+        elif to_obj == 'List':
+            return item[0]

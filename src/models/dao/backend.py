@@ -136,6 +136,7 @@ class BackEnd:
         """
             Completely removes a row from the corresponding table.
 
+        :param prod_id: used for queries that have to do with LikedList and Cart
         :param model: class instance of the desired Entity Model
         :param pk: primary key corresponding to the Entity Model
         :return: boolean if the deletion was successfully completed
@@ -332,6 +333,23 @@ class BackEnd:
             return "goomba"
 
     @classmethod
+    def get_all_unique_values(cls, table: str, attribute: str):
+        """
+            Queries the database and returns a list of all the unique values of a given attribute found in the given
+            table.
+
+        :param table: table that contains the attribute
+        :param attribute: attribute to get unique values from
+        """
+        # Prevents password leakage?
+        if attribute != 'password':
+            return cls.__db_fetch_all(
+                """
+                SELECT DISTINCT {}
+                FROM {}
+                """.format(attribute, table), 'List')
+
+    @classmethod
     def update_element_attribute(cls, table: str, change: str, filter_clause: str):
         """
             Updates a specific attribute in a given table.
@@ -395,7 +413,11 @@ class BackEnd:
         db_connection = DBAccess().connect_to_db()
         cursor = db_connection.cursor()
 
-        cursor.execute(command)
+        try:
+            cursor.execute(command)
+        except psycopg2.Error as e:
+            print(e)
+            pass
 
         response = cursor.fetchone()
 
@@ -417,7 +439,11 @@ class BackEnd:
         db_connection = DBAccess().connect_to_db()
         cursor = db_connection.cursor()
 
-        cursor.execute(command)
+        try:
+            cursor.execute(command)
+        except psycopg2.Error as e:
+            print(e)
+            pass
 
         response = cursor.fetchall()
 
@@ -435,7 +461,11 @@ class BackEnd:
         db_connection = DBAccess().connect_to_db()
         cursor = db_connection.cursor()
 
-        cursor.execute(command)
+        try:
+            cursor.execute(command)
+        except psycopg2.Error as e:
+            print(e)
+            pass
 
         db_connection.commit()
         db_connection.close()
