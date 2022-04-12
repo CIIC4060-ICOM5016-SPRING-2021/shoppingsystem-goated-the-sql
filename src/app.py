@@ -71,9 +71,8 @@ def product_page(prod_id):
             return jsonify(return_list)
 
     elif request.method == 'POST':
-        # Need the request to be a json of the product
-        # request.json[0] is the quantity
-        return CartController.add_product(user.get_user_id(), prod_id, request.json[0])
+        # Request contains product id and quantity
+        return CartController.add_product(user.get_user_id(), request.json)
 
     elif request.method == 'DELETE':
         """ 
