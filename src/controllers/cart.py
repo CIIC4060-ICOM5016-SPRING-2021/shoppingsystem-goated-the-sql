@@ -37,6 +37,7 @@ class CartController:
         quantity = json['quantity']
         item = ProductModel.get_product(prod_id)
         # TODO check if item is already in the users cart and add quantity to the record
+        # TODO add max stock to quantity is quantity > stock
         if quantity > item.get_stock():
             return False
         temp_cart = CartModel()
