@@ -48,7 +48,7 @@ def register_product():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE', 'POST'])
 def product_page(prod_id):
     if request.method == 'GET':
         return_list = [ProductController.get_product(prod_id),
