@@ -135,6 +135,8 @@ def carts_handler(usr_id):
     elif request.method == 'DELETE':
         if request.data:
             return jsonify(CartController.delete_cart(usr_id, request.json))
+        else:
+            return jsonify(CartController.clear_cart(usr_id))
     else:
         return jsonify("Lmao no"), 405
 
