@@ -35,7 +35,7 @@ def handler():
 @app.route('/goated_the_sql/products/all', methods=['GET'])
 def all_products():
     if request.method == 'GET':
-        if request.json:
+        if request.data:
             if 'request' in request.json.keys():
                 if request.json['request'] == 'ordered':
                     return ProductController.get_all_products_organized(request.json['filter'],
