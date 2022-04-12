@@ -174,8 +174,33 @@ class ProductModel:
 
         :param category: category of the products
         :return: list containing ProductModels with the same category
+        :raises AttributeError: category was not found in the database
         """
-        return BackEnd().get_all_elements(ProductModel(), "*", "category = " + category)
+        categories = cls.get_all_categories()
+
+        if category:
+            if category.lower() in (name.lower() for name in categories):
+                # The LOWER is to get the values by ignoring the case sensitivity in the query for the category names
+                all_products_in_category = BackEnd.get_all_elements(
+                    ProductModel(),
+                    "*",
+                    "LOWER(category) = LOWER(" + "'" + category + "')"
+                )
+                return all_products_in_category
+            else:
+                raise AttributeError("The category does not exist in the database.")
+        else:
+            raise LookupError("No categories were found.")
+
+    @classmethod
+    def get_all_categories(cls):
+        """
+            Queries the database and gets all the distinct product categories.
+
+        :return: list containing all distinct categories in the database
+        """
+        categories = BackEnd.get_all_unique_values('products', 'category')
+        return categories
 
     @classmethod
     def db_delete_product(cls, prod_id, user_id):
@@ -238,7 +263,8 @@ class ProductModel:
                     return True
                 else:
                     raise AttributeError("No differences were found between the database and give product.")
-            except psycopg2.Error:
+            except psycopg2.Error as e:
+                print(e)
                 return False
         else:
             raise ValueError("User does not have the rights to make this change.")
