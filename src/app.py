@@ -134,7 +134,8 @@ def carts_handler(usr_id):
         return jsonify(CartController.add_product(usr_id, request.json))
     elif request.method == 'DELETE':
         if request.data:
-            return jsonify(CartController.delete_cart(usr_id, request.json))
+            if request.json is not None:
+                return jsonify(CartController.delete_cart(usr_id, request.json))
         else:
             return jsonify(CartController.clear_cart(usr_id))
     else:
