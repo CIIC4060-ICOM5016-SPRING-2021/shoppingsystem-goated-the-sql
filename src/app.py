@@ -72,7 +72,7 @@ def product_page(prod_id):
 
     elif request.method == 'POST':
         # Request contains product id and quantity
-        return CartController.add_product(user.get_user_id(), request.json)
+        return jsonify(CartController.add_product(user.get_user_id(), request.json))
 
     elif request.method == 'DELETE':
         """ 
