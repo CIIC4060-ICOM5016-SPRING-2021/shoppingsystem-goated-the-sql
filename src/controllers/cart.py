@@ -37,6 +37,7 @@ class CartController:
         quantity = json['quantity']
         item = ProductModel.get_product(prod_id)
         # TODO check if item is already in the users cart and add quantity to the record
+        # TODO add max stock to quantity is quantity > stock
         if quantity > item.get_stock():
             return False
         temp_cart = CartModel()
@@ -49,10 +50,11 @@ class CartController:
 
     @classmethod
     def delete_cart(cls, usr_id, json):
-        if not json:
-            return CartModel.clear_cart(usr_id)
-        else:
-            return CartModel.delete_item(usr_id, json['product_id'])
+        return CartModel.delete_item(usr_id, json['product_id'])
+
+    @classmethod
+    def clear_cart(cls, usr_id):
+        return CartModel.clear_cart(usr_id)
 
     @classmethod
     def update_quantity(cls, usr_id, json):

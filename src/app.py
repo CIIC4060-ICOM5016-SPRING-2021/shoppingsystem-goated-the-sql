@@ -57,7 +57,7 @@ def register_product():
         return jsonify("Operation not suGOATED."), 405
 
 
-@app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE', 'POST'])
 def product_page(prod_id):
     if request.method == 'GET':
         return_list = [ProductController.get_product(prod_id),
@@ -75,9 +75,8 @@ def product_page(prod_id):
             return jsonify(return_list)
 
     elif request.method == 'POST':
-        # Need the request to be a json of the product
-        # request.json[0] is the quantity
-        return CartController.add_product(user.get_user_id(), prod_id, request.json[0])
+        # Request contains product id and quantity
+        return jsonify(CartController.add_product(user.get_user_id(), request.json))
 
     elif request.method == 'DELETE':
         """ 
@@ -133,7 +132,11 @@ def carts_handler(usr_id):
     elif request.method == 'POST':
         return jsonify(CartController.add_product(usr_id, request.json))
     elif request.method == 'DELETE':
-        return jsonify(CartController.delete_cart(usr_id, request.json))
+        if request.data:
+            if request.json is not None:
+                return jsonify(CartController.delete_cart(usr_id, request.json))
+        else:
+            return jsonify(CartController.clear_cart(usr_id))
     else:
         return jsonify("Lmao no"), 405
 
