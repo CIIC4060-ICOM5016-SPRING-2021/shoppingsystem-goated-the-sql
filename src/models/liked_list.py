@@ -4,14 +4,19 @@ from src.models.product import ProductModel
 
 class LikedListModel:
     __likes: int
-    __elements: list
-    __element: int
+    __prod_id: int
 
     def get_like_count(self):
         return self.__likes
 
     def set_like_count(self, likes: int):
         self.__likes = likes
+
+    def get_prod_id(self):
+        return self.__prod_id
+
+    def set_prod_id(self, prod_id: int):
+        self.__prod_id = prod_id
 
     @classmethod
     def get_likes(cls, prod_id: int):
@@ -56,3 +61,35 @@ class LikedListModel:
     @classmethod
     def add_like(cls, prod_id, user_id):
         return BackEnd.create_element(LikedListModel(), user_id, prod_id)
+
+    @classmethod
+    def get_top_likes(cls):
+        list_of_products = []
+        for row in BackEnd.get_elements_ivan(model=LikedListModel(),
+                                             select_attributes="count(*) as likes, product_id",
+                                             filter_clause=None,
+                                             group_attribute="product_id",
+                                             order_attribute="likes",
+                                             sort="desc",
+                                             limit=10):
+            list_of_products.append(cls.model_to_dict(ProductModel().get_product(row.get_prod_id())))
+        return list_of_products
+
+    @classmethod
+    def model_to_dict(cls, product):
+        """
+            Creates a python dictionary equivalent of a given Product Model
+
+        :param product: ProductModel to convert
+        :return: dictionary equivalent of the ProductModel given
+        """
+        prodict = {
+            'id': product.get_prod_id(),
+            'name': product.get_name(),
+            'desc': product.get_desc(),
+            'price': product.get_price(),
+            'category': product.get_category(),
+            'quantity': product.get_stock(),
+            'visible': product.get_visibility()
+        }
+        return prodict

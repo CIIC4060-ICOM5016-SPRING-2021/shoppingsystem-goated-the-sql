@@ -469,3 +469,56 @@ class BackEnd:
 
         db_connection.commit()
         db_connection.close()
+
+    @classmethod
+    def get_elements_ivan(
+            cls, model, select_attributes: str, filter_clause: str, order_attribute: str, group_attribute: str,
+            sort: str, limit: int = None):
+        """
+            Queries the database for all the elements of the given corresponding Entity in a specified order.
+
+        :param model: class instance of the desired Entity Model
+        :param select_attributes: attributes desired from the query
+        :param filter_clause: specific filters desired for the query
+        :param order_attribute: specific attribute to order
+        :param sort: ascending (ASC) or descending (DESC)
+        :return: list containing the desired Entity Models of matching query results in the specified order
+        """
+        if model.__class__.__name__ == 'ProductModel':
+            # If the where_clause_statement is not empty (ie no filter required)
+            if filter_clause:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM products
+                    WHERE {}
+                    ORDER BY {} {}
+                    """.format(select_attributes, filter_clause, order_attribute, sort),
+                    'ProductModel'
+                )
+            else:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM products
+                    ORDER BY {} {}
+                    """.format(select_attributes, order_attribute, sort),
+                    'ProductModel'
+                )
+        elif model.__class__.__name__ == 'OrderModel':
+            # TODO: implement logic
+            return "goomba"
+        elif model.__class__.__name__ == 'LikedListModel':
+            # If the where_clause_statement is not empty (ie no filter required)
+            return cls.__db_fetch_all(
+                """
+                    SELECT {}
+                    FROM likedlist
+                    GROUP BY {}
+                    ORDER BY {} {}
+                    LIMIT {}
+                    """.format(select_attributes, group_attribute, order_attribute, sort, limit),
+                'LikedListModel'
+            )
+        elif model.__class__.__name__ == 'CartModel':
+            return "goomba"

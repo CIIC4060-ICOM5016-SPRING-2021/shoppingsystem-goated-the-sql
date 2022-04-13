@@ -14,14 +14,14 @@ class Packager:
             result = list()
 
             for item in response:
-                result.append(cls.convert_tuple_to_obj(item, obj_type))
+                result.append(cls.convert_tuple_to_obj(item, obj_type, True))
             return result
         else:
             converted_obj = cls.convert_tuple_to_obj(response, obj_type)
             return converted_obj
 
     @classmethod
-    def convert_tuple_to_obj(cls, item: tuple, to_obj):
+    def convert_tuple_to_obj(cls, item: tuple, to_obj, multiple_results_likedlist=False):
         """
             Converts a given Tuple into the desired Entity Model Object
 
@@ -61,11 +61,17 @@ class Packager:
             result = OrderModel()
             # TODO: Insert logic
             return result
+
         elif to_obj == 'LikedListModel':
             from src.models.liked_list import LikedListModel
             result = LikedListModel()
-            result.set_like_count(item[0])
+            if multiple_results_likedlist:
+                result.set_like_count(item[0])
+                result.set_prod_id(item[1])
+            else:
+                result.set_like_count(item[0])
             return result
+
         elif to_obj == 'CartModel':
             from src.models.cart import CartModel
             result = CartModel()

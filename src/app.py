@@ -44,7 +44,19 @@ def all_products():
                     return ProductController.get_all_products_by_category(request.json['category'])
 
         else:
-            return ProductController.get_all_products()
+            list_of_products = ProductController.get_all_products()
+            return_json = {"Products": list_of_products}
+            global_statistics = {  # "Cheapest Products": ProductController.get_cheapest_products(),
+                # "Most Expensive Products": ProductController.get_priciest_products(),
+                # "Most Liked Products": LikedListController.get_top_likes(),
+                # "Hottest Categories": OrderController.get_top_category(),
+                "Hottest Categories": "TODO",
+                # "Hottest Products": OrderController.get_top_products()
+                "Hottest Products": "TODO"
+            }
+            return_json["Global Statistics"] = global_statistics
+
+            return jsonify(return_json)
     else:
         return jsonify("Operation not suGOATED."), 405
 
