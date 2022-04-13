@@ -291,7 +291,7 @@ class BackEnd:
 
     @classmethod
     def get_all_elements_ordered(
-            cls, model, select_attributes: str, filter_clause: str, order_attribute: str, sort: str):
+            cls, model, select_attributes: str, filter_clause: str, order_attribute: str, sort: str, limit: int = -1):
         """
             Queries the database for all the elements of the given corresponding Entity in a specified order.
 
@@ -304,25 +304,49 @@ class BackEnd:
         """
         if model.__class__.__name__ == 'ProductModel':
             # If the where_clause_statement is not empty (ie no filter required)
-            if filter_clause:
-                return cls.__db_fetch_all(
-                    """
-                    SELECT {}
-                    FROM products
-                    WHERE {}
-                    ORDER BY {} {}
-                    """.format(select_attributes, filter_clause, order_attribute, sort),
-                    'ProductModel'
-                )
+            if limit == -1:
+                if filter_clause:
+                    return cls.__db_fetch_all(
+                        """
+                        SELECT {}
+                        FROM products
+                        WHERE {}
+                        ORDER BY {} {}
+                        """.format(select_attributes, filter_clause, order_attribute, sort),
+                        'ProductModel'
+                    )
+                else:
+                    return cls.__db_fetch_all(
+                        """
+                        SELECT {}
+                        FROM products
+                        ORDER BY {} {}
+                        """.format(select_attributes, order_attribute, sort),
+                        'ProductModel'
+                    )
             else:
-                return cls.__db_fetch_all(
-                    """
-                    SELECT {}
-                    FROM products
-                    ORDER BY {} {}
-                    """.format(select_attributes, order_attribute, sort),
-                    'ProductModel'
-                )
+                if filter_clause:
+                    return cls.__db_fetch_all(
+                        """
+                        SELECT {}
+                        FROM products
+                        WHERE {}
+                        ORDER BY {} {}
+                        LIMIT {}
+                        """.format(select_attributes, filter_clause, order_attribute, sort, limit),
+                        'ProductModel'
+                    )
+                else:
+                    return cls.__db_fetch_all(
+                        """
+                        SELECT {}
+                        FROM products
+                        ORDER BY {} {}
+                        LIMIT {}
+                        """.format(select_attributes, order_attribute, sort, limit),
+                        'ProductModel'
+                    )
+
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
             return "goomba"

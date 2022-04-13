@@ -139,7 +139,7 @@ class ProductModel:
         return BackEnd().get_all_elements(ProductModel(), "*", "")
 
     @classmethod
-    def get_all_products_by_price(cls, ascending=True):
+    def get_all_products_by_price(cls, ascending=True, limit=-1):
         """
             Gets all the products in the catalog in ascending or descending order by price, depending on if the
             ascending parameter is set to true or false.
@@ -149,9 +149,10 @@ class ProductModel:
         """
 
         if ascending:
-            return BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "price", "ASC")
+            hey = BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "price", "ASC", limit)
+            return hey
         else:
-            return BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "price", "DESC")
+            return BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "price", "DESC", limit)
 
     @classmethod
     def get_all_products_by_name(cls, ascending=True):

@@ -30,7 +30,7 @@ class ProductController:
 
         for product in ProductModel().get_all_products():
             products.append(ProductController().model_to_dict(product))
-        return jsonify(products)
+        return products
 
     @classmethod
     def get_all_products_organized(cls, order_by: str, order_in_ascending: bool):
@@ -143,6 +143,22 @@ class ProductController:
                 return jsonify("Unable to delete product"), 500
         except ValueError:
             return jsonify("User is not authorized"), 403
+
+    @classmethod
+    def get_cheapest_products(cls):
+        cheapest_models = ProductModel().get_all_products_by_price(limit=10)
+        list_of_json = []
+        for model in cheapest_models:
+            list_of_json.append(cls.model_to_dict(model))
+        return list_of_json
+
+    @classmethod
+    def get_priciest_products(cls):
+        priciest_models = ProductModel().get_all_products_by_price(ascending=False, limit=10)
+        list_of_json = []
+        for model in priciest_models:
+            list_of_json.append(cls.model_to_dict(model))
+        return list_of_json
 
     @classmethod
     def model_to_dict(cls, product):
