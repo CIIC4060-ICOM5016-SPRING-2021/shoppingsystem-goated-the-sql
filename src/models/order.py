@@ -1,3 +1,5 @@
+import psycopg2
+
 from src.models.dao.backend import BackEnd
 from src.models.user import UserModel
 
@@ -31,6 +33,12 @@ class OrderProductDetails:
 
     def set_quantity_bought(self, quantity_bought):
         self.__quantity_bought = quantity_bought
+
+    def tuple_to_model(self, tuple_to_convert):
+        self.set_name(tuple_to_convert[0])
+        self.set_description(tuple_to_convert[1])
+        self.set_price_sold(tuple_to_convert[2])
+        self.set_quantity_bought(tuple_to_convert[3])
 
 
 class OrderModel:
@@ -157,3 +165,19 @@ class OrderModel:
                 return None
         else:
             raise FileNotFoundError
+
+    @classmethod
+    def db_get_all_orders(cls, user_id):
+        """
+            Gets all the orders corresponding to the given user. If the user is an administrator, then all existing
+            orders on the platform will be returned.
+
+        :param user_id: id of the user whose orders have been requested
+        """
+        try:
+            if UserModel.db_is_admin(user_id):
+                return BackEnd.get_all_elements(OrderModel, '*', '')
+            else:
+                return BackEnd.get_all_elements(OrderModel(), '*', "user_id = {}".format(user_id))
+        except psycopg2.Error:
+            raise AttributeError

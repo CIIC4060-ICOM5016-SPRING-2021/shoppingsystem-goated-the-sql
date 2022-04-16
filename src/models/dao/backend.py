@@ -8,7 +8,7 @@ class BackEnd:
     @classmethod
     def create_element(cls, model, user_id=None, prod_id=None):
         """
-           Creates a new element within the corresponding Entity Model table in the database
+           Creates a new element within the corresponding Entity Model table in the database.
 
         :param prod_id:
         :param user_id:
@@ -206,10 +206,7 @@ class BackEnd:
                     # Inhabit the order's product list
                     for item in db_response:
                         product = OrderProductDetails()
-                        product.set_name(item[0])
-                        product.set_description(item[1])
-                        product.set_price_sold(item[2])
-                        product.set_quantity_bought(item[3])
+                        product.tuple_to_model(item)
 
                         order.add_product_to_model(product)
 
@@ -388,8 +385,69 @@ class BackEnd:
                     'ProductModel'
                 )
         elif model.__class__.__name__ == 'OrderModel':
-            # TODO: implement logic
-            return "goomba"
+            from src.models.order import OrderModel
+            from src.models.order import OrderProductDetails
+
+            db_connection = DBAccess().connect_to_db()
+            cursor = db_connection.cursor()
+
+            orders_made = []
+
+            try:
+                # The user is not an admin, get their orders
+                if filter_clause:
+                    # Get orders from DB
+                    cursor.execute(
+                        """
+                        SELECT {}
+                        FROM orders
+                        WHERE {}
+                        """.format(select_attributes, filter_clause)
+                    )
+
+                # The user is an admin, get all the existing orders
+                else:
+                    # Get orders from DB
+                    cursor.execute(
+                        """
+                        SELECT {}
+                        FROM orders
+                        """.format(select_attributes)
+                    )
+
+                db_response = cursor.fetchall()
+
+                # Inhabit list of user's orders
+                for transaction in db_response:
+                    order = OrderModel()
+                    order.set_order_id(transaction[0])
+                    order.set_user_id(transaction[1])
+                    order.set_time_of_order(transaction[2])
+
+                    # Get the products related to the order
+                    cursor.execute(
+                        """
+                        SELECT product_name, product_description, price_sold, quantity_bought
+                        FROM order_products
+                        WHERE order_id_fk = {}
+                        """.format(order.get_order_id())
+                    )
+
+                    db_response = cursor.fetchall()
+
+                    for product in db_response:
+                        item = OrderProductDetails()
+                        item.tuple_to_model(product)
+
+                        order.add_product_to_model(item)
+
+                    orders_made.append(order)
+
+                return orders_made
+
+            except psycopg2.Error as e:
+                print(e)
+
         elif model.__class__.__name__ == 'LikedListModel':
             # TODO: implement logic
             return "goomba"

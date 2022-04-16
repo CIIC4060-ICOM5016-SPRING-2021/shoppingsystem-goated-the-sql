@@ -47,12 +47,24 @@ class OrderController:
     @classmethod
     def get_all_orders(cls, user_id):
         """
-            Gets all the orders the given user has completed. If the given user is an administrator, it will return
-            all the existing orders on the platform.
+            Prompts the database to get all orders corresponding to the given user id.
 
         :param user_id: id of the given user
         """
+        try:
+            orders = OrderModel.db_get_all_orders(user_id)
+        except AttributeError:
+            return jsonify("User does not exist."), 404
+        
+        if orders:
+            orders_json = []
 
+            for transaction in orders:
+                orders_json.append(cls.model_to_dict(transaction))
+
+            return jsonify(orders_json), 200
+        else:
+            jsonify("The given user has no orders."), 404
         pass
 
     @classmethod
