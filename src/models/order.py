@@ -183,7 +183,7 @@ class OrderModel:
         """
         try:
             if UserModel.db_is_admin(user_id):
-                return BackEnd.get_all_elements(OrderModel, '*', '')
+                return BackEnd.get_all_elements(OrderModel(), '*', '')
             else:
                 return BackEnd.get_all_elements(OrderModel(), '*', "user_id = {}".format(user_id))
         except psycopg2.Error:

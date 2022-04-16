@@ -166,7 +166,7 @@ def orders_page(user_id):
     elif request.method == 'PUT':
         if request.data:
             if request.json:
-                return OrderController.update_order(user_id, request.json['order_id'], request.json[0])
+                return OrderController.update_order(user_id, request.json['order_id'], request.json['changes'])
             else:
                 return jsonify("Must provide order changes."), 400
         else:
