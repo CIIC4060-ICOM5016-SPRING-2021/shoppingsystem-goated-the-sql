@@ -111,6 +111,13 @@ class OrderModel:
         """
             Adds a given OrderProductDetails object to the OrderModel.
 
+            PLEASE INITIATE THE PRODUCT LIST BEFORE CALLING THIS METHOD.
+
+            EXAMPLE:
+                model.set_product_list([])
+
+                model.add_product_to_model(x)
+
         :param item_to_add: OrderProductDetails object to be added
         """
         self.__product_list.append(item_to_add)

@@ -391,8 +391,6 @@ class BackEnd:
             db_connection = DBAccess().connect_to_db()
             cursor = db_connection.cursor()
 
-            orders_made = []
-
             try:
                 # The user is not an admin, get their orders
                 if filter_clause:
@@ -415,6 +413,8 @@ class BackEnd:
                         """.format(select_attributes)
                     )
 
+                orders_made = []
+
                 db_response = cursor.fetchall()
 
                 # Inhabit list of user's orders
@@ -435,17 +435,32 @@ class BackEnd:
 
                     db_response = cursor.fetchall()
 
+                    order.set_product_list([])
+
                     for product in db_response:
                         item = OrderProductDetails()
                         item.tuple_to_model(product)
 
                         order.add_product_to_model(item)
 
+                    cursor.execute(
+                        """
+                        SELECT SUM(price_sold * quantity_bought) AS total, SUM(quantity_bought) AS total_order_quantity
+                        FROM orders INNER JOIN order_products op ON orders.order_id = op.order_id_fk
+                        WHERE order_id = {}
+                        """.format(order.get_order_id())
+                    )
+
+                    db_response = cursor.fetchone()
+
+                    order.set_order_total(db_response[0])
+                    order.set_total_product_quantity([1])
+
                     orders_made.append(order)
 
                 return orders_made
 
-            except psycopg2.Error as e:
+            except Exception as e:
                 print(e)
 
         elif model.__class__.__name__ == 'LikedListModel':
