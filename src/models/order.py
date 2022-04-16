@@ -1,4 +1,5 @@
 from src.models.dao.backend import BackEnd
+from src.models.user import UserModel
 
 
 class OrderProductDetails:
@@ -76,7 +77,7 @@ class OrderModel:
     def set_total_product_quantity(self, total_product_quantity):
         self.__total_product_quantity = total_product_quantity
 
-    def add_product_to_model(self, item_to_add):
+    def add_product_json_to_model(self, item_to_add):
         """
             Converts a given json object to a OrderProductDetails and adds it to an OrderModel.
 
@@ -125,3 +126,21 @@ class OrderModel:
         """
 
         return BackEnd.create_element(self, user_id=user_id)
+
+    @classmethod
+    def db_get_specific_order(cls, user_id, order_id):
+        """
+            Gets the given order and its corresponding products from the database. The user parameter is for
+            confirmation of data access.
+
+        :param user_id: id of the user requesting the order
+        :param order_id: id of the order being queried
+        """
+
+        # The backend for the order contains a slight difference between the normal model entities, it can return just
+        # an order and the time it was created by requesting 'order' or an order with all the products corresponding to
+        # it by requesting 'full' in the select attributes parameter
+        order = BackEnd.get_element(OrderModel, order_id, 'full')
+
+        if UserModel.db_is_admin(user_id) or order.get_user_id() == user_id:
+            return order

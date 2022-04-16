@@ -20,7 +20,7 @@ class OrderController:
             # Initiate product list
             new_order.set_product_list([])
             for item in order_products:
-                new_order.add_product_to_model(item)
+                new_order.add_product_json_to_model(item)
 
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
         except KeyError or AttributeError:
@@ -29,12 +29,16 @@ class OrderController:
     @classmethod
     def get_specific_order(cls, user_id, order_id):
         """
-            Gets a specific order from a user
+            Gets a specific order from a user.
 
         :param user_id: id of the given user
         :param order_id: id of the desired order
         """
-        pass
+
+        try:
+            return jsonify(cls.model_to_dict(OrderModel.db_get_specific_order(user_id, order_id)))
+        except FileNotFoundError:
+            return jsonify("The given order id was not found in the database."), 404
 
     @classmethod
     def get_all_orders(cls, user_id):
@@ -105,7 +109,7 @@ class OrderController:
         model.set_time_of_order(request['time_of_order'])
 
         for item in request['products_ordered']:
-            model.add_product_to_model(item)
+            model.add_product_json_to_model(item)
 
         model.set_order_total(request['order_total'])
         model.set_total_product_quantity(request['total_product_quantity'])

@@ -162,8 +162,82 @@ class BackEnd:
             )
 
         elif model.__class__.__name__ == 'OrderModel':
-            # TODO: implement logic
-            return "goomba"
+            from src.models.order import OrderModel
+            from src.models.order import OrderProductDetails
+
+            order = OrderModel()
+
+            db_connection = DBAccess().connect_to_db()
+            cursor = db_connection.cursor()
+
+            try:
+                # Get the main order details
+                cursor.execute(
+                    """
+                    SELECT user_id, time_of_order
+                    FROM orders
+                    WHERE order_id = {}
+                    """.format(pk)
+                )
+
+                db_response = cursor.fetchone()
+
+                order.set_order_id(pk)
+                order.set_user_id(db_response[0])
+                order.set_time_of_order(str(db_response[1]))
+
+                # Create a full OrderModel with all the products corresponding to it within
+                if select_attributes == 'full':
+
+                    # This could probably be applied/moved to the packager, however time is not on our side D;
+
+                    # Add the products to the order queried
+                    cursor.execute(
+                        """
+                        SELECT product_name, product_description, price_sold, quantity_bought 
+                        FROM order_products
+                        WHERE order_id_fk = {}
+                        """.format(pk)
+                    )
+
+                    db_response = cursor.fetchall()
+                    order.set_product_list([])
+
+                    # Inhabit the order's product list
+                    for item in db_response:
+                        product = OrderProductDetails()
+                        product.set_name(item[0])
+                        product.set_description(item[1])
+                        product.set_price_sold(item[2])
+                        product.set_quantity_bought(item[3])
+
+                    cursor.execute(
+                        """
+                        SELECT SUM(price_sold * quantity_bought) AS total, SUM(quantity_bought) AS total_order_quantity
+                        FROM orders INNER JOIN order_products op ON orders.order_id = op.order_id_fk
+                        WHERE order_id = {}
+                        """.format(model.get_order_id())
+                    )
+
+                    db_response = cursor.fetchone()
+                    order.set_order_total(db_response[0])
+                    order.set_total_product_quantity(db_response[1])
+
+                    return order
+
+                # Return only the order, its user and the time it was created
+                elif select_attributes == 'order':
+                    return order
+                else:
+                    raise AttributeError("The requested order details are not supported.")
+
+            except psycopg2.Error as e:
+                print(e)
+                pass
+
+                db_connection.commit()
+                db_connection.close()
+
         elif model.__class__.__name__ == 'LikedListModel':
             if helper is not None:
                 return cls.__db_fetch_one(
