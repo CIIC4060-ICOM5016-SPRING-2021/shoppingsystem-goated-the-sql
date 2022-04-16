@@ -148,7 +148,7 @@ class OrderModel:
         # The backend for the order contains a slight difference between the normal model entities, it can return just
         # an order and the time it was created by requesting 'order' or an order with all the products corresponding to
         # it by requesting 'full' in the select attributes parameter
-        order = BackEnd.get_element(OrderModel, order_id, 'full')
+        order = BackEnd.get_element(OrderModel(), order_id, 'full')
 
         if UserModel.db_is_admin(user_id) or order.get_user_id() == user_id:
             return order

@@ -218,7 +218,7 @@ class BackEnd:
                         SELECT SUM(price_sold * quantity_bought) AS total, SUM(quantity_bought) AS total_order_quantity
                         FROM orders INNER JOIN order_products op ON orders.order_id = op.order_id_fk
                         WHERE order_id = {}
-                        """.format(model.get_order_id())
+                        """.format(pk)
                     )
 
                     db_response = cursor.fetchone()
