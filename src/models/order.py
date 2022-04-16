@@ -118,4 +118,10 @@ class OrderModel:
                 self.__product_list.remove(item_to_remove)
 
     def db_add_order(self, user_id):
+        """
+            Creates an order in the database containing the given list of products.
+
+        :param user_id: id of the user the order is related to
+        """
+
         return BackEnd.create_element(self, user_id=user_id)

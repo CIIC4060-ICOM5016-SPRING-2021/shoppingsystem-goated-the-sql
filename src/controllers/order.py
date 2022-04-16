@@ -8,10 +8,11 @@ class OrderController:
     @classmethod
     def create_order(cls, user_id, order_products: list):
         """
-            Creates an order in the database containing the given list of products.
+            Prompts the creation of an order in the database.
 
-        :param user_id: id of the user the order is related to
-        :param order_products: list of products related to the order
+        :param user_id: id of the user that the order will be added to
+        :param order_products: list of products to be associated with the order
+        :return: json equivalent of the order model
         """
         new_order = OrderModel()
         new_order.set_user_id(user_id)
@@ -21,8 +22,8 @@ class OrderController:
             for item in order_products:
                 new_order.add_product_to_model(item)
 
-            return jsonify(cls.model_to_dict(new_order.db_add_order(user_id)))
-        except KeyError:
+            return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
+        except KeyError or AttributeError:
             return jsonify("The given products are missing details or do not contain aptly named keys."), 400
 
     @classmethod
