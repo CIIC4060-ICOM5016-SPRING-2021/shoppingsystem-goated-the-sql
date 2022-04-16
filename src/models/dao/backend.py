@@ -72,7 +72,7 @@ class BackEnd:
                             """
                             INSERT INTO order_products (order_id_fk, product_name, product_description, price_sold, 
                             quantity_bought) 
-                            VALUES ({}, {}, {}, {}, {})
+                            VALUES ({}, '{}', '{}', {}, {})
                             """.format(model.get_order_id(),
                                        item.get_name(),
                                        item.get_description(),

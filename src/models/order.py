@@ -29,7 +29,7 @@ class OrderProductDetails:
         return self.__quantity_bought
 
     def set_quantity_bought(self, quantity_bought):
-        self.__name = quantity_bought
+        self.__quantity_bought = quantity_bought
 
 
 class OrderModel:
@@ -80,6 +80,13 @@ class OrderModel:
         """
             Converts a given json object to a OrderProductDetails and adds it to an OrderModel.
 
+            PLEASE INITIATE THE PRODUCT LIST BEFORE CALLING THIS METHOD.
+
+            EXAMPLE:
+                model.set_product_list([])
+
+                model.add_product_to_model(x)
+
         :param item_to_add: json containing the details of the product to be added
         """
         product = OrderProductDetails()
@@ -88,6 +95,7 @@ class OrderModel:
         product.set_price_sold(item_to_add['price_sold'])
         product.set_quantity_bought(item_to_add['quantity_bought'])
 
+        # The product list must be initiated before calling this method
         self.__product_list.append(product)
 
     def remove_product_from_model(self, item_to_remove):

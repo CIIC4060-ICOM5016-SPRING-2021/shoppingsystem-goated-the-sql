@@ -16,6 +16,8 @@ class OrderController:
         new_order = OrderModel()
         new_order.set_user_id(user_id)
         try:
+            # Initiate product list
+            new_order.set_product_list([])
             for item in order_products:
                 new_order.add_product_to_model(item)
 
