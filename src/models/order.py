@@ -188,3 +188,10 @@ class OrderModel:
                 return BackEnd.get_all_elements(OrderModel(), '*', "user_id = {}".format(user_id))
         except psycopg2.Error:
             raise AttributeError
+
+    @classmethod
+    def db_delete_order(cls, user_id, order_id):
+        if UserModel.db_is_admin(user_id):
+            return BackEnd.delete_element(OrderModel(), order_id)
+        else:
+            raise PermissionError

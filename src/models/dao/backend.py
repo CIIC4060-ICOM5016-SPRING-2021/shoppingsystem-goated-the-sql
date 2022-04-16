@@ -300,8 +300,18 @@ class BackEnd:
                 return False
 
         elif model.__class__.__name__ == 'OrderModel':
-            # TODO: implement logic
-            return "goomba"
+            try:
+                cls.__db_run_command(
+                    """
+                    DELETE FROM orders
+                    WHERE order_id = {}
+                    """.format(pk)
+                )
+                return True
+            except psycopg2.Error as e:
+                print(e)
+                return False
+
         elif model.__class__.__name__ == 'LikedListModel':
             if prod_id is not None:
                 try:

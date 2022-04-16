@@ -55,7 +55,7 @@ class OrderController:
             orders = OrderModel.db_get_all_orders(user_id)
         except AttributeError:
             return jsonify("User does not exist."), 404
-        
+
         if orders:
             orders_json = []
 
@@ -87,6 +87,16 @@ class OrderController:
         :param user_id:
         :param order_id:
         """
+
+        try:
+            deletion = OrderModel.db_delete_order(user_id, order_id)
+        except PermissionError:
+            return jsonify("Unauthorized."), 401
+
+        if deletion:
+            return jsonify("Order has been deleted."), 200
+        else:
+            return jsonify("Unable to delete order."), 500
         pass
 
     @classmethod
