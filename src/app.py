@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify
 
 from src.controllers.cart import CartController
 from src.controllers.liked_list import LikedListController
+from src.controllers.order import OrderController
 from src.controllers.product import ProductController
 from src.controllers.user import UserController
 from src.models.user import UserModel
@@ -151,5 +152,49 @@ def liked_list(user_id):
 
 
 # ======================================================================================================================
+
+# =================================================== v ORDERS v =======================================================
+@app.route('/goated_the_sql/user/<int:user_id>/orders', methods=['GET', 'PUT', 'DELETE'])
+def orders_page(user_id):
+    if request.method == 'GET':
+        if request.data:
+            if request.json:
+                return OrderController.get_specific_order(user_id, request.json['order_id'])
+        else:
+            return OrderController.get_all_orders(user_id)
+
+    elif request.method == 'PUT':
+        if request.data:
+            if request.json:
+                return OrderController.update_order(user_id, request.json['order_id'], request.json[0])
+            else:
+                return jsonify("Must provide order changes."), 400
+        else:
+            return jsonify("No update information provided."), 400
+
+    elif request.method == 'DELETE':
+        if request.data:
+            if request.json:
+                return OrderController.delete_order(user_id, request.json['order_id'])
+            else:
+                return jsonify("Must provide order to delete."), 400
+        else:
+            return jsonify("No deletion information provided."), 400
+
+    else:
+        return jsonify("Operation not suGOATED."), 405
+
+
+@app.route('/goated_the_sql/checkout', methods=['POST'])
+def checkout_page():
+    if request.data:
+        if request.json:
+            return OrderController.create_order(request.json['user_id'], request.json['order_products'])
+    else:
+        return jsonify("No order information provided."), 400
+
+
+# ======================================================================================================================
+
 if __name__ == "__main__":
     app.run(debug=True)
