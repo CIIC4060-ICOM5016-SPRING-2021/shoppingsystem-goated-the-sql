@@ -44,9 +44,64 @@ class BackEnd:
                 ),
                 'ProductModel'
             )
+
         elif model.__class__.__name__ == 'OrderModel':
-            # TODO: implement logic
-            return "goomba"
+            if user_id:
+                # Since orders are divided between tables the process is divided in parts
+                db_connection = DBAccess().connect_to_db()
+                cursor = db_connection.cursor()
+
+                try:
+                    # Create the order
+                    cursor.execute(
+                        """
+                        INSERT INTO orders (user_id, time_of_order)
+                        VALUES ({}, current_timestamp)
+                        RETURNING order_id, time_of_order
+                        """.format(user_id)
+                    )
+
+                    orders_response = cursor.fetchone()
+
+                    model.set_order_id(orders_response[0])
+                    model.set_time_of_order(str(orders_response[1]))
+
+                    # Add the products to the order
+                    for item in model.get_product_list():
+                        cursor.execute(
+                            """
+                            INSERT INTO order_products (order_id_fk, product_name, product_description, price_sold, 
+                            quantity_bought) 
+                            VALUES ({}, {}, {}, {}, {})
+                            """.format(model.get_order_id(),
+                                       item.get_name(),
+                                       item.get_description(),
+                                       item.get_price_sold(),
+                                       item.get_quantity_bought()
+                                       )
+                        )
+
+                    cursor.execute(
+                        """
+                        SELECT SUM(price_sold * quantity_bought) AS total, SUM(quantity_bought) AS total_order_quantity
+                        FROM orders INNER JOIN order_products op ON orders.order_id = op.order_id_fk
+                        WHERE order_id = {}
+                        """.format(model.get_order_id())
+                    )
+
+                    products_response = cursor.fetchone()
+                    model.set_order_total(products_response[0])
+                    model.set_total_product_quantity(products_response[1])
+
+                except psycopg2.Error as e:
+                    print(e)
+                    pass
+
+                db_connection.commit()
+                db_connection.close()
+
+                return model
+
         elif model.__class__.__name__ == 'LikedListModel':
             # TODO: implement logic
             cls.__db_run_command(
@@ -59,6 +114,7 @@ class BackEnd:
                 )
             )
             return "goomba"
+
         elif model.__class__.__name__ == 'CartModel':
             return cls.__db_run_command(
                 """

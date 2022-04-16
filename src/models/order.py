@@ -1,15 +1,42 @@
-class OrderModel:
-    product_details = {
-        "name": str,
-        "desc": str,
-        "price_sold": float,
-        "quantity_bought": int
-    }
+from src.models.dao.backend import BackEnd
 
+
+class OrderProductDetails:
+    __name: str
+    __description: str
+    __price_sold: float
+    __quantity_bought: int
+
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name):
+        self.__name = name
+
+    def get_description(self):
+        return self.__description
+
+    def set_description(self, description):
+        self.__description = description
+
+    def get_price_sold(self):
+        return self.__price_sold
+
+    def set_price_sold(self, price_sold):
+        self.__price_sold = price_sold
+
+    def get_quantity_bought(self):
+        return self.__quantity_bought
+
+    def set_quantity_bought(self, quantity_bought):
+        self.__name = quantity_bought
+
+
+class OrderModel:
     __order_id: int
     __user_id: int
     __time_of_order: str
-    __product_list: list[product_details]
+    __product_list: list[OrderProductDetails]
     __order_total: float
     __total_product_quantity: int
 
@@ -48,3 +75,39 @@ class OrderModel:
 
     def set_total_product_quantity(self, total_product_quantity):
         self.__total_product_quantity = total_product_quantity
+
+    def add_product_to_model(self, item_to_add):
+        """
+            Converts a given json object to a OrderProductDetails and adds it to an OrderModel.
+
+        :param item_to_add: json containing the details of the product to be added
+        """
+        product = OrderProductDetails()
+        product.set_name(item_to_add['name'])
+        product.set_description(item_to_add['desc'])
+        product.set_price_sold(item_to_add['price_sold'])
+        product.set_quantity_bought(item_to_add['quantity_bought'])
+
+        self.__product_list.append(product)
+
+    def remove_product_from_model(self, item_to_remove):
+        """
+            Converts a given json object to a OrderProductDetails and removes it from the OrderModel.
+
+        :param item_to_remove: json containing the details of the product to be removed
+        """
+        product = OrderProductDetails()
+        product.set_name(item_to_remove['name'])
+        product.set_description(item_to_remove['desc'])
+        product.set_price_sold(item_to_remove['price_sold'])
+        product.set_quantity_bought(item_to_remove['quantity_bought'])
+
+        for item_to_remove in self.__product_list:
+            if item_to_remove.get_name() == product.get_name() \
+                    and item_to_remove.get_description() == product.get_description() \
+                    and item_to_remove.get_price_sold() == product.get_price_sold() \
+                    and item_to_remove.get_quantity_bought() == product.get_quantity_bought():
+                self.__product_list.remove(item_to_remove)
+
+    def db_add_order(self, user_id):
+        return BackEnd.create_element(self, user_id=user_id)
