@@ -235,10 +235,11 @@ class BackEnd:
 
             except psycopg2.Error as e:
                 print(e)
-                pass
 
                 db_connection.commit()
                 db_connection.close()
+
+                return None
 
         elif model.__class__.__name__ == 'LikedListModel':
             if helper is not None:

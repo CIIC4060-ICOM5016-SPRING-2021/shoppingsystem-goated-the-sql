@@ -150,5 +150,10 @@ class OrderModel:
         # it by requesting 'full' in the select attributes parameter
         order = BackEnd.get_element(OrderModel(), order_id, 'full')
 
-        if UserModel.db_is_admin(user_id) or order.get_user_id() == user_id:
-            return order
+        if order:
+            if UserModel.db_is_admin(user_id) or order.get_user_id() == user_id:
+                return order
+            else:
+                return None
+        else:
+            raise FileNotFoundError

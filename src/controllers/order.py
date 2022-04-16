@@ -36,7 +36,11 @@ class OrderController:
         """
 
         try:
-            return jsonify(cls.model_to_dict(OrderModel.db_get_specific_order(user_id, order_id)))
+            order = OrderModel.db_get_specific_order(user_id, order_id)
+            if order:
+                return jsonify(cls.model_to_dict(order))
+            else:
+                return jsonify("User is not authorized to get this order."), 401
         except FileNotFoundError:
             return jsonify("The given order id was not found in the database."), 404
 
