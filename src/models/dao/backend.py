@@ -211,6 +211,8 @@ class BackEnd:
                         product.set_price_sold(item[2])
                         product.set_quantity_bought(item[3])
 
+                        order.add_product_to_model(product)
+
                     cursor.execute(
                         """
                         SELECT SUM(price_sold * quantity_bought) AS total, SUM(quantity_bought) AS total_order_quantity

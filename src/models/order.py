@@ -99,6 +99,14 @@ class OrderModel:
         # The product list must be initiated before calling this method
         self.__product_list.append(product)
 
+    def add_product_to_model(self, item_to_add: OrderProductDetails):
+        """
+            Adds a given OrderProductDetails object to the OrderModel.
+
+        :param item_to_add: OrderProductDetails object to be added
+        """
+        self.__product_list.append(item_to_add)
+
     def remove_product_from_model(self, item_to_remove):
         """
             Converts a given json object to a OrderProductDetails and removes it from the OrderModel.
