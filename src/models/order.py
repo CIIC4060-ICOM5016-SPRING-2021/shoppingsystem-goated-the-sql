@@ -54,7 +54,7 @@ class OrderModel:
     __order_id: int
     __user_id: int
     __time_of_order: str
-    __product_list: list[OrderProductDetails]
+    __product_list: list
     __order_total: float
     __total_product_quantity: int
 

@@ -45,11 +45,11 @@ class OrderController:
         # Make every cart model product into an order product detail model
         try:
             for item in cart:
-                new_order.add_cart_item_to_model()
-            return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
+                new_order.add_cart_item_to_model(item)
+            return jsonify(cls.model_to_dict(new_order.db_add_order(user_id)))
 
         except AttributeError:
-            return jsonify("The given products are missing details or do not contain aptly named keys."), 400
+            return jsonify("The given products are missing details or do not contain aptly named keys.")
 
     @classmethod
     def get_specific_order(cls, user_id, order_id):
