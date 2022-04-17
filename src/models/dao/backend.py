@@ -58,7 +58,6 @@ class BackEnd:
                     prod_id
                 )
             )
-            return "goomba"
         elif model.__class__.__name__ == 'CartModel':
             return cls.__db_run_command(
                 """
