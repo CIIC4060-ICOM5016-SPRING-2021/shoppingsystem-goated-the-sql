@@ -41,7 +41,7 @@ class OrderController:
                 return jsonify(cls.model_to_dict(order))
             else:
                 return jsonify("The order was not found or does not exist."), 404
-        except FileNotFoundError:
+        except PermissionError:
             return jsonify("User is not authorized to get this order."), 401
 
     @classmethod

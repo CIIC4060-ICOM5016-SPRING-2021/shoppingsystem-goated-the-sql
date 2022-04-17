@@ -183,27 +183,27 @@ class BackEnd:
 
                 db_response = cursor.fetchone()
 
-                order.set_order_id(pk)
-                order.set_user_id(db_response[0])
-                order.set_time_of_order(str(db_response[1]))
+                if db_response:
 
-                # Create a full OrderModel with all the products corresponding to it within
-                if select_attributes == 'full':
+                    order.set_order_id(pk)
+                    order.set_user_id(db_response[0])
+                    order.set_time_of_order(str(db_response[1]))
 
-                    # This could probably be applied/moved to the packager, however time is not on our side D;
+                    # Create a full OrderModel with all the products corresponding to it within
+                    if select_attributes == 'full':
 
-                    # Add the products to the order queried
-                    cursor.execute(
-                        """
-                        SELECT product_name, product_description, price_sold, quantity_bought, category
-                        FROM order_products
-                        WHERE order_id_fk = {}
-                        """.format(pk)
-                    )
+                        # This could probably be applied/moved to the packager, however time is not on our side D;
 
-                    db_response = cursor.fetchall()
+                        # Add the products to the order queried
+                        cursor.execute(
+                            """
+                            SELECT product_name, product_description, price_sold, quantity_bought, category
+                            FROM order_products
+                            WHERE order_id_fk = {}
+                            """.format(pk)
+                        )
 
-                    if db_response:
+                        db_response = cursor.fetchall()
 
                         order.set_product_list([])
 
@@ -227,14 +227,15 @@ class BackEnd:
                         order.set_total_product_quantity(db_response[1])
 
                         return order
-                    else:
-                        return None
 
-                # Return only the order, its user and the time it was created
-                elif select_attributes == 'order':
-                    return order
+                    # Return only the order, its user and the time it was created
+                    elif select_attributes == 'order':
+                        return order
+
+                    else:
+                        raise AttributeError("The requested order details are not supported.")
                 else:
-                    raise AttributeError("The requested order details are not supported.")
+                    return None
 
             except psycopg2.Error as e:
                 print(e)
