@@ -148,9 +148,8 @@ class ProductModel:
         :return: list containing ProductModels ordered by price
         """
 
-        if ascending:
-            hey = BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "price", "ASC", limit)
-            return hey
+      if ascending:
+            return BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "price", "ASC", limit)
         else:
             return BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "price", "DESC", limit)
 
