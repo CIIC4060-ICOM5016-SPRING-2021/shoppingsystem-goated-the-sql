@@ -2,6 +2,8 @@ from flask import jsonify
 
 from src.models.order import OrderModel, OrderProductDetails
 from src.models.product import ProductModel
+from src.models.user import UserModel
+from src.models.cart import CartModel
 
 
 class OrderController:
@@ -26,6 +28,33 @@ class OrderController:
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
         except AttributeError:
             return jsonify("The given products are missing details or do not contain aptly named keys."), 400
+
+    @classmethod
+    def create_order_from_cart(cls, user_id):
+        """
+        Makes a new order based on the cart for the given user id
+        :param user_id: The user_id for the user creating the order
+        :return: The order just made
+        """
+        # Make new order
+        new_order = OrderModel()
+        new_order.set_user_id(user_id)
+
+        # Initialize product list
+        new_order.set_product_list([])
+
+        # Get all products from cart with given user id
+        cart = CartModel.get_cart(user_id)
+
+        # Iterate through the list of cart items and get the information necessary to add to order
+        # Make every cart model product into an order product detail model
+        try:
+            for item in cart:
+                new_order.add_cart_item_to_model(item)
+            return jsonify(cls.model_to_dict(new_order.db_add_order(user_id)))
+
+        except AttributeError:
+            return jsonify("The given products are missing details or do not contain aptly named keys.")
 
     @classmethod
     def get_specific_order(cls, user_id, order_id):
@@ -69,16 +98,36 @@ class OrderController:
         pass
 
     @classmethod
-    def update_order(cls, user_id, order_id, changes_json_obj):
+    def update_order(cls, user_id, updater_id, order_id, changes_json_obj):
         """
             If the given user is an administrator, updates the order corresponding to the given ID with the provided
             changes.
 
+        :param updater_id: id of the user requesting the update
         :param user_id: id of the given user
         :param order_id: id of the desired order to change
         :param changes_json_obj: list or json object containing the changes desired to the order
         """
-        pass
+        if UserModel.db_is_admin(updater_id):
+
+            order_model = cls.json_to_model(changes_json_obj)
+
+            # Redundant to make sure the change happens to the correct order and the code does not try to change the
+            # foreign keys/primary keys
+            order_model.set_order_id(order_id)
+            order_model.set_user_id(user_id)
+
+            try:
+                updated_id = order_model.db_update_order(user_id, order_id)
+                if updated_id:
+                    return jsonify("Order Updated. The new id is: " + str(updated_id)), 200
+                else:
+                    return jsonify("Unable to update order."), 500
+            except AttributeError:
+                return jsonify("No changes to order detected."), 204
+
+        else:
+            return jsonify("Not authorized."), 401
 
     @classmethod
     def delete_order(cls, user_id, order_id):
@@ -135,6 +184,8 @@ class OrderController:
         model.set_order_id(request['order_id'])
         model.set_user_id(request['user_id'])
         model.set_time_of_order(request['time_of_order'])
+
+        model.set_product_list([])
 
         for item in request['products_ordered']:
             model.add_product_json_to_model(item)
