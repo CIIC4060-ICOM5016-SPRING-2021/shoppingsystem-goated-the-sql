@@ -71,13 +71,14 @@ class BackEnd:
                         cursor.execute(
                             """
                             INSERT INTO order_products (order_id_fk, product_name, product_description, price_sold, 
-                            quantity_bought) 
-                            VALUES ({}, '{}', '{}', {}, {})
+                            quantity_bought, category) 
+                            VALUES ({}, '{}', '{}', {}, {}, '{}')
                             """.format(model.get_order_id(),
                                        item.get_name(),
                                        item.get_description(),
                                        item.get_price_sold(),
-                                       item.get_quantity_bought()
+                                       item.get_quantity_bought(),
+                                       item.get_category()
                                        )
                         )
 
@@ -194,7 +195,7 @@ class BackEnd:
                     # Add the products to the order queried
                     cursor.execute(
                         """
-                        SELECT product_name, product_description, price_sold, quantity_bought 
+                        SELECT product_name, product_description, price_sold, quantity_bought, category
                         FROM order_products
                         WHERE order_id_fk = {}
                         """.format(pk)
@@ -437,7 +438,7 @@ class BackEnd:
                     # Get the products related to the order
                     cursor.execute(
                         """
-                        SELECT product_name, product_description, price_sold, quantity_bought
+                        SELECT product_name, product_description, price_sold, quantity_bought, category
                         FROM order_products
                         WHERE order_id_fk = {}
                         """.format(order.get_order_id())

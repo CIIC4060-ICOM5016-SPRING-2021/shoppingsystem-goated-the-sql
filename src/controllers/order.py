@@ -109,7 +109,8 @@ class OrderController:
                 'name': products.get_name(),
                 'desc': products.get_description(),
                 'price_sold': products.get_price_sold(),
-                'quantity_bought': products.get_quantity_bought()
+                'quantity_bought': products.get_quantity_bought(),
+                'category': products.get_category()
             }
 
             list_of_product_dicts.append(product_dict)

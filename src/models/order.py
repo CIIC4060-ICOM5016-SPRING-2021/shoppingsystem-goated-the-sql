@@ -9,6 +9,7 @@ class OrderProductDetails:
     __description: str
     __price_sold: float
     __quantity_bought: int
+    __category: str
 
     def get_name(self):
         return self.__name
@@ -34,11 +35,18 @@ class OrderProductDetails:
     def set_quantity_bought(self, quantity_bought):
         self.__quantity_bought = quantity_bought
 
+    def get_category(self):
+        return self.__category
+
+    def set_category(self, category):
+        self.__category = category
+
     def tuple_to_model(self, tuple_to_convert):
         self.set_name(tuple_to_convert[0])
         self.set_description(tuple_to_convert[1])
         self.set_price_sold(tuple_to_convert[2])
         self.set_quantity_bought(tuple_to_convert[3])
+        self.set_category(tuple_to_convert[4])
 
 
 class OrderModel:
@@ -103,6 +111,7 @@ class OrderModel:
         product.set_description(item_to_add['desc'])
         product.set_price_sold(item_to_add['price_sold'])
         product.set_quantity_bought(item_to_add['quantity_bought'])
+        product.set_category(item_to_add['category'])
 
         # The product list must be initiated before calling this method
         self.__product_list.append(product)
@@ -128,11 +137,13 @@ class OrderModel:
 
         :param item_to_remove: json containing the details of the product to be removed
         """
+        # noinspection DuplicatedCode
         product = OrderProductDetails()
         product.set_name(item_to_remove['name'])
         product.set_description(item_to_remove['desc'])
         product.set_price_sold(item_to_remove['price_sold'])
         product.set_quantity_bought(item_to_remove['quantity_bought'])
+        product.set_category(item_to_remove['category'])
 
         for item_to_remove in self.__product_list:
             if item_to_remove.get_name() == product.get_name() \
