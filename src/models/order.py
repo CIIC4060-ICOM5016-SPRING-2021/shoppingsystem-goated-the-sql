@@ -206,3 +206,16 @@ class OrderModel:
             return BackEnd.delete_element(OrderModel(), order_id)
         else:
             raise PermissionError
+
+    @classmethod
+    def get_top_categories(cls):
+        try:
+            return BackEnd.get_elements_ivan(model=OrderProductDetails(),
+                                             select_attributes="category, count(product_name) as products",
+                                             group_attribute="category",
+                                             order_attribute="products",
+                                             sort="desc",
+                                             limit=10,
+                                             filter_clause=None)
+        except psycopg2.Error:
+            raise AttributeError

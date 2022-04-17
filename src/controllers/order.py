@@ -100,6 +100,13 @@ class OrderController:
         pass
 
     @classmethod
+    def get_top_categories(cls):
+        list_of_categories = []
+        for category in OrderModel.get_top_categories():
+            list_of_categories.append(cls.model_to_dict(category))
+        return list_of_categories
+
+    @classmethod
     def model_to_dict(cls, order_model: OrderModel):
 
         list_of_product_dicts = []

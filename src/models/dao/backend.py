@@ -521,6 +521,7 @@ class BackEnd:
         :param filter_clause: specific filters desired for the query
         :param order_attribute: specific attribute to order
         :param sort: ascending (ASC) or descending (DESC)
+        :param limit: limit the amount of results
         :return: list containing the desired Entity Models of matching query results in the specified order
         """
         if model.__class__.__name__ == 'ProductModel':

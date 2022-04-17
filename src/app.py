@@ -50,7 +50,7 @@ def all_products():
             global_statistics = {"Cheapest Products": ProductController.get_cheapest_products(),
                                  "Most Expensive Products": ProductController.get_priciest_products(),
                                  "Most Liked Products": LikedListController.get_top_likes(),
-                                 # "Hottest Categories": OrderController.get_top_category(),
+                                 "Hottest Categories": OrderController.get_top_categories(),
                                  "Hottest Categories": "TODO",
                                  # "Hottest Products": OrderController.get_top_products()
                                  "Hottest Products": "TODO"
