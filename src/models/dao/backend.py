@@ -742,6 +742,8 @@ class BackEnd:
         :param sort: ascending (ASC) or descending (DESC)
         :return: list containing the desired Entity Models of matching query results in the specified order
         """
+        # The difference betweeen get_elements and this one is that this one can hold more paramenters
+        # than its sister method. Can be refactored later
         if model.__class__.__name__ == 'ProductModel':
             # If the where_clause_statement is not empty (ie no filter required)
             if filter_clause:
