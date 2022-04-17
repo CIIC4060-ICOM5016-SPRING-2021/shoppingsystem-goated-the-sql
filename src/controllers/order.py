@@ -1,6 +1,6 @@
 from flask import jsonify
-
 from src.models.order import OrderModel
+from src.models.cart import CartModel
 
 
 class OrderController:
@@ -25,6 +25,34 @@ class OrderController:
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
         except AttributeError:
             return jsonify("The given products are missing details or do not contain aptly named keys."), 400
+
+    @classmethod
+    def create_order_from_cart(cls, user_id):
+        """
+        Makes a new order based on the cart for the given user id
+
+        :param user_id: The user_id for the user creating the order
+        :return: The order just made
+        """
+        # Make new order
+        new_order = OrderModel()
+        new_order.set_user_id(user_id)
+
+        # Initialize product list
+        new_order.set_product_list([])
+
+        # Get all products from cart with given user id
+        cart = CartModel.get_cart(user_id)
+
+        # Iterate through the list of cart items and get the information necessary to add to order
+        # Make every cart model product into an order product detail model
+        try:
+            for item in cart:
+                new_order.add_cart_item_to_model(item)
+            return jsonify(cls.model_to_dict(new_order.db_add_order(user_id)))
+
+        except AttributeError:
+            return jsonify("The given products are missing details or do not contain aptly named keys.")
 
     @classmethod
     def get_specific_order(cls, user_id, order_id):
