@@ -65,7 +65,7 @@ class LikedListModel:
     @classmethod
     def get_top_likes(cls):
         list_of_products = []
-        for row in BackEnd.get_elements_ivan(model=LikedListModel(), select_attributes="count(*) as likes, product_id",
+        for row in BackEnd.get_elements_beta(model=LikedListModel(), select_attributes="count(*) as likes, product_id",
                                              filter_clause=None, order_attribute="likes", group_attribute="product_id",
                                              sort="desc", limit=10):
             list_of_products.append(cls.model_to_dict(ProductModel().get_product(row.get_prod_id())))

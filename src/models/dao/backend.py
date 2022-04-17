@@ -728,7 +728,7 @@ class BackEnd:
         db_connection.close()
 
     @classmethod
-    def get_elements_ivan(
+    def get_elements_beta(
             cls, model, select_attributes: str, filter_clause: str, order_attribute: str, group_attribute: str,
             sort: str, limit: int = None, categories: bool = False):
         """

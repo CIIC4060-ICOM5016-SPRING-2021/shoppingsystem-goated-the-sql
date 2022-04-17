@@ -59,7 +59,7 @@ class OrderProductDetails:
     @classmethod
     def get_top_categories(cls):
         try:
-            return BackEnd.get_elements_ivan(model=OrderProductDetails(),
+            return BackEnd.get_elements_beta(model=OrderProductDetails(),
                                              select_attributes="category, count(product_name) as products",
                                              order_attribute="products",
                                              group_attribute="category",
@@ -75,7 +75,7 @@ class OrderProductDetails:
         from src.models.product import ProductModel
         try:
             list_of_product = []
-            for row in BackEnd.get_elements_ivan(model=OrderProductDetails(),
+            for row in BackEnd.get_elements_beta(model=OrderProductDetails(),
                                                  select_attributes="product_name, count(*) as appearances",
                                                  order_attribute="appearances",
                                                  group_attribute="product_name",
@@ -275,6 +275,6 @@ class OrderModel:
             BackEnd.delete_element(OrderModel(), order_id)
 
             return BackEnd.create_element(self, user_id).get_order_id()
-        
+
         except psycopg2.Error:
             return False
