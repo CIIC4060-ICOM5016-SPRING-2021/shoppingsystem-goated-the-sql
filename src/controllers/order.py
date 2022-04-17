@@ -40,9 +40,9 @@ class OrderController:
             if order:
                 return jsonify(cls.model_to_dict(order))
             else:
-                return jsonify("User is not authorized to get this order."), 401
+                return jsonify("The order was not found or does not exist."), 404
         except FileNotFoundError:
-            return jsonify("The given order id was not found in the database."), 404
+            return jsonify("User is not authorized to get this order."), 401
 
     @classmethod
     def get_all_orders(cls, user_id):

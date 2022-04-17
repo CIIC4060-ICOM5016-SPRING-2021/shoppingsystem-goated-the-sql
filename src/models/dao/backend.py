@@ -202,28 +202,33 @@ class BackEnd:
                     )
 
                     db_response = cursor.fetchall()
-                    order.set_product_list([])
 
-                    # Inhabit the order's product list
-                    for item in db_response:
-                        product = OrderProductDetails()
-                        product.tuple_to_model(item)
+                    if db_response:
 
-                        order.add_product_to_model(product)
+                        order.set_product_list([])
 
-                    cursor.execute(
-                        """
-                        SELECT SUM(price_sold * quantity_bought) AS total, SUM(quantity_bought) AS total_order_quantity
-                        FROM orders INNER JOIN order_products op ON orders.order_id = op.order_id_fk
-                        WHERE order_id = {}
-                        """.format(pk)
-                    )
+                        # Inhabit the order's product list
+                        for item in db_response:
+                            product = OrderProductDetails()
+                            product.tuple_to_model(item)
 
-                    db_response = cursor.fetchone()
-                    order.set_order_total(db_response[0])
-                    order.set_total_product_quantity(db_response[1])
+                            order.add_product_to_model(product)
 
-                    return order
+                        cursor.execute(
+                            """
+                            SELECT SUM(price_sold * quantity_bought) AS total, SUM(quantity_bought) AS total_order_quantity
+                            FROM orders INNER JOIN order_products op ON orders.order_id = op.order_id_fk
+                            WHERE order_id = {}
+                            """.format(pk)
+                        )
+
+                        db_response = cursor.fetchone()
+                        order.set_order_total(db_response[0])
+                        order.set_total_product_quantity(db_response[1])
+
+                        return order
+                    else:
+                        return None
 
                 # Return only the order, its user and the time it was created
                 elif select_attributes == 'order':

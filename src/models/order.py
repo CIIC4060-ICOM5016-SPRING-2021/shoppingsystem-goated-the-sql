@@ -180,9 +180,9 @@ class OrderModel:
             if UserModel.db_is_admin(user_id) or order.get_user_id() == user_id:
                 return order
             else:
-                return None
+                raise PermissionError
         else:
-            raise FileNotFoundError
+            return None
 
     @classmethod
     def db_get_all_orders(cls, user_id):
