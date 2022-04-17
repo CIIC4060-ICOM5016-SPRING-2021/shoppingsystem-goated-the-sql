@@ -471,7 +471,7 @@ class BackEnd:
                     db_response = cursor.fetchone()
 
                     order.set_order_total(db_response[0])
-                    order.set_total_product_quantity([1])
+                    order.set_total_product_quantity(db_response[1])
 
                     orders_made.append(order)
 
