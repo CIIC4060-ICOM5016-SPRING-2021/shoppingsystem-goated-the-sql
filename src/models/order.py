@@ -224,3 +224,13 @@ class OrderModel:
             return BackEnd.delete_element(OrderModel(), order_id)
         else:
             raise PermissionError
+
+    def db_update_order(self, user_id, order_id):
+        try:
+            # Update order
+            BackEnd.delete_element(OrderModel(), order_id)
+
+            return BackEnd.create_element(self, user_id).get_order_id()
+        
+        except psycopg2.Error:
+            return False

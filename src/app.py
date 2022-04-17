@@ -166,7 +166,13 @@ def orders_page(user_id):
     elif request.method == 'PUT':
         if request.data:
             if request.json:
-                return OrderController.update_order(user_id, request.json['order_id'], request.json['changes'])
+                # This works so the user who is in their order's page is the person requesting the change,
+                # that way if a normal user is trying to change an order they'll be limited to only their orders
+                # when trying to request.
+                return OrderController.update_order(request.json['order_user_id'],
+                                                    user_id,
+                                                    request.json['order_id'],
+                                                    request.json['changed_order'])
             else:
                 return jsonify("Must provide order changes."), 400
         else:
