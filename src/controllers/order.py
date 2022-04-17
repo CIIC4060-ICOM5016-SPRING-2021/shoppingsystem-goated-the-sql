@@ -1,9 +1,6 @@
 from flask import jsonify
-
-from src.models.order import OrderModel, OrderProductDetails
-
+from src.models.order import OrderModel
 from src.models.cart import CartModel
-from src.models.product import ProductModel
 
 
 class OrderController:
@@ -31,6 +28,12 @@ class OrderController:
 
     @classmethod
     def create_order_from_cart(cls, user_id):
+        """
+        Makes a new order based on the cart for the given user id
+
+        :param user_id: The user_id for the user creating the order
+        :return: The order just made
+        """
         # Make new order
         new_order = OrderModel()
         new_order.set_user_id(user_id)

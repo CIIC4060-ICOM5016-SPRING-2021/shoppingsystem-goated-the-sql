@@ -118,6 +118,11 @@ class OrderModel:
         self.__product_list.append(product)
 
     def add_cart_item_to_model(self, item):
+        """
+        Takes an item from the users cart and add it to their current order
+
+        :param item: CartModel for the given user
+        """
         product_mod = ProductModel.get_product(item.get_product_id())
 
         product = OrderProductDetails()
