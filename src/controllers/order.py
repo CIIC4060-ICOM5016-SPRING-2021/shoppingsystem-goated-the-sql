@@ -27,6 +27,18 @@ class OrderController:
             return jsonify("The given products are missing details or do not contain aptly named keys."), 400
 
     @classmethod
+    def create_order_from_cart(cls, user_id):
+        new_order = OrderModel()
+        new_order.set_user_id(user_id)
+
+        # Get all products from cart with given usr id
+
+        # Add all products that where given form the cart table
+
+
+        pass
+
+    @classmethod
     def get_specific_order(cls, user_id, order_id):
         """
             Gets a specific order from a user.
