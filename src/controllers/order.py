@@ -23,7 +23,7 @@ class OrderController:
                 new_order.add_product_json_to_model(item)
 
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
-        except KeyError or AttributeError:
+        except AttributeError:
             return jsonify("The given products are missing details or do not contain aptly named keys."), 400
 
     @classmethod

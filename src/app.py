@@ -189,7 +189,10 @@ def orders_page(user_id):
 def checkout_page():
     if request.data:
         if request.json:
-            return OrderController.create_order(request.json['user_id'], request.json['order_products'])
+            try:
+                return OrderController.create_order(request.json['user_id'], request.json['order_products'])
+            except KeyError:
+                return jsonify("ayo gimme da deets"), 404
     else:
         return jsonify("No order information provided."), 400
 
