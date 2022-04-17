@@ -5,6 +5,27 @@ from src.models.product import ProductModel
 
 class ProductController:
     @classmethod
+    def add_product(cls, request_json):
+        """
+            Prompts the database to add a new product to the catalog
+
+        :param request_json:
+        :return: 200 and product details when successfully created, 500 on failed product creation
+        """
+        temp_product = ProductModel()
+        temp_product.set_name(request_json['name'])
+        temp_product.set_desc(request_json['description'])
+        temp_product.set_price(request_json['price'])
+        temp_product.set_category(request_json['category'])
+        temp_product.set_stock(request_json['stock'])
+        new_product = temp_product.add_product()
+
+        if new_product:
+            return jsonify(cls.model_to_dict(new_product)), 200
+        else:
+            return jsonify("Unable to create the product."), 500
+
+    @classmethod
     def get_product(cls, prod_id):
         """
             Prompts the database to search for a product
@@ -82,27 +103,6 @@ class ProductController:
             return jsonify("Category not found."), 404
         except LookupError:
             return jsonify("There are currently no categories in our system."), 200
-
-    @classmethod
-    def add_product(cls, request_json):
-        """
-            Prompts the database to add a new product to the catalog
-
-        :param request_json:
-        :return: 200 and product details when successfully created, 500 on failed product creation
-        """
-        temp_product = ProductModel()
-        temp_product.set_name(request_json['name'])
-        temp_product.set_desc(request_json['description'])
-        temp_product.set_price(request_json['price'])
-        temp_product.set_category(request_json['category'])
-        temp_product.set_stock(request_json['stock'])
-        new_product = temp_product.add_product()
-
-        if new_product:
-            return jsonify(cls.model_to_dict(new_product)), 200
-        else:
-            return jsonify("Unable to create the product."), 500
 
     @classmethod
     def update_product(cls, product_json, user_id_json_obj):
