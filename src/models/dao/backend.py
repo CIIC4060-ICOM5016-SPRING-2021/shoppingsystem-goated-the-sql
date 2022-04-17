@@ -523,7 +523,7 @@ class BackEnd:
 
     @classmethod
     def get_all_elements_ordered(
-            cls, model, select_attributes: str, filter_clause: str, order_attribute: str, sort: str, limit: int = -1):
+            cls, model, select_attributes: str, filter_clause: str, order_attribute: str, sort: str, limit: int = 500):
         """
             Queries the database for all the elements of the given corresponding Entity in a specified order.
 
@@ -537,7 +537,7 @@ class BackEnd:
         """
         if model.__class__.__name__ == 'ProductModel':
             # If the where_clause_statement is not empty (ie no filter required)
-            if limit == -1:
+            if limit == 500:
                 if filter_clause:
                     return cls.__db_fetch_all(
                         """
