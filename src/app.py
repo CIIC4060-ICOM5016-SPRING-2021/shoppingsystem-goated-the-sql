@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 
 from src.controllers.cart import CartController
 from src.controllers.liked_list import LikedListController
-from src.controllers.order import OrderController
+from src.controllers.order import OrderController, OrderProductDetailsController
 from src.controllers.product import ProductController
 from src.controllers.user import UserController
 from src.models.user import UserModel
@@ -50,10 +50,8 @@ def all_products():
             global_statistics = {"Cheapest Products": ProductController.get_cheapest_products(),
                                  "Most Expensive Products": ProductController.get_priciest_products(),
                                  "Most Liked Products": LikedListController.get_top_likes(),
-                                 "Hottest Categories": OrderController.get_top_categories(),
-                                 "Hottest Categories": "TODO",
-                                 # "Hottest Products": OrderController.get_top_products()
-                                 "Hottest Products": "TODO"
+                                 "Hottest Categories": OrderProductDetailsController.get_top_categories(),
+                                 "Hottest Products": OrderProductDetailsController.get_top_products()
                                  }
             return_json["Global Statistics"] = global_statistics
 

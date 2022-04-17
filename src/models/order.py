@@ -10,6 +10,7 @@ class OrderProductDetails:
     __price_sold: float
     __quantity_bought: int
     __category: str
+    __product_count: int
 
     def get_name(self):
         return self.__name
@@ -41,12 +42,55 @@ class OrderProductDetails:
     def set_category(self, category):
         self.__category = category
 
+    def get_product_count(self):
+        return self.__product_count
+
+    def set_product_count(self, product_count):
+        self.__product_count = product_count
+
     def tuple_to_model(self, tuple_to_convert):
         self.set_name(tuple_to_convert[0])
         self.set_description(tuple_to_convert[1])
         self.set_price_sold(tuple_to_convert[2])
         self.set_quantity_bought(tuple_to_convert[3])
         self.set_category(tuple_to_convert[4])
+
+    @classmethod
+    def get_top_categories(cls):
+        try:
+            return BackEnd.get_elements_ivan(model=OrderProductDetails(),
+                                             select_attributes="category, count(product_name) as products",
+                                             order_attribute="products",
+                                             group_attribute="category",
+                                             sort="desc",
+                                             limit=10,
+                                             filter_clause='',
+                                             categories=True)
+        except psycopg2.Error:
+            raise AttributeError
+
+    @classmethod
+    def get_top_products(cls):
+        from src.models.product import ProductModel
+        try:
+            list_of_product = []
+            for row in BackEnd.get_elements_ivan(model=OrderProductDetails(),
+                                                 select_attributes="product_name, count(*) as appearances",
+                                                 order_attribute="appearances",
+                                                 group_attribute="product_name",
+                                                 sort="desc",
+                                                 limit=1,
+                                                 filter_clause='',
+                                                 categories=False
+                                                 ):
+                list_of_product.append(BackEnd.get_element(model=ProductModel(),
+                                                           pk="'{}'".format(row.get_name()),
+                                                           select_attributes="*",
+                                                           helper="name")
+                                       )
+                return list_of_product
+        except psycopg2.Error:
+            raise AttributeError
 
 
 class OrderModel:
@@ -206,16 +250,3 @@ class OrderModel:
             return BackEnd.delete_element(OrderModel(), order_id)
         else:
             raise PermissionError
-
-    @classmethod
-    def get_top_categories(cls):
-        try:
-            return BackEnd.get_elements_ivan(model=OrderProductDetails(),
-                                             select_attributes="category, count(product_name) as products",
-                                             group_attribute="category",
-                                             order_attribute="products",
-                                             sort="desc",
-                                             limit=10,
-                                             filter_clause=None)
-        except psycopg2.Error:
-            raise AttributeError

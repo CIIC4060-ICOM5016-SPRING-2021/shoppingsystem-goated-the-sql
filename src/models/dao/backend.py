@@ -136,6 +136,7 @@ class BackEnd:
         :param pk: primary key corresponding to the Entity Model
         :param select_attributes: attributes to retrieve from the database
         :param helper: in the case of the liked list, the prod_id that is being liked/disliked
+        #in the case of product, its to use it as a filter clause
         :return: Desired Entity Model with the information corresponding to the primary key queried
         """
         if model.__class__.__name__ == 'UserModel':
@@ -151,14 +152,24 @@ class BackEnd:
             )
 
         elif model.__class__.__name__ == 'ProductModel':
-            return cls.__db_fetch_one(
-                """
-                    SELECT {}
-                    FROM products
-                    WHERE product_id = {}
-                    """.format(select_attributes, pk),
-                'ProductModel'
-            )
+            if helper:
+                return cls.__db_fetch_one(
+                    """
+                        SELECT {}
+                        FROM products
+                        WHERE {}={}
+                        """.format(select_attributes, helper, pk),
+                    'ProductModel'
+                )
+            else:
+                return cls.__db_fetch_one(
+                    """
+                        SELECT {}
+                        FROM products
+                        WHERE product_id = {}
+                        """.format(select_attributes, pk),
+                    'ProductModel'
+                )
 
         elif model.__class__.__name__ == 'OrderModel':
             from src.models.order import OrderModel
@@ -674,7 +685,7 @@ class BackEnd:
         return response_object
 
     @classmethod
-    def __db_fetch_all(cls, command: str, return_type: str):
+    def __db_fetch_all(cls, command: str, return_type: str, categories=False):
         """
             Backend private function. Runs a query that returns multiple results.
 
@@ -695,7 +706,7 @@ class BackEnd:
 
         db_connection.commit()
         db_connection.close()
-        return Packager().package_response(response, return_type)
+        return Packager().package_response(response, return_type, categories)
 
     @classmethod
     def __db_run_command(cls, command: str):
@@ -719,10 +730,11 @@ class BackEnd:
     @classmethod
     def get_elements_ivan(
             cls, model, select_attributes: str, filter_clause: str, order_attribute: str, group_attribute: str,
-            sort: str, limit: int = None):
+            sort: str, limit: int = None, categories: bool = False):
         """
             Queries the database for all the elements of the given corresponding Entity in a specified order.
 
+        :type order_attribute: object
         :param model: class instance of the desired Entity Model
         :param select_attributes: attributes desired from the query
         :param filter_clause: specific filters desired for the query
@@ -754,6 +766,19 @@ class BackEnd:
         elif model.__class__.__name__ == 'OrderModel':
             # TODO: implement logic
             return "goomba"
+
+        elif model.__class__.__name__ == 'OrderProductDetails':
+            return cls.__db_fetch_all(
+                """
+                SELECT {}
+                FROM order_products
+                GROUP BY {}
+                ORDER BY {} {}
+                LIMIT {}
+                """.format(select_attributes, group_attribute, order_attribute, sort, limit),
+                'OrderProductDetails',
+                categories
+            )
         elif model.__class__.__name__ == 'LikedListModel':
             # If the where_clause_statement is not empty (ie no filter required)
             return cls.__db_fetch_all(
