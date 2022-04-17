@@ -31,30 +31,25 @@ class OrderController:
 
     @classmethod
     def create_order_from_cart(cls, user_id):
+        # Make new order
         new_order = OrderModel()
         new_order.set_user_id(user_id)
 
-        # Get all products from cart with given usr id
+        # Initialize product list
+        new_order.set_product_list([])
+
+        # Get all products from cart with given user id
         cart = CartModel.get_cart(user_id)
 
         # Iterate through the list of cart items and get the information necessary to add to order
-        # Make every cart model product into a order product detail
+        # Make every cart model product into an order product detail model
+        try:
+            for item in cart:
+                new_order.add_cart_item_to_model()
+            return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
 
-        for item in cart:
-
-            product_mod = ProductModel.get_product(item.get_product_id())
-
-            product = OrderProductDetails()
-            product.set_name(product_mod.get_name())
-            product.set_description(product_mod.get_desc())
-            product.set_price_sold(product_mod.get_price())
-            product.set_quantity_bought(item.get_product_quantity())
-            product.set_category(product_mod.get_category())
-
-        # Add all products that where given form the cart table
-
-
-        pass
+        except AttributeError:
+            return jsonify("The given products are missing details or do not contain aptly named keys."), 400
 
     @classmethod
     def get_specific_order(cls, user_id, order_id):

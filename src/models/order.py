@@ -1,6 +1,7 @@
 import psycopg2
 
 from src.models.dao.backend import BackEnd
+from src.models.product import ProductModel
 from src.models.user import UserModel
 
 
@@ -115,6 +116,18 @@ class OrderModel:
 
         # The product list must be initiated before calling this method
         self.__product_list.append(product)
+
+    def add_cart_item_to_model(self, item):
+        product_mod = ProductModel.get_product(item.get_product_id())
+
+        product = OrderProductDetails()
+        product.set_name(product_mod.get_name())
+        product.set_description(product_mod.get_desc())
+        product.set_price_sold(product_mod.get_price())
+        product.set_quantity_bought(item.get_product_quantity())
+        product.set_category(product_mod.get_category())
+
+        self.add_product_to_model(product)
 
     def add_product_to_model(self, item_to_add: OrderProductDetails):
         """
