@@ -51,6 +51,8 @@ class OrderController:
         try:
             for item in cart:
                 new_order.add_cart_item_to_model(item)
+
+            CartModel.clear_cart(user_id)
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id)))
 
         except AttributeError:
