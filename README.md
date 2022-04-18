@@ -1,17 +1,29 @@
 # Shopping System
 
-## Resources
-
-- ER Model Diagram - [Figma](https://www.figma.com/file/BE6ktsqv7nknhJ9fYy1rro/ER-Model?node-id=0%3A1)
-- Relational Table Diagram - [LucidChart](https://lucid.app/lucidchart/b2668bd4-91ad-4557-98c1-7552a31da417/edit?invitationId=inv_c934d6b0-ed3e-4e4b-8bd4-0e2b8dbb394a)
-- User Interface Design - [Figma](https://www.figma.com/file/J1X31z9Cp49qTKD4zxnrQc/Shopping-System-Project-CIIC4060%2FICOM5016)
-
 ## Members
 
 - Francisco A Casiano Rosado - francisco.casiano2@upr.edu
 - Ivan G Jackson Rivera - ivan.jackson@upr.edu
 - Orlando E Saldana Ramirez - orlando.saldana@upr.edu
 - Edwin J Vega Reyes - edwin.vega4@upr.edu
+
+## Resources
+
+- ER Model Diagram - [Figma](https://www.figma.com/file/BE6ktsqv7nknhJ9fYy1rro/ER-Model?node-id=0%3A1)
+- Relational Table Diagram - [LucidChart](https://lucid.app/lucidchart/b2668bd4-91ad-4557-98c1-7552a31da417/edit?invitationId=inv_c934d6b0-ed3e-4e4b-8bd4-0e2b8dbb394a)
+- User Interface Design - [Figma](https://www.figma.com/file/J1X31z9Cp49qTKD4zxnrQc/Shopping-System-Project-CIIC4060%2FICOM5016)
+
+## Categories
+- Video Games
+- Audio
+- PC
+- Controllers
+- Storage
+- Gift Cards
+- Collectibles 
+- Toys & Games
+- Phones
+- Consoles
 
 ## Credentials
 - **Host**
@@ -31,5 +43,5 @@
 
 ## Team Link
 - DBGoats
-Video call link: https://meet.google.com/moc-tmac-mor
-Or dial: ‪(US) +1 601-844-2894‬ PIN: ‪638 374 102‬#
+    -   Video call link: https://meet.google.com/moc-tmac-mor
+    -   Or dial: ‪(US) +1 601-844-2894‬ PIN: ‪638 374 102‬#
