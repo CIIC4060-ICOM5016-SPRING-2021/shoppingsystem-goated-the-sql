@@ -18,7 +18,6 @@
 - Audio
 - PC
 - Controllers
-- Aesthetics
 - Storage
 - Gift Cards
 - Collectibles 
