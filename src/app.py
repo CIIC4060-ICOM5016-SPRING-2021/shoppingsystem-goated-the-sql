@@ -8,7 +8,6 @@ from src.controllers.liked_list import LikedListController
 from src.controllers.order import OrderController, OrderProductDetailsController
 from src.controllers.product import ProductController
 from src.controllers.user import UserController
-from src.models.user import UserModel
 
 app = Flask(__name__)
 
@@ -115,9 +114,9 @@ def user_handler(user_id):
     if request.method == 'GET':
         return UserController.get_user(user_id)
     elif request.method == 'PUT':
-        return UserController.update_user(user_id, request.json['user_id'], request.json)
+        return UserController.update_user(user_id, request.json['changed_user'], request.json)
     elif request.method == 'DELETE':
-        return UserController.delete_user(user_id, request.json['user_id'])
+        return UserController.delete_user(user_id, request.json['user_id_to_erase'])
     else:
         return jsonify("Operation not suGOATED."), 405
 
