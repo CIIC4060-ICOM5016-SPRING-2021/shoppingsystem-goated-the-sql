@@ -8,17 +8,15 @@ from src.controllers.liked_list import LikedListController
 from src.controllers.order import OrderController, OrderProductDetailsController
 from src.controllers.product import ProductController
 from src.controllers.user import UserController
-from src.models.user import UserModel
 
 app = Flask(__name__)
 
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
 
+
 # Sign up must be done, probably not on this page, to validate the user
 # before granting powers over the DB
-user = UserModel()
-user.set_user_id(14)
 
 
 # methods=['GET','POST','PUT','DELETE']
@@ -87,7 +85,7 @@ def product_page(prod_id):
 
     elif request.method == 'POST':
         # Request contains product id and quantity
-        return jsonify(CartController.add_product(user.get_user_id(), request.json))
+        return jsonify(CartController.add_product(request.json['user_id'], request.json))
 
     elif request.method == 'DELETE':
         """ 
@@ -116,9 +114,10 @@ def user_handler(user_id):
     if request.method == 'GET':
         return UserController.get_user(user_id)
     elif request.method == 'PUT':
-        return UserController.update_user(user_id, user.get_user_id(), request.json)
+
+        return UserController.update_user(request.json['updater_id'], user_id, request.json)
     elif request.method == 'DELETE':
-        return UserController.delete_user(user_id, user.get_user_id())
+        return UserController.delete_user(request.json['updater_id'], user_id)
     else:
         return jsonify("Operation not suGOATED."), 405
 
