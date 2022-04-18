@@ -11,7 +11,6 @@ class OrderProductDetails:
     __price_sold: float
     __quantity_bought: int
     __category: str
-    __product_count: int
 
     def get_name(self):
         return self.__name
@@ -44,10 +43,10 @@ class OrderProductDetails:
         self.__category = category
 
     def get_product_count(self):
-        return self.__product_count
+        return self.__quantity_bought
 
     def set_product_count(self, product_count):
-        self.__product_count = product_count
+        self.__quantity_bought = product_count
 
     def tuple_to_model(self, tuple_to_convert):
         self.set_name(tuple_to_convert[0])
