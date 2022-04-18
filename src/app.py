@@ -115,9 +115,9 @@ def user_handler(user_id):
         return UserController.get_user(user_id)
     elif request.method == 'PUT':
 
-        return UserController.update_user(user_id, request.json['updater_id'], request.json)
+        return UserController.update_user(request.json['updater_id'], user_id, request.json)
     elif request.method == 'DELETE':
-        return UserController.delete_user(user_id, request.json['updater_id'])
+        return UserController.delete_user(request.json['updater_id'], user_id)
     else:
         return jsonify("Operation not suGOATED."), 405
 
