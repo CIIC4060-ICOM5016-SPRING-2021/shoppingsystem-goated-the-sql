@@ -114,7 +114,8 @@ def user_handler(user_id):
     if request.method == 'GET':
         return UserController.get_user(user_id)
     elif request.method == 'PUT':
-        return UserController.update_user(user_id, request.json['changed_user'], request.json)
+
+        return UserController.update_user(user_id, request.json['updater_id'], request.json)
     elif request.method == 'DELETE':
         return UserController.delete_user(user_id, request.json['user_id_to_erase'])
     else:
