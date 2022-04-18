@@ -171,8 +171,12 @@ def orders_page(user_id):
             if request.json:
                 return OrderController.get_specific_order(user_id, request.json['order_id'])
         else:
-            return OrderController.get_all_orders(user_id)
+            json = {"Orders": OrderController.get_all_orders(user_id),
+                    "Personalized User Statistics": OrderProductDetailsController.get_personalized_user_statistics(
+                        user_id)
 
+                    }
+            return jsonify(json)
     elif request.method == 'PUT':
         if request.data:
             if request.json:

@@ -770,17 +770,107 @@ class BackEnd:
             return "goomba"
 
         elif model.__class__.__name__ == 'OrderProductDetails':
+            if filter_clause == '':
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM order_products
+                    GROUP BY {}
+                    ORDER BY {} {}
+                    LIMIT {}
+                    """.format(select_attributes, group_attribute, order_attribute, sort, limit),
+                    'OrderProductDetails',
+                    categories
+                )
+            else:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM order_products
+                    WHERE {}
+                    GROUP BY {}
+                    ORDER BY {} {}
+                    LIMIT {}
+                    """.format(select_attributes, filter_clause, group_attribute, order_attribute, sort, limit),
+                    'OrderProductDetails',
+                    categories
+                )
+        elif model.__class__.__name__ == 'LikedListModel':
+            # If the where_clause_statement is not empty (ie no filter required)
             return cls.__db_fetch_all(
                 """
-                SELECT {}
-                FROM order_products
-                GROUP BY {}
-                ORDER BY {} {}
-                LIMIT {}
-                """.format(select_attributes, group_attribute, order_attribute, sort, limit),
-                'OrderProductDetails',
-                categories
+                    SELECT {}
+                    FROM likedlist
+                    GROUP BY {}
+                    ORDER BY {} {}
+                    LIMIT {}
+                    """.format(select_attributes, group_attribute, order_attribute, sort, limit),
+                'LikedListModel'
             )
+        elif model.__class__.__name__ == 'CartModel':
+            return "goomba"
+
+    @classmethod
+    def get_elements_join(
+            cls, model, select_attributes: str, on: str, filter_clause: str, order_attribute: str,
+            sort: str, limit: int = None, categories: bool = False, group_attribute: str = None):
+        """
+            Queries the database for all the elements of the given corresponding Entity in a specified order.
+
+        :type order_attribute: object
+        :param model: class instance of the desired Entity Model
+        :param select_attributes: attributes desired from the query
+        :param filter_clause: specific filters desired for the query
+        :param order_attribute: specific attribute to order
+        :param sort: ascending (ASC) or descending (DESC)
+        :return: list containing the desired Entity Models of matching query results in the specified order
+        """
+        # The difference betweeen get_elements and this one is that this one can hold more paramenters
+        # than its sister method. Can be refactored later
+
+        if model.__class__.__name__ == 'OrderModel':
+            return "goomba"
+
+        elif model.__class__.__name__ == 'OrderProductDetails':
+            if on == '':
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM order_products
+                    GROUP BY {}
+                    ORDER BY {} {}
+                    LIMIT {}
+                    """.format(select_attributes, group_attribute, order_attribute, sort, limit),
+                    'OrderProductDetails',
+                    categories
+                )
+            elif group_attribute:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM order_products
+                    inner join orders on {}
+                    WHERE {}
+                    GROUP BY {}
+                    ORDER BY {} {}
+                    LIMIT {}
+                    """.format(select_attributes, on, filter_clause, group_attribute, order_attribute, sort, limit),
+                    'OrderProductDetails',
+                    categories
+                )
+            else:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT {}
+                    FROM order_products
+                    inner join orders on {}
+                    WHERE {}
+                    ORDER BY {} {}
+                    LIMIT {}
+                    """.format(select_attributes, on, filter_clause, order_attribute, sort, limit),
+                    'OrderProductDetails',
+                    categories
+                )
         elif model.__class__.__name__ == 'LikedListModel':
             # If the where_clause_statement is not empty (ie no filter required)
             return cls.__db_fetch_all(
