@@ -42,12 +42,125 @@ class OrderProductDetails:
     def set_category(self, category):
         self.__category = category
 
+    def get_product_count(self):
+        return self.__quantity_bought
+
+    def set_product_count(self, product_count):
+        self.__quantity_bought = product_count
+
     def tuple_to_model(self, tuple_to_convert):
         self.set_name(tuple_to_convert[0])
         self.set_description(tuple_to_convert[1])
         self.set_price_sold(tuple_to_convert[2])
         self.set_quantity_bought(tuple_to_convert[3])
         self.set_category(tuple_to_convert[4])
+
+    @classmethod
+    def get_top_categories(cls, user_id=0):
+        try:
+            if user_id == 0:
+                return BackEnd.get_elements_beta(model=OrderProductDetails(),
+                                                 select_attributes="category, count(product_name) as products",
+                                                 order_attribute="products",
+                                                 group_attribute="category",
+                                                 sort="desc",
+                                                 limit=10,
+                                                 filter_clause='',
+                                                 categories=True)
+            else:
+                return BackEnd.get_elements_join(model=OrderProductDetails(),
+                                                 select_attributes="category, count(product_name) as products",
+                                                 order_attribute="products",
+                                                 group_attribute="category",
+                                                 sort="desc",
+                                                 limit=10,
+                                                 on='order_id_fk = order_id',
+                                                 filter_clause="user_id = {}".format(user_id),
+                                                 categories=True)
+        except psycopg2.Error:
+            raise AttributeError
+
+    @classmethod
+    def get_top_products(cls, user_id=0):
+        from src.models.product import ProductModel
+        try:
+            list_of_product = []
+            if user_id == 0:
+                for row in BackEnd.get_elements_beta(model=OrderProductDetails(),
+                                                     select_attributes="product_name, count(*) as appearances",
+                                                     order_attribute="appearances",
+                                                     group_attribute="product_name",
+                                                     sort="desc",
+                                                     limit=10,
+                                                     filter_clause='',
+                                                     categories=False
+                                                     ):
+                    list_of_product.append(BackEnd.get_element(model=ProductModel(),
+                                                               pk="'{}'".format(row.get_name()),
+                                                               select_attributes="*",
+                                                               helper="name")
+                                           )
+            else:
+                for row in BackEnd.get_elements_join(model=OrderProductDetails(),
+                                                     select_attributes="product_name, count(*) as appearances, sum("
+                                                                       "quantity_bought) as count",
+                                                     order_attribute="count",
+                                                     group_attribute="product_name",
+                                                     sort="desc",
+                                                     limit=10,
+                                                     on='order_id_fk = order_id',
+                                                     filter_clause="user_id = {}".format(user_id),
+                                                     categories=False
+                                                     ):
+                    list_of_product.append(BackEnd.get_element(model=ProductModel(),
+                                                               pk="'{}'".format(row.get_name()),
+                                                               select_attributes="*",
+                                                               helper="name")
+                                           )
+            return list_of_product
+
+        except psycopg2.Error:
+            raise AttributeError
+
+    @classmethod
+    def get_products_sorted(cls, user_id, ascending):
+        from src.models.product import ProductModel
+        try:
+            list_of_product = []
+            if user_id == 0:
+                for row in BackEnd.get_elements_beta(model=OrderProductDetails(),
+                                                     select_attributes="product_name, count(*) as appearances",
+                                                     order_attribute="appearances",
+                                                     group_attribute="product_name",
+                                                     sort="desc",
+                                                     limit=10,
+                                                     filter_clause='',
+                                                     categories=False
+                                                     ):
+                    list_of_product.append(BackEnd.get_element(model=ProductModel(),
+                                                               pk="'{}'".format(row.get_name()),
+                                                               select_attributes="*",
+                                                               helper="name")
+                                           )
+            else:
+                for row in BackEnd.get_elements_join(model=OrderProductDetails(),
+                                                     select_attributes="distinct product_name, price_sold",
+                                                     order_attribute="price_sold",
+                                                     sort="asc" if ascending else "desc",
+                                                     limit=10,
+                                                     on='order_id_fk = order_id',
+                                                     filter_clause="user_id = {}".format(user_id),
+                                                     categories=False
+                                                     ):
+                    list_of_product.append(BackEnd.get_element(model=ProductModel(),
+                                                               pk="'{}'".format(row.get_name()),
+                                                               select_attributes="*",
+                                                               helper="name")
+                                           )
+            return list_of_product
+
+        except psycopg2.Error:
+            raise AttributeError
 
 
 class OrderModel:
@@ -231,6 +344,6 @@ class OrderModel:
             BackEnd.delete_element(OrderModel(), order_id)
 
             return BackEnd.create_element(self, user_id).get_order_id()
-        
+
         except psycopg2.Error:
             return False

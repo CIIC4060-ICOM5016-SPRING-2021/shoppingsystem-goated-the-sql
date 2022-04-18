@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 
 from src.controllers.cart import CartController
 from src.controllers.liked_list import LikedListController
-from src.controllers.order import OrderController
+from src.controllers.order import OrderController, OrderProductDetailsController
 from src.controllers.product import ProductController
 from src.controllers.user import UserController
 from src.models.user import UserModel
@@ -45,7 +45,17 @@ def all_products():
                     return ProductController.get_all_products_by_category(request.json['category'])
 
         else:
-            return ProductController.get_all_products()
+            list_of_products = ProductController.get_all_products()
+            return_json = {"Products": list_of_products}
+            global_statistics = {"Cheapest Products": ProductController.get_cheapest_products(),
+                                 "Most Expensive Products": ProductController.get_priciest_products(),
+                                 "Most Liked Products": LikedListController.get_top_likes(),
+                                 "Hottest Categories": OrderProductDetailsController.get_top_categories(),
+                                 "Hottest Products": OrderProductDetailsController.get_top_products()
+                                 }
+            return_json["Global Statistics"] = global_statistics
+
+            return jsonify(return_json)
     else:
         return jsonify("Operation not suGOATED."), 405
 
@@ -161,8 +171,12 @@ def orders_page(user_id):
             if request.json:
                 return OrderController.get_specific_order(user_id, request.json['order_id'])
         else:
-            return OrderController.get_all_orders(user_id)
+            json = {"Orders": OrderController.get_all_orders(user_id),
+                    "Personalized User Statistics": OrderProductDetailsController.get_personalized_user_statistics(
+                        user_id)
 
+                    }
+            return jsonify(json)
     elif request.method == 'PUT':
         if request.data:
             if request.json:

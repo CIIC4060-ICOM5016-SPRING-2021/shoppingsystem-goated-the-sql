@@ -40,3 +40,8 @@ class LikedListController:
         else:
             # darle like
             LikedListModel.add_like(prod_id, user_id)
+
+    @classmethod
+    def get_top_likes(cls):
+        # returns top 10 product models with the most likes
+        return LikedListModel.get_top_likes()

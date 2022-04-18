@@ -1,8 +1,9 @@
 from flask import jsonify
 
-from src.models.cart import CartModel
-from src.models.order import OrderModel
+from src.models.order import OrderModel, OrderProductDetails
+from src.models.product import ProductModel
 from src.models.user import UserModel
+from src.models.cart import CartModel
 
 
 class OrderController:
@@ -91,7 +92,7 @@ class OrderController:
             for transaction in orders:
                 orders_json.append(cls.model_to_dict(transaction))
 
-            return jsonify(orders_json), 200
+            return orders_json
         else:
             jsonify("The given user has no orders."), 404
         pass
@@ -185,6 +186,77 @@ class OrderController:
         model.set_time_of_order(request['time_of_order'])
 
         model.set_product_list([])
+
+        for item in request['products_ordered']:
+            model.add_product_json_to_model(item)
+
+        model.set_order_total(request['order_total'])
+        model.set_total_product_quantity(request['total_product_quantity'])
+
+        return model
+
+
+class OrderProductDetailsController:
+
+    @classmethod
+    def get_top_categories(cls):
+        list_of_categories = []
+        for category in OrderProductDetails.get_top_categories():
+            list_of_categories.append(cls.model_to_dict(category, True))
+        return list_of_categories
+
+    @classmethod
+    def get_top_products(cls):
+        list_of_products = []
+        for product in OrderProductDetails.get_top_products():
+            from src.controllers.product import ProductController
+            list_of_products.append(ProductController.model_to_dict(product))
+        return list_of_products
+
+    @classmethod
+    def get_personalized_user_statistics(cls, user_id):
+        most_bought_categories = []
+        most_bought_products = []  # ranked by amount
+        cheapest_bought_products = []
+        most_expensive_bought_products = []
+
+        for category in OrderProductDetails.get_top_categories(user_id):
+            most_bought_categories.append(cls.model_to_dict(category, True))
+
+        for product in OrderProductDetails.get_top_products(user_id):
+            from src.controllers.product import ProductController
+            most_bought_products.append(ProductController.model_to_dict(product))
+
+        for product in OrderProductDetails.get_products_sorted(user_id, True):
+            from src.controllers.product import ProductController
+            cheapest_bought_products.append(ProductController.model_to_dict(product))
+
+        for product in OrderProductDetails.get_products_sorted(user_id, False):
+            from src.controllers.product import ProductController
+            most_expensive_bought_products.append(ProductController.model_to_dict(product))
+
+        return [{"Most Bought Categories": most_bought_categories}, {"Most Bought Products": most_bought_products},
+                {"Cheapest Bought Products": cheapest_bought_products},
+                {"Most Expensive Bought Products": most_expensive_bought_products}]
+
+    @classmethod
+    def model_to_dict(cls, order_model, categories=False):
+        if categories:
+            dic = {"name": order_model.get_category(),
+                   "products": order_model.get_product_count()}
+        else:
+            dic = {"name": order_model.get_name(),
+                   "appearances": order_model.get_product_count()}
+        return dic
+
+    @classmethod
+    def json_to_model(cls, request):
+
+        model = OrderModel()
+
+        model.set_order_id(request['order_id'])
+        model.set_user_id(request['user_id'])
+        model.set_time_of_order(request['time_of_order'])
 
         for item in request['products_ordered']:
             model.add_product_json_to_model(item)

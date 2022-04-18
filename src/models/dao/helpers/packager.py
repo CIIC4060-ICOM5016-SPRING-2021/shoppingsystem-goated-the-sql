@@ -1,6 +1,6 @@
 class Packager:
     @classmethod
-    def package_response(cls, response, obj_type):
+    def package_response(cls, response, obj_type, categories=False):
         """
             Converts a response from the database into an object related to its entity.
 
@@ -14,14 +14,14 @@ class Packager:
             result = list()
 
             for item in response:
-                result.append(cls.convert_tuple_to_obj(item, obj_type))
+                result.append(cls.convert_tuple_to_obj(item, obj_type, True, categories))
             return result
         else:
-            converted_obj = cls.convert_tuple_to_obj(response, obj_type)
+            converted_obj = cls.convert_tuple_to_obj(response, obj_type, categories)
             return converted_obj
 
     @classmethod
-    def convert_tuple_to_obj(cls, item: tuple, to_obj):
+    def convert_tuple_to_obj(cls, item: tuple, to_obj, multiple_results_likedlist=False, categories=False):
         """
             Converts a given Tuple into the desired Entity Model Object
 
@@ -61,11 +61,30 @@ class Packager:
             result = OrderModel()
             # TODO: Insert logic
             return result
+
+        elif to_obj == 'OrderProductDetails':
+            from src.models.order import OrderProductDetails
+            result = OrderProductDetails()
+            # product_name, count(*) as appearances
+            if categories:
+                result.set_category(item[0])
+                result.set_product_count(item[1])
+            else:
+                result.set_name(item[0])
+                # using this to store the number of appereances of the product on the table
+                result.set_product_count(item[1])
+            return result
+
         elif to_obj == 'LikedListModel':
             from src.models.liked_list import LikedListModel
             result = LikedListModel()
-            result.set_like_count(item[0])
+            if multiple_results_likedlist:
+                result.set_like_count(item[0])
+                result.set_prod_id(item[1])
+            else:
+                result.set_like_count(item[0])
             return result
+
         elif to_obj == 'CartModel':
             from src.models.cart import CartModel
             result = CartModel()
