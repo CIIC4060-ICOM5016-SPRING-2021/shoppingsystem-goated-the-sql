@@ -21,8 +21,8 @@
 - Storage
 - Gift Cards
 - Collectibles 
-- Toys & Games
-- Phones
+- Peripherals
+- Smartphones
 - Consoles
 
 ## Credentials
