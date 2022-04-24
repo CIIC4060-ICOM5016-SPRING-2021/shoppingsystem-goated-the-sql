@@ -1,5 +1,4 @@
-from flask import jsonify
-from src.models.dao.backend import BackEnd
+from src.backend.models.dao.backend import BackEnd
 
 class CartModel:
     __product_id: int

@@ -30,7 +30,7 @@ class Packager:
         :return: Entity Model, same type as requested
         """
         if to_obj == 'UserModel':
-            from src.models.user import UserModel
+            from src.backend.models.user import UserModel
 
             result = UserModel()
             result.set_user_id(item[0])
@@ -44,7 +44,7 @@ class Packager:
 
             return result
         elif to_obj == 'ProductModel':
-            from src.models.product import ProductModel
+            from src.backend.models.product import ProductModel
 
             result = ProductModel()
             result.set_prod_id(item[0])
@@ -57,13 +57,13 @@ class Packager:
 
             return result
         elif to_obj == 'OrderModel':
-            from src.models.order import OrderModel
+            from src.backend.models.order import OrderModel
             result = OrderModel()
             # TODO: Insert logic
             return result
 
         elif to_obj == 'OrderProductDetails':
-            from src.models.order import OrderProductDetails
+            from src.backend.models.order import OrderProductDetails
             result = OrderProductDetails()
             # product_name, count(*) as appearances
             if categories:
@@ -76,7 +76,7 @@ class Packager:
             return result
 
         elif to_obj == 'LikedListModel':
-            from src.models.liked_list import LikedListModel
+            from src.backend.models.liked_list import LikedListModel
             result = LikedListModel()
             if multiple_results_likedlist:
                 result.set_like_count(item[0])
@@ -86,7 +86,7 @@ class Packager:
             return result
 
         elif to_obj == 'CartModel':
-            from src.models.cart import CartModel
+            from src.backend.models.cart import CartModel
             result = CartModel()
             result.set_product_id(item[0])
             result.set_user_id(item[1])

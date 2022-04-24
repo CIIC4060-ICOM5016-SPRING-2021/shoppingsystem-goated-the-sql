@@ -1,5 +1,5 @@
-from src.models.dao.backend import BackEnd
-from src.models.product import ProductModel
+from src.backend.models.dao.backend import BackEnd
+from src.backend.models.product import ProductModel
 
 
 class LikedListModel:
@@ -43,7 +43,7 @@ class LikedListModel:
        :return: True if the product is deleted successfully, False if there is problem deleting the user
        :raises ValueError: user does not have rights to delete the user
        """
-        from src.models.user import UserModel
+        from src.backend.models.user import UserModel
 
         if UserModel.db_is_admin(updater_id):
             return BackEnd.delete_element(LikedListModel(), user_id)

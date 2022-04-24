@@ -1,5 +1,5 @@
 from flask import jsonify
-from src.models.user import UserModel
+from src.backend.models.user import UserModel
 
 
 class UserController:

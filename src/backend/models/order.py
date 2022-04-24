@@ -1,8 +1,8 @@
 import psycopg2
 
-from src.models.dao.backend import BackEnd
-from src.models.product import ProductModel
-from src.models.user import UserModel
+from src.backend.models.dao.backend import BackEnd
+from src.backend.models.product import ProductModel
+from src.backend.models.user import UserModel
 
 
 class OrderProductDetails:
@@ -82,7 +82,7 @@ class OrderProductDetails:
 
     @classmethod
     def get_top_products(cls, user_id=0):
-        from src.models.product import ProductModel
+        from src.backend.models.product import ProductModel
         try:
             list_of_product = []
             if user_id == 0:
@@ -124,7 +124,7 @@ class OrderProductDetails:
 
     @classmethod
     def get_products_sorted(cls, user_id, ascending):
-        from src.models.product import ProductModel
+        from src.backend.models.product import ProductModel
         try:
             list_of_product = []
             if user_id == 0:

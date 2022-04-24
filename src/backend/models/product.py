@@ -1,6 +1,6 @@
 import psycopg2
 
-from src.models.dao.backend import BackEnd
+from src.backend.models.dao.backend import BackEnd
 
 
 class ProductModel:
@@ -212,7 +212,7 @@ class ProductModel:
         :return: True if the product is deleted successfully, False if there is problem deleting the product
         :raises ValueError: user does not have rights to delete the product
         """
-        from src.models.user import UserModel
+        from src.backend.models.user import UserModel
 
         if UserModel.db_is_admin(user_id):
             return BackEnd.delete_element(ProductModel(), prod_id)
@@ -230,7 +230,7 @@ class ProductModel:
         :return: True if the product is successfully updated or there are no changes found between the requested updates
         and the database,
         """
-        from src.models.user import UserModel
+        from src.backend.models.user import UserModel
 
         if UserModel.db_is_admin(user_id):
             try:

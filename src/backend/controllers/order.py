@@ -1,9 +1,8 @@
 from flask import jsonify
 
-from src.models.order import OrderModel, OrderProductDetails
-from src.models.product import ProductModel
-from src.models.user import UserModel
-from src.models.cart import CartModel
+from src.backend.models.order import OrderModel, OrderProductDetails
+from src.backend.models.user import UserModel
+from src.backend.models.cart import CartModel
 
 
 class OrderController:
@@ -211,7 +210,7 @@ class OrderProductDetailsController:
     def get_top_products(cls):
         list_of_products = []
         for product in OrderProductDetails.get_top_products():
-            from src.controllers.product import ProductController
+            from src.backend.controllers.product import ProductController
             list_of_products.append(ProductController.model_to_dict(product))
         return list_of_products
 
@@ -226,15 +225,15 @@ class OrderProductDetailsController:
             most_bought_categories.append(cls.model_to_dict(category, True))
 
         for product in OrderProductDetails.get_top_products(user_id):
-            from src.controllers.product import ProductController
+            from src.backend.controllers.product import ProductController
             most_bought_products.append(ProductController.model_to_dict(product))
 
         for product in OrderProductDetails.get_products_sorted(user_id, True):
-            from src.controllers.product import ProductController
+            from src.backend.controllers.product import ProductController
             cheapest_bought_products.append(ProductController.model_to_dict(product))
 
         for product in OrderProductDetails.get_products_sorted(user_id, False):
-            from src.controllers.product import ProductController
+            from src.backend.controllers.product import ProductController
             most_expensive_bought_products.append(ProductController.model_to_dict(product))
 
         return [{"Most Bought Categories": most_bought_categories}, {"Most Bought Products": most_bought_products},

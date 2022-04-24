@@ -1,6 +1,6 @@
 from flask import jsonify
 
-from src.models.product import ProductModel
+from src.backend.models.product import ProductModel
 
 
 class ProductController:

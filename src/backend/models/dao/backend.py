@@ -1,7 +1,7 @@
 import psycopg2
 
-from src.models.dao.db_access import DBAccess
-from src.models.dao.helpers.packager import Packager
+from src.backend.models.dao.db_access import DBAccess
+from src.backend.models.dao.helpers.packager import Packager
 
 
 class BackEnd:
@@ -172,8 +172,8 @@ class BackEnd:
                 )
 
         elif model.__class__.__name__ == 'OrderModel':
-            from src.models.order import OrderModel
-            from src.models.order import OrderProductDetails
+            from src.backend.models.order import OrderModel
+            from src.backend.models.order import OrderProductDetails
 
             order = OrderModel()
 
@@ -411,8 +411,8 @@ class BackEnd:
                     'ProductModel'
                 )
         elif model.__class__.__name__ == 'OrderModel':
-            from src.models.order import OrderModel
-            from src.models.order import OrderProductDetails
+            from src.backend.models.order import OrderModel
+            from src.backend.models.order import OrderProductDetails
 
             db_connection = DBAccess().connect_to_db()
             cursor = db_connection.cursor()

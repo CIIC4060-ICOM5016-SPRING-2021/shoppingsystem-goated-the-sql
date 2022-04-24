@@ -1,6 +1,5 @@
-from flask import jsonify
-from src.models.cart import CartModel
-from src.models.product import ProductModel
+from src.backend.models.cart import CartModel
+from src.backend.models import ProductModel
 
 
 class CartController:

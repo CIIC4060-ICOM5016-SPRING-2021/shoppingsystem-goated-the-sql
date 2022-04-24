@@ -1,6 +1,6 @@
-from src.models.dao.helpers.dir_traversal import Directories
-from src.models.dao.helpers.parser import Parser
-from src.models.dao.credentials import Credentials
+from src.backend.models.dao.helpers.dir_traversal import Directories
+from src.backend.models.dao.helpers.parser import Parser
+from src.backend.models.dao.credentials import Credentials
 import psycopg2
 import os
 

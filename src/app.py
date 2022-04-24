@@ -3,11 +3,11 @@ import sys
 
 from flask import Flask, request, jsonify
 
-from src.controllers.cart import CartController
-from src.controllers.liked_list import LikedListController
-from src.controllers.order import OrderController, OrderProductDetailsController
-from src.controllers.product import ProductController
-from src.controllers.user import UserController
+from src.backend.controllers.cart import CartController
+from src.backend.controllers.liked_list import LikedListController
+from src.backend.controllers.order import OrderController, OrderProductDetailsController
+from src.backend.controllers.product import ProductController
+from src.backend.controllers.user import UserController
 
 app = Flask(__name__)
 
