@@ -2,7 +2,7 @@ import hashlib
 import psycopg2
 
 from datetime import datetime
-from src.backend.models.dao.backend import BackEnd
+from src.backend.models.dao.db_connection import BackEnd
 
 
 class UserModel:

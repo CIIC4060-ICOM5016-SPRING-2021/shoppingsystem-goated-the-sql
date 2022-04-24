@@ -1,4 +1,4 @@
-from src.backend.models.dao.backend import BackEnd
+from src.backend.models.dao.db_connection import BackEnd
 from src.backend.models.product import ProductModel
 
 

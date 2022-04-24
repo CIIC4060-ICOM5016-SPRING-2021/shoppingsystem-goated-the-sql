@@ -1,6 +1,6 @@
 import psycopg2
 
-from src.backend.models.dao.db_access import DBAccess
+from src.backend.models.dao.db_setup import DBAccess
 from src.backend.models.dao.helpers.packager import Packager
 
 

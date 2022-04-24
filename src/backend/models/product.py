@@ -1,6 +1,6 @@
 import psycopg2
 
-from src.backend.models.dao.backend import BackEnd
+from src.backend.models.dao.db_connection import BackEnd
 
 
 class ProductModel:
