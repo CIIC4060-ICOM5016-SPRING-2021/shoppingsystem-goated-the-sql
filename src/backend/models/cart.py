@@ -1,5 +1,6 @@
 from src.backend.models.dao.backend import BackEnd
 
+
 class CartModel:
     __product_id: int
     __usr_id: int

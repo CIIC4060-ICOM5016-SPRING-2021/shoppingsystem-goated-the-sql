@@ -1,6 +1,7 @@
 import hashlib
-from datetime import datetime
 import psycopg2
+
+from datetime import datetime
 from src.backend.models.dao.backend import BackEnd
 
 
