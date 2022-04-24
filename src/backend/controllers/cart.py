@@ -1,5 +1,5 @@
 from src.backend.models.cart import CartModel
-from src.backend.models import ProductModel
+from src.backend.models.product import ProductModel
 
 
 class CartController:

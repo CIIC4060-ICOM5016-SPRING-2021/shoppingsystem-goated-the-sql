@@ -1,5 +1,5 @@
 from flask import jsonify
-from src.backend.models import LikedListModel
+from src.backend.models.liked_list import LikedListModel
 
 
 class LikedListController:
