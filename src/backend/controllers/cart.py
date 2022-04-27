@@ -35,17 +35,22 @@ class CartController:
         prod_id = json['product_id']
         quantity = json['quantity']
         item = ProductModel.get_product(prod_id)
+        for i in CartModel.get_cart(usr_id):
+            if i.get_product_id() == prod_id:
+                return "Item is already in cart, cannot add duplicate item"
         # TODO check if item is already in the users cart and add quantity to the record
         # TODO add max stock to quantity is quantity > stock
         if quantity > item.get_stock():
-            return False
+            return "Quantity to add cannot be larger than stock available"
         temp_cart = CartModel()
         temp_cart.set_user_id(usr_id)
         temp_cart.set_product_id(prod_id)
         temp_cart.set_product_price(item.get_price())
         temp_cart.set_product_quantity(quantity)
 
-        return temp_cart.add_item()
+        temp_cart.add_item()
+
+        return CartController.get_cart(usr_id)
 
     @classmethod
     def delete_cart(cls, usr_id, json):
