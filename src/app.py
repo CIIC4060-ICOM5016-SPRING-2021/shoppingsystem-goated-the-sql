@@ -247,7 +247,12 @@ def checkout_page():
     if request.data:
         if request.json:
             try:
-                return OrderController.create_order(request.json['user_id'], request.json['order_products'])
+                orderee_id = UserController.get_user(request.json['user_id'])
+
+                if orderee_id[1] == 200:
+                    return OrderController.create_order(request.json['user_id'], request.json['order_products'])
+                else:
+                    return jsonify("User Not Found"), 404
             except KeyError:
                 return OrderController.create_order_from_cart(request.json['user_id'])
     else:
