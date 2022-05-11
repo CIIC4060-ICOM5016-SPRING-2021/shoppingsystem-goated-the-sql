@@ -79,9 +79,12 @@ def product_page(prod_id):
         else:
             return jsonify("Product Not Found"), 404
     elif request.method == 'PUT':
-        # If it receives no JSON request then it will assume the user wants to like the
+        # If it receives no JSON request then it will assume the user wants to like the product
         if type(request.json) is list:
-            return ProductController.update_product(request.json[1], request.json[0])
+            if UserController.get_user(request.json[0]['user_id'])[1] == 200:
+                return ProductController.update_product(request.json[1], request.json[0])
+            else:
+                return jsonify("User Not Found"), 404
         else:
             # Will check if this user has liked this product before, toggling the like status
             if UserController.get_user(request.json['user_id'])[1] == 200:
