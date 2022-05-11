@@ -128,6 +128,7 @@ def user_handler(user_id):
         requester_id = UserController.get_user(request.json['updater_id'])
         subject_id = UserController.get_user(user_id)
 
+        # Repeated code, fix this after project complete
         if requester_id[1] == 200 and subject_id[1] == 200:
             return UserController.update_user(request.json['updater_id'], user_id, request.json)
         elif requester_id[1] != 200 and subject_id[1] == 200:
@@ -137,7 +138,18 @@ def user_handler(user_id):
         elif requester_id[1] != 200 and subject_id[1] != 200:
             return jsonify("Users Not Found"), 404
     elif request.method == 'DELETE':
-        return UserController.delete_user(request.json['updater_id'], user_id)
+        requester_id = UserController.get_user(request.json['updater_id'])
+        subject_id = UserController.get_user(user_id)
+
+        # Repeated code, fix this after project complete
+        if requester_id[1] == 200 and subject_id[1] == 200:
+            return UserController.delete_user(request.json['updater_id'], user_id)
+        elif requester_id[1] != 200 and subject_id[1] == 200:
+            return jsonify("User Requesting Change Not Found"), 404
+        elif requester_id[1] == 200 and subject_id[1] != 200:
+            return jsonify("User To Be Updated Not Found"), 404
+        elif requester_id[1] != 200 and subject_id[1] != 200:
+            return jsonify("Users Not Found"), 404
     else:
         return jsonify("Operation not suGOATED."), 405
 
