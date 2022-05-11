@@ -99,7 +99,12 @@ def product_page(prod_id):
             The following line is way too easy to bypass in terms of security, someone could just spam numbers until 
             they get a user id that has admin rights
         """
-        return ProductController.delete_product(prod_id, request.json['user_id'])
+        product_details = ProductController.get_product(prod_id)
+
+        if type(product_details) == dict:
+            return ProductController.delete_product(prod_id, request.json['user_id'])
+        else:
+            return jsonify("Product Not Found"), 404
     else:
         return jsonify("Operation not suGOATED."), 405
 
