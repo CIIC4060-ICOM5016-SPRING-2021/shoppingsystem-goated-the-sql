@@ -206,24 +206,32 @@ def orders_page(user_id):
     if request.method == 'GET':
         if request.data:
             if request.json:
-                return OrderController.get_specific_order(user_id, request.json['order_id'])
+                if UserController.get_user(user_id)[1] == 200:
+                    return OrderController.get_specific_order(user_id, request.json['order_id'])
+                else:
+                    return jsonify("User Not Found"), 404
         else:
-            json = {"Orders": OrderController.get_all_orders(user_id),
-                    "Personalized User Statistics": OrderProductDetailsController.get_personalized_user_statistics(
-                        user_id)
-
-                    }
-            return jsonify(json)
+            if UserController.get_user(user_id)[1] == 200:
+                json = {"Orders": OrderController.get_all_orders(user_id),
+                        "Personalized User Statistics": OrderProductDetailsController.get_personalized_user_statistics(
+                            user_id)
+                        }
+                return jsonify(json)
+            else:
+                return jsonify("User Not Found"), 404
     elif request.method == 'PUT':
         if request.data:
             if request.json:
                 # This works so the user who is in their order's page is the person requesting the change,
                 # that way if a normal user is trying to change an order they'll be limited to only their orders
                 # when trying to request.
-                return OrderController.update_order(request.json['order_user_id'],
-                                                    user_id,
-                                                    request.json['order_id'],
-                                                    request.json['changed_order'])
+                if UserController.get_user(user_id)[1] == 200:
+                    return OrderController.update_order(request.json['order_user_id'],
+                                                        user_id,
+                                                        request.json['order_id'],
+                                                        request.json['changed_order'])
+                else:
+                    return jsonify("User Not Found"), 404
             else:
                 return jsonify("Must provide order changes."), 400
         else:
@@ -232,7 +240,10 @@ def orders_page(user_id):
     elif request.method == 'DELETE':
         if request.data:
             if request.json:
-                return OrderController.delete_order(user_id, request.json['order_id'])
+                if UserController.get_user(user_id)[1] == 200:
+                    return OrderController.delete_order(user_id, request.json['order_id'])
+                else:
+                    return jsonify("User Not Found"), 404
             else:
                 return jsonify("Must provide order to delete."), 400
         else:
