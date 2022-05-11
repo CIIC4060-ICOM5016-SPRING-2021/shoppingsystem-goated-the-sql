@@ -1,6 +1,7 @@
 from flask import jsonify
 
 from src.backend.models.product import ProductModel
+from src.backend.models.user import UserModel
 
 
 class ProductController:
@@ -114,6 +115,9 @@ class ProductController:
         :return: 200 if completed successfully, 500 if problem was encountered while making the change, 403 if user is
         not authorized to request the change, 406 if no changes are detected
         """
+        if UserModel.get_user(user_id_json_obj['user_id']).get_admin_status() is not True:
+            raise ValueError("User does not have the rights to make this change.")
+
         try:
             updated = ProductModel.db_update_product(cls.json_to_model(product_json), user_id_json_obj['user_id'])
             if updated:
