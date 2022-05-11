@@ -84,10 +84,13 @@ def product_page(prod_id):
             return ProductController.update_product(request.json[1], request.json[0])
         else:
             # Will check if this user has liked this product before, toggling the like status
-            LikedListController.toggle_like(prod_id, request.json['user_id'])
-            return_list = [ProductController.get_product(prod_id),
-                           {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
-            return jsonify(return_list)
+            if UserController.get_user(request.json['user_id'])[1] == 200:
+                LikedListController.toggle_like(prod_id, request.json['user_id'])
+                return_list = [ProductController.get_product(prod_id),
+                               {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+                return jsonify(return_list)
+            else:
+                return jsonify("User Not Found"), 404
 
     elif request.method == 'POST':
         # Request contains product id and quantity
