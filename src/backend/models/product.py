@@ -230,36 +230,41 @@ class ProductModel:
         :return: True if the product is successfully updated or there are no changes found between the requested updates
         and the database,
         """
-        try:
-            db_model = ProductModel.get_product(model.get_prod_id())
+        from src.backend.models.user import UserModel
 
-            changes = []
-            if db_model.get_name() != model.get_name():
-                changes.append("name = '{}'".format(model.get_name()))
+        if UserModel.db_is_admin(user_id):
+            try:
+                db_model = ProductModel.get_product(model.get_prod_id())
 
-            if db_model.get_desc() != model.get_desc():
-                changes.append("description = '{}'".format(model.get_desc()))
+                changes = []
+                if db_model.get_name() != model.get_name():
+                    changes.append("name = '{}'".format(model.get_name()))
 
-            if db_model.get_price() != model.get_price():
-                changes.append("price = {}".format(model.get_price()))
+                if db_model.get_desc() != model.get_desc():
+                    changes.append("description = '{}'".format(model.get_desc()))
 
-            if db_model.get_category() != model.get_category():
-                changes.append("category = '{}'".format(model.get_category()))
+                if db_model.get_price() != model.get_price():
+                    changes.append("price = {}".format(model.get_price()))
 
-            if db_model.get_stock() != model.get_stock():
-                changes.append("stock = {}".format(model.get_stock()))
+                if db_model.get_category() != model.get_category():
+                    changes.append("category = '{}'".format(model.get_category()))
 
-            if db_model.get_visibility() != model.get_visibility():
-                changes.append("visible = {}".format(model.get_visibility()))
+                if db_model.get_stock() != model.get_stock():
+                    changes.append("stock = {}".format(model.get_stock()))
 
-            if changes:
-                BackEnd.update_element_attribute("products",
-                                                 ", ".join(changes),
-                                                 "product_id  = {}".format(model.get_prod_id())
-                                                 )
-                return True
-            else:
-                raise AttributeError("No differences were found between the database and give product.")
-        except psycopg2.Error as e:
-            print(e)
-            return False
+                if db_model.get_visibility() != model.get_visibility():
+                    changes.append("visible = {}".format(model.get_visibility()))
+
+                if changes:
+                    BackEnd.update_element_attribute("products",
+                                                     ", ".join(changes),
+                                                     "product_id  = {}".format(model.get_prod_id())
+                                                     )
+                    return True
+                else:
+                    raise AttributeError("No differences were found between the database and give product.")
+            except psycopg2.Error as e:
+                print(e)
+                return False
+        else:
+            raise ValueError("User does not have the rights to make this change.")
