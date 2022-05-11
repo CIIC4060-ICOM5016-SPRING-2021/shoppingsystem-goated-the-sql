@@ -128,6 +128,21 @@ def user_handler(user_id):
         return jsonify("Operation not suGOATED."), 405
 
 
+@app.route('/goated_the_sql/<int:user_id>/liked_list', methods=['GET'])
+def liked_list(user_id):
+    if request.method == 'GET':
+
+        user_requested = UserController.get_user(user_id)
+
+        if type(user_requested) == tuple and user_requested[1] == 200:
+            likes_list = LikedListController().get_likes(user_id)
+            return jsonify(likes_list)
+        else:
+            return jsonify("User Not Found"), 404
+    else:
+        return jsonify("Operation not suGOATED."), 405
+
+
 @app.route('/goated_the_sql/sign-up', methods=['POST'])
 def register_user():
     if request.method == 'POST':
@@ -155,15 +170,6 @@ def carts_handler(usr_id):
             return jsonify(CartController.clear_cart(usr_id))
     else:
         return jsonify("Lmao no"), 405
-
-
-@app.route('/goated_the_sql/<int:user_id>/liked_list', methods=['GET'])
-def liked_list(user_id):
-    if request.method == 'GET':
-        likes_list = LikedListController().get_likes(user_id)
-        return jsonify(likes_list)
-    else:
-        return jsonify("Operation not suGOATED."), 405
 
 
 # ======================================================================================================================
