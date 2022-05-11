@@ -14,10 +14,13 @@ instance/
 # IntelliJ stuff:
 .idea
 
+# Python stuff:
+__pycache__/
+
 # Front-end Stuff ----------------------------------
 
 # dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.js
 
