@@ -125,8 +125,17 @@ def user_handler(user_id):
     if request.method == 'GET':
         return UserController.get_user(user_id)
     elif request.method == 'PUT':
+        requester_id = UserController.get_user(request.json['updater_id'])
+        subject_id = UserController.get_user(user_id)
 
-        return UserController.update_user(request.json['updater_id'], user_id, request.json)
+        if requester_id[1] == 200 and subject_id[1] == 200:
+            return UserController.update_user(request.json['updater_id'], user_id, request.json)
+        elif requester_id[1] != 200 and subject_id[1] == 200:
+            return jsonify("User Requesting Change Not Found"), 404
+        elif requester_id[1] == 200 and subject_id[1] != 200:
+            return jsonify("User To Be Updated Not Found"), 404
+        elif requester_id[1] != 200 and subject_id[1] != 200:
+            return jsonify("Users Not Found"), 404
     elif request.method == 'DELETE':
         return UserController.delete_user(request.json['updater_id'], user_id)
     else:
