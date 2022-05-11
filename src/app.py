@@ -69,9 +69,15 @@ def register_product():
 @app.route('/goated_the_sql/product/<int:prod_id>', methods=['GET', 'PUT', 'DELETE', 'POST'])
 def product_page(prod_id):
     if request.method == 'GET':
-        return_list = [ProductController.get_product(prod_id),
-                       {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
-        return jsonify(return_list)
+
+        product_details = ProductController.get_product(prod_id)
+
+        if type(product_details) == dict:
+            return_list = [product_details,
+                           {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+            return jsonify(return_list)
+        else:
+            return jsonify("Product Not Found"), 404
     elif request.method == 'PUT':
         # If it receives no JSON request then it will assume the user wants to like the
         if type(request.json) is list:
