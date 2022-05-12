@@ -1,7 +1,8 @@
 import hashlib
+from datetime import datetime
+
 import psycopg2
 
-from datetime import datetime
 from src.backend.models.dao.db_connection import BackEnd
 
 
@@ -123,7 +124,7 @@ class UserModel:
         and the database,
         """
 
-        if UserModel.db_is_admin(updater_id):
+        if UserModel.db_is_admin(updater_id) or updater_id == user_id:
             try:
                 db_model = UserModel.get_user(user_id)
 
