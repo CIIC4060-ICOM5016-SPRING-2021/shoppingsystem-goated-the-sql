@@ -61,7 +61,9 @@ def all_products():
 @app.route('/goated_the_sql/product/add', methods=['POST'])
 def register_product():
     if request.method == 'POST':
-        return ProductController.add_product(request.json)
+        if request.data:
+            if request.json:
+                return ProductController.add_product(request.json)
     else:
         return jsonify("Operation not suGOATED."), 405
 
@@ -79,25 +81,29 @@ def product_page(prod_id):
         else:
             return jsonify("Product Not Found"), 404
     elif request.method == 'PUT':
-        # If it receives no JSON request then it will assume the user wants to like the product
-        if type(request.json) is list:
-            if UserController.get_user(request.json[0]['user_id'])[1] == 200:
-                return ProductController.update_product(request.json[1], request.json[0])
-            else:
-                return jsonify("User Not Found"), 404
-        else:
-            # Will check if this user has liked this product before, toggling the like status
-            if UserController.get_user(request.json['user_id'])[1] == 200:
-                LikedListController.toggle_like(prod_id, request.json['user_id'])
-                return_list = [ProductController.get_product(prod_id),
-                               {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
-                return jsonify(return_list)
-            else:
-                return jsonify("User Not Found"), 404
+        if request.data:
+            if request.json:
+                # If it receives no JSON request then it will assume the user wants to like the product
+                if type(request.json) is list:
+                    if UserController.get_user(request.json[0]['user_id'])[1] == 200:
+                        return ProductController.update_product(request.json[1], request.json[0])
+                    else:
+                        return jsonify("User Not Found"), 404
+                else:
+                    # Will check if this user has liked this product before, toggling the like status
+                    if UserController.get_user(request.json['user_id'])[1] == 200:
+                        LikedListController.toggle_like(prod_id, request.json['user_id'])
+                        return_list = [ProductController.get_product(prod_id),
+                                       {"liked_count": LikedListController.get_likes_of_prod(prod_id).get_like_count()}]
+                        return jsonify(return_list)
+                    else:
+                        return jsonify("User Not Found"), 404
 
     elif request.method == 'POST':
-        # Request contains product id and quantity
-        return jsonify(CartController.add_product(request.json['user_id'], request.json))
+        if request.data:
+            if request.json:
+                # Request contains product id and quantity
+                return jsonify(CartController.add_product(request.json['user_id'], request.json))
 
     elif request.method == 'DELETE':
         """ 
@@ -105,12 +111,15 @@ def product_page(prod_id):
             The following line is way too easy to bypass in terms of security, someone could just spam numbers until 
             they get a user id that has admin rights
         """
-        product_details = ProductController.get_product(prod_id)
 
-        if type(product_details) == dict:
-            return ProductController.delete_product(prod_id, request.json['user_id'])
-        else:
-            return jsonify("Product Not Found"), 404
+        if request.data:
+            if request.json:
+                product_details = ProductController.get_product(prod_id)
+
+                if type(product_details) == dict:
+                    return ProductController.delete_product(prod_id, request.json['user_id'])
+                else:
+                    return jsonify("Product Not Found"), 404
     else:
         return jsonify("Operation not suGOATED."), 405
 
@@ -131,31 +140,35 @@ def user_handler(user_id):
     if request.method == 'GET':
         return UserController.get_user(user_id)
     elif request.method == 'PUT':
-        requester_id = UserController.get_user(request.json['updater_id'])
-        subject_id = UserController.get_user(user_id)
+        if request.data:
+            if request.json:
+                requester_id = UserController.get_user(request.json['updater_id'])
+                subject_id = UserController.get_user(user_id)
 
-        # Repeated code, fix this after project complete
-        if requester_id[1] == 200 and subject_id[1] == 200:
-            return UserController.update_user(request.json['updater_id'], user_id, request.json)
-        elif requester_id[1] != 200 and subject_id[1] == 200:
-            return jsonify("User Requesting Change Not Found"), 404
-        elif requester_id[1] == 200 and subject_id[1] != 200:
-            return jsonify("User To Be Updated Not Found"), 404
-        elif requester_id[1] != 200 and subject_id[1] != 200:
-            return jsonify("Users Not Found"), 404
+                # Repeated code, fix this after project complete
+                if requester_id[1] == 200 and subject_id[1] == 200:
+                    return UserController.update_user(request.json['updater_id'], user_id, request.json)
+                elif requester_id[1] != 200 and subject_id[1] == 200:
+                    return jsonify("User Requesting Change Not Found"), 404
+                elif requester_id[1] == 200 and subject_id[1] != 200:
+                    return jsonify("User To Be Updated Not Found"), 404
+                elif requester_id[1] != 200 and subject_id[1] != 200:
+                    return jsonify("Users Not Found"), 404
     elif request.method == 'DELETE':
-        requester_id = UserController.get_user(request.json['updater_id'])
-        subject_id = UserController.get_user(user_id)
+        if request.data:
+            if request.json:
+                requester_id = UserController.get_user(request.json['updater_id'])
+                subject_id = UserController.get_user(user_id)
 
-        # Repeated code, fix this after project complete
-        if requester_id[1] == 200 and subject_id[1] == 200:
-            return UserController.delete_user(request.json['updater_id'], user_id)
-        elif requester_id[1] != 200 and subject_id[1] == 200:
-            return jsonify("User Requesting Change Not Found"), 404
-        elif requester_id[1] == 200 and subject_id[1] != 200:
-            return jsonify("User To Be Updated Not Found"), 404
-        elif requester_id[1] != 200 and subject_id[1] != 200:
-            return jsonify("Users Not Found"), 404
+                # Repeated code, fix this after project complete
+                if requester_id[1] == 200 and subject_id[1] == 200:
+                    return UserController.delete_user(request.json['updater_id'], user_id)
+                elif requester_id[1] != 200 and subject_id[1] == 200:
+                    return jsonify("User Requesting Change Not Found"), 404
+                elif requester_id[1] == 200 and subject_id[1] != 200:
+                    return jsonify("User To Be Updated Not Found"), 404
+                elif requester_id[1] != 200 and subject_id[1] != 200:
+                    return jsonify("Users Not Found"), 404
     else:
         return jsonify("Operation not suGOATED."), 405
 
@@ -163,7 +176,6 @@ def user_handler(user_id):
 @app.route('/goated_the_sql/<int:user_id>/liked_list', methods=['GET'])
 def liked_list(user_id):
     if request.method == 'GET':
-
         user_requested = UserController.get_user(user_id)
 
         if type(user_requested) == tuple and user_requested[1] == 200:
@@ -178,7 +190,9 @@ def liked_list(user_id):
 @app.route('/goated_the_sql/sign-up', methods=['POST'])
 def register_user():
     if request.method == 'POST':
-        return UserController.add_user(request.json)
+        if request.data:
+            if request.json:
+                return UserController.add_user(request.json)
     else:
         return jsonify("Operation not suGOATED."), 405
 
@@ -191,12 +205,16 @@ def carts_handler(usr_id):
     if request.method == 'GET':
         return jsonify(CartController.get_cart(usr_id))
     elif request.method == 'PUT':
-        return jsonify(CartController.update_quantity(usr_id, request.json))
+        if request.data:
+            if request.json:
+                return jsonify(CartController.update_quantity(usr_id, request.json))
     elif request.method == 'POST':
-        return jsonify(CartController.add_product(usr_id, request.json))
+        if request.data:
+            if request.json:
+                return jsonify(CartController.add_product(usr_id, request.json))
     elif request.method == 'DELETE':
         if request.data:
-            if request.json is not None:
+            if request.json:
                 return jsonify(CartController.delete_cart(usr_id, request.json))
         else:
             return jsonify(CartController.clear_cart(usr_id))
@@ -264,9 +282,9 @@ def checkout_page():
     if request.data:
         if request.json:
             try:
-                orderee_id = UserController.get_user(request.json['user_id'])
+                orderer_id = UserController.get_user(request.json['user_id'])
 
-                if orderee_id[1] == 200:
+                if orderer_id[1] == 200:
                     return OrderController.create_order(request.json['user_id'], request.json['order_products'])
                 else:
                     return jsonify("User Not Found"), 404
