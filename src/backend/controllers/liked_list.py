@@ -1,11 +1,12 @@
 from flask import jsonify
+
 from src.backend.models.liked_list import LikedListModel
 
 
 class LikedListController:
     @classmethod
     def get_likes(cls, user_id):
-        likes_list = len(LikedListModel().get_all_elements(user_id))
+        likes_list = LikedListModel().get_all_elements(user_id)
         return likes_list
 
     @classmethod
