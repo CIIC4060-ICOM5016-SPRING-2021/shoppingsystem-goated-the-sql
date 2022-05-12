@@ -1,8 +1,9 @@
 from flask import jsonify
 
-from src.backend.models.order import OrderModel, OrderProductDetails
-from src.backend.models.user import UserModel
 from src.backend.models.cart import CartModel
+from src.backend.models.order import OrderModel, OrderProductDetails
+from src.backend.models.product import ProductModel
+from src.backend.models.user import UserModel
 
 
 class OrderController:
@@ -22,7 +23,18 @@ class OrderController:
             # Initiate product list
             new_order.set_product_list([])
             for item in order_products:
-                new_order.add_product_json_to_model(item)
+                prod = ProductModel.get_product(item['product_id'])
+
+                stock = prod.get_stock()
+                if item['quantity_bought'] < stock:
+                    # Need to decrease the stock by the quantity bought
+                    prod.set_stock(stock - int(item['quantity_bought']))
+                    # Todo change the user id updating the products
+                    ProductModel.db_update_product(prod, 213)
+                    # Add product to order
+                    new_order.add_product_json_to_model(item)
+                else:
+                    return jsonify(f"Stock for product {item['name']} with id {item['product_id']} is lower ")
 
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
         except AttributeError:
@@ -49,7 +61,16 @@ class OrderController:
         # Make every cart model product into an order product detail model
         try:
             for item in cart:
-                new_order.add_cart_item_to_model(item)
+                prod = ProductModel.get_product(item['product_id'])
+
+                stock = prod.get_stock()
+                if item['quantity_bought'] < stock:
+                    # Need to decrease the stock by the quantity bought
+                    prod.set_stock(stock - int(item['quantity_bought']))
+                    # Todo change the user id updating the products
+                    ProductModel.db_update_product(prod, 213)
+                    # Add product to order
+                    new_order.add_cart_item_to_model(item)
 
             CartModel.clear_cart(user_id)
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id)))
