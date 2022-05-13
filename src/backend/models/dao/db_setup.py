@@ -1,8 +1,10 @@
+import os
+
+import psycopg2
+
+from src.backend.models.dao.credentials import Credentials
 from src.backend.models.dao.helpers.dir_traversal import Directories
 from src.backend.models.dao.helpers.parser import Parser
-from src.backend.models.dao.credentials import Credentials
-import psycopg2
-import os
 
 current_dir = os.path.dirname(__file__)
 
@@ -62,7 +64,3 @@ class DBAccess:
         cred.port = Parser().get_file_value(file_path, "port")
 
         return cred
-
-
-
-

@@ -1,6 +1,5 @@
-import React, {Component, useState} from 'react';
-import {Button, Divider, Form, Grid, Header, Modal, Segment, Tab} from 'semantic-ui-react';
-
+import React, {useState} from 'react';
+import {Button, Divider, Form, Grid, Header, Modal, Segment} from 'semantic-ui-react';
 
 
 function HomePage() {
@@ -9,6 +8,7 @@ function HomePage() {
     const handleChange = (event, newValue) => {
         setOpen(true);
     }
+    this.props.history.push('/Home')
 
     return (<Segment><Header dividing textAlign="center" size="huge">Welcome to DB Demo</Header>
             <Modal
