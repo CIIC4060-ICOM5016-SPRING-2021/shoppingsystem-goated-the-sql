@@ -70,15 +70,12 @@ class BackEnd:
                     for item in model.get_product_list():
                         cursor.execute(
                             """
-                            INSERT INTO order_products (order_id_fk, product_name, product_description, price_sold, 
-                            quantity_bought, category) 
-                            VALUES ({}, '{}', '{}', {}, {}, '{}')
+                            INSERT INTO order_products (order_id_fk, price_sold, quantity_bought, product_id_fk) 
+                            VALUES ({}, {}, {}, {})
                             """.format(model.get_order_id(),
-                                       item.get_name(),
-                                       item.get_description(),
                                        item.get_price_sold(),
                                        item.get_quantity_bought(),
-                                       item.get_category()
+                                       item.get_product_id()
                                        )
                         )
 
@@ -206,8 +203,8 @@ class BackEnd:
                         # Add the products to the order queried
                         cursor.execute(
                             """
-                            SELECT product_name, product_description, price_sold, quantity_bought, category
-                            FROM order_products
+                            SELECT name, description, price_sold, quantity_bought, category
+                            FROM order_products NATURAL INNER JOIN products
                             WHERE order_id_fk = {}
                             """.format(pk)
                         )
@@ -398,7 +395,7 @@ class BackEnd:
                     """
                     SELECT {}
                     FROM products
-                    WHERE {}
+                    WHERE {} AND visible = true
                     """.format(select_attributes, filter_clause),
                     'ProductModel'
                 )
@@ -407,6 +404,7 @@ class BackEnd:
                     """
                     SELECT {}
                     FROM products
+                    WHERE visible = true
                     """.format(select_attributes),
                     'ProductModel'
                 )
@@ -453,8 +451,8 @@ class BackEnd:
                     # Get the products related to the order
                     cursor.execute(
                         """
-                        SELECT product_name, product_description, price_sold, quantity_bought, category
-                        FROM order_products
+                        SELECT name, description, price_sold, quantity_bought, category
+                        FROM order_products NATURAL INNER JOIN products
                         WHERE order_id_fk = {}
                         """.format(order.get_order_id())
                     )
@@ -549,7 +547,7 @@ class BackEnd:
                         """
                         SELECT {}
                         FROM products
-                        WHERE {}
+                        WHERE {} AND visible = true
                         ORDER BY {} {}
                         """.format(select_attributes, filter_clause, order_attribute, sort),
                         'ProductModel'
@@ -559,6 +557,7 @@ class BackEnd:
                         """
                         SELECT {}
                         FROM products
+                        WHERE visible = true
                         ORDER BY {} {}
                         """.format(select_attributes, order_attribute, sort),
                         'ProductModel'
@@ -606,11 +605,19 @@ class BackEnd:
         """
         # Prevents password leakage?
         if attribute != 'password':
-            return cls.__db_fetch_all(
-                """
-                SELECT DISTINCT {}
-                FROM {}
-                """.format(attribute, table), 'List')
+            if table.lower() == 'products':
+                return cls.__db_fetch_all(
+                    """
+                    SELECT DISTINCT {}
+                    FROM {}
+                    WHERE visible = true
+                    """.format(attribute, table), 'List')
+            else:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT DISTINCT {}
+                    FROM {}
+                    """.format(attribute, table), 'List')
 
     @classmethod
     def update_element_attribute(cls, table: str, change: str, filter_clause: str):
@@ -740,6 +747,9 @@ class BackEnd:
         """
             Queries the database for all the elements of the given corresponding Entity in a specified order.
 
+        :param group_attribute:
+        :param limit:
+        :param categories:
         :type order_attribute: object
         :param model: class instance of the desired Entity Model
         :param select_attributes: attributes desired from the query
@@ -823,6 +833,10 @@ class BackEnd:
         """
             Queries the database for all the elements of the given corresponding Entity in a specified order.
 
+        :param group_attribute:
+        :param on:
+        :param categories:
+        :param limit:
         :type order_attribute: object
         :param model: class instance of the desired Entity Model
         :param select_attributes: attributes desired from the query
