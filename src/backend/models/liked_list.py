@@ -29,9 +29,6 @@ class LikedListModel:
         list_user_product = BackEnd().get_all_elements(LikedListModel(), "*", "user_id={}".format(user_id))
         list_of_products = []
         for product in list_user_product:
-            # list_of_products.append(BackEnd.get_element(ProductModel(),
-            #                                             "*",
-            #                                             "product_id={}".format(product.get_product_id())))
 
             list_of_products.append(ProductController.get_product(product.get_prod_id()))
 
