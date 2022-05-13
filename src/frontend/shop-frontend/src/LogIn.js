@@ -29,7 +29,7 @@ function LogIn() {
                             placeholder='Password'
                             type='password'
                         />
-                        <Button as='button' component={Link} onClick to="/Products" color='red' style={{width: 300}}>
+                        <Button as={Link} to="/Products" color='red' style={{width: 300}}>
                             <p className={'Login'}>Login</p>
                         </Button>
 
