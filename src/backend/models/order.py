@@ -31,7 +31,7 @@ class OrderProduct:
     def get_top_categories(cls, user_id=0):
         try:
             if user_id == 0:
-                return BackEnd.get_elements_beta(model=OrderProductDetails(),
+                return BackEnd.get_elements_beta(model=OrderProduct(),
                                                  select_attributes="category, count(product_name) as products",
                                                  order_attribute="products",
                                                  group_attribute="category",
@@ -40,7 +40,7 @@ class OrderProduct:
                                                  filter_clause='',
                                                  categories=True)
             else:
-                return BackEnd.get_elements_join(model=OrderProductDetails(),
+                return BackEnd.get_elements_join(model=OrderProduct(),
                                                  select_attributes="category, count(product_name) as products",
                                                  order_attribute="products",
                                                  group_attribute="category",
@@ -58,7 +58,7 @@ class OrderProduct:
         try:
             list_of_product = []
             if user_id == 0:
-                for row in BackEnd.get_elements_beta(model=OrderProductDetails(),
+                for row in BackEnd.get_elements_beta(model=OrderProduct(),
                                                      select_attributes="product_name, count(*) as appearances",
                                                      order_attribute="appearances",
                                                      group_attribute="product_name",
@@ -73,7 +73,7 @@ class OrderProduct:
                                                                helper="name")
                                            )
             else:
-                for row in BackEnd.get_elements_join(model=OrderProductDetails(),
+                for row in BackEnd.get_elements_join(model=OrderProduct(),
                                                      select_attributes="product_name, count(*) as appearances, sum("
                                                                        "quantity_bought) as count",
                                                      order_attribute="count",
@@ -100,7 +100,7 @@ class OrderProduct:
         try:
             list_of_product = []
             if user_id == 0:
-                for row in BackEnd.get_elements_beta(model=OrderProductDetails(),
+                for row in BackEnd.get_elements_beta(model=OrderProduct(),
                                                      select_attributes="product_name, count(*) as appearances",
                                                      order_attribute="appearances",
                                                      group_attribute="product_name",
@@ -115,7 +115,7 @@ class OrderProduct:
                                                                helper="name")
                                            )
             else:
-                for row in BackEnd.get_elements_join(model=OrderProductDetails(),
+                for row in BackEnd.get_elements_join(model=OrderProduct(),
                                                      select_attributes="distinct product_name, price_sold",
                                                      order_attribute="price_sold",
                                                      sort="asc" if ascending else "desc",
