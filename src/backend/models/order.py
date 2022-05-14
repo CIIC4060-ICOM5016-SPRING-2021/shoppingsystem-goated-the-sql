@@ -12,7 +12,7 @@ class OrderProduct:
     order_id: int
     product_id: int
 
-    #     These are the only ones important/returned to the JSON responses
+    # These are the only ones important/returned to the JSON responses
     name: str
     description: str
     price_sold: float
@@ -311,19 +311,22 @@ class OrderModel:
         :param item_to_remove: json containing the details of the product to be removed
         """
         # noinspection DuplicatedCode
-        product = OrderProductDetails()
-        product.set_name(item_to_remove['name'])
-        product.set_description(item_to_remove['desc'])
-        product.set_price_sold(item_to_remove['price_sold'])
-        product.set_quantity_bought(item_to_remove['quantity_bought'])
-        product.set_category(item_to_remove['category'])
+        product = OrderProduct(
+            name=item_to_remove['name'],
+            description=item_to_remove['desc'],
+            price_sold=item_to_remove['price_sold'],
+            quantity_bought=item_to_remove['quantity_bought'],
+            category=item_to_remove['category'],
+            order_id=0,
+            product_id=0
+        )
 
-        for item_to_remove in self.__product_list:
-            if item_to_remove.get_name() == product.get_name() \
-                    and item_to_remove.get_description() == product.get_description() \
-                    and item_to_remove.get_price_sold() == product.get_price_sold() \
-                    and item_to_remove.get_quantity_bought() == product.get_quantity_bought():
-                self.__product_list.remove(item_to_remove)
+        for item in self.__product_list:
+            if item.get_name() == product.name \
+                    and item.get_description() == product.description \
+                    and item.get_price_sold() == product.price_sold \
+                    and item.get_quantity_bought() == product.quantity_bought:
+                self.__product_list.remove(item)
 
     def db_add_order(self, user_id):
         """
