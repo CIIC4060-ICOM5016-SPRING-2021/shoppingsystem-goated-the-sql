@@ -218,7 +218,7 @@ class OrderController:
         return model
 
 
-class OrderProductDetailsController:
+class OrderProductController:
 
     @classmethod
     def get_top_categories(cls):

@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 
 from src.backend.controllers.cart import CartController
 from src.backend.controllers.liked_list import LikedListController
-from src.backend.controllers.order import OrderController, OrderProductDetailsController
+from src.backend.controllers.order import OrderController, OrderProductController
 from src.backend.controllers.product import ProductController
 from src.backend.controllers.user import UserController
 
@@ -48,8 +48,8 @@ def all_products():
             global_statistics = {"Cheapest Products": ProductController.get_cheapest_products(),
                                  "Most Expensive Products": ProductController.get_priciest_products(),
                                  "Most Liked Products": LikedListController.get_top_likes(),
-                                 "Hottest Categories": OrderProductDetailsController.get_top_categories(),
-                                 "Hottest Products": OrderProductDetailsController.get_top_products()
+                                 "Hottest Categories": OrderProductController.get_top_categories(),
+                                 "Hottest Products": OrderProductController.get_top_products()
                                  }
             return_json["Global Statistics"] = global_statistics
 
@@ -237,7 +237,7 @@ def orders_page(user_id):
         else:
             if UserController.get_user(user_id)[1] == 200:
                 json = {"Orders": OrderController.get_all_orders(user_id),
-                        "Personalized User Statistics": OrderProductDetailsController.get_personalized_user_statistics(
+                        "Personalized User Statistics": OrderProductController.get_personalized_user_statistics(
                             user_id)
                         }
                 return jsonify(json)

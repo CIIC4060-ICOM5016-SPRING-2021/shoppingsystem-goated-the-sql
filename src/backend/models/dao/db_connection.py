@@ -412,7 +412,7 @@ class BackEnd:
                 )
         elif model.__class__.__name__ == 'OrderModel':
             from src.backend.models.order import OrderModel
-            from src.backend.models.order import OrderProductDetails
+            from src.backend.models.order import OrderProduct
 
             db_connection = DBAccess().connect_to_db()
             cursor = db_connection.cursor()
@@ -453,19 +453,20 @@ class BackEnd:
                     # Get the products related to the order
                     cursor.execute(
                         """
-                        SELECT name, description, price_sold, quantity_bought, category
+                        SELECT name, description, price_sold, quantity_bought, category, product_id
                         FROM order_products NATURAL INNER JOIN products
-                        WHERE order_id_fk = {}
+                        WHERE order_id_fk = {} AND product_id = product_id_fk
                         """.format(order.get_order_id())
                     )
 
                     db_response = cursor.fetchall()
 
-                    order.set_product_list([])
+                    # order.set_product_list([])
 
                     for product in db_response:
-                        item = OrderProductDetails()
+                        item = OrderProduct()
                         item.tuple_to_model(product)
+                        item.order_id = order.get_order_id()
 
                         order.add_product_to_model(item)
 
