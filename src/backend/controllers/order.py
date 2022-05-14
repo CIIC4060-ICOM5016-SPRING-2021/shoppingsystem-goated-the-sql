@@ -1,7 +1,7 @@
 from flask import jsonify
 
 from src.backend.models.cart import CartModel
-from src.backend.models.order import OrderModel, OrderProductDetails
+from src.backend.models.order import OrderModel
 from src.backend.models.product import ProductModel
 from src.backend.models.user import UserModel
 
