@@ -9,15 +9,15 @@ from src.backend.models.user import UserModel
 
 @dataclass
 class OrderProduct:
-    order_id: int
-    product_id: int
+    order_id: int = None
+    product_id: int = None
 
     # These are the only ones important/returned to the JSON responses
-    name: str
-    description: str
-    price_sold: float
-    quantity_bought: int
-    category: str
+    name: str = None
+    description: str = None
+    price_sold: float = None
+    quantity_bought: int = None
+    category: str = None
 
     def tuple_to_model(self, tuple_to_convert: tuple):
         self.name = tuple_to_convert[0]
@@ -25,6 +25,7 @@ class OrderProduct:
         self.price_sold = tuple_to_convert[2]
         self.quantity_bought = tuple_to_convert[3]
         self.category = tuple_to_convert[4]
+        self.product_id = tuple_to_convert[5]
 
 
 class OrderProductDetails:
@@ -266,8 +267,6 @@ class OrderModel:
             price_sold=item_to_add['price_sold'],
             quantity_bought=item_to_add['quantity_bought'],
             category=product_details.get_category(),
-            # We add/change the order id later since this can be called when creating an order
-            order_id=0,
             product_id=product_details.get_prod_id()
         )
         self.__product_list.append(product)
