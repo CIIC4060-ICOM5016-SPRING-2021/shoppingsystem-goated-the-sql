@@ -21,7 +21,7 @@ class OrderController:
         new_order.set_user_id(user_id)
         try:
             # Initiate product list
-            new_order.set_product_list([])
+            # new_order.set_product_list([])
             for item in order_products:
                 prod = ProductModel.get_product(item['product_id'])
 

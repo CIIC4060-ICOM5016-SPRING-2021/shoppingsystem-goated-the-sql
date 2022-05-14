@@ -282,6 +282,7 @@ def checkout_page():
     if request.data:
         if request.json:
             try:
+                # Check if the user exists
                 orderer_id = UserController.get_user(request.json['user_id'])
 
                 if orderer_id[1] == 200:

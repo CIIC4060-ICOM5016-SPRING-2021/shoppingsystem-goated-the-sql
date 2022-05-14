@@ -303,7 +303,8 @@ class BackEnd:
             try:
                 cls.__db_run_command(
                     """
-                    DELETE FROM products
+                    UPDATE products
+                    SET visible = false
                     WHERE product_id = {}
                     """.format(pk)
                 )
