@@ -768,9 +768,10 @@ class BackEnd:
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order_products
+                    FROM order_products NATURAL INNER JOIN products
                     GROUP BY {}
                     ORDER BY {} {}
+                    WHERE product_id = product_id_fk
                     LIMIT {}
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
                     'OrderProduct',
@@ -780,8 +781,8 @@ class BackEnd:
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order_products
-                    WHERE {}
+                    FROM order_products NATURAL INNER JOIN products
+                    WHERE {} AND product_id = product_id_fk
                     GROUP BY {}
                     ORDER BY {} {}
                     LIMIT {}
