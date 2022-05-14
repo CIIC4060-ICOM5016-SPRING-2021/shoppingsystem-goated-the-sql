@@ -4,6 +4,7 @@ class Packager:
         """
             Converts a response from the database into an object related to its entity.
 
+        :param categories:
         :param response: List[Tuple] or Tuple containing the information of the entity model desired
         :param obj_type: Entity Model desired
         :return: List[Entity Model] if response is a List or Entity Model if response is a single Tuple
@@ -25,6 +26,8 @@ class Packager:
         """
             Converts a given Tuple into the desired Entity Model Object
 
+        :param categories:
+        :param multiple_results_likedlist:
         :param item: Tuple to convert
         :param to_obj: String containing the name of Entity Model Object desired
         :return: Entity Model, same type as requested
@@ -56,23 +59,18 @@ class Packager:
             result.set_visibility(item[6])
 
             return result
-        elif to_obj == 'OrderModel':
-            from src.backend.models.order import OrderModel
-            result = OrderModel()
-            # TODO: Insert logic
-            return result
 
-        elif to_obj == 'OrderProductDetails':
-            from src.backend.models.order import OrderProductDetails
-            result = OrderProductDetails()
+        elif to_obj == 'OrderProduct':
+            from src.backend.models.order import OrderProduct
+            result = OrderProduct()
             # product_name, count(*) as appearances
             if categories:
-                result.set_category(item[0])
-                result.set_product_count(item[1])
+                result.category = item[0]
+                result.quantity_bought = item[1]
             else:
-                result.set_name(item[0])
-                # using this to store the number of appereances of the product on the table
-                result.set_product_count(item[1])
+                result.name = item[0]
+                # using this to store the number of appearances of the product on the table
+                result.quantity_bought = item[1]
             return result
 
         elif to_obj == 'LikedListModel':
