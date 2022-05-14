@@ -32,6 +32,9 @@ function LogIn() {
                         <Button as={Link} to="/Products" color='red' style={{width: 300}}>
                             <p className={'Login'}>Login</p>
                         </Button>
+                        <Button as={Link} to="/Admin/Products" color='red' style={{width: 300}}>
+                            <p className={'Login'}>Admin Login</p>
+                        </Button>
 
                     </Segment>
                 </Form>

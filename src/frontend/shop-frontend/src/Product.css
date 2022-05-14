@@ -1,6 +1,10 @@
 div.background {
-    height: 95vh;
+    height: 105vh;
     background-image: linear-gradient(180deg, #457B9D, #A8DADC);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 
 }
 
@@ -16,32 +20,44 @@ h3.Condition {
     font-style: normal;
 }
 
-Container.description {
+div.description {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
-    padding: 50px;
-    gap: 10px;
-
-    position: absolute;
-    width: 40vw;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
     height: 37vh;
-    left: 840px;
-    top: 373px;
-
-    /*background: linear-gradient(180deg, rgba(156, 248, 255, 0.3), rgba(168, 218, 220, 0.3));*/
-    backdrop-filter: blur(50px);
-    background-color: red;
-
+    background: linear-gradient(180deg, rgba(156, 248, 255, 0.3) 0%, rgba(168, 218, 220, 0.3));
+    /*backdrop-filter: blur(50px);*/
+    /*background-color: red;*/
     /* Note: backdrop-filter has minimal browser support */
     border-radius: 25px;
+    box-shadow: 10px 10px 5px;
+}
+
+.card_description {
+    min-width: 45vw;
+    height: 30%;
+    font-weight: bold;
+    font-size: 2vh;
+}
+
+p.description {
+    text-align: center;
+    color: white;
+    font-weight: bold;
 }
 
 div.backgroundPic {
     height: 50rem;
-    background-image: url("PS5.png");
+    /*background-image: url("PS5.png");*/
     background-repeat: no-repeat;
     background-size: 50rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
 }
 
 div.info {
