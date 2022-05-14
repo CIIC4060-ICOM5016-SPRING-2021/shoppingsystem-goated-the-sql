@@ -63,7 +63,7 @@ class BackEnd:
 
                     orders_response = cursor.fetchone()
 
-                    model.set_name(orders_response[0])
+                    model.set_order_id(orders_response[0])
                     model.set_time_of_order(str(orders_response[1]))
 
                     # Add the products to the order
@@ -72,10 +72,10 @@ class BackEnd:
                             """
                             INSERT INTO order_products (order_id_fk, price_sold, quantity_bought, product_id_fk) 
                             VALUES ({}, {}, {}, {})
-                            """.format(model.get_name(),
-                                       item.get_price_sold(),
-                                       item.get_quantity_bought(),
-                                       item.get_category()
+                            """.format(model.get_order_id(),
+                                       item.price_sold,
+                                       item.quantity_bought,
+                                       item.product_id
                                        )
                         )
 
@@ -84,7 +84,7 @@ class BackEnd:
                         SELECT SUM(price_sold * quantity_bought) AS total, SUM(quantity_bought) AS total_order_quantity
                         FROM orders INNER JOIN order_products op ON orders.order_id = op.order_id_fk
                         WHERE order_id = {}
-                        """.format(model.get_name())
+                        """.format(model.get_order_id())
                     )
 
                     products_response = cursor.fetchone()

@@ -258,14 +258,17 @@ class OrderModel:
         """
 
         # TODO: Should this method be within OrderModel or OrderProduct?
+        product_details = ProductModel.get_product(item_to_add['product_id'])
+
         product = OrderProduct(
-            name=item_to_add['name'],
-            description=item_to_add['desc'],
+            name=product_details.get_name(),
+            description=product_details.get_desc(),
             price_sold=item_to_add['price_sold'],
             quantity_bought=item_to_add['quantity_bought'],
-            category=item_to_add['category'],
-            order_id=self.__order_id,
-            product_id=0
+            category=product_details.get_category(),
+            # We add/change the order id later since this can be called when creating an order
+            order_id=0,
+            product_id=product_details.get_prod_id()
         )
         self.__product_list.append(product)
 
