@@ -265,7 +265,7 @@ class OrderProductController:
     def model_to_dict(cls, order_product_model, categories=False):
         if categories:
             dic = {"name": order_product_model.category,
-                   "products": order_product_model.quantity_bought}
+                   "quantity_bought": order_product_model.quantity_bought}
         else:
             dic = {"name": order_product_model.get_name(),
                    "appearances": order_product_model.get_product_quantity()}

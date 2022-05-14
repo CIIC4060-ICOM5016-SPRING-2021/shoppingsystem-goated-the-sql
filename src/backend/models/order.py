@@ -74,10 +74,10 @@ class OrderProduct:
                                            )
             else:
                 for row in BackEnd.get_elements_join(model=OrderProduct(),
-                                                     select_attributes="product_name, count(*) as appearances, sum("
+                                                     select_attributes="name, count(*) as appearances, sum("
                                                                        "quantity_bought) as count",
                                                      order_attribute="count",
-                                                     group_attribute="product_name",
+                                                     group_attribute="name",
                                                      sort="desc",
                                                      limit=10,
                                                      on='order_id_fk = order_id',
@@ -85,7 +85,7 @@ class OrderProduct:
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
-                                                               pk="'{}'".format(row.get_name()),
+                                                               pk="'{}'".format(row.name),
                                                                select_attributes="*",
                                                                helper="name")
                                            )
@@ -101,22 +101,22 @@ class OrderProduct:
             list_of_product = []
             if user_id == 0:
                 for row in BackEnd.get_elements_beta(model=OrderProduct(),
-                                                     select_attributes="product_name, count(*) as appearances",
+                                                     select_attributes="name, count(*) as appearances",
                                                      order_attribute="appearances",
-                                                     group_attribute="product_name",
+                                                     group_attribute="name",
                                                      sort="desc",
                                                      limit=10,
                                                      filter_clause='',
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
-                                                               pk="'{}'".format(row.get_name()),
+                                                               pk="'{}'".format(row.name),
                                                                select_attributes="*",
                                                                helper="name")
                                            )
             else:
                 for row in BackEnd.get_elements_join(model=OrderProduct(),
-                                                     select_attributes="distinct product_name, price_sold",
+                                                     select_attributes="distinct name, price_sold",
                                                      order_attribute="price_sold",
                                                      sort="asc" if ascending else "desc",
                                                      limit=10,
@@ -125,13 +125,14 @@ class OrderProduct:
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
-                                                               pk="'{}'".format(row.get_name()),
+                                                               pk="'{}'".format(row.name),
                                                                select_attributes="*",
                                                                helper="name")
                                            )
             return list_of_product
 
-        except psycopg2.Error:
+        except psycopg2.Error as e:
+            print(e)
             raise AttributeError
 
 
