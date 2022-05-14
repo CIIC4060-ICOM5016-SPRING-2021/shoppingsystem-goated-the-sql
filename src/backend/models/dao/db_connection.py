@@ -824,18 +824,15 @@ class BackEnd:
         """
         # The difference betweeen get_elements and this one is that this one can hold more paramenters
         # than its sister method. Can be refactored later
-
-        if model.__class__.__name__ == 'OrderModel':
-            return "goomba"
-
-        elif model.__class__.__name__ == 'OrderProduct':
+        if model.__class__.__name__ == 'OrderProduct':
             if on == '':
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order_products
+                    FROM order_products NATURAL INNER JOIN products
                     GROUP BY {}
                     ORDER BY {} {}
+                    WHERE product_id = product_id_fk
                     LIMIT {}
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
                     'OrderProduct',
@@ -846,12 +843,12 @@ class BackEnd:
                     """
                     SELECT {}
                     FROM order_products
-                    inner join orders on {}
-                    WHERE {}
+                    NATURAL INNER JOIN orders NATURAL INNER JOIN products
+                    WHERE {} AND product_id = product_id_fk
                     GROUP BY {}
                     ORDER BY {} {}
                     LIMIT {}
-                    """.format(select_attributes, on, filter_clause, group_attribute, order_attribute, sort, limit),
+                    """.format(select_attributes, filter_clause, group_attribute, order_attribute, sort, limit),
                     'OrderProduct',
                     categories
                 )
@@ -860,11 +857,11 @@ class BackEnd:
                     """
                     SELECT {}
                     FROM order_products
-                    inner join orders on {}
-                    WHERE {}
+                    NATURAL INNER JOIN orders NATURAL INNER JOIN products
+                    WHERE {} AND product_id = product_id_fk
                     ORDER BY {} {}
                     LIMIT {}
-                    """.format(select_attributes, on, filter_clause, order_attribute, sort, limit),
+                    """.format(select_attributes, filter_clause, order_attribute, sort, limit),
                     'OrderProduct',
                     categories
                 )
@@ -880,5 +877,3 @@ class BackEnd:
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
                 'LikedListModel'
             )
-        elif model.__class__.__name__ == 'CartModel':
-            return "goomba"

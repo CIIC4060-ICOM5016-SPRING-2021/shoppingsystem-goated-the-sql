@@ -32,7 +32,7 @@ class OrderProduct:
         try:
             if user_id == 0:
                 return BackEnd.get_elements_beta(model=OrderProduct(),
-                                                 select_attributes="category, count(product_name) as products",
+                                                 select_attributes="category, count(name) as products",
                                                  order_attribute="products",
                                                  group_attribute="category",
                                                  sort="desc",
@@ -41,7 +41,7 @@ class OrderProduct:
                                                  categories=True)
             else:
                 return BackEnd.get_elements_join(model=OrderProduct(),
-                                                 select_attributes="category, count(product_name) as products",
+                                                 select_attributes="category, count(name) as products",
                                                  order_attribute="products",
                                                  group_attribute="category",
                                                  sort="desc",

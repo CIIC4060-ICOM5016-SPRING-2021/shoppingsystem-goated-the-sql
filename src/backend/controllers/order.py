@@ -262,13 +262,13 @@ class OrderProductController:
                 {"Most Expensive Bought Products": most_expensive_bought_products}]
 
     @classmethod
-    def model_to_dict(cls, order_model, categories=False):
+    def model_to_dict(cls, order_product_model, categories=False):
         if categories:
-            dic = {"name": order_model.get_category(),
-                   "products": order_model.get_product_count()}
+            dic = {"name": order_product_model.category,
+                   "products": order_product_model.quantity_bought}
         else:
-            dic = {"name": order_model.get_name(),
-                   "appearances": order_model.get_product_count()}
+            dic = {"name": order_product_model.get_name(),
+                   "appearances": order_product_model.get_product_quantity()}
         return dic
 
     @classmethod
