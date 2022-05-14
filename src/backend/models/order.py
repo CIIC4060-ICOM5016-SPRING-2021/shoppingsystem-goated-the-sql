@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 import psycopg2
 
 from src.backend.models.dao.db_connection import BackEnd
@@ -5,12 +7,42 @@ from src.backend.models.product import ProductModel
 from src.backend.models.user import UserModel
 
 
+@dataclass
+class OrderProduct:
+    order_id: int
+    product_id: int
+
+    #     These are the only ones important/returned to the JSON responses
+    name: str
+    description: str
+    price_sold: float
+    quantity_bought: int
+    category: str
+
+    def tuple_to_model(self, tuple_to_convert: tuple):
+        self.name = tuple_to_convert[0]
+        self.description = tuple_to_convert[1]
+        self.price_sold = tuple_to_convert[2]
+        self.quantity_bought = tuple_to_convert[3]
+        self.category = tuple_to_convert[4]
+
+
 class OrderProductDetails:
+    __order_id: int
+    __product_id: int
+
+    # These are the only ones important/returned to the JSON responses
     __name: str
     __description: str
     __price_sold: float
     __quantity_bought: int
     __category: str
+
+    def get_order_id(self):
+        return self.__order_id
+
+    def set_order_id(self, order_id):
+        self.__order_id = order_id
 
     def get_name(self):
         return self.__name
@@ -21,8 +53,8 @@ class OrderProductDetails:
     def get_description(self):
         return self.__description
 
-    def set_description(self, description):
-        self.__description = description
+    def set_description(self, desc):
+        self.__description = desc
 
     def get_price_sold(self):
         return self.__price_sold
@@ -42,11 +74,11 @@ class OrderProductDetails:
     def set_category(self, category):
         self.__category = category
 
-    def get_product_count(self):
-        return self.__quantity_bought
+    def get_product_id(self):
+        return self.__product_id
 
-    def set_product_count(self, product_count):
-        self.__quantity_bought = product_count
+    def set_product_id(self, product_id):
+        self.__product_id = product_id
 
     def tuple_to_model(self, tuple_to_convert):
         self.set_name(tuple_to_convert[0])
@@ -171,6 +203,10 @@ class OrderModel:
     __order_total: float
     __total_product_quantity: int
 
+    def __init__(self):
+        # Initializes the list of products
+        self.__product_list = []
+
     def get_order_id(self):
         return self.__order_id
 
@@ -220,38 +256,44 @@ class OrderModel:
 
         :param item_to_add: json containing the details of the product to be added
         """
-        product = OrderProductDetails()
-        product.set_name(item_to_add['name'])
-        product.set_description(item_to_add['desc'])
-        product.set_price_sold(item_to_add['price_sold'])
-        product.set_quantity_bought(item_to_add['quantity_bought'])
-        product.set_category(item_to_add['category'])
 
-        # The product list must be initiated before calling this method
+        # TODO: Should this method be within OrderModel or OrderProduct?
+        product = OrderProduct(
+            name=item_to_add['name'],
+            description=item_to_add['desc'],
+            price_sold=item_to_add['price_sold'],
+            quantity_bought=item_to_add['quantity_bought'],
+            category=item_to_add['category'],
+            order_id=self.__order_id,
+            product_id=0
+        )
         self.__product_list.append(product)
 
     def add_cart_item_to_model(self, item):
         """
-        Takes an item from the users cart and add it to their current order
+            Takes an item from the users cart and add it to their current order
 
-        :param item: CartModel for the given user
+            :param item: CartModel for the given user
         """
         product_mod = ProductModel.get_product(item.get_product_id())
 
-        product = OrderProductDetails()
-        product.set_name(product_mod.get_name())
-        product.set_description(product_mod.get_desc())
-        product.set_price_sold(product_mod.get_price())
-        product.set_quantity_bought(item.get_product_quantity())
-        product.set_category(product_mod.get_category())
+        product = OrderProduct(
+            name=product_mod.get_name(),
+            description=product_mod.get_desc(),
+            price_sold=product_mod.get_price(),
+            quantity_bought=item.get_product_quantity(),
+            category=product_mod.get_category(),
+            order_id=0,
+            product_id=product_mod.get_product_id()
+        )
 
         self.add_product_to_model(product)
 
-    def add_product_to_model(self, item_to_add: OrderProductDetails):
+    def add_product_to_model(self, item_to_add: OrderProduct):
         """
             Adds a given OrderProductDetails object to the OrderModel.
 
-            PLEASE INITIATE THE PRODUCT LIST BEFORE CALLING THIS METHOD.
+            PLEASE INITIATE THE PRODUCT LIST BEFORE CALLING THIS METHOD. THIS COULD BE NOW FIXED, HAVE TO TEST!
 
             EXAMPLE:
                 model.set_product_list([])
@@ -343,7 +385,7 @@ class OrderModel:
             # Update order
             BackEnd.delete_element(OrderModel(), order_id)
 
-            return BackEnd.create_element(self, user_id).get_order_id()
+            return BackEnd.create_element(self, user_id).get_name()
 
         except psycopg2.Error:
             return False
