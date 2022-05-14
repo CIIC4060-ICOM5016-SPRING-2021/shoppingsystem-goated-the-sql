@@ -31,7 +31,7 @@ class OrderProduct:
     def get_top_categories(cls, user_id=0):
         try:
             if user_id == 0:
-                return BackEnd.get_elements_beta(model=OrderProductDetails(),
+                return BackEnd.get_elements_beta(model=OrderProduct(),
                                                  select_attributes="category, count(product_name) as products",
                                                  order_attribute="products",
                                                  group_attribute="category",

@@ -763,32 +763,7 @@ class BackEnd:
         """
         # The difference betweeen get_elements and this one is that this one can hold more paramenters
         # than its sister method. Can be refactored later
-        if model.__class__.__name__ == 'ProductModel':
-            # If the where_clause_statement is not empty (ie no filter required)
-            if filter_clause:
-                return cls.__db_fetch_all(
-                    """
-                    SELECT {}
-                    FROM products
-                    WHERE {}
-                    ORDER BY {} {}
-                    """.format(select_attributes, filter_clause, order_attribute, sort),
-                    'ProductModel'
-                )
-            else:
-                return cls.__db_fetch_all(
-                    """
-                    SELECT {}
-                    FROM products
-                    ORDER BY {} {}
-                    """.format(select_attributes, order_attribute, sort),
-                    'ProductModel'
-                )
-        elif model.__class__.__name__ == 'OrderModel':
-            # TODO: implement logic
-            return "goomba"
-
-        elif model.__class__.__name__ == 'OrderProductDetails':
+        if model.__class__.__name__ == 'OrderProduct':
             if filter_clause == '':
                 return cls.__db_fetch_all(
                     """
@@ -798,7 +773,7 @@ class BackEnd:
                     ORDER BY {} {}
                     LIMIT {}
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    'OrderProduct',
                     categories
                 )
             else:
@@ -811,7 +786,7 @@ class BackEnd:
                     ORDER BY {} {}
                     LIMIT {}
                     """.format(select_attributes, filter_clause, group_attribute, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    'OrderProduct',
                     categories
                 )
         elif model.__class__.__name__ == 'LikedListModel':
@@ -826,8 +801,6 @@ class BackEnd:
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
                 'LikedListModel'
             )
-        elif model.__class__.__name__ == 'CartModel':
-            return "goomba"
 
     @classmethod
     def get_elements_join(
@@ -854,7 +827,7 @@ class BackEnd:
         if model.__class__.__name__ == 'OrderModel':
             return "goomba"
 
-        elif model.__class__.__name__ == 'OrderProductDetails':
+        elif model.__class__.__name__ == 'OrderProduct':
             if on == '':
                 return cls.__db_fetch_all(
                     """
@@ -864,7 +837,7 @@ class BackEnd:
                     ORDER BY {} {}
                     LIMIT {}
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    'OrderProduct',
                     categories
                 )
             elif group_attribute:
@@ -878,7 +851,7 @@ class BackEnd:
                     ORDER BY {} {}
                     LIMIT {}
                     """.format(select_attributes, on, filter_clause, group_attribute, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    'OrderProduct',
                     categories
                 )
             else:
@@ -891,7 +864,7 @@ class BackEnd:
                     ORDER BY {} {}
                     LIMIT {}
                     """.format(select_attributes, on, filter_clause, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    'OrderProduct',
                     categories
                 )
         elif model.__class__.__name__ == 'LikedListModel':
