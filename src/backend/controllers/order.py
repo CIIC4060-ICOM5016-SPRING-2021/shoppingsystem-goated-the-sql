@@ -1,7 +1,7 @@
 from flask import jsonify
 
 from src.backend.models.cart import CartModel
-from src.backend.models.order import OrderModel, OrderProductDetails
+from src.backend.models.order import OrderModel, OrderProduct
 from src.backend.models.product import ProductModel
 from src.backend.models.user import UserModel
 
@@ -223,14 +223,14 @@ class OrderProductController:
     @classmethod
     def get_top_categories(cls):
         list_of_categories = []
-        for category in OrderProductDetails.get_top_categories():
+        for category in OrderProduct.get_top_categories():
             list_of_categories.append(cls.model_to_dict(category, True))
         return list_of_categories
 
     @classmethod
     def get_top_products(cls):
         list_of_products = []
-        for product in OrderProductDetails.get_top_products():
+        for product in OrderProduct.get_top_products():
             from src.backend.controllers.product import ProductController
             list_of_products.append(ProductController.model_to_dict(product))
         return list_of_products
@@ -242,18 +242,18 @@ class OrderProductController:
         cheapest_bought_products = []
         most_expensive_bought_products = []
 
-        for category in OrderProductDetails.get_top_categories(user_id):
+        for category in OrderProduct.get_top_categories(user_id):
             most_bought_categories.append(cls.model_to_dict(category, True))
 
-        for product in OrderProductDetails.get_top_products(user_id):
+        for product in OrderProduct.get_top_products(user_id):
             from src.backend.controllers.product import ProductController
             most_bought_products.append(ProductController.model_to_dict(product))
 
-        for product in OrderProductDetails.get_products_sorted(user_id, True):
+        for product in OrderProduct.get_products_sorted(user_id, True):
             from src.backend.controllers.product import ProductController
             cheapest_bought_products.append(ProductController.model_to_dict(product))
 
-        for product in OrderProductDetails.get_products_sorted(user_id, False):
+        for product in OrderProduct.get_products_sorted(user_id, False):
             from src.backend.controllers.product import ProductController
             most_expensive_bought_products.append(ProductController.model_to_dict(product))
 
