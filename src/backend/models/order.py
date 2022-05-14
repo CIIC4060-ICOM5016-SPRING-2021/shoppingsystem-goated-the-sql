@@ -135,67 +135,6 @@ class OrderProduct:
             raise AttributeError
 
 
-class OrderProductDetails:
-    __order_id: int
-    __product_id: int
-
-    # These are the only ones important/returned to the JSON responses
-    __name: str
-    __description: str
-    __price_sold: float
-    __quantity_bought: int
-    __category: str
-
-    def get_order_id(self):
-        return self.__order_id
-
-    def set_order_id(self, order_id):
-        self.__order_id = order_id
-
-    def get_name(self):
-        return self.__name
-
-    def set_name(self, name):
-        self.__name = name
-
-    def get_description(self):
-        return self.__description
-
-    def set_description(self, desc):
-        self.__description = desc
-
-    def get_price_sold(self):
-        return self.__price_sold
-
-    def set_price_sold(self, price_sold):
-        self.__price_sold = price_sold
-
-    def get_quantity_bought(self):
-        return self.__quantity_bought
-
-    def set_quantity_bought(self, quantity_bought):
-        self.__quantity_bought = quantity_bought
-
-    def get_category(self):
-        return self.__category
-
-    def set_category(self, category):
-        self.__category = category
-
-    def get_product_id(self):
-        return self.__product_id
-
-    def set_product_id(self, product_id):
-        self.__product_id = product_id
-
-    def tuple_to_model(self, tuple_to_convert):
-        self.set_name(tuple_to_convert[0])
-        self.set_description(tuple_to_convert[1])
-        self.set_price_sold(tuple_to_convert[2])
-        self.set_quantity_bought(tuple_to_convert[3])
-        self.set_category(tuple_to_convert[4])
-
-
 class OrderModel:
     __order_id: int
     __user_id: int
