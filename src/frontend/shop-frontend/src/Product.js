@@ -1,35 +1,31 @@
 import React, {useState} from 'react';
-import {Button, Card, CardContent, Container, Grid, Header, Icon, Image} from "semantic-ui-react";
-import ps5 from './images/PS5.png'
 import './Product.css';
-import {Outlet} from "react-router";
-import {Label} from "recharts";
+
 import axios from "axios";
 
 export default class Product extends React.Component {
     product = []
 
     componentDidMount() {
-        axios.get(`http://127.0.0.1:5000/goated_the_sql/product/142`, {crossDomain: true})
+        axios.get(`http://127.0.0.1:5000/goated_the_sql/product/142`)
             .then(res => {
-                console.log(res);
                 const persons = res.data;
-                this.product[0] = res.data;
+                this.product = res.data;
+                console.log(this.product[0])
                 this.setState({persons});
             })
-        console.log('SUck my cock and balls')
     }
 
     render() {
 
         return (
             <div className={"background"}>
-                {/*{*/}
-                {/*    this.product*/}
-                {/*        .map(product =>*/}
-                {/*            <p>{product}</p>*/}
-                {/*        )*/}
-                {/*}*/}
+                {
+                    this.product
+                        .map(product =>
+                            <p>{product['category']}</p>
+                        )
+                }
                 {/*<Grid columns={2} verticalAlign={'middle'}>*/}
                 {/*    <Grid.Row centered={'true'}>*/}
                 {/*        <Grid.Column verticalAlign={"middle"} textAlign={'center'}>*/}
