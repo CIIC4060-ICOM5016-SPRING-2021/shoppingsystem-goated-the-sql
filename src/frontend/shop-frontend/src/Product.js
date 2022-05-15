@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import './Product.css';
 
 import axios from "axios";
+import {Button, Card, CardContent, Container, Grid, Header, Icon, Image} from "semantic-ui-react";
+import {Label} from "recharts";
 
 export default class Product extends React.Component {
     product = []
@@ -26,48 +28,48 @@ export default class Product extends React.Component {
                             <p>{product['category']}</p>
                         )
                 }
-                {/*<Grid columns={2} verticalAlign={'middle'}>*/}
-                {/*    <Grid.Row centered={'true'}>*/}
-                {/*        <Grid.Column verticalAlign={"middle"} textAlign={'center'}>*/}
-                {/*            <div class='info'>*/}
-                {/*                <Image src={dummy['image']} size={'medium'}/>*/}
-                {/*                <Header as={'h1'} inverted color={'black'}>{dummy['pname']}</Header>*/}
-                {/*                <Header as={'h3'} inverted color={'black'}>${dummy['pprice']}</Header>*/}
-                {/*                <Container>*/}
-                {/*                    <Header as={'h3'} inverted color={'black'} className={'Condition'}>Condition:*/}
-                {/*                        <Header as={'h3'} inverted color={'black'}>{dummy['condition']}</Header>*/}
-                {/*                    </Header>*/}
-                {/*                    <Button.Group>*/}
-                {/*                        <Button labelPosition='left' icon='minus'/>*/}
-                {/*                        <Button icon='cart' content='Add to cart'/>*/}
-                {/*                        <Button labelPosition='right' icon='plus'/>*/}
-                {/*                    </Button.Group>*/}
-                {/*                    <br/>*/}
-                {/*                    <Button as='div' labelPosition='right'>*/}
-                {/*                        <Button color='red'>*/}
-                {/*                            <Icon name='heart'/>*/}
-                {/*                            Like*/}
-                {/*                        </Button>*/}
-                {/*                        <Label as='a' basic color='red' pointing='left'>*/}
-                {/*                            2,048*/}
-                {/*                        </Label>*/}
-                {/*                    </Button>*/}
-                {/*                </Container>*/}
-                {/*            </div>*/}
+                <Grid columns={2} verticalAlign={'middle'}>
+                    <Grid.Row centered={'true'}>
+                        <Grid.Column verticalAlign={"middle"} textAlign={'center'}>
+                            <div class='info'>
+                                <Image src={dummy['image']} size={'medium'}/>
+                                <Header as={'h1'} inverted color={'black'}>{dummy['pname']}</Header>
+                                <Header as={'h3'} inverted color={'black'}>${dummy['pprice']}</Header>
+                                <Container>
+                                    <Header as={'h3'} inverted color={'black'} className={'Condition'}>Condition:
+                                        <Header as={'h3'} inverted color={'black'}>{dummy['condition']}</Header>
+                                    </Header>
+                                    <Button.Group>
+                                        <Button labelPosition='left' icon='minus'/>
+                                        <Button icon='cart' content='Add to cart'/>
+                                        <Button labelPosition='right' icon='plus'/>
+                                    </Button.Group>
+                                    <br/>
+                                    <Button as='div' labelPosition='right'>
+                                        <Button color='red'>
+                                            <Icon name='heart'/>
+                                            Like
+                                        </Button>
+                                        <Label as='a' basic color='red' pointing='left'>
+                                            2,048
+                                        </Label>
+                                    </Button>
+                                </Container>
+                            </div>
 
-                {/*        </Grid.Column>*/}
-                {/*        <Grid.Column>*/}
-                {/*            <Card centered={'true'} className={'card_description'}>*/}
-                {/*                <CardContent>*/}
-                {/*                    {dummy['pdescription']}*/}
-                {/*                </CardContent>*/}
-                {/*            </Card>*/}
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Card centered className={'card_description'}>
+                                <CardContent>
+                                    {dummy['pdescription']}
+                                </CardContent>
+                            </Card>
 
-                {/*            /!*<Image src={dummy['image']} className={'backgroundPic'}/>*!/*/}
+                            {/*<Image src={dummy['image']} className={'backgroundPic'}/>*/}
 
-                {/*        </Grid.Column>*/}
-                {/*    </Grid.Row>*/}
-                {/*</Grid>*/}
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </div>
 
         )
