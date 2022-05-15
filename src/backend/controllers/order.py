@@ -34,7 +34,9 @@ class OrderController:
                     # Add product to order
                     new_order.add_product_json_to_model(item)
                 else:
-                    return jsonify(f"Stock for product {item['name']} with id {item['product_id']} is lower ")
+                    return jsonify(
+                        "You have attempted to order a quantity larger than the current available stock. The order has "
+                        "failed")
 
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
         except AttributeError:
@@ -50,9 +52,6 @@ class OrderController:
         # Make new order
         new_order = OrderModel()
         new_order.set_user_id(user_id)
-
-        # Initialize product list
-        # new_order.set_product_list([])
 
         # Get all products from cart with given user id
         cart = CartModel.get_cart(user_id)
