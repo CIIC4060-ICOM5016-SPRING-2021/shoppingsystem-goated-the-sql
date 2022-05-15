@@ -27,29 +27,42 @@ class OrderProduct:
         self.category = tuple_to_convert[4]
         self.product_id = tuple_to_convert[5]
 
+    # These were creations of a demon, sanctify your mind before looking within the following 3 methods
     @classmethod
     def get_top_categories(cls, user_id=0):
         try:
             if user_id == 0:
                 return BackEnd.get_elements_beta(model=OrderProduct(),
                                                  select_attributes="category, count(name) as products",
-                                                 order_attribute="products",
+                                                 filter_clause='',
                                                  group_attribute="category",
+                                                 order_attribute="products",
                                                  sort="desc",
                                                  limit=10,
-                                                 filter_clause='',
+
                                                  categories=True)
-            else:
+            elif UserModel.db_is_admin(user_id):
                 return BackEnd.get_elements_join(model=OrderProduct(),
                                                  select_attributes="category, sum(quantity_bought) as products_purchased",
-                                                 filter_clause="user_id = {}".format(user_id),
+                                                 filter_clause='',
                                                  group_attribute="category",
                                                  order_attribute="products_purchased",
                                                  sort="desc",
                                                  limit=10,
                                                  on='order_id_fk = order_id',
                                                  categories=True)
-        except psycopg2.Error:
+            else:
+                return BackEnd.get_elements_join(model=OrderProduct(),
+                                                 select_attributes="category, sum(quantity_bought) as products_purchased",
+                                                 filter_clause="user_id = {} AND".format(user_id),
+                                                 group_attribute="category",
+                                                 order_attribute="products_purchased",
+                                                 sort="desc",
+                                                 limit=10,
+                                                 on='order_id_fk = order_id',
+                                                 categories=True)
+        except psycopg2.Error as e:
+            print(e)
             raise AttributeError
 
     @classmethod
@@ -59,16 +72,33 @@ class OrderProduct:
             list_of_product = []
             if user_id == 0:
                 for row in BackEnd.get_elements_beta(model=OrderProduct(),
-                                                     select_attributes="product_name, count(*) as appearances",
+                                                     select_attributes="name, count(*) as appearances",
                                                      order_attribute="appearances",
-                                                     group_attribute="product_name",
+                                                     group_attribute="name",
                                                      sort="desc",
                                                      limit=10,
                                                      filter_clause='',
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
-                                                               pk="'{}'".format(row.get_name()),
+                                                               pk="'{}'".format(row.name),
+                                                               select_attributes="*",
+                                                               helper="name")
+                                           )
+            elif UserModel.db_is_admin(user_id):
+                for row in BackEnd.get_elements_join(model=OrderProduct(),
+                                                     select_attributes="name, count(*) as appearances, sum("
+                                                                       "quantity_bought) as count",
+                                                     order_attribute="count",
+                                                     group_attribute="name",
+                                                     sort="desc",
+                                                     limit=10,
+                                                     on='order_id_fk = order_id',
+                                                     filter_clause='',
+                                                     categories=False
+                                                     ):
+                    list_of_product.append(BackEnd.get_element(model=ProductModel(),
+                                                               pk="'{}'".format(row.name),
                                                                select_attributes="*",
                                                                helper="name")
                                            )
@@ -81,7 +111,7 @@ class OrderProduct:
                                                      sort="desc",
                                                      limit=10,
                                                      on='order_id_fk = order_id',
-                                                     filter_clause="user_id = {}".format(user_id),
+                                                     filter_clause="user_id = {} AND".format(user_id),
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
@@ -106,6 +136,21 @@ class OrderProduct:
                                                      group_attribute="name",
                                                      sort="desc",
                                                      limit=10,
+                                                     filter_clause='',
+                                                     categories=False
+                                                     ):
+                    list_of_product.append(BackEnd.get_element(model=ProductModel(),
+                                                               pk="'{}'".format(row.name),
+                                                               select_attributes="*",
+                                                               helper="name")
+                                           )
+            elif UserModel.db_is_admin(user_id):
+                for row in BackEnd.get_elements_join(model=OrderProduct(),
+                                                     select_attributes="distinct name, price_sold",
+                                                     order_attribute="price_sold",
+                                                     sort="asc" if ascending else "desc",
+                                                     limit=10,
+                                                     on='order_id_fk = order_id',
                                                      filter_clause='',
                                                      categories=False
                                                      ):

@@ -843,7 +843,7 @@ class BackEnd:
                     """
                     SELECT {}
                     FROM order_products NATURAL INNER JOIN orders NATURAL INNER JOIN products
-                    WHERE {} AND product_id = product_id_fk AND order_id = order_id_fk
+                    WHERE {} product_id = product_id_fk AND order_id = order_id_fk
                     GROUP BY {}
                     ORDER BY {} {}
                     LIMIT {}
@@ -857,7 +857,7 @@ class BackEnd:
                     SELECT {}
                     FROM order_products
                     NATURAL INNER JOIN orders NATURAL INNER JOIN products
-                    WHERE {} AND product_id = product_id_fk
+                    WHERE {} product_id = product_id_fk
                     ORDER BY {} {}
                     LIMIT {}
                     """.format(select_attributes, filter_clause, order_attribute, sort, limit),
