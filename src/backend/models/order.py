@@ -166,7 +166,7 @@ class OrderProduct:
                                                      sort="asc" if ascending else "desc",
                                                      limit=10,
                                                      on='order_id_fk = order_id',
-                                                     filter_clause="user_id = {}".format(user_id),
+                                                     filter_clause="user_id = {} AND".format(user_id),
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
