@@ -13,6 +13,7 @@ import AdminNav from "./AdminNav";
 import Admin from './Admin';
 import ForgotPassword from "./ForgotPassword";
 import CreateAccount from "./CreateAccount";
+import Cart from "./Cart/Cart";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

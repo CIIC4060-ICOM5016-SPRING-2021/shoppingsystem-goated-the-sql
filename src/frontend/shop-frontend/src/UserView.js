@@ -74,7 +74,7 @@ function UserView() {
                     name='Cart'
                     active={active === 'Cart'}
                     link='true'
-                    onClick={goLikes}
+                    onClick={goCart}
                 >
                     Cart
                 </Menu.Item>
