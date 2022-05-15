@@ -54,15 +54,18 @@ class CartController:
 
     @classmethod
     def delete_cart(cls, usr_id, json):
-        return CartModel.delete_item(usr_id, json['product_id'])
+        if CartModel.delete_item(usr_id, json['product_id']):
+            return "Product has been removed from cart"
 
     @classmethod
     def clear_cart(cls, usr_id):
-        return CartModel.clear_cart(usr_id)
+        if CartModel.clear_cart(usr_id):
+            return "Cart has been cleared"
 
     @classmethod
     def update_quantity(cls, usr_id, json):
         if json is None:
-            return False
+            return "No information given"
         else:
-            return CartModel.update_quantity(usr_id, json['product_id'], json['quantity'])
+            if CartModel.update_quantity(usr_id, json['product_id'], json['quantity']):
+                return "Quantity successfully updated."

@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify
 from src.backend.controllers.cart import CartController
 from src.backend.controllers.liked_list import LikedListController
-from src.backend.controllers.order import OrderController, OrderProductDetailsController
+from src.backend.controllers.order import OrderController, OrderProductController
 from src.backend.controllers.product import ProductController
 from src.backend.controllers.user import UserController
 
@@ -50,8 +50,8 @@ def all_products():
             global_statistics = {"Cheapest Products": ProductController.get_cheapest_products(),
                                  "Most Expensive Products": ProductController.get_priciest_products(),
                                  "Most Liked Products": LikedListController.get_top_likes(),
-                                 "Hottest Categories": OrderProductDetailsController.get_top_categories(),
-                                 "Hottest Products": OrderProductDetailsController.get_top_products()
+                                 "Hottest Categories": OrderProductController.get_top_categories(),
+                                 "Hottest Products": OrderProductController.get_top_products()
                                  }
             return_json["Global Statistics"] = global_statistics
 
@@ -147,7 +147,7 @@ def user_handler(user_id):
                 requester_id = UserController.get_user(request.json['user_to_update_id'])
                 subject_id = UserController.get_user(user_id)
 
-                # Repeated code, fix this after project complete
+                # Repeated code, fix this after project completion
                 if requester_id[1] == 200 and subject_id[1] == 200:
                     return UserController.update_user(request.json['user_to_update_id'], user_id, request.json)
                 elif requester_id[1] != 200 and subject_id[1] == 200:
@@ -238,10 +238,10 @@ def orders_page(user_id):
                     return jsonify("User Not Found"), 404
         else:
             if UserController.get_user(user_id)[1] == 200:
-                json = {"Orders": OrderController.get_all_orders(user_id),
-                        "Personalized User Statistics": OrderProductDetailsController.get_personalized_user_statistics(
-                            user_id)
-                        }
+                json = {
+                    "Orders": OrderController.get_all_orders(user_id),
+                    "User Statistics": OrderProductController.get_personalized_user_statistics(user_id)
+                }
                 return jsonify(json)
             else:
                 return jsonify("User Not Found"), 404
@@ -284,6 +284,7 @@ def checkout_page():
     if request.data:
         if request.json:
             try:
+                # Check if the user exists
                 orderer_id = UserController.get_user(request.json['user_id'])
 
                 if orderer_id[1] == 200:

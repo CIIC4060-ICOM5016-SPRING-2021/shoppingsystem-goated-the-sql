@@ -175,7 +175,7 @@ class ProductController:
             'desc': product.get_desc(),
             'price': product.get_price(),
             'category': product.get_category(),
-            'quantity': product.get_stock(),
+            'stock': product.get_stock(),
             'visible': product.get_visibility()
         }
         return prodict

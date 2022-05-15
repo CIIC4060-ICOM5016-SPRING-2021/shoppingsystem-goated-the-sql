@@ -70,15 +70,12 @@ class BackEnd:
                     for item in model.get_product_list():
                         cursor.execute(
                             """
-                            INSERT INTO order_products (order_id_fk, product_name, product_description, price_sold, 
-                            quantity_bought, category) 
-                            VALUES ({}, '{}', '{}', {}, {}, '{}')
+                            INSERT INTO order_products (order_id_fk, price_sold, quantity_bought, product_id_fk) 
+                            VALUES ({}, {}, {}, {})
                             """.format(model.get_order_id(),
-                                       item.get_name(),
-                                       item.get_description(),
-                                       item.get_price_sold(),
-                                       item.get_quantity_bought(),
-                                       item.get_category()
+                                       item.price_sold,
+                                       item.quantity_bought,
+                                       item.product_id
                                        )
                         )
 
@@ -173,7 +170,7 @@ class BackEnd:
 
         elif model.__class__.__name__ == 'OrderModel':
             from src.backend.models.order import OrderModel
-            from src.backend.models.order import OrderProductDetails
+            from src.backend.models.order import OrderProduct
 
             order = OrderModel()
 
@@ -206,20 +203,21 @@ class BackEnd:
                         # Add the products to the order queried
                         cursor.execute(
                             """
-                            SELECT product_name, product_description, price_sold, quantity_bought, category
-                            FROM order_products
-                            WHERE order_id_fk = {}
+                            SELECT name, description, price_sold, quantity_bought, category, product_id
+                            FROM order_products NATURAL INNER JOIN products
+                            WHERE order_id_fk = {} AND product_id = product_id_fk
                             """.format(pk)
                         )
 
                         db_response = cursor.fetchall()
 
-                        order.set_product_list([])
+                        # order.set_product_list([])
 
                         # Inhabit the order's product list
                         for item in db_response:
-                            product = OrderProductDetails()
+                            product = OrderProduct()
                             product.tuple_to_model(item)
+                            product.order_id = order.get_order_id()
 
                             order.add_product_to_model(product)
 
@@ -306,7 +304,8 @@ class BackEnd:
             try:
                 cls.__db_run_command(
                     """
-                    DELETE FROM products
+                    UPDATE products
+                    SET visible = false
                     WHERE product_id = {}
                     """.format(pk)
                 )
@@ -398,7 +397,7 @@ class BackEnd:
                     """
                     SELECT {}
                     FROM products
-                    WHERE {}
+                    WHERE {} AND visible = true
                     """.format(select_attributes, filter_clause),
                     'ProductModel'
                 )
@@ -407,12 +406,13 @@ class BackEnd:
                     """
                     SELECT {}
                     FROM products
+                    WHERE visible = true
                     """.format(select_attributes),
                     'ProductModel'
                 )
         elif model.__class__.__name__ == 'OrderModel':
             from src.backend.models.order import OrderModel
-            from src.backend.models.order import OrderProductDetails
+            from src.backend.models.order import OrderProduct
 
             db_connection = DBAccess().connect_to_db()
             cursor = db_connection.cursor()
@@ -453,19 +453,20 @@ class BackEnd:
                     # Get the products related to the order
                     cursor.execute(
                         """
-                        SELECT product_name, product_description, price_sold, quantity_bought, category
-                        FROM order_products
-                        WHERE order_id_fk = {}
+                        SELECT name, description, price_sold, quantity_bought, category, product_id
+                        FROM order_products NATURAL INNER JOIN products
+                        WHERE order_id_fk = {} AND product_id = product_id_fk
                         """.format(order.get_order_id())
                     )
 
                     db_response = cursor.fetchall()
 
-                    order.set_product_list([])
+                    # order.set_product_list([])
 
                     for product in db_response:
-                        item = OrderProductDetails()
+                        item = OrderProduct()
                         item.tuple_to_model(product)
+                        item.order_id = order.get_order_id()
 
                         order.add_product_to_model(item)
 
@@ -549,7 +550,7 @@ class BackEnd:
                         """
                         SELECT {}
                         FROM products
-                        WHERE {}
+                        WHERE {} AND visible = true
                         ORDER BY {} {}
                         """.format(select_attributes, filter_clause, order_attribute, sort),
                         'ProductModel'
@@ -559,6 +560,7 @@ class BackEnd:
                         """
                         SELECT {}
                         FROM products
+                        WHERE visible = true
                         ORDER BY {} {}
                         """.format(select_attributes, order_attribute, sort),
                         'ProductModel'
@@ -606,11 +608,19 @@ class BackEnd:
         """
         # Prevents password leakage?
         if attribute != 'password':
-            return cls.__db_fetch_all(
-                """
-                SELECT DISTINCT {}
-                FROM {}
-                """.format(attribute, table), 'List')
+            if table.lower() == 'products':
+                return cls.__db_fetch_all(
+                    """
+                    SELECT DISTINCT {}
+                    FROM {}
+                    WHERE visible = true
+                    """.format(attribute, table), 'List')
+            else:
+                return cls.__db_fetch_all(
+                    """
+                    SELECT DISTINCT {}
+                    FROM {}
+                    """.format(attribute, table), 'List')
 
     @classmethod
     def update_element_attribute(cls, table: str, change: str, filter_clause: str):
@@ -740,6 +750,9 @@ class BackEnd:
         """
             Queries the database for all the elements of the given corresponding Entity in a specified order.
 
+        :param group_attribute:
+        :param limit:
+        :param categories:
         :type order_attribute: object
         :param model: class instance of the desired Entity Model
         :param select_attributes: attributes desired from the query
@@ -750,55 +763,31 @@ class BackEnd:
         """
         # The difference betweeen get_elements and this one is that this one can hold more paramenters
         # than its sister method. Can be refactored later
-        if model.__class__.__name__ == 'ProductModel':
-            # If the where_clause_statement is not empty (ie no filter required)
-            if filter_clause:
-                return cls.__db_fetch_all(
-                    """
-                    SELECT {}
-                    FROM products
-                    WHERE {}
-                    ORDER BY {} {}
-                    """.format(select_attributes, filter_clause, order_attribute, sort),
-                    'ProductModel'
-                )
-            else:
-                return cls.__db_fetch_all(
-                    """
-                    SELECT {}
-                    FROM products
-                    ORDER BY {} {}
-                    """.format(select_attributes, order_attribute, sort),
-                    'ProductModel'
-                )
-        elif model.__class__.__name__ == 'OrderModel':
-            # TODO: implement logic
-            return "goomba"
-
-        elif model.__class__.__name__ == 'OrderProductDetails':
+        if model.__class__.__name__ == 'OrderProduct':
             if filter_clause == '':
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order_products
+                    FROM orders NATURAL INNER JOIN order_products NATURAL INNER JOIN products
+                    WHERE product_id = product_id_fk AND order_id = order_id_fk
                     GROUP BY {}
                     ORDER BY {} {}
                     LIMIT {}
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    'OrderProduct',
                     categories
                 )
             else:
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order_products
-                    WHERE {}
+                    FROM orders NATURAL INNER JOIN order_products NATURAL INNER JOIN products
+                    WHERE {} AND product_id = product_id_fk
                     GROUP BY {}
                     ORDER BY {} {}
                     LIMIT {}
                     """.format(select_attributes, filter_clause, group_attribute, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    'OrderProduct',
                     categories
                 )
         elif model.__class__.__name__ == 'LikedListModel':
@@ -813,8 +802,6 @@ class BackEnd:
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
                 'LikedListModel'
             )
-        elif model.__class__.__name__ == 'CartModel':
-            return "goomba"
 
     @classmethod
     def get_elements_join(
@@ -823,6 +810,10 @@ class BackEnd:
         """
             Queries the database for all the elements of the given corresponding Entity in a specified order.
 
+        :param group_attribute:
+        :param on:
+        :param categories:
+        :param limit:
         :type order_attribute: object
         :param model: class instance of the desired Entity Model
         :param select_attributes: attributes desired from the query
@@ -833,35 +824,31 @@ class BackEnd:
         """
         # The difference betweeen get_elements and this one is that this one can hold more paramenters
         # than its sister method. Can be refactored later
-
-        if model.__class__.__name__ == 'OrderModel':
-            return "goomba"
-
-        elif model.__class__.__name__ == 'OrderProductDetails':
+        if model.__class__.__name__ == 'OrderProduct':
             if on == '':
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order_products
+                    FROM order_products NATURAL INNER JOIN products
                     GROUP BY {}
                     ORDER BY {} {}
+                    WHERE product_id = product_id_fk
                     LIMIT {}
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    'OrderProduct',
                     categories
                 )
             elif group_attribute:
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order_products
-                    inner join orders on {}
-                    WHERE {}
+                    FROM order_products NATURAL INNER JOIN orders NATURAL INNER JOIN products
+                    WHERE {} product_id = product_id_fk AND order_id = order_id_fk
                     GROUP BY {}
                     ORDER BY {} {}
                     LIMIT {}
-                    """.format(select_attributes, on, filter_clause, group_attribute, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    """.format(select_attributes, filter_clause, group_attribute, order_attribute, sort, limit),
+                    'OrderProduct',
                     categories
                 )
             else:
@@ -869,12 +856,12 @@ class BackEnd:
                     """
                     SELECT {}
                     FROM order_products
-                    inner join orders on {}
-                    WHERE {}
+                    NATURAL INNER JOIN orders NATURAL INNER JOIN products
+                    WHERE {} product_id = product_id_fk
                     ORDER BY {} {}
                     LIMIT {}
-                    """.format(select_attributes, on, filter_clause, order_attribute, sort, limit),
-                    'OrderProductDetails',
+                    """.format(select_attributes, filter_clause, order_attribute, sort, limit),
+                    'OrderProduct',
                     categories
                 )
         elif model.__class__.__name__ == 'LikedListModel':
@@ -889,5 +876,3 @@ class BackEnd:
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
                 'LikedListModel'
             )
-        elif model.__class__.__name__ == 'CartModel':
-            return "goomba"
