@@ -145,7 +145,7 @@ def user_handler(user_id):
                 requester_id = UserController.get_user(request.json['user_to_update_id'])
                 subject_id = UserController.get_user(user_id)
 
-                # Repeated code, fix this after project complete
+                # Repeated code, fix this after project completion
                 if requester_id[1] == 200 and subject_id[1] == 200:
                     return UserController.update_user(request.json['user_to_update_id'], user_id, request.json)
                 elif requester_id[1] != 200 and subject_id[1] == 200:

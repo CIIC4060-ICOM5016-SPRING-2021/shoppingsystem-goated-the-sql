@@ -33,10 +33,10 @@ class OrderProduct:
         try:
             if user_id == 0:
                 return BackEnd.get_elements_beta(model=OrderProduct(),
-                                                 select_attributes="category, count(name) as products",
+                                                 select_attributes="category, sum(quantity_bought) as products_purchased",
                                                  filter_clause='',
                                                  group_attribute="category",
-                                                 order_attribute="products",
+                                                 order_attribute="products_purchased",
                                                  sort="desc",
                                                  limit=10,
 

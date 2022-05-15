@@ -769,9 +769,9 @@ class BackEnd:
                     """
                     SELECT {}
                     FROM orders NATURAL INNER JOIN order_products NATURAL INNER JOIN products
+                    WHERE product_id = product_id_fk AND order_id = order_id_fk
                     GROUP BY {}
                     ORDER BY {} {}
-                    WHERE product_id = product_id_fk
                     LIMIT {}
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
                     'OrderProduct',
