@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Card, CardContent, Container, Grid, Header, Icon, Image} from "semantic-ui-react";
-import ps5 from "./PS5.png"
+import ps5 from './images/PS5.png'
 import './Product.css';
 import {Outlet} from "react-router";
 import {Label} from "recharts";

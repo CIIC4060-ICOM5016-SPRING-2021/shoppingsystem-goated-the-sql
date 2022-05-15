@@ -16,3 +16,7 @@ p.Login {
     font-size: 3.5vh;
     color: white;
 }
+
+.background2 {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F1F1F1 56.57%, #E3E3E3 100%);
+}
