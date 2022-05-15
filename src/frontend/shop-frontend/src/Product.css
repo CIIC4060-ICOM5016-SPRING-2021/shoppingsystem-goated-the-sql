@@ -39,7 +39,7 @@ Container.description {
 
 div.backgroundPic {
     height: 50rem;
-    background-image: url("PS5.png");
+    background-image: url("images/PS5.png");
     background-repeat: no-repeat;
     background-size: 50rem;
 }

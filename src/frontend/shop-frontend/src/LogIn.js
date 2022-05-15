@@ -13,7 +13,6 @@ function LogIn() {
                     <p className={"Title"}>
                         GoatStop
                     </p>
-
                 </Container>
                 <Form size={'massive'}>
                     <Segment stacked size={'massive'}>
