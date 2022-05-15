@@ -15,7 +15,7 @@ import {Link} from "react-router-dom";
 import './Admin.css'
 
 
-function Admin() {
+function ViewOrders() {
 
 
     return (
@@ -34,39 +34,6 @@ function Admin() {
                             <Grid centered>
                                 <GridRow>
                                     <Button className={'icon'} icon='eye' as={Link} to="/Orders/View"/>
-                                    <Button className={'icon'} icon='edit' as={Link} to="/Orders/Edit"/>
-                                    <Button className={'icon'} icon='delete' as={Link} to="/Orders/Delete"/>
-                                </GridRow>
-                            </Grid>
-                        </CardContent>
-                    </Card>
-                </GridColumn>
-                <GridColumn width={3}>
-                    <Card raised className={'adminAction'}>
-
-                        <CardContent>
-                            <Icon name={'user'} size={'huge'}/>
-
-                            <CardHeader>Users</CardHeader>
-                            <Grid>
-                                <GridColumn>
-                                    <Button className={'icon'} icon='delete' as={Link} to="/Users/Delete"/>
-
-                                </GridColumn>
-                            </Grid>
-                        </CardContent>
-                    </Card>
-                </GridColumn>
-                <GridColumn width={3}>
-                    <Card raised className={'adminAction'}>
-                        <CardContent>
-                            <Icon name={'box'} size={'huge'}/>
-                            <CardHeader>Products</CardHeader>
-                            <Grid centered>
-                                <GridRow>
-                                    <Button className={'icon'} icon='plus' as={Link} to="/Products/Add"/>
-                                    <Button className={'icon'} icon='edit' as={Link} to="/Products/Edit"/>
-                                    <Button className={'icon'} icon='delete' as={Link} to="/Products/Delete"/>
                                 </GridRow>
                             </Grid>
                         </CardContent>
@@ -78,4 +45,4 @@ function Admin() {
     )
 }
 
-export default Admin;
+export default ViewOrders;

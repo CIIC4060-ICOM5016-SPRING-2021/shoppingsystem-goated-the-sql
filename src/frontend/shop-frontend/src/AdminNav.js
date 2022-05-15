@@ -40,7 +40,7 @@ function AdminNav() {
                     to='/Dashboard'
                     name='Products'
                     active={active === 'Dashboard'}
-                    link='true'
+                    link
                     onClick={goDash}
                     className={'item'}
                 >
@@ -52,7 +52,7 @@ function AdminNav() {
                     to='/Admin'
                     name='Admin'
                     active={active === 'Admin'}
-                    link='true'
+                    link
                     onClick={goAdmin}
                 >
                     Admin
@@ -65,7 +65,7 @@ function AdminNav() {
                     to='/Products'
                     name='Products'
                     active={active === 'Products'}
-                    link='true'
+                    link
                     onClick={goProduct}
                 >
                     Products
@@ -77,7 +77,7 @@ function AdminNav() {
                     to='/Likes'
                     name='Products'
                     active={active === 'Likes'}
-                    link='true'
+                    link
                     onClick={goLikes}
                 >
                     Likes
@@ -88,7 +88,7 @@ function AdminNav() {
                     to='/Cart'
                     name='Cart'
                     active={active === 'Cart'}
-                    link='true'
+                    link
                     onClick={goLikes}
                 >
                     Cart
@@ -99,7 +99,7 @@ function AdminNav() {
                     to='/Orders'
                     name='Orders'
                     active={active === 'Orders'}
-                    link='true'
+                    link
                     onClick={goOrders}
                 >
                     Orders
@@ -110,7 +110,7 @@ function AdminNav() {
                     to='/'
                     name='Log Out'
                     active={active === 'Log Out'}
-                    link='true'
+                    link
                     onClick={goOrders}
                 >
                     Log Out

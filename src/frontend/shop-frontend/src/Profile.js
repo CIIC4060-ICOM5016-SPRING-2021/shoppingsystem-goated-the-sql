@@ -4,14 +4,14 @@ import './LogIn.css';
 import {Link} from "react-router-dom";
 
 
-function CreateAccount() {
+function Profile() {
     return (
 
         <Grid textAlign='center' style={{height: '100vh'}} verticalAlign='middle'>
             <Grid.Column style={{maxWidth: 600}} padded={'horizontally'}>
                 <Container>
                     <p className={"Title"}>
-                        GoatStop
+                        FirstName + LastName
                     </p>
                 </Container>
                 <Form size={'massive'}>
@@ -40,7 +40,11 @@ function CreateAccount() {
                         />
 
                         <Button as={Link} to="/Products" color='red' style={{width: 300}}>
-                            <p className={'Login'}>Create Account</p>
+                            <p className={'Login'}>Done</p>
+                        </Button>
+
+                        <Button as={Link} to="/" color='red' style={{width: 300}}>
+                            <p className={'Login'}>ERASE ACCOUNT</p>
                         </Button>
 
                     </Segment>
@@ -51,4 +55,4 @@ function CreateAccount() {
     )
 }
 
-export default CreateAccount;
+export default Profile;

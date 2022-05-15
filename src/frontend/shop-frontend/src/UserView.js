@@ -26,6 +26,10 @@ function UserView() {
         setActive('Orders');
     }
 
+    const goProfile = () => {
+        setActive('Profile')
+    }
+
 
     return <div className={'behindNav'}>
         <div className={'nav'}>
@@ -41,6 +45,18 @@ function UserView() {
                     className={'item'}
                 >
                     Dashboard
+                </Menu.Item>
+                <Menu.Item
+                    as={Link}
+                    color={'blue'}
+                    to='/Profile'
+                    name='Profile'
+                    active={active === 'Profile'}
+                    link='true'
+                    onClick={goProfile}
+                    className={'item'}
+                >
+                    Profile
                 </Menu.Item>
                 <Menu.Item header> Goat & co </Menu.Item>
                 <Menu.Item

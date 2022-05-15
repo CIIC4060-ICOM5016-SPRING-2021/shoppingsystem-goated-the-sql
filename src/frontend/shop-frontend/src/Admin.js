@@ -28,9 +28,9 @@ function Admin() {
                             <CardHeader textAlign={'center'}>Orders</CardHeader>
                             <Grid centered>
                                 <GridRow>
-                                    <Button className={'icon'} icon='eye' as={Link} to="/Orders/View"/>
-                                    <Button className={'icon'} icon='edit' as={Link} to="/Orders/Edit"/>
-                                    <Button className={'icon'} icon='delete' as={Link} to="/Orders/Delete"/>
+                                    <Button className={'icon'} icon='eye' as={Link} to="/Admin/Orders/View"/>
+                                    <Button className={'icon'} icon='edit' as={Link} to="/Admin/Orders/Edit"/>
+                                    <Button className={'icon'} icon='delete' as={Link} to="/Admin/Orders/Delete"/>
                                 </GridRow>
                             </Grid>
                         </CardContent>
@@ -45,7 +45,7 @@ function Admin() {
                             <CardHeader>Users</CardHeader>
                             <Grid>
                                 <GridColumn>
-                                    <Button className={'icon'} icon='delete' as={Link} to="/Users/Delete"/>
+                                    <Button className={'icon'} icon='delete' as={Link} to="/Admin/User/Delete"/>
 
                                 </GridColumn>
                             </Grid>
@@ -59,9 +59,9 @@ function Admin() {
                             <CardHeader>Products</CardHeader>
                             <Grid centered>
                                 <GridRow>
-                                    <Button className={'icon'} icon='plus' as={Link} to="/Products/Add"/>
-                                    <Button className={'icon'} icon='edit' as={Link} to="/Products/Edit"/>
-                                    <Button className={'icon'} icon='delete' as={Link} to="/Products/Delete"/>
+                                    <Button className={'icon'} icon='plus' as={Link} to="/Admin/Product/Add"/>
+                                    <Button className={'icon'} icon='edit' as={Link} to="/Admin/Product/Edit"/>
+                                    <Button className={'icon'} icon='delete' as={Link} to="/Admin/Product/Delete"/>
                                 </GridRow>
                             </Grid>
                         </CardContent>

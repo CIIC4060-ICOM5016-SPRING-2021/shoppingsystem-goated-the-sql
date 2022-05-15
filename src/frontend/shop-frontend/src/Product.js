@@ -4,67 +4,141 @@ import ps5 from './images/PS5.png'
 import './Product.css';
 import {Outlet} from "react-router";
 import {Label} from "recharts";
+import axios from "axios";
 
-function Product(product) {
-    const [data, setData] = useState("show");
-    let dummy =
-        {
-            "pid": 1,
-            "pname": "RTX 3080",
-            "pprice": 1.01,
-            "pdescription": "It's worth mentioning that there's nothing inherently wrong with cheap handheld emulators. Hit em with the supersized shirts and the SOOOUUULJAAAA BOOYYYYYYY",
-            "image": ps5,
-            "condition": "used"
-        }
-    console.log(product)
-    return (<div className={"background"}>
+export default class Product extends React.Component {
+    product = []
 
-            <Grid columns={2} verticalAlign={'middle'}>
-                <Grid.Row centered={'true'}>
-                    <Grid.Column verticalAlign={"middle"} textAlign={'center'}>
-                        <div class='info'>
-                            <Image src={dummy['image']} size={'medium'}/>
-                            <Header as={'h1'} inverted color={'black'}>{dummy['pname']}</Header>
-                            <Header as={'h3'} inverted color={'black'}>${dummy['pprice']}</Header>
-                            <Container>
-                                <Header as={'h3'} inverted color={'black'} className={'Condition'}>Condition:
-                                    <Header as={'h3'} inverted color={'black'}>{dummy['condition']}</Header>
-                                </Header>
-                                <Button.Group>
-                                    <Button labelPosition='left' icon='minus'/>
-                                    <Button icon='cart' content='Add to cart'/>
-                                    <Button labelPosition='right' icon='plus'/>
-                                </Button.Group>
-                                <br/>
-                                <Button as='div' labelPosition='right'>
-                                    <Button color='red'>
-                                        <Icon name='heart'/>
-                                        Like
-                                    </Button>
-                                    <Label as='a' basic color='red' pointing='left'>
-                                        2,048
-                                    </Label>
-                                </Button>
-                            </Container>
-                        </div>
+    componentDidMount() {
+        axios.get(`http://127.0.0.1:5000/goated_the_sql/product/142`, {crossDomain: true})
+            .then(res => {
+                console.log(res);
+                const persons = res.data;
+                this.product[0] = res.data;
+                this.setState({persons});
+            })
+        console.log('SUck my cock and balls')
+    }
 
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Card centered={'true'} className={'card_description'}>
-                            <CardContent>
-                                {dummy['pdescription']}
-                            </CardContent>
-                        </Card>
+    render() {
 
-                        {/*<Image src={dummy['image']} className={'backgroundPic'}/>*/}
+        return (
+            <div className={"background"}>
+                {/*{*/}
+                {/*    this.product*/}
+                {/*        .map(product =>*/}
+                {/*            <p>{product}</p>*/}
+                {/*        )*/}
+                {/*}*/}
+                {/*<Grid columns={2} verticalAlign={'middle'}>*/}
+                {/*    <Grid.Row centered={'true'}>*/}
+                {/*        <Grid.Column verticalAlign={"middle"} textAlign={'center'}>*/}
+                {/*            <div class='info'>*/}
+                {/*                <Image src={dummy['image']} size={'medium'}/>*/}
+                {/*                <Header as={'h1'} inverted color={'black'}>{dummy['pname']}</Header>*/}
+                {/*                <Header as={'h3'} inverted color={'black'}>${dummy['pprice']}</Header>*/}
+                {/*                <Container>*/}
+                {/*                    <Header as={'h3'} inverted color={'black'} className={'Condition'}>Condition:*/}
+                {/*                        <Header as={'h3'} inverted color={'black'}>{dummy['condition']}</Header>*/}
+                {/*                    </Header>*/}
+                {/*                    <Button.Group>*/}
+                {/*                        <Button labelPosition='left' icon='minus'/>*/}
+                {/*                        <Button icon='cart' content='Add to cart'/>*/}
+                {/*                        <Button labelPosition='right' icon='plus'/>*/}
+                {/*                    </Button.Group>*/}
+                {/*                    <br/>*/}
+                {/*                    <Button as='div' labelPosition='right'>*/}
+                {/*                        <Button color='red'>*/}
+                {/*                            <Icon name='heart'/>*/}
+                {/*                            Like*/}
+                {/*                        </Button>*/}
+                {/*                        <Label as='a' basic color='red' pointing='left'>*/}
+                {/*                            2,048*/}
+                {/*                        </Label>*/}
+                {/*                    </Button>*/}
+                {/*                </Container>*/}
+                {/*            </div>*/}
 
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        </div>
+                {/*        </Grid.Column>*/}
+                {/*        <Grid.Column>*/}
+                {/*            <Card centered={'true'} className={'card_description'}>*/}
+                {/*                <CardContent>*/}
+                {/*                    {dummy['pdescription']}*/}
+                {/*                </CardContent>*/}
+                {/*            </Card>*/}
 
-    )
+                {/*            /!*<Image src={dummy['image']} className={'backgroundPic'}/>*!/*/}
 
+                {/*        </Grid.Column>*/}
+                {/*    </Grid.Row>*/}
+                {/*</Grid>*/}
+            </div>
+
+        )
+    }
 }
-
-export default Product;
+//
+// function Product(product) {
+//     const [data, setData] = useState("show");
+//
+//     let dummy =
+//         {
+//             "pid": 1,
+//             "pname": "RTX 3080",
+//             "pprice": 1.01,
+//             "pdescription": "It's worth mentioning that there's nothing inherently wrong with cheap handheld emulators. Hit em with the supersized shirts and the SOOOUUULJAAAA BOOYYYYYYY",
+//             "image": ps5,
+//             "condition": "used"
+//         }
+//     console.log(product)
+//     return (<div className={"background"}>
+//
+//             <Grid columns={2} verticalAlign={'middle'}>
+//                 <Grid.Row centered={'true'}>
+//                     <Grid.Column verticalAlign={"middle"} textAlign={'center'}>
+//                         <div class='info'>
+//                             <Image src={dummy['image']} size={'medium'}/>
+//                             <Header as={'h1'} inverted color={'black'}>{dummy['pname']}</Header>
+//                             <Header as={'h3'} inverted color={'black'}>${dummy['pprice']}</Header>
+//                             <Container>
+//                                 <Header as={'h3'} inverted color={'black'} className={'Condition'}>Condition:
+//                                     <Header as={'h3'} inverted color={'black'}>{dummy['condition']}</Header>
+//                                 </Header>
+//                                 <Button.Group>
+//                                     <Button labelPosition='left' icon='minus'/>
+//                                     <Button icon='cart' content='Add to cart'/>
+//                                     <Button labelPosition='right' icon='plus'/>
+//                                 </Button.Group>
+//                                 <br/>
+//                                 <Button as='div' labelPosition='right'>
+//                                     <Button color='red'>
+//                                         <Icon name='heart'/>
+//                                         Like
+//                                     </Button>
+//                                     <Label as='a' basic color='red' pointing='left'>
+//                                         2,048
+//                                     </Label>
+//                                 </Button>
+//                             </Container>
+//                         </div>
+//
+//                     </Grid.Column>
+//                     <Grid.Column>
+//                         <Card centered={'true'} className={'card_description'}>
+//                             <CardContent>
+//                                 {dummy['pdescription']}
+//                             </CardContent>
+//                         </Card>
+//
+//                         {/*<Image src={dummy['image']} className={'backgroundPic'}/>*/}
+//
+//                     </Grid.Column>
+//                 </Grid.Row>
+//             </Grid>
+//         </div>
+//
+//     )
+//
+// }
+//
+// export default Product;
