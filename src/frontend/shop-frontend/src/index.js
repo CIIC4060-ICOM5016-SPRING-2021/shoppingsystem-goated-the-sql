@@ -38,8 +38,8 @@ root.render(
             <Route exact path="/Profile" element={<div><UserView/><Profile/></div>}/>
             <Route exact path="/Products" element={<div><UserView/><Products/></div>}/>
             <Route exact path="/Product" element={<div><UserView/><Product/></div>}/>
-            <Route exact path="/Cart" element={<UserView/>}/>
-            <Route exact path="/Likes" element={<UserView/>}/>
+            <Route exact path="/Cart" element={<div><UserView/><Cart /></div>}/>
+            <Route exact path="/Likes" element={<div><UserView/><Likes /></div>}/>
             <Route exact path="/Orders" element={<div><UserView/><Products/></div>}/>
             <Route exact path="/Dashboard" element={<div><UserView/><Dashboard/></div>}/>
 
