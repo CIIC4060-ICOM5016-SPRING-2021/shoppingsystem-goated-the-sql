@@ -7,7 +7,7 @@ export default class Product extends React.Component {
     product = []
 
     componentDidMount() {
-        axios.get(`http://127.0.0.1:5000/goated_the_sql/product/142`)
+        axios.get('http://127.0.0.1:5000/goated_the_sql/product/142')
             .then(res => {
                 const persons = res.data;
                 this.product = res.data;
