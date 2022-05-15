@@ -4,7 +4,7 @@ import {
     Card,
     CardContent,
     CardHeader,
-    Container,
+    Container, Form, FormInput,
     Grid,
     GridColumn,
     GridRow,
@@ -17,12 +17,17 @@ import './Admin.css'
 
 function Admin() {
 
+
     return (
         <Container fluid={'true'} textAlign={'center'}>
-            <Header>Admin Actions</Header>
+            <Header>Viewing Orders</Header>
+            <Form>
+                <FormInput placeholder='UserId'/>
+            </Form>
+            {/* DO THE SHIT ON ALLPRODUCTS*/}
             <Grid centered={'true'} divided={'true'}>
                 <GridColumn width={3}>
-                    <Card raised={'true'} className={'adminAction'}>
+                    <Card raised className={'adminAction'}>
                         <CardContent className={'content'}>
                             <Icon name={'newspaper'} size={'huge'}/>
                             <CardHeader textAlign={'center'}>Orders</CardHeader>
@@ -37,7 +42,7 @@ function Admin() {
                     </Card>
                 </GridColumn>
                 <GridColumn width={3}>
-                    <Card raised={'true'} className={'adminAction'}>
+                    <Card raised className={'adminAction'}>
 
                         <CardContent>
                             <Icon name={'user'} size={'huge'}/>
@@ -53,7 +58,7 @@ function Admin() {
                     </Card>
                 </GridColumn>
                 <GridColumn width={3}>
-                    <Card raised={'true'} className={'adminAction'}>
+                    <Card raised className={'adminAction'}>
                         <CardContent>
                             <Icon name={'box'} size={'huge'}/>
                             <CardHeader>Products</CardHeader>

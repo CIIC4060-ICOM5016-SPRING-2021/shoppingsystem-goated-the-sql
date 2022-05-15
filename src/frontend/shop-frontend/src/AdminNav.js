@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 
 function AdminNav() {
 
-    const [active, setActive] = useState('Admin')
+    const [active, setActive] = useState('Products')
 
     const goProduct = () => {
         setActive('Products');

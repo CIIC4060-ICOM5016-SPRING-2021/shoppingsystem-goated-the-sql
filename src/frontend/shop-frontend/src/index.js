@@ -11,13 +11,16 @@ import Products from "./Products";
 import Product from "./Product";
 import AdminNav from "./AdminNav";
 import Admin from './Admin';
-
+import ForgotPassword from "./ForgotPassword";
+import CreateAccount from "./CreateAccount";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<LogIn/>}/>
+            <Route path='/ForgotPassword' element={<ForgotPassword/>}/>
+            <Route path='/CreateAccount' element={<CreateAccount/>}/>
 
             <Route exact path="/Products" element={<div><UserView/><Products/></div>}/>
             <Route exact path="/Product" element={<div><UserView/><Product/></div>}/>

@@ -4,7 +4,7 @@ import './LogIn.css';
 import {Link} from "react-router-dom";
 
 
-function LogIn() {
+function CreateAccount() {
     return (
 
         <Grid textAlign='center' style={{height: '100vh'}} verticalAlign='middle'>
@@ -22,6 +22,16 @@ function LogIn() {
                                     placeholder='Phone #'
                                     type='phone'
                         />
+                        <Form.Input fluid icon='user'
+                                    iconPosition='left'
+                                    placeholder='First Name'
+                                    type='text'
+                        />
+                        <Form.Input fluid icon='user'
+                                    iconPosition='left'
+                                    placeholder='Last Name'
+                                    type='text'
+                        />
                         <Form.Input
                             fluid
                             icon='lock'
@@ -29,27 +39,17 @@ function LogIn() {
                             placeholder='Password'
                             type='password'
                         />
+
                         <Button as={Link} to="/Products" color='red' style={{width: 300}}>
-                            <p className={'Login'}>Login</p>
-                        </Button>
-                        <Button as={Link} to="/Admin/Products" color='red' style={{width: 300}}>
-                            <p className={'Login'}>Admin Login</p>
+                            <p className={'Login'}>Create Account</p>
                         </Button>
 
                     </Segment>
                 </Form>
-                <Grid textAlign='center' columns={2} padded={'vertically'}>
-                    <Grid.Column>
-                        <Link onClick to={'/ForgotPassword'}> Forgot Password? </Link> </Grid.Column>
-                    <Grid.Column>
-                        <Link onClick to={'/CreateAccount'}>Create Account </Link>
-                    </Grid.Column>
-
-                </Grid>
             </Grid.Column>
         </Grid>
 
     )
 }
 
-export default LogIn;
+export default CreateAccount;
