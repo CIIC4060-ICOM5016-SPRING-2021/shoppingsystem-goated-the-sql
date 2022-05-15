@@ -3,6 +3,7 @@ import {Button, ButtonGroup, Card, CardContent, Container, Header, Icon, Image, 
 import {Link} from "react-router-dom";
 import {Navigate} from "react-router";
 import Product from "../Product";
+import CartItems from "./CartItems.css";
 
 
 function CartItem(props) {
@@ -22,7 +23,8 @@ function CartItem(props) {
 
         return <Card>
             <Image src={value.image} wrapped ui={false}/>
-            <Card.Content>
+            <Card.Content className={"text"}>
+                
                 <h2>{value.pname}</h2>
 
                 <h2>${value.pprice*value.quantity}</h2>

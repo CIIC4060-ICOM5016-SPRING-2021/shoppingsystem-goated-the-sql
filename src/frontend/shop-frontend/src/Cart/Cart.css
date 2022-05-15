@@ -1,5 +1,7 @@
 div {
-    /*background-color: #E5E5E5;*/
+    /*
+    background-color: #E5E5E5;
+    */
 
 }
 
@@ -11,4 +13,7 @@ div.footer {
 
 div.price {
 
+}
+.cartbackground{
+    background-color: #E5E5E5;
 }

@@ -22,6 +22,8 @@ import DeleteProduct from "./DeleteProduct";
 import EditProduct from "./EditProduct";
 import AddProduct from "./AddProduct";
 import Profile from "./Profile";
+import Likes from "./Likes/Likes";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

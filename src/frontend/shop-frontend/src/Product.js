@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import './Product.css';
+import rtx from "./3080.png"
 
 import axios from "axios";
 import {Button, Card, CardContent, Container, Grid, Header, Icon, Image} from "semantic-ui-react";
@@ -10,7 +11,7 @@ export default class Product extends React.Component {
     likes = []
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:5000/goated_the_sql/product/108')
+        axios.get('http://127.0.0.1:5000/goated_the_sql/product/'+'108')
             .then(res => {
                 const persons = res.data;
                 this.likes = res.data[1];
@@ -28,7 +29,7 @@ export default class Product extends React.Component {
                     <Grid.Row centered={'true'}>
                         <Grid.Column verticalAlign={"middle"} textAlign={'center'}>
                             <div class='info'>
-                                <Image src={this.product['name']} size={'medium'}/>
+                                <Image src={rtx} size={'medium'}/>
                                 <Header as={'h1'} inverted color={'black'}>{this.product['name']}</Header>
                                 <Header as={'h3'} inverted color={'black'}>${this.product['price']}</Header>
                                 <Container>
