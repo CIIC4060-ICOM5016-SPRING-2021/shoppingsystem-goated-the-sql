@@ -41,13 +41,13 @@ class OrderProduct:
                                                  categories=True)
             else:
                 return BackEnd.get_elements_join(model=OrderProduct(),
-                                                 select_attributes="category, count(name) as products",
-                                                 order_attribute="products",
+                                                 select_attributes="category, sum(quantity_bought) as products_purchased",
+                                                 filter_clause="user_id = {}".format(user_id),
                                                  group_attribute="category",
+                                                 order_attribute="products_purchased",
                                                  sort="desc",
                                                  limit=10,
                                                  on='order_id_fk = order_id',
-                                                 filter_clause="user_id = {}".format(user_id),
                                                  categories=True)
         except psycopg2.Error:
             raise AttributeError

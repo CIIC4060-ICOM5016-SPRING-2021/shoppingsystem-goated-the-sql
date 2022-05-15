@@ -257,7 +257,8 @@ class OrderProductController:
             from src.backend.controllers.product import ProductController
             most_expensive_bought_products.append(ProductController.model_to_dict(product))
 
-        return [{"Most Bought Categories": most_bought_categories}, {"Most Bought Products": most_bought_products},
+        return [{"Most Bought Categories": most_bought_categories},
+                {"Most Bought Products": most_bought_products},
                 {"Cheapest Bought Products": cheapest_bought_products},
                 {"Most Expensive Bought Products": most_expensive_bought_products}]
 

@@ -236,10 +236,10 @@ def orders_page(user_id):
                     return jsonify("User Not Found"), 404
         else:
             if UserController.get_user(user_id)[1] == 200:
-                json = {"Orders": OrderController.get_all_orders(user_id),
-                        "Personalized User Statistics": OrderProductController.get_personalized_user_statistics(
-                            user_id)
-                        }
+                json = {
+                    "Orders": OrderController.get_all_orders(user_id),
+                    "User Statistics": OrderProductController.get_personalized_user_statistics(user_id)
+                }
                 return jsonify(json)
             else:
                 return jsonify("User Not Found"), 404

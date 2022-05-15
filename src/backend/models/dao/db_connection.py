@@ -768,7 +768,7 @@ class BackEnd:
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order NATURAL INNER JOIN order_products NATURAL INNER JOIN products
+                    FROM orders NATURAL INNER JOIN order_products NATURAL INNER JOIN products
                     GROUP BY {}
                     ORDER BY {} {}
                     WHERE product_id = product_id_fk
@@ -781,7 +781,7 @@ class BackEnd:
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order NATURAL INNER JOIN order_products NATURAL INNER JOIN products
+                    FROM orders NATURAL INNER JOIN order_products NATURAL INNER JOIN products
                     WHERE {} AND product_id = product_id_fk
                     GROUP BY {}
                     ORDER BY {} {}
@@ -842,9 +842,8 @@ class BackEnd:
                 return cls.__db_fetch_all(
                     """
                     SELECT {}
-                    FROM order_products
-                    NATURAL INNER JOIN orders NATURAL INNER JOIN products
-                    WHERE {} AND product_id = product_id_fk
+                    FROM order_products NATURAL INNER JOIN orders NATURAL INNER JOIN products
+                    WHERE {} AND product_id = product_id_fk AND order_id = order_id_fk
                     GROUP BY {}
                     ORDER BY {} {}
                     LIMIT {}
