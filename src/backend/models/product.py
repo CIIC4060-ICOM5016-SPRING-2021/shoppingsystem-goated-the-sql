@@ -144,6 +144,7 @@ class ProductModel:
             Gets all the products in the catalog in ascending or descending order by price, depending on if the
             ascending parameter is set to true or false.
 
+        :param limit:
         :param ascending: boolean, true = ascending order of price / false = descending order of price
         :return: list containing ProductModels ordered by price
         """

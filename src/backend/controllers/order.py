@@ -1,7 +1,7 @@
 from flask import jsonify
 
 from src.backend.models.cart import CartModel
-from src.backend.models.order import OrderModel, OrderProductDetails
+from src.backend.models.order import OrderModel, OrderProduct
 from src.backend.models.product import ProductModel
 from src.backend.models.user import UserModel
 
@@ -21,7 +21,7 @@ class OrderController:
         new_order.set_user_id(user_id)
         try:
             # Initiate product list
-            new_order.set_product_list([])
+            # new_order.set_product_list([])
             for item in order_products:
                 prod = ProductModel.get_product(item['product_id'])
 
@@ -34,7 +34,9 @@ class OrderController:
                     # Add product to order
                     new_order.add_product_json_to_model(item)
                 else:
-                    return jsonify(f"Stock for product {item['name']} with id {item['product_id']} is lower ")
+                    return jsonify(
+                        "You have attempted to order a quantity larger than the current available stock. The order has "
+                        "failed")
 
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
         except AttributeError:
@@ -51,9 +53,6 @@ class OrderController:
         new_order = OrderModel()
         new_order.set_user_id(user_id)
 
-        # Initialize product list
-        new_order.set_product_list([])
-
         # Get all products from cart with given user id
         cart = CartModel.get_cart(user_id)
 
@@ -61,12 +60,12 @@ class OrderController:
         # Make every cart model product into an order product detail model
         try:
             for item in cart:
-                prod = ProductModel.get_product(item['product_id'])
+                prod = ProductModel.get_product(item.get_product_id())
 
                 stock = prod.get_stock()
-                if item['quantity_bought'] < stock:
+                if item.get_product_quantity() <= stock:
                     # Need to decrease the stock by the quantity bought
-                    prod.set_stock(stock - int(item['quantity_bought']))
+                    prod.set_stock(stock - int(item.get_product_quantity()))
                     # Todo change the user id updating the products
                     ProductModel.db_update_product(prod, 213)
                     # Add product to order
@@ -178,11 +177,11 @@ class OrderController:
 
         for products in order_model.get_product_list():
             product_dict = {
-                'name': products.get_name(),
-                'desc': products.get_description(),
-                'price_sold': products.get_price_sold(),
-                'quantity_bought': products.get_quantity_bought(),
-                'category': products.get_category()
+                'name': products.name,
+                'desc': products.description,
+                'price_sold': products.price_sold,
+                'quantity_bought': products.quantity_bought,
+                'category': products.category
             }
 
             list_of_product_dicts.append(product_dict)
@@ -218,19 +217,19 @@ class OrderController:
         return model
 
 
-class OrderProductDetailsController:
+class OrderProductController:
 
     @classmethod
     def get_top_categories(cls):
         list_of_categories = []
-        for category in OrderProductDetails.get_top_categories():
+        for category in OrderProduct.get_top_categories():
             list_of_categories.append(cls.model_to_dict(category, True))
         return list_of_categories
 
     @classmethod
     def get_top_products(cls):
         list_of_products = []
-        for product in OrderProductDetails.get_top_products():
+        for product in OrderProduct.get_top_products():
             from src.backend.controllers.product import ProductController
             list_of_products.append(ProductController.model_to_dict(product))
         return list_of_products
@@ -242,33 +241,34 @@ class OrderProductDetailsController:
         cheapest_bought_products = []
         most_expensive_bought_products = []
 
-        for category in OrderProductDetails.get_top_categories(user_id):
+        for category in OrderProduct.get_top_categories(user_id):
             most_bought_categories.append(cls.model_to_dict(category, True))
 
-        for product in OrderProductDetails.get_top_products(user_id):
+        for product in OrderProduct.get_top_products(user_id):
             from src.backend.controllers.product import ProductController
             most_bought_products.append(ProductController.model_to_dict(product))
 
-        for product in OrderProductDetails.get_products_sorted(user_id, True):
+        for product in OrderProduct.get_products_sorted(user_id, True):
             from src.backend.controllers.product import ProductController
             cheapest_bought_products.append(ProductController.model_to_dict(product))
 
-        for product in OrderProductDetails.get_products_sorted(user_id, False):
+        for product in OrderProduct.get_products_sorted(user_id, False):
             from src.backend.controllers.product import ProductController
             most_expensive_bought_products.append(ProductController.model_to_dict(product))
 
-        return [{"Most Bought Categories": most_bought_categories}, {"Most Bought Products": most_bought_products},
+        return [{"Most Bought Categories": most_bought_categories},
+                {"Most Bought Products": most_bought_products},
                 {"Cheapest Bought Products": cheapest_bought_products},
                 {"Most Expensive Bought Products": most_expensive_bought_products}]
 
     @classmethod
-    def model_to_dict(cls, order_model, categories=False):
+    def model_to_dict(cls, order_product_model, categories=False):
         if categories:
-            dic = {"name": order_model.get_category(),
-                   "products": order_model.get_product_count()}
+            dic = {"name": order_product_model.category,
+                   "quantity_bought": order_product_model.quantity_bought}
         else:
-            dic = {"name": order_model.get_name(),
-                   "appearances": order_model.get_product_count()}
+            dic = {"name": order_product_model.get_name(),
+                   "appearances": order_product_model.get_product_quantity()}
         return dic
 
     @classmethod

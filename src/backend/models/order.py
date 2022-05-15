@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 import psycopg2
 
 from src.backend.models.dao.db_connection import BackEnd
@@ -5,79 +7,62 @@ from src.backend.models.product import ProductModel
 from src.backend.models.user import UserModel
 
 
-class OrderProductDetails:
-    __name: str
-    __description: str
-    __price_sold: float
-    __quantity_bought: int
-    __category: str
+@dataclass
+class OrderProduct:
+    order_id: int = None
+    product_id: int = None
 
-    def get_name(self):
-        return self.__name
+    # These are the only ones important/returned to the JSON responses
+    name: str = None
+    description: str = None
+    price_sold: float = None
+    quantity_bought: int = None
+    category: str = None
 
-    def set_name(self, name):
-        self.__name = name
+    def tuple_to_model(self, tuple_to_convert: tuple):
+        self.name = tuple_to_convert[0]
+        self.description = tuple_to_convert[1]
+        self.price_sold = tuple_to_convert[2]
+        self.quantity_bought = tuple_to_convert[3]
+        self.category = tuple_to_convert[4]
+        self.product_id = tuple_to_convert[5]
 
-    def get_description(self):
-        return self.__description
-
-    def set_description(self, description):
-        self.__description = description
-
-    def get_price_sold(self):
-        return self.__price_sold
-
-    def set_price_sold(self, price_sold):
-        self.__price_sold = price_sold
-
-    def get_quantity_bought(self):
-        return self.__quantity_bought
-
-    def set_quantity_bought(self, quantity_bought):
-        self.__quantity_bought = quantity_bought
-
-    def get_category(self):
-        return self.__category
-
-    def set_category(self, category):
-        self.__category = category
-
-    def get_product_count(self):
-        return self.__quantity_bought
-
-    def set_product_count(self, product_count):
-        self.__quantity_bought = product_count
-
-    def tuple_to_model(self, tuple_to_convert):
-        self.set_name(tuple_to_convert[0])
-        self.set_description(tuple_to_convert[1])
-        self.set_price_sold(tuple_to_convert[2])
-        self.set_quantity_bought(tuple_to_convert[3])
-        self.set_category(tuple_to_convert[4])
-
+    # These were creations of a demon, sanctify your mind before looking within the following 3 methods
     @classmethod
     def get_top_categories(cls, user_id=0):
         try:
             if user_id == 0:
-                return BackEnd.get_elements_beta(model=OrderProductDetails(),
-                                                 select_attributes="category, count(product_name) as products",
-                                                 order_attribute="products",
+                return BackEnd.get_elements_beta(model=OrderProduct(),
+                                                 select_attributes="category, sum(quantity_bought) as products_purchased",
+                                                 filter_clause='',
                                                  group_attribute="category",
+                                                 order_attribute="products_purchased",
                                                  sort="desc",
                                                  limit=10,
-                                                 filter_clause='',
+
                                                  categories=True)
-            else:
-                return BackEnd.get_elements_join(model=OrderProductDetails(),
-                                                 select_attributes="category, count(product_name) as products",
-                                                 order_attribute="products",
+            elif UserModel.db_is_admin(user_id):
+                return BackEnd.get_elements_join(model=OrderProduct(),
+                                                 select_attributes="category, sum(quantity_bought) as products_purchased",
+                                                 filter_clause='',
                                                  group_attribute="category",
+                                                 order_attribute="products_purchased",
                                                  sort="desc",
                                                  limit=10,
                                                  on='order_id_fk = order_id',
-                                                 filter_clause="user_id = {}".format(user_id),
                                                  categories=True)
-        except psycopg2.Error:
+            else:
+                return BackEnd.get_elements_join(model=OrderProduct(),
+                                                 select_attributes="category, sum(quantity_bought) as products_purchased",
+                                                 filter_clause="user_id = {} AND".format(user_id),
+                                                 group_attribute="category",
+                                                 order_attribute="products_purchased",
+                                                 sort="desc",
+                                                 limit=10,
+                                                 on='order_id_fk = order_id',
+                                                 categories=True)
+        except psycopg2.Error as e:
+            print(e)
             raise AttributeError
 
     @classmethod
@@ -86,34 +71,51 @@ class OrderProductDetails:
         try:
             list_of_product = []
             if user_id == 0:
-                for row in BackEnd.get_elements_beta(model=OrderProductDetails(),
-                                                     select_attributes="product_name, count(*) as appearances",
+                for row in BackEnd.get_elements_beta(model=OrderProduct(),
+                                                     select_attributes="name, count(*) as appearances",
                                                      order_attribute="appearances",
-                                                     group_attribute="product_name",
+                                                     group_attribute="name",
                                                      sort="desc",
                                                      limit=10,
                                                      filter_clause='',
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
-                                                               pk="'{}'".format(row.get_name()),
+                                                               pk="'{}'".format(row.name),
+                                                               select_attributes="*",
+                                                               helper="name")
+                                           )
+            elif UserModel.db_is_admin(user_id):
+                for row in BackEnd.get_elements_join(model=OrderProduct(),
+                                                     select_attributes="name, count(*) as appearances, sum("
+                                                                       "quantity_bought) as count",
+                                                     order_attribute="count",
+                                                     group_attribute="name",
+                                                     sort="desc",
+                                                     limit=10,
+                                                     on='order_id_fk = order_id',
+                                                     filter_clause='',
+                                                     categories=False
+                                                     ):
+                    list_of_product.append(BackEnd.get_element(model=ProductModel(),
+                                                               pk="'{}'".format(row.name),
                                                                select_attributes="*",
                                                                helper="name")
                                            )
             else:
-                for row in BackEnd.get_elements_join(model=OrderProductDetails(),
-                                                     select_attributes="product_name, count(*) as appearances, sum("
+                for row in BackEnd.get_elements_join(model=OrderProduct(),
+                                                     select_attributes="name, count(*) as appearances, sum("
                                                                        "quantity_bought) as count",
                                                      order_attribute="count",
-                                                     group_attribute="product_name",
+                                                     group_attribute="name",
                                                      sort="desc",
                                                      limit=10,
                                                      on='order_id_fk = order_id',
-                                                     filter_clause="user_id = {}".format(user_id),
+                                                     filter_clause="user_id = {} AND".format(user_id),
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
-                                                               pk="'{}'".format(row.get_name()),
+                                                               pk="'{}'".format(row.name),
                                                                select_attributes="*",
                                                                helper="name")
                                            )
@@ -128,38 +130,54 @@ class OrderProductDetails:
         try:
             list_of_product = []
             if user_id == 0:
-                for row in BackEnd.get_elements_beta(model=OrderProductDetails(),
-                                                     select_attributes="product_name, count(*) as appearances",
+                for row in BackEnd.get_elements_beta(model=OrderProduct(),
+                                                     select_attributes="name, count(*) as appearances",
                                                      order_attribute="appearances",
-                                                     group_attribute="product_name",
+                                                     group_attribute="name",
                                                      sort="desc",
                                                      limit=10,
                                                      filter_clause='',
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
-                                                               pk="'{}'".format(row.get_name()),
+                                                               pk="'{}'".format(row.name),
                                                                select_attributes="*",
                                                                helper="name")
                                            )
-            else:
-                for row in BackEnd.get_elements_join(model=OrderProductDetails(),
-                                                     select_attributes="distinct product_name, price_sold",
+            elif UserModel.db_is_admin(user_id):
+                for row in BackEnd.get_elements_join(model=OrderProduct(),
+                                                     select_attributes="distinct name, price_sold",
                                                      order_attribute="price_sold",
                                                      sort="asc" if ascending else "desc",
                                                      limit=10,
                                                      on='order_id_fk = order_id',
-                                                     filter_clause="user_id = {}".format(user_id),
+                                                     filter_clause='',
                                                      categories=False
                                                      ):
                     list_of_product.append(BackEnd.get_element(model=ProductModel(),
-                                                               pk="'{}'".format(row.get_name()),
+                                                               pk="'{}'".format(row.name),
+                                                               select_attributes="*",
+                                                               helper="name")
+                                           )
+            else:
+                for row in BackEnd.get_elements_join(model=OrderProduct(),
+                                                     select_attributes="distinct name, price_sold",
+                                                     order_attribute="price_sold",
+                                                     sort="asc" if ascending else "desc",
+                                                     limit=10,
+                                                     on='order_id_fk = order_id',
+                                                     filter_clause="user_id = {} AND".format(user_id),
+                                                     categories=False
+                                                     ):
+                    list_of_product.append(BackEnd.get_element(model=ProductModel(),
+                                                               pk="'{}'".format(row.name),
                                                                select_attributes="*",
                                                                helper="name")
                                            )
             return list_of_product
 
-        except psycopg2.Error:
+        except psycopg2.Error as e:
+            print(e)
             raise AttributeError
 
 
@@ -170,6 +188,10 @@ class OrderModel:
     __product_list: list
     __order_total: float
     __total_product_quantity: int
+
+    def __init__(self):
+        # Initializes the list of products
+        self.__product_list = []
 
     def get_order_id(self):
         return self.__order_id
@@ -220,38 +242,44 @@ class OrderModel:
 
         :param item_to_add: json containing the details of the product to be added
         """
-        product = OrderProductDetails()
-        product.set_name(item_to_add['name'])
-        product.set_description(item_to_add['desc'])
-        product.set_price_sold(item_to_add['price_sold'])
-        product.set_quantity_bought(item_to_add['quantity_bought'])
-        product.set_category(item_to_add['category'])
 
-        # The product list must be initiated before calling this method
+        # TODO: Should this method be within OrderModel or OrderProduct?
+        product_details = ProductModel.get_product(item_to_add['product_id'])
+
+        product = OrderProduct(
+            name=product_details.get_name(),
+            description=product_details.get_desc(),
+            price_sold=item_to_add['price_sold'],
+            quantity_bought=item_to_add['quantity_bought'],
+            category=product_details.get_category(),
+            product_id=product_details.get_prod_id()
+        )
         self.__product_list.append(product)
 
     def add_cart_item_to_model(self, item):
         """
-        Takes an item from the users cart and add it to their current order
+            Takes an item from the users cart and add it to their current order
 
-        :param item: CartModel for the given user
+            :param item: CartModel for the given user
         """
         product_mod = ProductModel.get_product(item.get_product_id())
 
-        product = OrderProductDetails()
-        product.set_name(product_mod.get_name())
-        product.set_description(product_mod.get_desc())
-        product.set_price_sold(product_mod.get_price())
-        product.set_quantity_bought(item.get_product_quantity())
-        product.set_category(product_mod.get_category())
+        product = OrderProduct(
+            name=product_mod.get_name(),
+            description=product_mod.get_desc(),
+            price_sold=product_mod.get_price(),
+            quantity_bought=item.get_product_quantity(),
+            category=product_mod.get_category(),
+            product_id=product_mod.get_prod_id()
+        )
 
         self.add_product_to_model(product)
 
-    def add_product_to_model(self, item_to_add: OrderProductDetails):
+    def add_product_to_model(self, item_to_add: OrderProduct):
         """
             Adds a given OrderProductDetails object to the OrderModel.
 
-            PLEASE INITIATE THE PRODUCT LIST BEFORE CALLING THIS METHOD.
+            PLEASE INITIATE THE PRODUCT LIST BEFORE CALLING THIS METHOD. THIS COULD BE NOW FIXED, HAVE TO TEST!
 
             EXAMPLE:
                 model.set_product_list([])
@@ -269,19 +297,22 @@ class OrderModel:
         :param item_to_remove: json containing the details of the product to be removed
         """
         # noinspection DuplicatedCode
-        product = OrderProductDetails()
-        product.set_name(item_to_remove['name'])
-        product.set_description(item_to_remove['desc'])
-        product.set_price_sold(item_to_remove['price_sold'])
-        product.set_quantity_bought(item_to_remove['quantity_bought'])
-        product.set_category(item_to_remove['category'])
+        product = OrderProduct(
+            name=item_to_remove['name'],
+            description=item_to_remove['desc'],
+            price_sold=item_to_remove['price_sold'],
+            quantity_bought=item_to_remove['quantity_bought'],
+            category=item_to_remove['category'],
+            order_id=0,
+            product_id=0
+        )
 
-        for item_to_remove in self.__product_list:
-            if item_to_remove.get_name() == product.get_name() \
-                    and item_to_remove.get_description() == product.get_description() \
-                    and item_to_remove.get_price_sold() == product.get_price_sold() \
-                    and item_to_remove.get_quantity_bought() == product.get_quantity_bought():
-                self.__product_list.remove(item_to_remove)
+        for item in self.__product_list:
+            if item.get_name() == product.name \
+                    and item.get_description() == product.description \
+                    and item.get_price_sold() == product.price_sold \
+                    and item.get_quantity_bought() == product.quantity_bought:
+                self.__product_list.remove(item)
 
     def db_add_order(self, user_id):
         """
@@ -343,7 +374,7 @@ class OrderModel:
             # Update order
             BackEnd.delete_element(OrderModel(), order_id)
 
-            return BackEnd.create_element(self, user_id).get_order_id()
+            return BackEnd.create_element(self, user_id).get_name()
 
         except psycopg2.Error:
             return False

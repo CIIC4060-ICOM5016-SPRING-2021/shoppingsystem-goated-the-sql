@@ -114,7 +114,7 @@ class ProductController:
         :return: 200 if completed successfully, 500 if problem was encountered while making the change, 403 if user is
         not authorized to request the change, 406 if no changes are detected
         """
-        
+
         try:
             updated = ProductModel.db_update_product(cls.json_to_model(product_json), user_id_json_obj['user_id'])
             if updated:
@@ -175,7 +175,7 @@ class ProductController:
             'desc': product.get_desc(),
             'price': product.get_price(),
             'category': product.get_category(),
-            'quantity': product.get_stock(),
+            'stock': product.get_stock(),
             'visible': product.get_visibility()
         }
         return prodict
