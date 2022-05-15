@@ -117,7 +117,7 @@ class BackEnd:
                 INSERT INTO cart (product_id, user_id, product_quantity, product_price)
                 VALUES ({}, {}, {}, {})
                 """.format(
-                    model.get_category(),
+                    model.get_product_id(),
                     model.get_user_id(),
                     model.get_product_quantity(),
                     model.get_product_price()
