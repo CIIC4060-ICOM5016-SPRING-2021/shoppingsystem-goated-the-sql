@@ -52,7 +52,7 @@ class OrderController:
         new_order.set_user_id(user_id)
 
         # Initialize product list
-        new_order.set_product_list([])
+        # new_order.set_product_list([])
 
         # Get all products from cart with given user id
         cart = CartModel.get_cart(user_id)
@@ -61,12 +61,12 @@ class OrderController:
         # Make every cart model product into an order product detail model
         try:
             for item in cart:
-                prod = ProductModel.get_product(item['product_id'])
+                prod = ProductModel.get_product(item.get_product_id())
 
                 stock = prod.get_stock()
-                if item['quantity_bought'] < stock:
+                if item.get_product_quantity() <= stock:
                     # Need to decrease the stock by the quantity bought
-                    prod.set_stock(stock - int(item['quantity_bought']))
+                    prod.set_stock(stock - int(item.get_product_quantity()))
                     # Todo change the user id updating the products
                     ProductModel.db_update_product(prod, 213)
                     # Add product to order

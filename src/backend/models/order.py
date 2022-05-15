@@ -270,8 +270,7 @@ class OrderModel:
             price_sold=product_mod.get_price(),
             quantity_bought=item.get_product_quantity(),
             category=product_mod.get_category(),
-            order_id=0,
-            product_id=product_mod.get_product_id()
+            product_id=product_mod.get_prod_id()
         )
 
         self.add_product_to_model(product)
