@@ -7,13 +7,15 @@ import {Label} from "recharts";
 
 export default class Product extends React.Component {
     product = []
+    likes = []
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:5000/goated_the_sql/product/142')
+        axios.get('http://127.0.0.1:5000/goated_the_sql/product/108')
             .then(res => {
                 const persons = res.data;
-                this.product = res.data;
-                console.log(this.product[0])
+                this.likes = res.data[1];
+                this.product = res.data[0];
+                console.log(this.product)
                 this.setState({persons});
             })
     }
@@ -22,22 +24,16 @@ export default class Product extends React.Component {
 
         return (
             <div className={"background"}>
-                {
-                    this.product
-                        .map(product =>
-                            <p>{product['category']}</p>
-                        )
-                }
                 <Grid columns={2} verticalAlign={'middle'}>
                     <Grid.Row centered={'true'}>
                         <Grid.Column verticalAlign={"middle"} textAlign={'center'}>
                             <div class='info'>
-                                <Image src={dummy['image']} size={'medium'}/>
-                                <Header as={'h1'} inverted color={'black'}>{dummy['pname']}</Header>
-                                <Header as={'h3'} inverted color={'black'}>${dummy['pprice']}</Header>
+                                <Image src={this.product['name']} size={'medium'}/>
+                                <Header as={'h1'} inverted color={'black'}>{this.product['name']}</Header>
+                                <Header as={'h3'} inverted color={'black'}>${this.product['price']}</Header>
                                 <Container>
                                     <Header as={'h3'} inverted color={'black'} className={'Condition'}>Condition:
-                                        <Header as={'h3'} inverted color={'black'}>{dummy['condition']}</Header>
+                                        <Header as={'h3'} inverted color={'black'}>{'New'}</Header>
                                     </Header>
                                     <Button.Group>
                                         <Button labelPosition='left' icon='minus'/>
@@ -61,11 +57,11 @@ export default class Product extends React.Component {
                         <Grid.Column>
                             <Card centered className={'card_description'}>
                                 <CardContent>
-                                    {dummy['pdescription']}
+                                    {this.product['desc']}
                                 </CardContent>
                             </Card>
 
-                            {/*<Image src={dummy['image']} className={'backgroundPic'}/>*/}
+                            {/*<Image src={this.product['image']} className={'backgroundPic'}/>*/}
 
                         </Grid.Column>
                     </Grid.Row>
@@ -79,7 +75,7 @@ export default class Product extends React.Component {
 // function Product(product) {
 //     const [data, setData] = useState("show");
 //
-//     let dummy =
+//     let this.product =
 //         {
 //             "pid": 1,
 //             "pname": "RTX 3080",
@@ -95,12 +91,12 @@ export default class Product extends React.Component {
 //                 <Grid.Row centered={'true'}>
 //                     <Grid.Column verticalAlign={"middle"} textAlign={'center'}>
 //                         <div class='info'>
-//                             <Image src={dummy['image']} size={'medium'}/>
-//                             <Header as={'h1'} inverted color={'black'}>{dummy['pname']}</Header>
-//                             <Header as={'h3'} inverted color={'black'}>${dummy['pprice']}</Header>
+//                             <Image src={this.product['image']} size={'medium'}/>
+//                             <Header as={'h1'} inverted color={'black'}>{this.product['pname']}</Header>
+//                             <Header as={'h3'} inverted color={'black'}>${this.product['pprice']}</Header>
 //                             <Container>
 //                                 <Header as={'h3'} inverted color={'black'} className={'Condition'}>Condition:
-//                                     <Header as={'h3'} inverted color={'black'}>{dummy['condition']}</Header>
+//                                     <Header as={'h3'} inverted color={'black'}>{this.product['condition']}</Header>
 //                                 </Header>
 //                                 <Button.Group>
 //                                     <Button labelPosition='left' icon='minus'/>
@@ -124,11 +120,11 @@ export default class Product extends React.Component {
 //                     <Grid.Column>
 //                         <Card centered={'true'} className={'card_description'}>
 //                             <CardContent>
-//                                 {dummy['pdescription']}
+//                                 {this.product['pdescription']}
 //                             </CardContent>
 //                         </Card>
 //
-//                         {/*<Image src={dummy['image']} className={'backgroundPic'}/>*/}
+//                         {/*<Image src={this.product['image']} className={'backgroundPic'}/>*/}
 //
 //                     </Grid.Column>
 //                 </Grid.Row>
