@@ -1,22 +1,35 @@
 import React, {useState} from 'react';
 import './Product.css';
-import rtx from "./3080.png"
+import {BrowserRouter, Route, Routes,useParams} from 'react-router-dom';
 
 import axios from "axios";
 import {Button, Card, CardContent, Container, Grid, Header, Icon, Image} from "semantic-ui-react";
 import {Label} from "recharts";
 
-export default class Product extends React.Component {
+export function withRouter(Children){
+    return(props)=>{
+
+        const match  = {params: useParams()};
+        return <Children {...props}  match = {match}/>
+    }
+}
+
+ class Product extends React.Component  {
+
     product = []
     likes = []
-
     componentDidMount() {
-        axios.get('http://127.0.0.1:5000/goated_the_sql/product/'+'108')
+/*
+
+        ${this.props.pid}
+*/
+        axios.get(`http://127.0.0.1:5000/goated_the_sql/product/${this.props.match.params.id}`)
             .then(res => {
                 const persons = res.data;
                 this.likes = res.data[1];
                 this.product = res.data[0];
                 console.log(this.product)
+
                 this.setState({persons});
             })
     }
@@ -29,9 +42,10 @@ export default class Product extends React.Component {
                     <Grid.Row centered={'true'}>
                         <Grid.Column verticalAlign={"middle"} textAlign={'center'}>
                             <div class='info'>
-                                <Image src={rtx} size={'medium'}/>
+                                <Image src={this.product['name']} size={'medium'}/>
                                 <Header as={'h1'} inverted color={'black'}>{this.product['name']}</Header>
                                 <Header as={'h3'} inverted color={'black'}>${this.product['price']}</Header>
+
                                 <Container>
                                     <Header as={'h3'} inverted color={'black'} className={'Condition'}>Condition:
                                         <Header as={'h3'} inverted color={'black'}>{'New'}</Header>
@@ -72,6 +86,8 @@ export default class Product extends React.Component {
         )
     }
 }
+export default withRouter(Product);
+
 //
 // function Product(product) {
 //     const [data, setData] = useState("show");
