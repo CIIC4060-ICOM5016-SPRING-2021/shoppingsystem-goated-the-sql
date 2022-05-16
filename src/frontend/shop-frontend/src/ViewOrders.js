@@ -13,10 +13,19 @@ import {
 } from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import './Admin.css'
+import axios from 'axios';
 
 
 function ViewOrders() {
 
+    // TODO: Make this use the admin's correct id instead of a hardcoded one
+    axios
+      .get(
+        `http://127.0.0.1:5000/goated_the_sql/user/213/orders`
+      )
+      .then((res) => {
+        console.log(res.data)
+      });
 
     return (
         <Container fluid={'true'} textAlign={'center'}>
