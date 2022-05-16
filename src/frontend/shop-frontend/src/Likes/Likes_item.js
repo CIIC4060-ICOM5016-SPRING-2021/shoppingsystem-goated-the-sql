@@ -1,7 +1,7 @@
 import React, {Component, useState} from 'react';
 import {Button, Card, CardContent, Container, Icon, Image, Label, Tab} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import Product from "../Product";
+import Product from "../Product/Product";
 
 
 

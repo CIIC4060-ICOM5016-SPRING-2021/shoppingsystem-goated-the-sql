@@ -15,17 +15,16 @@ export function withRouter(Children){
 }
 
 class Products extends React.Component{
-
+    GlobalStatisticsdb = []
+    Productsdb = []
 
     componentDidMount() {
-        axios.get(`http://127.0.0.1:5000/goated_the_sql/product/${this.props.match.params.id}`)
+        axios.get(`http://127.0.0.1:5000/goated_the_sql/products/all`)
             .then(res => {
-                const persons = res.data;
-                this.likes = res.data[1];
-                this.product = res.data[0];
+                const prods = res.data;
+                this.Productsdb = res.data[1];
                 console.log(this.product)
-
-                this.setState({persons});
+                this.setState({prods});//no clue for what this is
             })
     }
     render() {

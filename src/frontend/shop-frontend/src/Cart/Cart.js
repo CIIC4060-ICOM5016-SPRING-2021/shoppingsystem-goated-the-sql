@@ -17,6 +17,8 @@ export default class Cart extends React.Component{
 
         ];
         return(<div className={"cartbackground"}>
+            <h1 className={"header"}>Cart</h1>
+
             <Container >
             <Card.Group centered>
                 <CartItems info={random_info}/>

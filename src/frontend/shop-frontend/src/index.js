@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import './index.css';
 import '../node_modules/semantic-ui-css/semantic.min.css'
-import UserView from "./UserView";
+import UserView from "./MenuBar/UserView";
 import Dashboard from "./Dashboard";
 import LogIn from "./LogIn";
 import Footer from "./Footer";
-import Products from "./Products";
-import Product from "./Product";
+import Products from "./Product/Products";
+import Product from "./Product/Product";
 import AdminNav from "./AdminNav";
 import Admin from './Admin';
 import ForgotPassword from "./ForgotPassword";
@@ -36,7 +36,7 @@ root.render(
 
             {/*USER ROUTES*/}
             <Route exact path="/Profile" element={<div><UserView/><Profile/></div>}/>
-            <Route exact path="/Products" element={<div><UserView/><Products/></div>}/>
+            <Route exact path="/Products" element={<div><UserView/><Products/><Footer /></div>}/>
             <Route exact path="/Product" element={<div><UserView/><Product/></div>}/>
             <Route       path="/Product/:id" element={<div><UserView/><Product/></div>}/>
             <Route exact path="/Cart" element={<div><UserView/><Cart /></div>}/>

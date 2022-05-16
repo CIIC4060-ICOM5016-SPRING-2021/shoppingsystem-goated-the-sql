@@ -2,7 +2,7 @@ import React, {Component, useEffect, useState} from 'react';
 import {Button, ButtonGroup, Card, CardContent, Container, Header, Icon, Image, Modal, Tab} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import {Navigate} from "react-router";
-import Product from "../Product";
+import Product from "../Product/Product";
 import CartItems from "./CartItems.css";
 
 

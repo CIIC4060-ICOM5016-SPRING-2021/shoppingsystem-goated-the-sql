@@ -1,8 +1,8 @@
 import React, {Component, useState} from 'react';
 import {Button, Card, Container, Divider, Header, Icon, Input, Menu, MenuItem, Modal, Tab} from "semantic-ui-react";
 import Dashboard from "./Dashboard";
-import Products from "./Products";
-import './UserView.css';
+import Products from "./Product/Products";
+import './MenuBar/UserView.css';
 import {Link} from "react-router-dom";
 
 
