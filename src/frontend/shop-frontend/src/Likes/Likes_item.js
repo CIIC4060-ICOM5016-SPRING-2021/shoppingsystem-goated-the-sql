@@ -9,7 +9,6 @@ import Product from "../Product/Product";
 
 function Likes_item(props){
     return props.info.map(value => {
-        console.log(value)
         var product = {
             id: value.pid.toString(),
             name: value.pname.toString(),

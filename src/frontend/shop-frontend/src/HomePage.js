@@ -4,7 +4,6 @@ import {Button, Divider, Form, Grid, Header, Modal, Segment} from 'semantic-ui-r
 
 function HomePage() {
     const [open, setOpen] = useState(false);
-    console.log(open);
     const handleChange = (event, newValue) => {
         setOpen(true);
     }

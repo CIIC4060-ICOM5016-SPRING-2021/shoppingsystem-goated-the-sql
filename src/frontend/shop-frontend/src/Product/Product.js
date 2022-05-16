@@ -19,17 +19,11 @@ export function withRouter(Children){
     product = []
     likes = []
     componentDidMount() {
-/*
-
-        ${this.props.pid}
-*/
         axios.get(`http://127.0.0.1:5000/goated_the_sql/product/${this.props.match.params.id}`)
             .then(res => {
                 const persons = res.data;
                 this.likes = res.data[1];
                 this.product = res.data[0];
-                console.log(this.product)
-
                 this.setState({persons});
             })
     }

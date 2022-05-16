@@ -11,7 +11,6 @@ function CartItem(props) {
     return props.info.map(value => {
 
 
-        console.log(value)
         var product = {
             id: value.pid.toString(),
             name: value.pname.toString(),
@@ -63,7 +62,7 @@ function CartItem(props) {
                         Remove
                     </Button>
                     <Button
-                        onClick = {() => {console.log('PR')}}
+                        onClick = {() => {}}
 
                         /*as={Link}
                         to={'/Product'}

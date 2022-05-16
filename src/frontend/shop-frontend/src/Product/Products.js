@@ -19,27 +19,83 @@ class Products extends React.Component{
     Productsdb = []
 
     componentDidMount() {
-        axios.get(`http://127.0.0.1:5000/goated_the_sql/products/all`)
+
+
+
+
+
+
+
+        /*fetch('http://127.0.0.1:5000/goated_the_sql/products/all', {
+            body: formData,
+            method: 'GET'
+        }).then(res => {
+            const prods = res.data;
+            this.Productsdb = res.data;
+            console.log(this.Productsdb)
+            this.setState({prods});//no clue for what this is
+        });*/
+
+        /*const getData = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:5000/goated_the_sql/products/all`, {
+                    method: 'GET',
+                    body: JSON.stringify({
+                        request: "ordered",
+                        filter: "name",
+                        in_ascending_order: true
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                })
+                    .then(response => response.json())
+                    .then(json => console.log(json))
+                    .then(json => this.Productsdb);
+                console.warn(response.data);
+            } catch (error) {
+                console.warn(error);
+            }
+        }*/
+
+        axios({
+            method: "GET",
+            url: "http://127.0.0.1:5000/goated_the_sql/products/all",
+            data: {request: "ordered",
+                filter: "name",
+                in_ascending_order: false}
+        }).then(res => {
+            const prods = res.data.args;
+            this.Productsdb = res.data['Products'];
+            console.log(this.Productsdb)
+            this.setState({prods});//no clue for what this is
+        });
+
+
+
+        /*axios.get(`http://127.0.0.1:5000/goated_the_sql/products/all`)
             .then(res => {
                 const prods = res.data;
-                this.Productsdb = res.data[1];
-                console.log(this.product)
+                this.Productsdb = res.data["Products"];
+                console.log(this.Productsdb)
                 this.setState({prods});//no clue for what this is
-            })
+            })*/
     }
     render() {
-        let random_info = [
-            {"pid": 1, "pname": "RTX 3080", "pprice": 1.01, "pdescription": "description", "image": rtx},
-            {"pid": 2, "pname": "Intel 11th gen i7 CPU", "pprice": 1.01, "pdescription": "description", "image": rtx},
-            {"pid": 3, "pname": "Intel 11th gen i9 CPU", "pprice": 1.01, "pdescription": "description", "image": rtx},
-            {"pid": 4, "pname": "Intel 12th gen i9 CPU", "pprice": 1.01, "pdescription": "description", "image": rtx},
-            {"pid": 5, "pname": "PS5", "pprice": 1.01, "pdescription": "description", "image": rtx},
-            {"pid": 6, "pname": "Xbox Controller", "pprice": 1.01, "pdescription": "description", "image": rtx}];
+
+
 
         return(<div className={"prodbackground"}>
                 <Container >
                     <Card.Group centered>
-                        <AllProducts info={random_info}/>
+{/*
+
+                        <AllProducts info = {random_info2} />
+*/}
+
+
+                        <AllProducts info={this.Productsdb}/>
+
                     </Card.Group>
                 </Container>
             </div>
@@ -62,12 +118,12 @@ export default withRouter(Products);
 function Products() {
     const [data, setData] = useState("show");
     let random_info = [
-        {"pid": 1, "pname": "RTX 3080", "pprice": 1.01, "pdescription": "description", "image": rtx},
-        {"pid": 2, "pname": "Intel 11th gen i7 CPU", "pprice": 1.01, "pdescription": "description", "image": rtx},
-        {"pid": 3, "pname": "Intel 11th gen i9 CPU", "pprice": 1.01, "pdescription": "description", "image": rtx},
-        {"pid": 4, "pname": "Intel 12th gen i9 CPU", "pprice": 1.01, "pdescription": "description", "image": rtx},
-        {"pid": 5, "pname": "PS5", "pprice": 1.01, "pdescription": "description", "image": rtx},
-        {"pid": 6, "pname": "Xbox Controller", "pprice": 1.01, "pdescription": "description", "image": rtx}];
+        {"id": 1, "name": "RTX 3080", "price": 1.01, "desc": "description", "image": rtx},
+        {"id": 2, "name": "Intel 11th gen i7 CPU", "price": 1.01, "desc": "description", "image": rtx},
+        {"id": 3, "name": "Intel 11th gen i9 CPU", "price": 1.01, "desc": "description", "image": rtx},
+        {"id": 4, "name": "Intel 12th gen i9 CPU", "price": 1.01, "desc": "description", "image": rtx},
+        {"id": 5, "name": "PS5", "price": 1.01, "desc": "description", "image": rtx},
+        {"id": 6, "name": "Xbox Controller", "price": 1.01, "desc": "description", "image": rtx}];
 
 
     return <div className={"prodbackground"}>

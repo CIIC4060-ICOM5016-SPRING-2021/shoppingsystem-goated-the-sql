@@ -3,23 +3,25 @@ import {Button, Card, Container, Icon, Image, Modal, Tab} from "semantic-ui-reac
 import {Link} from "react-router-dom";
 import {Navigate} from "react-router";
 import Product from "./Product";
-
+import rtx from "../images/xbox.png"
 
 function AllProducts(props) {
+
     return props.info.map(value =>
     {
+
+
         console.log(value)
         var product = {
-            id: value.pid.toString(),
-            name: value.pname.toString(),
-            price: value.pprice.toString(),
-            image: value.image.toString()
+            id: value.id.toString(),
+            name: value.name.toString(),
+            price: value.price.toString(),
         }
         return <Card>
-            <Image src={value.image} wrapped ui={false}/>
+            <Image src={rtx} wrapped ui={false}/>
             <Card.Content>
-                <Card.Header textAlign='center'>{value.pname}</Card.Header>
-                <Card.Meta textAlign='center'>{value.pprice}</Card.Meta>
+                <Card.Header textAlign='center'>{product.name}</Card.Header>
+                <Card.Meta textAlign='center'>{product.price}</Card.Meta>
             </Card.Content>
             <Card.Content extra>
                 <div className='ui three buttons'>
@@ -29,8 +31,10 @@ function AllProducts(props) {
                     </Button>
                     <Button
                         as={Link}
-                        to={'/Product'}
-                        onClick={Product(value)}
+                        to={product.id}
+/*
+                        onClick={goProduct()}
+*/
                         color='blue'>
                         View
                     </Button>
