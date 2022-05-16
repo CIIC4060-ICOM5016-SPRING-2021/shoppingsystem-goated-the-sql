@@ -6,7 +6,8 @@ import Product from "./Product";
 
 
 function AllProducts(props) {
-    return props.info.map(value => {
+    return props.info.map(value =>
+    {
         console.log(value)
         var product = {
             id: value.pid.toString(),
