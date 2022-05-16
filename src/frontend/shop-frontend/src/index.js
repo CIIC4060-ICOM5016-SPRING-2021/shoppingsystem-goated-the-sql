@@ -35,7 +35,7 @@ root.render(
             <Route path='/CreateAccount' element={<CreateAccount/>}/>
 
             {/*USER ROUTES*/}
-            <Route exact path="/Profile" element={<div><UserView/><Profile/></div>}/>
+            <Route       path="/Profile/:id" element={<div><UserView/><Profile/></div>}/>
             <Route exact path="/Products" element={<div><UserView/><Products/><Footer /></div>}/>
             <Route exact path="/Product" element={<div><UserView/><Product/></div>}/>
             <Route       path="/Product/:id" element={<div><UserView/><Product/></div>}/>

@@ -55,10 +55,10 @@ class UserController:
     @classmethod
     def model_to_dict(cls, user):
         user_dict = {
-            'first name': user.get_first_name(),
-            'last name': user.get_last_name(),
+            'first_name': user.get_first_name(),
+            'last_name': user.get_last_name(),
             'validity': user.get_validity(),
-            'phone #': user.get_phone_num(),
+            'phone_#': user.get_phone_num(),
             'password': user.get_password(),
             'admin': user.get_admin_status(),
             'id': user.get_user_id()
