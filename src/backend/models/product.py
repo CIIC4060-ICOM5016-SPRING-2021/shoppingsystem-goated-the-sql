@@ -168,6 +168,67 @@ class ProductModel:
         else:
             return BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "name", "DESC")
 
+    # @classmethod
+    # def get_all_products_by_category_by_price(cls, ascending=True, limit=500,category_name):
+    #     """
+    #         Gets all the products in the catalog in ascending or descending order by price, depending on if the
+    #         ascending parameter is set to true or false.
+    #
+    #     :param limit:
+    #     :param ascending: boolean, true = ascending order of price / false = descending order of price
+    #     :return: list containing ProductModels ordered by price
+    #     """
+    #
+    #     if ascending:
+    #         return BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "price", "ASC", limit)
+    #     else:
+    #         return BackEnd().get_all_elements_ordered(ProductModel(), "*", "", "price", "DESC", limit)
+
+    @classmethod
+    def get_all_products_by_category_by_price(cls,category: str, ascending=True):
+        """
+            Gets all the products in the catalog in ascending or descending order by name, depending on if the
+            ascending parameter is set to true or false.
+
+        :type category_name: object
+        :param category_name: name of the category
+        :param ascending: boolean, true = ascending order by name / false = descending order by name
+        :return: list containing ProductModels ordered by name
+        """
+        categories = cls.get_all_categories()
+        if category:
+            if category.lower() in (name.lower() for name in categories):
+                if ascending:
+                    return BackEnd().get_all_elements_ordered(ProductModel(), "*", "LOWER(category) = LOWER(" + "'" + category + "')", "price", "ASC")
+                else:
+                    return BackEnd().get_all_elements_ordered(ProductModel(), "*", "LOWER(category) = LOWER(" + "'" + category + "')", "price", "DESC")
+            else:
+                raise AttributeError("The category does not exist in the database.")
+        else:
+            raise LookupError("No categories were found.")
+    @classmethod
+    def get_all_products_by_category_by_name(cls,category: str, ascending=True):
+        """
+            Gets all the products in the catalog in ascending or descending order by name, depending on if the
+            ascending parameter is set to true or false.
+
+        :type category_name: object
+        :param category_name: name of the category
+        :param ascending: boolean, true = ascending order by name / false = descending order by name
+        :return: list containing ProductModels ordered by name
+        """
+        categories = cls.get_all_categories()
+        if category:
+            if category.lower() in (name.lower() for name in categories):
+                if ascending:
+                    return BackEnd().get_all_elements_ordered(ProductModel(), "*", "LOWER(category) = LOWER(" + "'" + category + "')", "name", "ASC")
+                else:
+                    return BackEnd().get_all_elements_ordered(ProductModel(), "*", "LOWER(category) = LOWER(" + "'" + category + "')", "name", "DESC")
+            else:
+                raise AttributeError("The category does not exist in the database.")
+        else:
+            raise LookupError("No categories were found.")
+
     @classmethod
     def get_all_products_by_category(cls, category: str):
         """
@@ -269,3 +330,5 @@ class ProductModel:
                 return False
         else:
             raise ValueError("User does not have the rights to make this change.")
+
+

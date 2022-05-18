@@ -87,6 +87,57 @@ class ProductController:
                 return jsonify("Cannot organize the list by this attribute."), 422
         else:
             return jsonify("Cannot organize products in the requested order."), 400
+    @classmethod
+    def get_all_products_by_category_organized(cls,category_name: str,order_by: str, order_in_ascending: bool):
+        """
+                    Prompts the database to get the full catalog organized by the specific attribute requested
+                ;:param category_name: attribute to the category in question
+                :param order_by: attribute for order the products by
+                :param order_in_ascending: true if the results are desired in ascending order, false if otherwise
+                :return: list of JSONs containing the products ordered by price or name
+                :raises KeyError: attribute to order by desired is not supported
+                """
+        if order_by == 'price':
+            result = []
+            try:
+                products_in_category = ProductModel.get_all_products_by_category_by_price(category=category_name,ascending=order_in_ascending)
+
+                for product in products_in_category:
+                    result.append(cls.model_to_dict(product))
+
+                return jsonify(result), 200
+            except AttributeError:
+                return jsonify("Category not found."), 404
+            except LookupError:
+                return jsonify("There are currently no categories in our system."), 200
+        elif order_by == 'name':
+            result = []
+            try:
+                products_in_category = ProductModel.get_all_products_by_category_by_name(category=category_name,ascending=order_in_ascending)
+
+                for product in products_in_category:
+                    result.append(cls.model_to_dict(product))
+
+                return jsonify(result), 200
+            except AttributeError:
+                return jsonify("Category not found."), 404
+            except LookupError:
+                return jsonify("There are currently no categories in our system."), 200
+#            elif order_by == 'name':
+#                result = []
+#                try:
+#                    products_in_category = ProductModel.get_all_products_by_category_by_name(category_name,ascending=order_in_ascending)
+
+#                    for product in products_in_category:
+#                        result.append(cls.model_to_dict(product))
+
+#                return jsonify(result), 200
+
+        # else:
+        #     # This leaves room for expansion later :)
+        #     return jsonify("Cannot organize the list by this attribute."), 422
+        else:
+            return jsonify("Cannot organize products in the requested order."), 400
 
     @classmethod
     def get_all_products_by_category(cls, category_name: str):

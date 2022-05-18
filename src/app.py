@@ -43,21 +43,23 @@ def all_products():
                                                                         request.json['in_ascending_order'])
                 elif request.json['request'] == 'filtered':
                     return ProductController.get_all_products_by_category(request.json['category'])
+                elif request.json['request'] == 'filtered&ordered':
+                    return ProductController.get_all_products_by_category_organized(request.json['category'],
+                                                                                    request.json['filter'],
+                                                                                    request.json['in_ascending_order'])
+
 
         else:
             list_of_products = ProductController.get_all_products()
-            return_json = {"Products": list_of_products}
             return jsonify(list_of_products)
     elif request.method == 'GET':
-        list_of_products = ProductController.get_all_products()
-        return_json = {"Products": list_of_products}
         global_statistics = {"Cheapest Products": ProductController.get_cheapest_products(),
                              "Most Expensive Products": ProductController.get_priciest_products(),
                              "Most Liked Products": LikedListController.get_top_likes(),
                              "Hottest Categories": OrderProductController.get_top_categories(),
                              "Hottest Products": OrderProductController.get_top_products()
                              }
-        return_json["Global Statistics"] = global_statistics
+        return_json = {"Global Statistics": global_statistics}
         return jsonify(return_json)
 
 
@@ -232,24 +234,22 @@ def carts_handler(usr_id):
 # ======================================================================================================================
 
 # =================================================== v ORDERS v =======================================================
-@app.route('/goated_the_sql/user/<int:user_id>/orders', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/goated_the_sql/user/<int:user_id>/orders', methods=['GET', 'PUT', 'DELETE','POST'])
 def orders_page(user_id):
-    if request.method == 'GET':
+    if request.method == 'POST':
         if request.data:
             if request.json:
                 if UserController.get_user(user_id)[1] == 200:
-                    return OrderController.get_specific_order(user_id, request.json['order_id'])
+                    return (OrderController.get_specific_order(user_id, request.json['order_id']))
                 else:
                     return jsonify("User Not Found"), 404
         else:
             if UserController.get_user(user_id)[1] == 200:
-                json = {
-                    "Orders": OrderController.get_all_orders(user_id),
-                    "User Statistics": OrderProductController.get_personalized_user_statistics(user_id)
-                }
-                return jsonify(json)
+                return jsonify(OrderController.get_all_orders(user_id))
             else:
                 return jsonify("User Not Found"), 404
+    elif request.method == 'GET':
+        return jsonify(OrderProductController.get_personalized_user_statistics(user_id))
     elif request.method == 'PUT':
         if request.data:
             if request.json:
