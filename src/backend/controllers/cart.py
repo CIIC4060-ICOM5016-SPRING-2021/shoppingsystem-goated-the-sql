@@ -23,7 +23,8 @@ class CartController:
             'product_id': cart.get_product_id(),
             'usr_id': cart.get_user_id(),
             'quantity': cart.get_product_quantity(),
-            'product_price': cart.get_product_price()
+            'product_price': cart.get_product_price(),
+            'name': cart.get_name()
         }
         return cartdict
 
