@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Container, Form, Grid, Segment } from "semantic-ui-react";
-import "./LogIn.css";
+import "../LogIn.css";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 

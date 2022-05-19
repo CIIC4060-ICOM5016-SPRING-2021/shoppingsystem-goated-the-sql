@@ -6,7 +6,7 @@ import './UserView.css';
 import {Link} from "react-router-dom";
 
 
-function UserView() {
+function MenuBar() {
 
     const [active, setActive] = useState('Products')
 
@@ -123,4 +123,4 @@ function UserView() {
 
 }
 
-export default UserView;
+export default MenuBar;

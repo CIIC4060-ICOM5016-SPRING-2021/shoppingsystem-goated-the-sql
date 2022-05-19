@@ -3,25 +3,43 @@ import {Button, Card, Container, Divider, Grid, GridColumn, Header} from "semant
 import "./Likes.css"
 import rtx from "../3080.png";
 import AllLikes from "./Likes_item"
+import axios from "axios";
+import {useParams} from "react-router-dom";
 
-export default class Likes extends React.Component {
+export function withRouter(Children){
+    return(props)=>{
 
+        const match  = {params: useParams()};
+        return <Children {...props}  match = {match}/>
+    }
+}
+
+
+
+  class Likes extends React.Component {
+    prods = []
+    componentDidMount() {
+        axios.get(`http://127.0.0.1:5000/goated_the_sql/${211}/liked_list`,)
+            .then(res => {
+                const lee = res.data.args;
+                this.prods = res.data;
+                console.log(this.prods)
+                this.setState({lee});
+            })
+    }
 
     render() {
-        let random_info = [
-            {"pid": 1, "pname": "RTX 3080"             , "pprice": 1.01, "pdescription": "description", "image": rtx, "like": true},
-            {"pid": 2, "pname": "Intel 11th gen i7 CPU", "pprice": 1.01, "pdescription": "description", "image": rtx, "like": true},
-            {"pid": 3, "pname": "Intel 11th gen i9 CPU", "pprice": 1.01, "pdescription": "description", "image": rtx, "like": true},
-            {"pid": 4, "pname": "Intel 12th gen i9 CPU", "pprice": 1.01, "pdescription": "description", "image": rtx, "like": true},
-            {"pid": 5, "pname": "PS5"                  , "pprice": 1.01, "pdescription": "description", "image": rtx, "like": true},
-            {"pid": 6, "pname": "Xbox Controller"      , "pprice": 1.01, "pdescription": "description", "image": rtx, "like": true}
-        ];
+/*        let random_info = [
+            {"id": 1  ,"name": "RTX 3080", "price": 1.01, "desc": "description"                 ,"category": "Gift Cards",     "stock": 150, "visible": true},
+            {"id": 142,"name": "VISA"    , "price": "25", "desc": "Customizable value gift card","category": "Gift Cards",     "stock": 150, "visible": true}
+        ];*/
         return (
             <div className={"back"}>
                 <h1 className={"header"}>Likes</h1>
                 <Container >
                     <Card.Group  centered>
-                        <AllLikes info={random_info}/>
+
+                        <AllLikes info={this.prods}/>
                     </Card.Group>
                 </Container>
                 <Divider></Divider>
@@ -50,5 +68,5 @@ export default class Likes extends React.Component {
         )
     }
 }
-
+export default withRouter(Likes)
 

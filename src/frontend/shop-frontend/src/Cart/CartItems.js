@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {Navigate} from "react-router";
 import Product from "../Product/Product";
 import CartItems from "./CartItems.css";
+import rtx from "../images/xbox.png"
 
 
 function CartItem(props) {
@@ -12,21 +13,21 @@ function CartItem(props) {
 
 
         var product = {
-            id: value.pid.toString(),
-            name: value.pname.toString(),
-            price: (value.pprice).toString(),
-            image: value.image.toString(),
+            product_id: value.product_id.toString(),
+            product_price: value.product_price.toString(),
+            usr_id: (value.usr_id).toString(),
+            name: value.name.toString(),
             quantity: value.quantity,
         }
 
 
         return <Card>
-            <Image src={value.image} wrapped ui={false}/>
+            <Image src={rtx} wrapped ui={false}/>
             <Card.Content className={"text"}>
                 
-                <h2>{value.pname}</h2>
+                <h2>{product.name}</h2>
 
-                <h2>${value.pprice*value.quantity}</h2>
+                <h2>${product.product_price*product.quantity}</h2>
 
 
 

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import './index.css';
 import '../node_modules/semantic-ui-css/semantic.min.css'
-import UserView from "./MenuBar/UserView";
+import MenuBar from "./MenuBar/MenuBar";
 import Dashboard from "./Dashboard";
 import LogIn from "./LogIn";
 import Footer from "./Footer";
@@ -21,9 +21,10 @@ import DeleteUser from "./DeleteUser";
 import DeleteProduct from "./DeleteProduct";
 import EditProduct from "./EditProduct";
 import AddProduct from "./AddProduct";
-import Profile from "./Profile";
+import Profile from "./Product/Profile";
 import Likes from "./Likes/Likes";
-
+import Orders from "./Orders/Orders";
+import Order from "./Orders/Order";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -35,17 +36,23 @@ root.render(
             <Route path='/CreateAccount' element={<CreateAccount/>}/>
 
             {/*USER ROUTES*/}
-            <Route       path="/Profile/:id" element={<div><UserView/><Profile/></div>}/>
-            <Route exact path="/Products" element={<div><UserView/><Products/><Footer /></div>}/>
-            <Route exact path="/Product" element={<div><UserView/><Product/></div>}/>
-            <Route       path="/Product/:id" element={<div><UserView/><Product/></div>}/>
+            <Route       path="/Profile/:id" element={<div><MenuBar/><Profile/></div>}/>
+            <Route exact path="/Products" element={<div><MenuBar/><Products/><Footer /></div>}/>
 {/*
-            <Route       path="/Products/:id" element={<div><UserView/><Product/></div>}/>
+            <Route exact path="/Product" element={<div><MenuBar/><Product/></div>}/>
 */}
-            <Route exact path="/Cart" element={<div><UserView/><Cart /></div>}/>
-            <Route exact path="/Likes" element={<div><UserView/><Likes /></div>}/>
-            <Route exact path="/Orders" element={<div><UserView/><Products/></div>}/>
-            <Route exact path="/Dashboard" element={<div><UserView/><Dashboard/></div>}/>
+{/*
+            <Route       path="/Product/:id" element={<div><MenuBar/><Product/></div>}/>
+*/}
+
+            <Route       path="/Products/:id" element={<div><MenuBar/><Product/></div>}/>
+
+            <Route exact path="/Cart" element={<div><MenuBar/><Cart /></div>}/>
+            <Route exact path="/Likes" element={<div><MenuBar/><Likes /></div>}/>
+            <Route exact path="/Orders" element={<div><MenuBar/><Orders/></div>}/>
+            <Route exact path="/Orders" element={<div><MenuBar/><Orders/></div>}/>
+            <Route       path="/Orders/:id" element={<div><MenuBar/><Order/></div>}/>
+            <Route exact path="/Dashboard" element={<div><MenuBar/><Dashboard/></div>}/>
 
             {/*ADMIN ROUTES*/}
             <Route exact path="/Admin/Products" element={<div><AdminNav/><Products/></div>}/>

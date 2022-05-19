@@ -3,6 +3,7 @@ import {Button, Card, CardContent, Container, Icon, Image, Label, Tab} from "sem
 import {Link} from "react-router-dom";
 import Product from "../Product/Product";
 
+import rtx from "../3080.png";
 
 
 
@@ -10,21 +11,26 @@ import Product from "../Product/Product";
 function Likes_item(props){
     return props.info.map(value => {
         var product = {
-            id: value.pid.toString(),
-            name: value.pname.toString(),
-            price: value.pprice.toString(),
-            image: value.image.toString(),
-            like: value.like.Boolean
+            id: value.id.toString(),
+            name: value.name.toString(),
+            price: value.price.toString(),
+            desc: value.desc.toString(),
+            category: value.category.toString()
+
         }
         return <Card >
-            <Image src={value.image} wrapped ui={false}/>
+            <Image src={rtx} wrapped ui={false}/>
             <Card.Content className={"text"}>
-                <h3 className={"text"}>{value.pname}</h3>
-                <h3 className={"text"}>${value.pprice}</h3>
+                <h3 className={"text"}>{product.name}</h3>
+                <h3 className={"text"}>${product.price}</h3>
             </Card.Content>
             <Card.Content extra>
                 <div className='ui three buttons'>
-                    <Button color ='red' icon>
+                    <Button
+                        as={Link}
+                        to={product.id}
+                        color ='red'
+                        icon>
                         <Icon name = "like"></Icon>
                     </Button>
                     <Button  color={"blue"}>
