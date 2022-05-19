@@ -6,6 +6,7 @@ class CartModel:
     __usr_id: int
     __product_quantity: int
     __product_price: float
+    __name: str
 
     # Product ID Getter:
     def get_product_id(self):
@@ -22,6 +23,14 @@ class CartModel:
     # User ID Setter:
     def set_user_id(self, usr_id: int):
         self.__usr_id = usr_id
+
+    # prod_name Setter:
+    def set_name(self, name: str):
+        self.__name = name
+
+    # Product name Getter:
+    def get_name(self):
+        return self.__name
 
     # Product Quantity Getter:
     def get_product_quantity(self):
@@ -41,7 +50,16 @@ class CartModel:
 
     @classmethod
     def get_cart(cls, user_id):
-        list_of_products = BackEnd.get_all_elements(CartModel(), "*", "user_id={}".format(user_id))
+        #list_of_products = BackEnd.get_elements_join(CartModel(), "product_id,usr_id,product_quantity,product_price,name", "user_id={}".format(user_id))
+        list_of_products = BackEnd.get_elements_join(model=CartModel(),
+                                                    select_attributes = "product_id,user_id,product_quantity,product_price,name",
+                                                    filter_clause = "user_id={}".format(user_id),
+                                                    group_attribute = "",
+                                                    order_attribute = "",
+                                                    sort = "",
+                                                    limit = 1,
+                                                    on = '',
+                                                    categories = True)
         return list_of_products
 
     def add_item(self):

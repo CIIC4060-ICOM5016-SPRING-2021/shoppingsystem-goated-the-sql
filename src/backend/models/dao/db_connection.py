@@ -876,3 +876,13 @@ class BackEnd:
                     """.format(select_attributes, group_attribute, order_attribute, sort, limit),
                 'LikedListModel'
             )
+        elif model.__class__.__name__ == 'CartModel':
+            return cls.__db_fetch_all(
+                """
+                    SELECT {}
+                    FROM cart
+                    NATURAL INNER JOIN products
+                    WHERE {} 
+                    """.format(select_attributes, filter_clause),
+                'CartModel',
+            )
