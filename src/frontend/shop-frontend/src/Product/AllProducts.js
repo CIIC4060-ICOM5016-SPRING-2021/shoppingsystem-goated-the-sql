@@ -7,10 +7,7 @@ import rtx from "../images/xbox.png"
 
 function AllProducts(props) {
 
-    return props.info.map(value =>
-    {
-
-
+    return props.info.map(value => {
         console.log(value)
         var product = {
             id: value.id.toString(),
@@ -32,9 +29,9 @@ function AllProducts(props) {
                     <Button
                         as={Link}
                         to={product.id}
-/*
-                        onClick={goProduct()}
-*/
+                        /*
+                                                onClick={goProduct()}
+                        */
                         color='blue'>
                         View
                     </Button>

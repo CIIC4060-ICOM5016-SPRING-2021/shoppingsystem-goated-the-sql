@@ -14,7 +14,7 @@ import Admin from './Admin/Admin';
 import ForgotPassword from "./ForgotPassword";
 import CreateAccount from "./CreateAccount";
 import Cart from "./Cart/Cart";
-import ViewOrders from "./Admin/ViewOrders";
+import AdminOrders from "./Admin/AdminOrders";
 import EditOrder from "./Admin/EditOrder";
 import DeleteOrder from "./Admin/DeleteOrder";
 import DeleteUser from "./Admin/DeleteUser";
@@ -23,8 +23,10 @@ import EditProduct from "./Admin/EditProduct";
 import AddProduct from "./Admin/AddProduct";
 import Profile from "./Product/Profile";
 import Likes from "./Likes/Likes";
-import Orders from "./Orders/Orders";
 import Order from "./Orders/Order";
+import GettingOrders from "./Admin/GettingOrders";
+import Orders from "./Orders/Orders";
+import ViewOrders from "./Admin/ViewOrders";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -47,10 +49,10 @@ root.render(
 
             <Route path="/Products/:id" element={<div><MenuBar/><Product/></div>}/>
 
-            <Route       path="/User/:user_id/Cart" element={<div><MenuBar/><Cart /></div>}/>
-            <Route       path="/User/:user_id/Likes" element={<div><MenuBar/><Likes /></div>}/>
-            <Route       path="/User/:user_id/Orders" element={<div><MenuBar/><Orders/></div>}/>
-            <Route       path="/User/:user_id/Order/:order_id" element={<div><MenuBar/><Order/></div>}/>
+            <Route path="/User/:user_id/Cart" element={<div><MenuBar/><Cart/></div>}/>
+            <Route path="/User/:user_id/Likes" element={<div><MenuBar/><Likes/></div>}/>
+            <Route path="/User/:user_id/AdminOrders" element={<div><MenuBar/><Orders/></div>}/>
+            <Route path="/User/:user_id/Order/:order_id" element={<div><MenuBar/><Order/></div>}/>
             <Route exact path="/Dashboard" element={<div><MenuBar/><Dashboard/></div>}/>
 
             {/*ADMIN ROUTES*/}
@@ -58,15 +60,21 @@ root.render(
             <Route exact path="/Admin/Product" element={<div><AdminNav/><Product/></div>}/>
             <Route exact path="/Admin/Cart" element={<AdminNav/>}/>
             <Route exact path="/Admin/Likes" element={<AdminNav/>}/>
-            <Route exact path="/Admin/Orders" element={<div><AdminNav/><Products/></div>}/>
+            <Route exact path="/Admin/AdminOrders" element={<div><AdminNav/><Products/></div>}/>
             <Route exact path="/Admin/Dashboard" element={<div><AdminNav/><Dashboard/></div>}/>
 
             {/*ADMIN ACTION ROUTES*/}
-            <Route exact path="/Admin" element={<div><AdminNav/><Admin/></div>}/>
-            <Route exact path="/Admin/Orders/View" element={<div><AdminNav/><ViewOrders/></div>}/>
-            <Route exact path="/Admin/Orders/Edit" element={<div><AdminNav/><EditOrder/></div>}/>
-            <Route exact path="/Admin/Orders/Delete" element={<div><AdminNav/><DeleteOrder/></div>}/>
+            <Route path="/Admin" element={<div><AdminNav/><Admin/></div>}/>
+
+            <Route path="/Admin/AdminOrders/View/" element={<div><AdminNav/><GettingOrders/></div>}/>
+            <Route path="/Admin/AdminOrders/View/:adminid" element={<div><AdminNav/><GettingOrders/></div>}/>
+            <Route path="/Admin/AdminOrders/View/:adminid/:id" element={<div><AdminNav/><ViewOrders/></div>}/>
+
+            <Route exact path="/Admin/AdminOrders/Edit" element={<div><AdminNav/><EditOrder/></div>}/>
+            <Route exact path="/Admin/AdminOrders/Delete" element={<div><AdminNav/><DeleteOrder/></div>}/>
+
             <Route exact path="/Admin/User/Delete" element={<div><AdminNav/><DeleteUser/></div>}/>
+
             <Route exact path="/Admin/Product/Add" element={<div><AdminNav/><AddProduct/></div>}/>
             <Route exact path="/Admin/Product/Edit" element={<div><AdminNav/><EditProduct/></div>}/>
             <Route exact path="/Admin/Product/Delete" element={<div><AdminNav/><DeleteProduct/></div>}/>
