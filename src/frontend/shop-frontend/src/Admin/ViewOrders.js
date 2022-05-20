@@ -1,57 +1,79 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
 import {
     Button,
     Card,
     CardContent,
-    CardHeader,
-    Container, Form, FormInput,
+    Container,
+    Divider,
     Grid,
     GridColumn,
-    GridRow,
     Header,
-    Icon
 } from "semantic-ui-react";
-import {Link} from "react-router-dom";
-import './Admin.css'
-import axios from 'axios';
+import rtx from "../images/xbox.png";
 
+import "../Orders/Orders.css";
+import {useParams} from "react-router-dom";
+import axios from "axios";
+import OrderItem from "../Orders/OrderItem";
 
-function ViewOrders() {
-
-    // TODO: Make this use the admin's correct id instead of a hardcoded one
-    axios
-        .get(
-            `http://127.0.0.1:5000/goated_the_sql/user/213/orders`
-        )
-        .then((res) => {
-            console.log(res.data)
-        });
-
-    return (
-        <Container fluid={'true'} textAlign={'center'}>
-            <Header>Viewing Orders</Header>
-            <Form>
-                <FormInput placeholder='UserId'/>
-            </Form>
-            {/* DO THE SHIT ON ALLPRODUCTS*/}
-            <Grid centered={'true'} divided={'true'}>
-                <GridColumn width={3}>
-                    <Card raised className={'adminAction'}>
-                        <CardContent className={'content'}>
-                            <Icon name={'newspaper'} size={'huge'}/>
-                            <CardHeader textAlign={'center'}>Orders</CardHeader>
-                            <Grid centered>
-                                <GridRow>
-                                    <Button className={'icon'} icon='eye' as={Link} to="/Orders/View"/>
-                                </GridRow>
-                            </Grid>
-                        </CardContent>
-                    </Card>
-                </GridColumn>
-            </Grid>
-        </Container>
-
-    )
+export function withRouter(Children) {
+    return (props) => {
+        const match = {params: useParams()};
+        return <Children {...props} match={match}/>;
+    };
 }
 
-export default ViewOrders;
+class ViewOrder extends React.Component {
+    orderfromaxios = [];
+    total = 0;
+    orderno = 0;
+    timeoforder = "";
+
+    componentDidMount() {
+        axios({
+            method: "POST",
+            // Se supone que se llame user id pero se llama orderid for some reason
+            url: `http://127.0.0.1:5000/goated_the_sql/user/${this.props.match.params.id}/orders`,
+            data: {
+                order_id: this.props.match.params.order_id,
+            },
+        }).then((res) => {
+            const order = res.data.args;
+            this.total = res.data["order_total"];
+            this.orderno = res.data["order_id"];
+            this.timeoforder = res.data["time_of_order"];
+            this.orderfromaxios = res.data["products_ordered"];
+            console.log(this.orderfromaxios);
+            this.setState({order}); //no clue for what this is
+        });
+    }
+
+    render() {
+        const items_in_order = this.order;
+
+        return (
+            <div className={"orderbackground"}>
+                <h1 className={"header"}>Order</h1>
+                <Divider hidden/>
+                <Container>
+                    <Card.Group>
+                        <Card>
+                            <CardContent>
+                                <h2>Order total: ${this.total}</h2>
+                            </CardContent>
+                            <CardContent>
+                                <p>Time of order: {this.timeoforder}</p>
+                            </CardContent>
+                            <CardContent>
+                                <h2>Order no. {this.orderno}</h2>
+                            </CardContent>
+                        </Card>
+                        <OrderItem info={this.orderfromaxios}/>
+                    </Card.Group>
+                </Container>
+            </div>
+        );
+    }
+}
+
+export default withRouter(ViewOrder);
