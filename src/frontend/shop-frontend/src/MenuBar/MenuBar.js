@@ -1,19 +1,5 @@
-import React, { Component, useState } from "react";
-import {
-  Button,
-  Card,
-  Container,
-  Divider,
-  Header,
-  Icon,
-  Input,
-  Menu,
-  MenuItem,
-  Modal,
-  Tab,
-} from "semantic-ui-react";
-import Dashboard from "../Dashboard";
-import Products from "../Product/Products";
+import React, { useState } from "react";
+import { Menu } from "semantic-ui-react";
 import "./UserView.css";
 import { Link } from "react-router-dom";
 

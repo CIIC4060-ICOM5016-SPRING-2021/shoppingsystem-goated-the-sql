@@ -1,16 +1,6 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Card,
-  Container,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  Menu,
-  Icon,
-} from "semantic-ui-react";
+import React from "react";
+import { Button, Card, Container, Dropdown, Icon } from "semantic-ui-react";
 import AllProducts from "./AllProducts";
-import rtx from "../3080.png";
 import "./Products.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
