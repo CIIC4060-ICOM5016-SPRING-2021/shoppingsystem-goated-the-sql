@@ -156,7 +156,9 @@ def user_handler(user_id):
 
                 # Repeated code, fix this after project completion
                 if requester_id[1] == 200 and subject_id[1] == 200:
-                    return UserController.update_user(request.json['user_to_update_id'], user_id, request.json)
+                    response = UserController.update_user(request.json['user_to_update_id'], user_id, request.json)
+                    # response.headers.add('Access-Control-Allow-Origin', '*')
+                    return response
                 elif requester_id[1] != 200 and subject_id[1] == 200:
                     return jsonify("User Requesting Change Not Found"), 404
                 elif requester_id[1] == 200 and subject_id[1] != 200:

@@ -142,7 +142,7 @@ class UserModel:
                     changes.append("password = '{}'".format(model.get_password()))
 
                 if db_model.get_phone_num() != model.get_phone_num():
-                    changes.append("phone = {}".format(model.get_phone_num()))
+                    changes.append("phone = '{}'".format(model.get_phone_num()))
 
                 if db_model.get_admin_status() != model.get_admin_status():
                     changes.append("admin = {}".format(model.get_admin_status()))

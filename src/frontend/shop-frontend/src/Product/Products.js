@@ -1,15 +1,6 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Card,
-  Container,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  Menu,
-} from "semantic-ui-react";
+import React from "react";
+import { Button, Card, Container, Dropdown, Icon } from "semantic-ui-react";
 import AllProducts from "./AllProducts";
-import rtx from "../3080.png";
 import "./Products.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -24,19 +15,12 @@ export function withRouter(Children) {
 class Products extends React.Component {
   GlobalStatisticsdb = [];
   Productsdb = [];
-  sort = true;
-  order = "price";
+  order_asc = true;
 
   componentDidMount() {
     axios({
       method: "POST",
       url: "http://127.0.0.1:5000/goated_the_sql/products/all",
-      data: {
-        request: "filtered&ordered",
-        category: "Peripherals",
-        filter: "name",
-        in_ascending_order: true,
-      },
     }).then((res) => {
       const prods = res.data.args;
       this.Productsdb = res.data;
@@ -44,25 +28,105 @@ class Products extends React.Component {
       this.setState({ prods }); //no clue for what this is
     });
   }
+
+  async nameQuery(in_ascending_order) {
+    if (in_ascending_order === true) {
+      const res = await axios({
+        method: "POST",
+        url: "http://127.0.0.1:5000/goated_the_sql/products/all",
+        data: {
+          request: "ordered",
+          filter: "name",
+          in_ascending_order: true,
+        },
+      });
+      this.Productsdb = res.data;
+      console.log(this.Productsdb);
+      this.forceUpdate();
+    } else {
+      const res_1 = await axios({
+        method: "POST",
+        url: "http://127.0.0.1:5000/goated_the_sql/products/all",
+        data: {
+          request: "ordered",
+          filter: "name",
+          in_ascending_order: false,
+        },
+      });
+      this.Productsdb = res_1.data;
+      console.log(this.Productsdb);
+      this.forceUpdate();
+    }
+  }
+
+  async priceQuery(in_ascending_order) {
+    if (in_ascending_order === true) {
+      const res = await axios({
+        method: "POST",
+        url: "http://127.0.0.1:5000/goated_the_sql/products/all",
+        data: {
+          request: "ordered",
+          filter: "price",
+          in_ascending_order: true,
+        },
+      });
+      this.Productsdb = res.data;
+      console.log(this.Productsdb);
+      this.forceUpdate();
+    } else {
+      const res_1 = await axios({
+        method: "POST",
+        url: "http://127.0.0.1:5000/goated_the_sql/products/all",
+        data: {
+          request: "ordered",
+          filter: "price",
+          in_ascending_order: false,
+        },
+      });
+      this.Productsdb = res_1.data;
+      console.log(this.Productsdb);
+      this.forceUpdate();
+    }
+  }
+
+  async categoryQuery(category) {
+    const res = await axios({
+      method: "POST",
+      url: "http://127.0.0.1:5000/goated_the_sql/products/all",
+      data: {
+        request: "filtered",
+        category: category,
+      },
+    });
+    this.Productsdb = res.data;
+    console.log(this.Productsdb);
+    this.forceUpdate();
+  }
+
   render() {
     return (
       <div className={"prodbackground"}>
-        <Container>
-          <Container>
-            <Dropdown text="Filter">
-              <Dropdown.Menu>
-                <Dropdown.Item text="By Name"></Dropdown.Item>
-                <Dropdown.Item text="By Price"></Dropdown.Item>
-                <Dropdown.Item text="By Category"></Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Container>
+        <Container textAlign="center">
+          <Dropdown text="Filter">
+            <Dropdown.Menu>
+              <Dropdown.Item
+                text="By Name"
+                onClick={() => this.nameQuery(this.order_asc)}
+              />
+              <Dropdown.Item
+                text="By Price"
+                onClick={() => this.priceQuery(this.order_asc)}
+              />
+              <Dropdown.Item text="By Category" />
+            </Dropdown.Menu>
+          </Dropdown>
+          <Button icon onClick={() => (this.order_asc = false)}>
+            <Icon name="arrow down" />
+          </Button>
+          <Button icon onClick={() => (this.order_asc = true)}>
+            <Icon name="arrow up" />
+          </Button>
           <Card.Group centered>
-            {/*
-
-                        <AllProducts info = {random_info2} />
-*/}
-
             <AllProducts info={this.Productsdb} />
           </Card.Group>
         </Container>

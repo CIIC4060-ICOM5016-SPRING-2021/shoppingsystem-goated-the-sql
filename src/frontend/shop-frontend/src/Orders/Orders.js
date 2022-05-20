@@ -1,14 +1,5 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Card,
-  Container,
-  Divider,
-  Grid,
-  GridColumn,
-  Header,
-} from "semantic-ui-react";
-import rtx from "../images/xbox.png";
+import React from "react";
+import { Card, Container, Divider } from "semantic-ui-react";
 import "./Orders.css";
 import { useParams } from "react-router-dom";
 import axios from "axios";

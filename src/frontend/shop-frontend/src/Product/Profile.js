@@ -13,13 +13,25 @@ export function withRouter(Children) {
 
 class Profile extends React.Component {
 
-  state = { fname: '', lname: '', phone: '', password: ''}
+  state = { fname: '', lname: '', phone: '', password: '', admin: ''}
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   handleSubmit = () => {
-    const { fname, lname, phone, password} = this.state
-    //Needs to do the axios thing to save the info
+    const { fname, lname, phone, password, admin} = this.state
+    //Axios put method for updating the database
+  axios.put(
+        `http://127.0.0.1:5000/goated_the_sql/user/${this.props.match.params.id}`,
+         { user_to_update_id: parseInt(this.props.match.params.id),
+           first_name: fname,
+           last_name: lname,
+           valid: true,
+           password: password,
+           phone: phone,
+           admin: admin
+         }
+  ).then((res) => {console.log(res.data)});
+
 
 
     console.log(this.state)
@@ -31,12 +43,13 @@ class Profile extends React.Component {
         `http://127.0.0.1:5000/goated_the_sql/user/${this.props.match.params.id}`
       )
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         const fname = res.data["first_name"];
         const lname = res.data["last_name"];
         const phone = res.data["phone_#"];
         const password = res.data["password"];
-        this.setState({ fname, lname, phone, password });
+        const admin = res.data["admin"]
+        this.setState({ fname, lname, phone, password, admin });
       });
   }
 
