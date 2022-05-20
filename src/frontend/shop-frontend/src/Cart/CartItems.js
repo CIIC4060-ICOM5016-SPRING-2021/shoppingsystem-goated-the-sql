@@ -54,13 +54,7 @@ function CartItem(props) {
               <Icon name="trash"></Icon>
               Remove
             </Button>
-            <Button
-              onClick={() => {}}
-              /*as={Link}
-                        to={'/Product'}
-                        onClick={Product(value)}*/
-              color="blue"
-            >
+            <Button as={Link} to={`/Products/${product.product_id}`} color={"blue"}>
               View
             </Button>
           </div>

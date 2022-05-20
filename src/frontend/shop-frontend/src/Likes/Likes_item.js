@@ -33,7 +33,7 @@ function Likes_item(props) {
         <Card.Content extra>
           <div className="ui three buttons">
             <Button as={Link} to={product.id} color="red" icon>
-              <Icon name="like"></Icon>
+              <i class="thumbs down outline icon"></i>
             </Button>
             <Button as={Link} to={`/Products/${product.id}`} color={"blue"}>
               View
