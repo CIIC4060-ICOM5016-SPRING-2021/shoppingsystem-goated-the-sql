@@ -48,7 +48,7 @@ root.render(
             <Route       path="/Products/:id" element={<div><MenuBar/><Product/></div>}/>
 
             <Route exact path="/Cart" element={<div><MenuBar/><Cart /></div>}/>
-            <Route exact path="/Likes" element={<div><MenuBar/><Likes /></div>}/>
+            <Route       path="/User/:user_id/Likes" element={<div><MenuBar/><Likes /></div>}/>
             <Route       path="/User/:user_id/Orders" element={<div><MenuBar/><Orders/></div>}/>
             <Route       path="/User/:user_id/Order/:order_id" element={<div><MenuBar/><Order/></div>}/>
             <Route exact path="/Dashboard" element={<div><MenuBar/><Dashboard/></div>}/>

@@ -19,7 +19,7 @@ export function withRouter(Children){
   class Likes extends React.Component {
     prods = []
     componentDidMount() {
-        axios.get(`http://127.0.0.1:5000/goated_the_sql/${211}/liked_list`,)
+        axios.get(`http://127.0.0.1:5000/goated_the_sql/${this.props.match.params.user_id}/liked_list`,)
             .then(res => {
                 const lee = res.data.args;
                 this.prods = res.data;
