@@ -96,7 +96,7 @@ function MenuBar() {
           <Menu.Item
             as={Link}
             color={"blue"}
-            to="/Cart"
+            to={`/User/211/Cart`}
             name="Cart"
             active={active === "Cart"}
             link="true"
