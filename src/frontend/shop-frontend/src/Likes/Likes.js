@@ -18,6 +18,7 @@ export function withRouter(Children){
 
   class Likes extends React.Component {
     prods = []
+
     componentDidMount() {
         axios.get(`http://127.0.0.1:5000/goated_the_sql/${this.props.match.params.user_id}/liked_list`,)
             .then(res => {
@@ -29,17 +30,18 @@ export function withRouter(Children){
     }
 
     render() {
-/*        let random_info = [
-            {"id": 1  ,"name": "RTX 3080", "price": 1.01, "desc": "description"                 ,"category": "Gift Cards",     "stock": 150, "visible": true},
-            {"id": 142,"name": "VISA"    , "price": "25", "desc": "Customizable value gift card","category": "Gift Cards",     "stock": 150, "visible": true}
-        ];*/
+
+
+
+
+
         return (
             <div className={"back"}>
                 <h1 className={"header"}>Likes</h1>
                 <Container >
                     <Card.Group  centered>
 
-                        <AllLikes info={this.prods}/>
+                        <AllLikes user_id = {this.props.match.params.user_id} info={this.prods}/>
                     </Card.Group>
                 </Container>
                 <Divider></Divider>

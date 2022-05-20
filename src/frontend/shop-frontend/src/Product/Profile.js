@@ -12,8 +12,18 @@ export function withRouter(Children) {
 }
 
 class Profile extends React.Component {
-  first_name = "";
-  last_name = "";
+
+  state = { fname: '', lname: '', phone: '', password: ''}
+
+  handleChange = (e, { name, value }) => this.setState({ [name]: value })
+
+  handleSubmit = () => {
+    const { fname, lname, phone, password} = this.state
+    //Needs to do the axios thing to save the info
+
+
+    console.log(this.state)
+  }
 
   componentDidMount() {
     axios
@@ -21,14 +31,18 @@ class Profile extends React.Component {
         `http://127.0.0.1:5000/goated_the_sql/user/${this.props.match.params.id}`
       )
       .then((res) => {
-        const user = res.data;
-        this.first_name = res.data["first_name"];
-        this.last_name = res.data["last_name"];
-        this.setState({ user });
+        console.log(res.data)
+        const fname = res.data["first_name"];
+        const lname = res.data["last_name"];
+        const phone = res.data["phone_#"];
+        const password = res.data["password"];
+        this.setState({ fname, lname, phone, password });
       });
   }
 
   render() {
+     const { fname, lname, phone, password } = this.state
+
     return (
       <Grid
         textAlign="center"
@@ -38,40 +52,54 @@ class Profile extends React.Component {
         <Grid.Column style={{ maxWidth: 600 }} padded={"horizontally"}>
           <Container>
             <p className={"Title"}>
-              {this.first_name} {this.last_name}
+              {fname} {lname}
             </p>
           </Container>
-          <Form size={"massive"}>
+          <Form size={"massive"} onSubmit={this.handleSubmit}>
+          <Form.Group>
             <Segment stacked size={"massive"}>
               <Form.Input
                 fluid
                 icon="user"
                 iconPosition="left"
+                value={phone}
+                name='phone'
                 placeholder="Phone #"
                 type="phone"
+                onChange={this.handleChange}
               />
               <Form.Input
                 fluid
                 icon="user"
                 iconPosition="left"
+                value={fname}
+                name='fname'
                 placeholder="First Name"
                 type="text"
+                onChange={this.handleChange}
               />
               <Form.Input
                 fluid
                 icon="user"
                 iconPosition="left"
+                value={lname}
+                name='lname'
                 placeholder="Last Name"
                 type="text"
+                onChange={this.handleChange}
               />
               <Form.Input
                 fluid
                 icon="lock"
                 iconPosition="left"
+                value={password}
+                name='password'
                 placeholder="Password"
                 type="password"
+                onChange={this.handleChange}
               />
 
+              <Form.Button content='Submit' />
               <Button
                 as={Link}
                 to="/Products"
@@ -85,6 +113,7 @@ class Profile extends React.Component {
                 <p className={"Login"}>ERASE ACCOUNT</p>
               </Button>
             </Segment>
+            </Form.Group>
           </Form>
         </Grid.Column>
       </Grid>
