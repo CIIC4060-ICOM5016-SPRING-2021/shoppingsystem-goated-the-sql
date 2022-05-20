@@ -99,7 +99,7 @@ function MenuBar() {
                         link="true"
                         onClick={goOrders}
                     >
-                        AdminOrders
+                        Orders
                     </Menu.Item>
                     <Menu.Item
                         as={Link}
