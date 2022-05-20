@@ -9,18 +9,18 @@ import LogIn from "./LogIn";
 import Footer from "./Footer";
 import Products from "./Product/Products";
 import Product from "./Product/Product";
-import AdminNav from "./AdminNav";
-import Admin from './Admin';
+import AdminNav from "./Admin/AdminNav";
+import Admin from './Admin/Admin';
 import ForgotPassword from "./ForgotPassword";
 import CreateAccount from "./CreateAccount";
 import Cart from "./Cart/Cart";
-import ViewOrders from "./ViewOrders";
-import EditOrder from "./EditOrder";
-import DeleteOrder from "./DeleteOrder";
-import DeleteUser from "./DeleteUser";
-import DeleteProduct from "./DeleteProduct";
-import EditProduct from "./EditProduct";
-import AddProduct from "./AddProduct";
+import ViewOrders from "./Admin/ViewOrders";
+import EditOrder from "./Admin/EditOrder";
+import DeleteOrder from "./Admin/DeleteOrder";
+import DeleteUser from "./Admin/DeleteUser";
+import DeleteProduct from "./Admin/DeleteProduct";
+import EditProduct from "./Admin/EditProduct";
+import AddProduct from "./Admin/AddProduct";
 import Profile from "./Product/Profile";
 import Likes from "./Likes/Likes";
 import Orders from "./Orders/Orders";
@@ -36,21 +36,21 @@ root.render(
             <Route path='/CreateAccount' element={<CreateAccount/>}/>
 
             {/*USER ROUTES*/}
-            <Route       path="/Profile/:id" element={<div><MenuBar/><Profile/></div>}/>
-            <Route exact path="/Products" element={<div><MenuBar/><Products/><Footer /></div>}/>
-{/*
+            <Route path="/Profile/:id" element={<div><MenuBar/><Profile/></div>}/>
+            <Route exact path="/Products" element={<div><MenuBar/><Products/><Footer/></div>}/>
+            {/*
             <Route exact path="/Product" element={<div><MenuBar/><Product/></div>}/>
 */}
-{/*
+            {/*
             <Route       path="/Product/:id" element={<div><MenuBar/><Product/></div>}/>
 */}
 
-            <Route       path="/Products/:id" element={<div><MenuBar/><Product/></div>}/>
+            <Route path="/Products/:id" element={<div><MenuBar/><Product/></div>}/>
 
-            <Route exact path="/User/:user_id/Cart" element={<div><MenuBar/><Cart /></div>}/>
-            <Route       path="/User/:user_id/Likes" element={<div><MenuBar/><Likes /></div>}/>
-            <Route       path="/User/:user_id/Orders" element={<div><MenuBar/><Orders/></div>}/>
-            <Route       path="/User/:user_id/Order/:order_id" element={<div><MenuBar/><Order/></div>}/>
+            <Route exact path="/User/:user_id/Cart" element={<div><MenuBar/><Cart/></div>}/>
+            <Route path="/User/:user_id/Likes" element={<div><MenuBar/><Likes/></div>}/>
+            <Route path="/User/:user_id/Orders" element={<div><MenuBar/><Orders/></div>}/>
+            <Route path="/User/:user_id/Order/:order_id" element={<div><MenuBar/><Order/></div>}/>
             <Route exact path="/Dashboard" element={<div><MenuBar/><Dashboard/></div>}/>
 
             {/*ADMIN ROUTES*/}
