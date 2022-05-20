@@ -69,6 +69,36 @@ class Products extends React.Component {
     }
   }
 
+  async priceQuery(in_ascending_order) {
+    if (in_ascending_order === true) {
+      const res = await axios({
+        method: "POST",
+        url: "http://127.0.0.1:5000/goated_the_sql/products/all",
+        data: {
+          request: "ordered",
+          filter: "price",
+          in_ascending_order: true,
+        },
+      });
+      this.Productsdb = res.data;
+      console.log(this.Productsdb);
+      this.forceUpdate();
+    } else {
+      const res_1 = await axios({
+        method: "POST",
+        url: "http://127.0.0.1:5000/goated_the_sql/products/all",
+        data: {
+          request: "ordered",
+          filter: "price",
+          in_ascending_order: false,
+        },
+      });
+      this.Productsdb = res_1.data;
+      console.log(this.Productsdb);
+      this.forceUpdate();
+    }
+  }
+
   render() {
     return (
       <div className={"prodbackground"}>
@@ -79,7 +109,10 @@ class Products extends React.Component {
                 text="By Name"
                 onClick={() => this.nameQuery(this.order_asc)}
               />
-              <Dropdown.Item text="By Price" />
+              <Dropdown.Item
+                text="By Price"
+                onClick={() => this.priceQuery(this.order_asc)}
+              />
               <Dropdown.Item text="By Category" />
             </Dropdown.Menu>
           </Dropdown>
