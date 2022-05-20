@@ -18,17 +18,17 @@ class Profile extends React.Component {
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   handleSubmit = () => {
-    const { fname, lname, phone, password} = this.state
+    const { fname, lname, phone, password, admin} = this.state
     //Axios put method for updating the database
   axios.put(
-        "http://127.0.0.1:5000/goated_the_sql/user/${this.props.match.params.id}",
-         { user_to_update_id: '${this.props.match.params.id}',
-           first_name: '${fname}',
-           last_name: '${lname}',
+        `http://127.0.0.1:5000/goated_the_sql/user/${this.props.match.params.id}`,
+         { user_to_update_id: parseInt(this.props.match.params.id),
+           first_name: fname,
+           last_name: lname,
            valid: true,
-           password: '${password}',
-           phone: '${phone}',
-           admin: '${admin}'
+           password: password,
+           phone: phone,
+           admin: admin
          }
   ).then((res) => {console.log(res.data)});
 

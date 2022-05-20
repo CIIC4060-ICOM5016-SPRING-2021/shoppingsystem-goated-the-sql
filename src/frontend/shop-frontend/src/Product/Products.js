@@ -89,6 +89,20 @@ class Products extends React.Component {
     }
   }
 
+  async categoryQuery(category) {
+    const res = await axios({
+      method: "POST",
+      url: "http://127.0.0.1:5000/goated_the_sql/products/all",
+      data: {
+        request: "filtered",
+        category: category,
+      },
+    });
+    this.Productsdb = res.data;
+    console.log(this.Productsdb);
+    this.forceUpdate();
+  }
+
   render() {
     return (
       <div className={"prodbackground"}>
