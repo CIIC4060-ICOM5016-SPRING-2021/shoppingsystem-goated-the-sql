@@ -12,16 +12,19 @@ export function withRouter(Children) {
 }
 
 class Profile extends React.Component {
+  first_name = "";
+  last_name = "";
+
   componentDidMount() {
-    // TODO: Remove the hardcoded user id
     axios
       .get(
         `http://127.0.0.1:5000/goated_the_sql/user/${this.props.match.params.id}`
       )
       .then((res) => {
         const user = res.data;
-
-        console.log(user);
+        this.first_name = res.data["first_name"];
+        this.last_name = res.data["last_name"];
+        this.setState({ user });
       });
   }
 
@@ -34,7 +37,9 @@ class Profile extends React.Component {
       >
         <Grid.Column style={{ maxWidth: 600 }} padded={"horizontally"}>
           <Container>
-            <p className={"Title"}>FirstName + LastName</p>
+            <p className={"Title"}>
+              {this.first_name} {this.last_name}
+            </p>
           </Container>
           <Form size={"massive"}>
             <Segment stacked size={"massive"}>
