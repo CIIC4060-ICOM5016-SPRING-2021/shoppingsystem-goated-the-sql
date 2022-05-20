@@ -22,22 +22,23 @@ function Admin() {
             <Header>Admin Actions</Header>
             <Grid centered={'true'} divided={'true'}>
                 <GridColumn width={3}>
-                    <Card raised={'true'} className={'adminAction'}>
+                    <Card raised className={'adminAction'}>
                         <CardContent className={'content'}>
                             <Icon name={'newspaper'} size={'huge'}/>
-                            <CardHeader textAlign={'center'}>Orders</CardHeader>
+                            <CardHeader textAlign={'center'}>AdminOrders</CardHeader>
                             <Grid centered>
                                 <GridRow>
-                                    <Button className={'icon'} icon='eye' as={Link} to="/Admin/Orders/View"/>
-                                    <Button className={'icon'} icon='edit' as={Link} to="/Admin/Orders/Edit"/>
-                                    <Button className={'icon'} icon='delete' as={Link} to="/Admin/Orders/Delete"/>
+                                    <Button className={'icon'} icon='eye' as={Link} to="/Admin/AdminOrders/View/213"/>
+                                    <Button className={'icon'} icon='edit' as={Link} to="/Admin/AdminOrders/Edit/213"/>
+                                    <Button className={'icon'} icon='delete' as={Link}
+                                            to="/Admin/AdminOrders/Delete/213"/>
                                 </GridRow>
                             </Grid>
                         </CardContent>
                     </Card>
                 </GridColumn>
                 <GridColumn width={3}>
-                    <Card raised={'true'} className={'adminAction'}>
+                    <Card raised className={'adminAction'}>
 
                         <CardContent>
                             <Icon name={'user'} size={'huge'}/>

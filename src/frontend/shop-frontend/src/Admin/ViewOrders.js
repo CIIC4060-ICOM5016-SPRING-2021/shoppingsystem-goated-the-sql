@@ -20,12 +20,12 @@ function ViewOrders() {
 
     // TODO: Make this use the admin's correct id instead of a hardcoded one
     axios
-      .get(
-        `http://127.0.0.1:5000/goated_the_sql/user/213/orders`
-      )
-      .then((res) => {
-        console.log(res.data)
-      });
+        .get(
+            `http://127.0.0.1:5000/goated_the_sql/user/213/orders`
+        )
+        .then((res) => {
+            console.log(res.data)
+        });
 
     return (
         <Container fluid={'true'} textAlign={'center'}>

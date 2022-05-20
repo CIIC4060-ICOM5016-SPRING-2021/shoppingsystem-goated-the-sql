@@ -1,36 +1,35 @@
 import React from 'react';
 import {Button, Container, Form, Grid, Segment} from "semantic-ui-react";
-import './LogIn.css';
+import '../LogIn.css';
 import {Link} from "react-router-dom";
 
 
-function EditProduct() {
+function EditOrder() {
     return (
 
         <Grid textAlign='center' style={{height: '100vh'}} verticalAlign='middle'>
             <Grid.Column style={{maxWidth: 600}} padded={'horizontally'}>
                 <Container>
                     <p className={"Title"}>
-                        Add Product
+                        Edit Order
                     </p>
 
                 </Container>
                 <Form size={'massive'}>
                     <Segment stacked size={'massive'}>
                         <Form.Input fluid
-                                    placeholder='Product Id'
+                                    iconPosition='left'
+                                    placeholder='Order Id'
                                     type='text'
                         />
-                        <Form.Input fluid
-                                    placeholder='Name'
+                        <Form.Input fluid icon='user'
+                                    iconPosition='left'
+                                    placeholder='User ID'
                                     type='text'
                         />
-                        <Form.Input fluid
-                                    placeholder='Description'
-                                    type='text'
-                        />
-                        <Form.Input fluid
-                                    placeholder='Price'
+                        <Form.Input fluid icon='money'
+                                    iconPosition='left'
+                                    placeholder='Order Total'
                                     type='text'
                         />
                         <Form.Input fluid
@@ -38,15 +37,24 @@ function EditProduct() {
                                     type='text'
                         />
                         <Form.Input fluid
-                                    placeholder='Stock'
+                                    placeholder='Description'
                                     type='text'
                         />
                         <Form.Input fluid
-                                    placeholder='Visible'
+                                    placeholder='Name'
+                                    type='text'
+                        />
+                        <Form.Input fluid
+                                    placeholder='Price Sold'
+                                    type='text'
+                        />
+                        <Form.Input fluid
+                                    placeholder='Quantity Bought'
+                                    type='text'
                         />
 
                         <Button as={Link} to="/Admin" color='red' style={{width: 300}}>
-                            <p className={'Login'}>Edit Product</p>
+                            <p className={'Login'}>Edit Order</p>
                         </Button>
 
                     </Segment>
@@ -57,4 +65,4 @@ function EditProduct() {
     )
 }
 
-export default EditProduct;
+export default EditOrder;

@@ -1,8 +1,8 @@
 import React, {Component, useState} from 'react';
 import {Button, Card, Container, Divider, Header, Icon, Input, Menu, MenuItem, Modal, Tab} from "semantic-ui-react";
-import Dashboard from "./Dashboard";
-import Products from "./Product/Products";
-import './MenuBar/UserView.css';
+import Dashboard from "../Dashboard";
+import Products from "../Product/Products";
+import '../MenuBar/UserView.css';
 import {Link} from "react-router-dom";
 
 
@@ -96,13 +96,13 @@ function AdminNav() {
                 <Menu.Item
                     as={Link}
                     color={'blue'}
-                    to='/Orders'
+                    to='/AdminOrders'
                     name='Orders'
                     active={active === 'Orders'}
                     link
                     onClick={goOrders}
                 >
-                    Orders
+                    AdminOrders
                 </Menu.Item>
                 <Menu.Item
                     as={Link}
