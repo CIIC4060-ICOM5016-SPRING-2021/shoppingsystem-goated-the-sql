@@ -38,7 +38,7 @@ function Likes_item(props) {
             <Button as={Link} to={`/Products/${product.id}`} color={"blue"}>
               View
             </Button>
-            <Button color={"green"}>Add</Button>
+            <Button color={"green"} content="center">Add to Cart</Button>
           </div>
         </Card.Content>
       </Card>
