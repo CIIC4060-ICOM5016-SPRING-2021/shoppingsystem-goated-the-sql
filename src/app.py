@@ -33,7 +33,7 @@ def handler():
 
 
 # ================================================= v PRODUCTS v =======================================================
-@app.route('/goated_the_sql/products/all', methods=['GET','POST'])
+@app.route('/goated_the_sql/products/all', methods=['GET', 'POST'])
 def all_products():
     if request.method == 'POST':
         if request.data:
@@ -234,7 +234,7 @@ def carts_handler(usr_id):
 # ======================================================================================================================
 
 # =================================================== v ORDERS v =======================================================
-@app.route('/goated_the_sql/user/<int:user_id>/orders', methods=['GET', 'PUT', 'DELETE','POST'])
+@app.route('/goated_the_sql/user/<int:user_id>/orders', methods=['GET', 'PUT', 'DELETE', 'POST'])
 def orders_page(user_id):
     if request.method == 'POST':
         if request.data:

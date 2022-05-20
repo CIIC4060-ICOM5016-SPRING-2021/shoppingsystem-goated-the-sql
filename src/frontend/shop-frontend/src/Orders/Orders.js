@@ -19,7 +19,7 @@ class Orders extends React.Component{
         axios({
 
             method: "POST",
-            url: "http://127.0.0.1:5000/goated_the_sql/user/193/orders"
+            url: `http://127.0.0.1:5000/goated_the_sql/user/${this.props.match.params.user_id}/orders`
 
         }).then(res => {
             const prods = res.data.args;
@@ -29,10 +29,6 @@ class Orders extends React.Component{
         });
 }
     render() {
-        let random_info = [
-            {"order_id": 115,"order_total": "375","time_of_order": "Mon, 18 Apr 2022 03:13:03 GMT","total_product_quantity": 15},
-            {"order_id": 115,"order_total": "375","time_of_order": "Mon, 18 Apr 2022 03:13:03 GMT","total_product_quantity": 15}
-        ]
         return(
             <div className={"orderbackground"}>
                 <h1 className={"header"}>Orders</h1>
