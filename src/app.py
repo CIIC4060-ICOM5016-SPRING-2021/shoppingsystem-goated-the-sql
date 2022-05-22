@@ -25,6 +25,8 @@ app.logger.setLevel(logging.ERROR)
 # There is a library that allows you to do the routing on other files, but this is
 # the simplest way
 
+# Are we in 1989?
+
 @app.route('/')
 def handler():
     return 'Hello, World!'
