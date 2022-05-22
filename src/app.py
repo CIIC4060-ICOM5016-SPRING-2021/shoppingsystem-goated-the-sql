@@ -2,6 +2,7 @@ import logging
 import sys
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 from src.backend.controllers.cart import CartController
 from src.backend.controllers.liked_list import LikedListController
@@ -10,6 +11,7 @@ from src.backend.controllers.product import ProductController
 from src.backend.controllers.user import UserController
 
 app = Flask(__name__)
+CORS(app)
 
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
