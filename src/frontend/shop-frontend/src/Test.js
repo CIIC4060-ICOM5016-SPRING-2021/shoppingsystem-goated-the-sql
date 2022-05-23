@@ -2,61 +2,171 @@ import React, {Component, useState} from 'react';
 import {Button, Divider, Form, Grid, Header, Modal, Segment, Tab} from 'semantic-ui-react';
 
 
+class TestView extends React.Component {
 
-function HomePage() {
-    const [open, setOpen] = useState(false);
-    console.log(open);
-    const handleChange = (event, newValue) => {
-        setOpen(true);
+    async get_products() {
+        try{
+            //Print action done and make fetch request
+            console.log('GET Products');
+            const res = await fetch(`http://127.0.0.1:5000/goated_the_sql/products/all`);
+
+            //Checks if the http request returns the appropiate status
+            if(!res.ok) {
+                throw new Error(`HTTP error! Status: ${ res.status }`);
+            }
+
+            //Return the needed data
+            const data = await res.json();
+            console.log(data["Products"]);
+
+        //Catches network errors returned by fetch
+        } catch(error) {
+            console.log(error);
+        }
+
     }
 
-    return (<Segment><Header dividing textAlign="center" size="huge">Welcome to DB Demo</Header>
-            <Modal
-                centered={false}
-                open={open}
-                onClose={() => setOpen(false)}
-                onOpen={() => setOpen(true)}
-            >
-                <Modal.Header>Needs changing!</Modal.Header>
-                <Modal.Content>
-                    <Modal.Description>
-                        This is a modal but it serves to show how buttons and functions can be implemented.
-                    </Modal.Description>
-                </Modal.Content>
-                <Modal.Actions>
-                    <Button onClick={() => setOpen(false)}>OK</Button>
-                </Modal.Actions>
-            </Modal>
-            <Segment placeholder>
+    async add_product() {
 
-                <Grid columns={2} relaxed='very' stackable>
-                    <Grid.Column>
-                        <Form>
-                            <Form.Input
-                                icon='user'
-                                iconPosition='left'
-                                label='Username'
-                                placeholder='Username'
-                            />
-                            <Form.Input
-                                icon='lock'
-                                iconPosition='left'
-                                label='Password'
-                                type='password'
-                            />
-                            <Button content='Login' primary onClick={handleChange}/>
-                        </Form>
-                    </Grid.Column>
-                    <Grid.Column verticalAlign='middle'>
-                        <Button content='Sign up' icon='signup' size='big' onClick={handleChange}/>
-                    </Grid.Column>
-                </Grid>
+        const new_product_options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name:"Keyboard2",
+                description:"The fanciest keyboard youve ever seen!",
+                price: 1999.99,
+                category:"Peripherals",
+                stock: 1
+            })
+        }
 
-                <Divider vertical>Or</Divider>
-            </Segment>
-        </Segment>
-    )
+        try{
+            //Print action done and make fetch request
+            console.log('POST Product');
+            const res = await fetch(
+                'http://127.0.0.1:5000/goated_the_sql/product/add', new_product_options);
+
+            //Checks if the http request returns the appropiate status
+            if(!res.ok) {
+                throw new Error(`HTTP error! Status: ${ res.status }`);
+            }
+
+            //Return the needed data
+            const data = await res.json();
+            console.log(`New product id is: ${data['id']}`);
+            console.log(data);
+
+        //Catches network errors returned by fetch
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    async delete_product() {
+
+        let product_id = 150;
+
+        const delete_product_options = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                user_id: 213
+            })
+        }
+
+        try{
+            //Print action done and make fetch request
+            console.log(`DELETE Product: ${product_id}`);
+            const res = await fetch(
+                `http://127.0.0.1:5000/goated_the_sql/product/${product_id}`, delete_product_options);
+
+            //Checks if the http request returns the appropiate status
+            if(!res.ok) {
+                throw new Error(`HTTP error! Status: ${ res.status }`);
+            }
+
+            //Return the needed data
+            const data = await res.json();
+            console.log(data);
+
+        //Catches network errors returned by fetch
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    async update_product() {
+
+        const product_id = 151;
+
+        const update_product_options = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify([
+                {
+                    user_id: 213
+                },
+                {
+                    product_id: `${product_id}`,
+                    name: "Prod1",
+                    description: "They call me Houdini",
+                    price: 169.99,
+                    category: "Consoles",
+                    stock: 1,
+                    visible: true
+                }
+            ])
+        }
+
+        try{
+            //Print action done and make fetch request
+            console.log('PUT Product');
+            const res = await fetch(
+                `http://127.0.0.1:5000/goated_the_sql/product/${product_id}`, update_product_options);
+
+            //Checks if the http request returns the appropiate status
+            if(!res.ok) {
+                throw new Error(`HTTP error! Status: ${ res.status }`);
+            }
+
+            //Return the needed data
+            const data = await res.json();
+            console.log(data);
+
+        //Catches network errors returned by fetch
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    render() {
+        return (
+          <div className="Test">
+            <h1>Test Fetch</h1>
+                <button 
+                onClick={this.get_products}
+                >
+                GET Products
+                </button>
+                <button 
+                onClick={this.add_product}
+                >
+                POST Product
+                </button>
+                <button 
+                onClick={this.delete_product}
+                >
+                DELETE Product
+                </button>
+                <button 
+                onClick={this.update_product}
+                >
+                PUT Product
+                </button>
+          </div>
+        );
+      }
 }
 
 
-export default HomePage;
+export default TestView;
