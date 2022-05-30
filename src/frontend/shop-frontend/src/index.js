@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot( document.getElementById('root') );
 root.render(
     <BrowserRouter>
         <Routes>
-            <Route exact path="/Home" element={<HomePage/>} />
+            <Route exact path="/" element={<TestView/>} />
             <Route exact path="/UserView" element={<UserView/>} />
             <Route exact path="/Dashboard" element={<Dashboard/>} />
             <Route exact path="/Test" element={<TestView/>} />
