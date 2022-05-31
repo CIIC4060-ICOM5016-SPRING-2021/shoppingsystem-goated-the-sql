@@ -8,6 +8,7 @@ import HomePage from "./HomePage";
 import UserView from "./UserView";
 import Dashboard from "./Dashboard";
 import TestView from "./Test";
+import LoginView from "./Login";
 
 
 const root = ReactDOM.createRoot( document.getElementById('root') );
@@ -18,6 +19,7 @@ root.render(
             <Route exact path="/UserView" element={<UserView/>} />
             <Route exact path="/Dashboard" element={<Dashboard/>} />
             <Route exact path="/Test" element={<TestView/>} />
+            <Route exact path="/LogIn" element={<LoginView/>} />
         </Routes>
     </BrowserRouter>
 );
