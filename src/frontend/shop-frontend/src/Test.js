@@ -141,6 +141,53 @@ class TestView extends React.Component {
         }
     }
 
+    async get_users() {
+        try{
+            //Print action done and make fetch request
+            console.log('GET Users');
+            const res = await fetch(`http://127.0.0.1:5000/goated_the_sql/users/all`);
+
+            //Checks if the http request returns the appropiate status
+            if(!res.ok) {
+                throw new Error(`HTTP error! Status: ${ res.status }`);
+            }
+
+            //Return the needed data
+            const data = await res.json();
+            console.log(data);
+
+        //Catches network errors returned by fetch
+        } catch(error) {
+            console.log(error);
+        }
+
+    }
+
+    async get_user() {
+
+        let user_id = 187;
+
+        try{
+            //Print action done and make fetch request
+            console.log('GET Users');
+            const res = await fetch(`http://127.0.0.1:5000/goated_the_sql/user/${user_id}`);
+
+            //Checks if the http request returns the appropiate status
+            if(!res.ok) {
+                throw new Error(`HTTP error! Status: ${ res.status }`);
+            }
+
+            //Return the needed data
+            const data = await res.json();
+            console.log(data);
+
+        //Catches network errors returned by fetch
+        } catch(error) {
+            console.log(error);
+        }
+
+    }
+
     render() {
         return (
           <div className="Test">
@@ -164,6 +211,16 @@ class TestView extends React.Component {
                 onClick={this.update_product}
                 >
                 PUT Product
+                </button>
+                <button 
+                onClick={this.get_users}
+                >
+                GET Users
+                </button>
+                <button 
+                onClick={this.get_user}
+                >
+                GET User
                 </button>
           </div>
 
