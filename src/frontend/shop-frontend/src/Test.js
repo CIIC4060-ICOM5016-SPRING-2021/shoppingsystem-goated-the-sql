@@ -1,6 +1,4 @@
-import React, {Component, useState} from 'react';
-import {Button, Container, Divider, Form, Grid, Header, Modal, Segment, Tab} from 'semantic-ui-react';
-import ShowProducts from "./ShowProducts";
+import React from 'react';
 
 class TestView extends React.Component {
 
@@ -18,9 +16,6 @@ class TestView extends React.Component {
             //Return the needed data
             const data = await res.json();
             console.log(data["Products"]);
-            return <Container>
-                <ShowProducts info = {data["Products"]}/>
-            </Container>
         //Catches network errors returned by fetch
         } catch(error) {
             console.log(error);

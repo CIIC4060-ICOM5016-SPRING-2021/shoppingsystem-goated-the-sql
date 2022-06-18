@@ -1,5 +1,4 @@
-import React, {Component, useState} from 'react';
-import {Button, Divider, Form, Grid, Header, Modal, Segment, Tab} from 'semantic-ui-react';
+import React from 'react';
 
 /**
  * The login needs a form for the user to insert the data
@@ -24,7 +23,7 @@ class LoginView extends React.Component{
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.get_user = this.get_user.bind(this);
+        // this.get_user = this.get_user.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
 
     }
@@ -44,7 +43,7 @@ class LoginView extends React.Component{
             console.log('GET User');
             const res = await fetch(`http://127.0.0.1:5000/goated_the_sql/user/${user_id}`);
 
-            //Checks if the http request returns the appropiate status
+            //Checks if the http request returns the appropriate status
             if(!res.ok) {
                 throw new Error(`HTTP error! Status: ${ res.status }`);
             }
@@ -65,6 +64,7 @@ class LoginView extends React.Component{
 
         const new_data = await this.get_user(this.state.givenId);
         console.log(new_data);
+
 
         this.setState({
             user_id: new_data['id'],
@@ -104,7 +104,7 @@ class LoginView extends React.Component{
         console.log('Submitted data is:');
         console.log('Id:' + this.state.givenId);
         console.log('Password:' + this.state.givenPassword);
-        event.preventDefault(); //Network error in fetch witout this, cause: page reloads preventing the request from completing
+        event.preventDefault(); //Network error in fetch without this, cause: page reloads preventing the request from completing
         this.saveUserInfo();
     }
 

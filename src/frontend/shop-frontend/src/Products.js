@@ -1,5 +1,5 @@
-import React, {Component, useState} from 'react';
-import {Button, Card, Container, Modal, Tab} from "semantic-ui-react";
+import React, {useState} from 'react';
+import {Card} from "semantic-ui-react";
 import AllProducts from "./AllProducts";
 
 function Products() {

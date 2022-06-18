@@ -1,5 +1,5 @@
-from flask import jsonify
 from dao.parts import PartDAO
+from flask import jsonify
 
 
 class PartController:

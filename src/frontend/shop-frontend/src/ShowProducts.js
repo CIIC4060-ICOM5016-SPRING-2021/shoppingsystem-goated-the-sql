@@ -1,29 +1,61 @@
+import React from 'react';
+import {Button, Header} from "semantic-ui-react";
+import IvanView from "./IvanView";
 
-import React, {Component, useState} from 'react';
-import {Button, Card, Container, Modal, Tab} from "semantic-ui-react";
+class ShowProducts extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            category: '',
+            desc: '',
+            id: 0,
+            name: '',
+            price: 0,
+            stock: 0,
+            visible: false,
+            seeingProducts: true
+        }
+        this.render = this.render.bind(this);
+        this.goBack = this.goBack.bind(this);
+    }
 
-function ShowProducts(props) {
-    console.log(props)
-    props = props[0];
-    props.info.forEach(value => console.log(value.name));
-    return props.info.map(value => {return <Card>
-        <Card.Content>
-            <Card.Header>{value.name}</Card.Header>
-            <Card.Meta>{value.price}</Card.Meta>
-            <Card.Description>
-                {value.name}
-            </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-            <div className='ui two buttons'>
-                <Button basic color='green'>
-                    Add to Wish List
-                </Button>
-                <Button basic color='green'>
-                    Add to Cart
-                </Button>
+    goBack(){
+        console.log("goingback");
+        this.setState({
+            seeingProducts: false
+        })
+    }
+    render() {
+
+        return (
+
+            <div className={"test"}>
+                {this.state.seeingProducts ?
+                    <div>
+                        <Header as='h1'>{this.props.info.id}</Header>
+                        <Header as='h1'>{this.props.info.name}</Header>
+                        <Header as='h1'>{this.props.info.category}</Header>
+                        <Header as='h1'>{this.props.info.price}</Header>
+                        <Header as='h1'>{this.props.info.desc}</Header>
+
+                        <Button
+                            onClick={() => console.log(this.props.info)}>
+                            Hey
+                        </Button>
+                        <Button
+                            onClick={() => this.goBack()}>
+                            Goback
+                        </Button>
+                    </div>
+                    :
+                    <IvanView/>
+                }
             </div>
-        </Card.Content>
-    </Card>});
-}
+        )
+    }
+
+    }
+
+
+
 export default ShowProducts;

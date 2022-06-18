@@ -1,5 +1,5 @@
-import React, {Component, useState} from 'react';
-import {Button, Card, Container, Divider, Header, Modal, Tab} from "semantic-ui-react";
+import React, {useState} from 'react';
+import {Container, Divider, Header, Tab} from "semantic-ui-react";
 import Dashboard from "./Dashboard";
 import Products from "./Products";
 

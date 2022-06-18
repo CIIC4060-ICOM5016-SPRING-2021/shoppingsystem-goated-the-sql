@@ -1,6 +1,5 @@
 
 from config import pg_config
-import pscopg2
 
 
 class PartDAO:

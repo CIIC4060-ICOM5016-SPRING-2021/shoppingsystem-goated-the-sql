@@ -1,5 +1,4 @@
-import React, {Component, useState} from 'react';
-import {Button, Divider, Form, Grid, Header, Modal, Segment, Tab} from 'semantic-ui-react';
+import React from 'react';
 
 /*
 Testing adding local states to the react components classes
