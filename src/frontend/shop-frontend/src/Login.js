@@ -37,6 +37,7 @@ class LoginView extends React.Component{
 
     }
 
+    //Get the record with the given id    
     async get_user(user_id) {
 
         try{
@@ -80,13 +81,19 @@ class LoginView extends React.Component{
 
     //If this function is not asynchronous the console log will not wait for the promise
     async handleLogin(){
-        //Get the record with the given id
+
+        const isLoggedIn = false;
+
         console.log(this.state);
 
         //Compare the given password with the real password
+        if(this.state.password == this.state.givenPassword){
+            console.log("Correct password")
+        }else{
+            console.log("Incorrect password")
+        }
         //If successful go to another page passing the user_id as a prop
-
-
+        
 
     }
     
