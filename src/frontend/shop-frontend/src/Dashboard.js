@@ -1,5 +1,5 @@
-import React, {Component, useState} from 'react';
-import {Button, Card, Container, Modal} from "semantic-ui-react";
+import React, {useState} from 'react';
+import {Container} from "semantic-ui-react";
 import {Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis} from "recharts";
 
 

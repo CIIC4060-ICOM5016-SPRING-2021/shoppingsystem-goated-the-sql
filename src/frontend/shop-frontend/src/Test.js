@@ -1,6 +1,4 @@
-import React, {Component, useState} from 'react';
-import {Button, Divider, Form, Grid, Header, Modal, Segment, Tab} from 'semantic-ui-react';
-
+import React from 'react';
 
 class TestView extends React.Component {
 
@@ -18,7 +16,6 @@ class TestView extends React.Component {
             //Return the needed data
             const data = await res.json();
             console.log(data["Products"]);
-
         //Catches network errors returned by fetch
         } catch(error) {
             console.log(error);
@@ -221,6 +218,7 @@ class TestView extends React.Component {
                 GET User
                 </button>
           </div>
+
         );
       }
 }

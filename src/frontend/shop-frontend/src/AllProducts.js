@@ -1,5 +1,5 @@
-import React, {Component, useState} from 'react';
-import {Button, Card, Container, Modal, Tab} from "semantic-ui-react";
+import React from 'react';
+import {Button, Card} from "semantic-ui-react";
 
 function AllProducts(props) {
     console.log(props)
