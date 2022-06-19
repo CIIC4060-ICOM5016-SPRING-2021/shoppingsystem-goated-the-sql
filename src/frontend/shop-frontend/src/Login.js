@@ -87,7 +87,7 @@ class LoginView extends React.Component{
         console.log(this.state);
 
         //Compare the given password with the real password
-        if(this.state.password == this.state.givenPassword){
+        if(this.state.password === this.state.givenPassword){
             console.log("Correct password")
         }else{
             console.log("Incorrect password")
