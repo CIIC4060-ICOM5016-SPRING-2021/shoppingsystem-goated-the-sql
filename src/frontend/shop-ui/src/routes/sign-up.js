@@ -1,6 +1,9 @@
-import { Button, Container, Form, Segment } from "semantic-ui-react";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Container, Segment, Form, Button } from "semantic-ui-react";
 
-export default function SignUp() {
+
+function SignUp() {
   return (
     <>
       <Container>
@@ -33,9 +36,13 @@ export default function SignUp() {
               required
             />
           </Form>
-          <Button primary content="Submit" />
+          <Button as={Link} to="/home" primary>
+            Sign Up
+          </Button>
         </Segment>
       </Container>
     </>
   );
 }
+
+export default SignUp;

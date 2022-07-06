@@ -1,19 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import 'semantic-ui-css/semantic.min.css';
-import LoginPage from './LoginPage';
-import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import SignUp from "./routes/sign-up";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "semantic-ui-css/semantic.min.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import LoginPage from "./LoginPage";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import SignUp from "./routes/sign-up";
+import Home from "./routes/home";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<LoginPage/>}/>
-            <Route path="/sign-up" element={<SignUp/>}/>
-        </Routes>
-    </BrowserRouter>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/sign-up" element={<SignUp />} />
+      <Route path="/home" element={<Home />} />
+    </Routes>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
