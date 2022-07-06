@@ -1,14 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import Page from './Page'
+import 'semantic-ui-css/semantic.min.css';
+import LoginPage from './LoginPage';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import SignUp from "./routes/sign-up";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <Page/>
-    </React.StrictMode>
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<LoginPage/>}/>
+            <Route path="/sign-up" element={<SignUp/>}/>
+        </Routes>
+    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
