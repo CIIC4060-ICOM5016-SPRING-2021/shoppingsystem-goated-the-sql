@@ -1,8 +1,7 @@
 import "./LoginPage.css";
+
 import { Button, Container, Form, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-
-const isReal = (props) => {};
 
 function LoginPage() {
   return (
@@ -15,7 +14,7 @@ function LoginPage() {
             <Form.Input label="First Name" />
             <Form.Input label="Password" type="password" />
           </Form>
-          <Button primary content="Log In" onClick={isReal()} />
+          <Button as={Link} to="/home" primary content="Log In" />
           <p>Don't have an account?</p>
           <Link to="/sign-up">Sign Up</Link>
         </Segment>
