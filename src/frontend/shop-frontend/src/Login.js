@@ -94,7 +94,8 @@ class LoginView extends React.Component{
             console.log("Incorrect password")
         }
         //If successful go to another page passing the user_id as a prop
-        
+
+
 
     }
     
