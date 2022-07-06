@@ -1,4 +1,5 @@
 import React from 'react';
+import IvanView from './IvanView';
 
 /**
  * The login needs a form for the user to insert the data
@@ -18,7 +19,8 @@ class LoginView extends React.Component{
             phone: '',
             admin: false,
             givenId: 0,
-            givenPassword: ''
+            givenPassword: '',
+            isLoggedIn: false
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -80,15 +82,14 @@ class LoginView extends React.Component{
     }
 
     //If this function is not asynchronous the console log will not wait for the promise
-    async handleLogin(){
-
-        const isLoggedIn = false;
+    handleLogin(){
 
         console.log(this.state);
 
         //Compare the given password with the real password
         if(this.state.password === this.state.givenPassword){
             console.log("Correct password")
+            this.setState({isLoggedIn: true});
         }else{
             console.log("Incorrect password")
         }
@@ -119,33 +120,42 @@ class LoginView extends React.Component{
 
         const {givenId, givenPassword} = this.state;
 
-        return(
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    Enter your Id:
-                    <input
-                        type = 'text'
-                        name='givenId'
-                        value =  {givenId}
-                        onChange = {this.handleChange}
-                    />
-                </label>
-                <br/>
-                <label>
-                    Enter your Password:
-                    <input
-                        type = 'password'
-                        name='givenPassword'
-                        value =  {givenPassword}
-                        onChange = {this.handleChange}
-                    />
-                </label>
-                <br/>
-                <input type = "submit" />
-            </form>
-          )
-    }
+        if (this.state.isLoggedIn){
+            return(
+            <div>
+                <IvanView user_info = {this.state} />
+            </div>
+            )
 
+        }else{
+            return(
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Enter your Id:
+                        <input
+                            type = 'text'
+                            name='givenId'
+                            value =  {givenId}
+                            onChange = {this.handleChange}
+                        />
+                    </label>
+                    <br/>
+                    <label>
+                        Enter your Password:
+                        <input
+                            type = 'password'
+                            name='givenPassword'
+                            value =  {givenPassword}
+                            onChange = {this.handleChange}
+                        />
+                    </label>
+                    <br/>
+                    <input type = "submit" />
+                </form>
+              )
+        }    
+    }
+        
 }
 
 export default LoginView;

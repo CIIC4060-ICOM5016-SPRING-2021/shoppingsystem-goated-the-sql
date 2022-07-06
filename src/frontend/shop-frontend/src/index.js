@@ -19,13 +19,14 @@ const root = ReactDOM.createRoot( document.getElementById('root') );
 root.render(
     <BrowserRouter>
         <Routes>
-            <Route exact path="/" element={<IvanView/>} />
+            <Route exact path="/" element={<LoginView/>} />
             <Route exact path="/UserView" element={<UserView/>} />
             <Route exact path="/Dashboard" element={<Dashboard/>} />
             <Route exact path="/Test" element={<TestView/>} />
             <Route exact path="/ShowProducts" element={<ShowProducts/>} />
             <Route exact path="/LogIn" element={<LoginView/>} />
             <Route exact path="/Signup" element={<SignupView/>} />
+            <Route exact path="/IvanView" element={<IvanView/>} />
 
         </Routes>
     </BrowserRouter>
