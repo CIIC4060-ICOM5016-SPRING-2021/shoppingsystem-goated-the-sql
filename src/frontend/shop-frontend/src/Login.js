@@ -1,5 +1,6 @@
 import React from 'react';
 import IvanView from './IvanView';
+import CartView from './Cart/CartView';
 
 /**
  * The login needs a form for the user to insert the data
@@ -124,7 +125,7 @@ class LoginView extends React.Component{
         if (this.state.isLoggedIn){
             return(
             <div>
-                <IvanView user_info = {this.state} />
+                <CartView user_info = {this.state} />
             </div>
             )
 

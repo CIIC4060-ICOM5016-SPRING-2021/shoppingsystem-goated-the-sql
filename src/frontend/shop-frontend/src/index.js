@@ -12,6 +12,7 @@ import ShowProducts from "./ShowProducts";
 import IvanView from "./IvanView";
 import LoginView from "./Login";
 import SignupView from './Signup';
+import CartView from './Cart/CartView';
 
 // To add a new view, import component to this file and add route to root.render function
 const root = ReactDOM.createRoot( document.getElementById('root') );
@@ -27,6 +28,7 @@ root.render(
             <Route exact path="/LogIn" element={<LoginView/>} />
             <Route exact path="/Signup" element={<SignupView/>} />
             <Route exact path="/IvanView" element={<IvanView/>} />
+            <Route exact path="/CartView" element={<CartView/>} />
 
         </Routes>
     </BrowserRouter>
