@@ -8,7 +8,7 @@ function LoginPage() {
     <>
       {/*TODO: Figure out a way to center this on the page*/}
       <Container>
-        <Segment>
+        <Segment placeholder raised>
           <h1>Welcome to the Goat Store</h1>
           <Form align="left">
             <Form.Input label="First Name" />

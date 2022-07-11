@@ -2,12 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Segment, Form, Button } from "semantic-ui-react";
 
-
 function SignUp() {
   return (
     <>
       <Container>
-        <Segment>
+        <Segment raised>
           <h1>Sign Up</h1>
           <Form align="left">
             <Form.Group>
