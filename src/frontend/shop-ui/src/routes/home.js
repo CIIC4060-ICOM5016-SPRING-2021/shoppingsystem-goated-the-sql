@@ -10,6 +10,7 @@ function Home() {
   };
 
   return (
+    // TODO: Figure out how to render pages on click and pass over the selected item
     <>
       <Menu attached="top" borderless size="large">
         <Menu.Item

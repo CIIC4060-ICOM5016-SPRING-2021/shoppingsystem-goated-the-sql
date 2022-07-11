@@ -4,6 +4,7 @@ import { Container, Segment, Form, Button } from "semantic-ui-react";
 
 function SignUp() {
   return (
+    // TODO: Edit so that it is in the center of the page
     <>
       <Container>
         <Segment raised>

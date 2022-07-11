@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 
 function LoginPage() {
   return (
+    //TODO: Figure out a way to center this on the page
     <>
-      {/*TODO: Figure out a way to center this on the page*/}
       <Container>
         <Segment placeholder raised>
           <h1>Welcome to the Goat Store</h1>
