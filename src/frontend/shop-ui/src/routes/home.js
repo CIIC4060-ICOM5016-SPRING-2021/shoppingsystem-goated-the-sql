@@ -3,36 +3,40 @@ import { Menu } from "semantic-ui-react";
 
 function Home() {
   const [state, setState] = useState({});
+  const activeItem = state;
 
   let itemClicked = (e, { name }) => {
     setState({ activeItem: name });
   };
 
-  const activeItem = state;
   return (
     <>
-      <Menu>
+      <Menu attached="top" borderless size="large">
         <Menu.Item
           name="products"
           active={activeItem === "products"}
           onClick={itemClicked}
-        >
-          Products
-        </Menu.Item>
+          position="left"
+          content="Products"
+        />
         <Menu.Item
           name="account"
           active={activeItem === "account"}
           onClick={itemClicked}
-        >
-          Account
-        </Menu.Item>
+          content="Account"
+        />
         <Menu.Item
-          name="orders"
-          active={activeItem === "orders"}
+          name="wishlist"
+          active={activeItem === "wishlist"}
           onClick={itemClicked}
-        >
-          Orders
-        </Menu.Item>
+          content="Wishlist"
+        />
+        <Menu.Item
+          name="cart"
+          active={activeItem === "cart"}
+          onClick={itemClicked}
+          content="Cart"
+        />
       </Menu>
       <div>Home</div>
     </>
