@@ -1,4 +1,13 @@
-body {
-    justify-content: center;
-    text-align: center;
+.login-page-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.form-input-boxes {
+  display: flex;
+  justify-content: center;
 }
