@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Menu } from "semantic-ui-react";
+import { Item, Menu } from "semantic-ui-react";
+import ItemCard from "../components/item-card";
 
 function Home() {
   const [state, setState] = useState({});
@@ -40,6 +41,10 @@ function Home() {
         />
       </Menu>
       <div>Home</div>
+
+        <ItemCard name="Goomba" price={15} seller="Nintendo"/>
+        <ItemCard name="Goomba2" price={35} seller="AMD"/>
+
     </>
   );
 }

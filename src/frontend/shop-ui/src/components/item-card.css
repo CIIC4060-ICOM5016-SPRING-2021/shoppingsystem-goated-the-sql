@@ -1,0 +1,9 @@
+.item-card-body {
+  padding: 1rem;
+}
+
+.item-card-price{
+  text-align: center;
+  font-style: normal;
+  font-size: 1.5rem;
+}

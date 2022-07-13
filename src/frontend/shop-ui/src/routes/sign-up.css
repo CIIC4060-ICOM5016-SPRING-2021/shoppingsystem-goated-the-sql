@@ -1,0 +1,15 @@
+.sign-up-page-body {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-up-form-button {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  padding-bottom: 0.5rem;
+}
