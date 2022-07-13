@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import {Menu} from "semantic-ui-react";
-import ItemCard from "../components/item-card";
+import ItemCard from "../components/products"
+
+import "./home.css"
 
 function Home() {
-    const [state, setState] = useState({activeItem: "products"});
+    const [state, setState] = useState({});
     const activeItem = state;
 
     const products = [
@@ -41,14 +43,14 @@ function Home() {
         },
     ]
 
-    let itemClicked = (e, {name}) => {
+    const itemClicked = (name) => {
         setState({activeItem: name});
     };
 
     return (
         // TODO: Figure out how to render pages on click and pass over the selected item
         <>
-            <Menu fixed="top" size="large">
+            <Menu fixed="top" borderless size="large">
                 {/* TODO: Figure out why the menu items do not show what is currently selected*/}
                 <Menu.Item
                     name="products"
@@ -76,8 +78,13 @@ function Home() {
                     content="Cart"
                 />
             </Menu>
-            <div>Home</div>
-            <ItemCard items={products}/>
+            <div className="content-body">
+                {/*Welcome to the homepage!*/}
+                <ItemCard items={products}/>
+                {/* TODO: Make the component for the account page*/}
+                {/* TODO: Make the component for the wishlist page*/}
+                {/* TODO: Make the component for the cart page*/}
+            </div>
         </>
     );
 }

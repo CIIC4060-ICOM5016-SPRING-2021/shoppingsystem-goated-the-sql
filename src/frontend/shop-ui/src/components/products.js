@@ -1,8 +1,8 @@
 import {Button, Card, Icon, Image, Loader} from "semantic-ui-react";
 import React from "react";
-import "./item-card.css";
+import "./products.css";
 
-function itemCard(props) {
+function products(props) {
     const products = props.items;
 
     return (
@@ -46,4 +46,4 @@ function itemCard(props) {
     );
 }
 
-export default itemCard;
+export default products;
