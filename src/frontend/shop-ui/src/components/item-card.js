@@ -1,77 +1,49 @@
-import { Button, Item, Icon, Card, Image } from "semantic-ui-react";
+import {Button, Card, Icon, Image, Loader} from "semantic-ui-react";
+import React from "react";
 import "./item-card.css";
 
 function itemCard(props) {
-  const itemName = props.name;
-  const itemPrice = props.price;
-  const itemSeller = props.seller;
+    const products = props.items;
 
-  return (
-    <>
-      <Card>
-        <Image src="https://i.ytimg.com/vi/z_wcL_zg2hM/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDo4Dzvudez6Op0QRM9DCt9INaCZQ" />
-        <Card.Content>
-          <Card.Header content={itemName} />
-          <Card.Meta content={itemSeller} />
-          <Card.Description>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-            voluptatum tenetur deserunt! Minima velit modi facilis, placeat
-            officia molestiae itaque!
-          </Card.Description>
-        </Card.Content>
-        <Card.Content>
-            <div className="item-card-price">
-              ${itemPrice}
+    return (
+        <>
+            <div className="product-list-body">
+                <React.Suspense fallback={<Loader content="Loading"/>}>
+                    <Card.Group itemsPerRow={3}>
+                        {products.map((item) => (
+                            <Card key={item.id}>
+                                <Image
+                                    src="https://i.ytimg.com/vi/z_wcL_zg2hM/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDo4Dzvudez6Op0QRM9DCt9INaCZQ"/>
+                                <Card.Content>
+                                    <Card.Header content={item.name}/>
+                                    <Card.Meta content={item.seller}/>
+                                    <Card.Description content={item.description}/>
+                                </Card.Content>
+                                <Card.Content>
+                                    <div className="item-card-body">
+                                        <div className="price-n-quantity">
+                                            <div className="item-card-price">${item.price}</div>
+                                            <Button.Group basic size="medium">
+                                                <Button icon="plus"/>
+                                                <Button disabled content="14"/>
+                                                <Button icon="minus"/>
+                                            </Button.Group>
+                                        </div>
+                                        <Button positive animated="fade" size="medium" fluid>
+                                            <Button.Content visible>
+                                                <Icon name="arrow right"/>
+                                            </Button.Content>
+                                            <Button.Content hidden>Add to Cart</Button.Content>
+                                        </Button>
+                                    </div>
+                                </Card.Content>
+                            </Card>
+                        ))}
+                    </Card.Group>
+                </React.Suspense>
             </div>
-          <div className="item-card-body">
-            <Button positive floated="right" animated="fade" size="medium">
-              <Button.Content visible>
-                <Icon name="shop" />
-              </Button.Content>
-              <Button.Content hidden>Buy</Button.Content>
-            </Button>
-            <Button.Group basic size="medium">
-              <Button icon="plus" />
-              <Button disabled content="14" />
-              <Button icon="minus" />
-            </Button.Group>
-          </div>
-        </Card.Content>
-      </Card>
-      {/* <Item>
-        <Item.Image
-          as="a"
-          href="https://www.youtube.com"
-          src="https://i.ytimg.com/vi/z_wcL_zg2hM/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDo4Dzvudez6Op0QRM9DCt9INaCZQ"
-        />
-        <Item.Content>
-          <Item.Header content={itemName + " - $" + itemPrice} />
-          <Item.Meta>{itemSeller}</Item.Meta>
-          <Item.Description>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-            eius ex molestiae tempora ea animi. Culpa commodi error, distinctio
-            maiores quaerat nemo ratione quas, laboriosam facilis possimus
-            ipsum, omnis tenetur.
-          </Item.Description>
-          <Item.Extra>
-            <div className="item-card-body">
-              <Button positive floated="right" animated="fade" size="medium">
-                <Button.Content visible>
-                  <Icon name="shop" />
-                </Button.Content>
-                <Button.Content hidden>Buy</Button.Content>
-              </Button>
-              <Button.Group basic floated="right" size="medium">
-                <Button icon="plus" />
-                <Button disabled content="14" />
-                <Button icon="minus" />
-              </Button.Group>
-            </div>
-          </Item.Extra>
-        </Item.Content>
-      </Item> */}
-    </>
-  );
+        </>
+    );
 }
 
 export default itemCard;

@@ -1,9 +1,27 @@
 .item-card-body {
-  padding: 1rem;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
 }
 
-.item-card-price{
-  text-align: center;
-  font-style: normal;
-  font-size: 1.5rem;
+.item-card-price {
+    text-align: center;
+    font-style: normal;
+    font-size: 1.5rem;
+}
+
+.price-n-quantity {
+    display: flex;
+    padding-bottom: 1rem;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.product-list-body {
+    padding-top: 5vh;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
