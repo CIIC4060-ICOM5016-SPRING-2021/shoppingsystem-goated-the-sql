@@ -5,34 +5,10 @@ import ItemCards from "../components/products"
 
 import "./home.css"
 
-
-
 function Home() {
-    const [state, setState] = useState({});
-    const activeItem = state;
+    const [state, setState] = useState({activeItem: "products"});
+    const activeItem = state.activeItem;
 
-    async function productFetcher() {
-        //Print action done and make fetch request
-        console.log('Fetching all products');
-        const res = await fetch(`http://127.0.0.1:5000/goated_the_sql/products/all`);
-
-        //Checks if the http request returns the appropiate status
-        if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-
-        //Return the needed data
-        const data = await res.json();
-        // console.log(data);
-
-        setState({
-            products: data['Products']
-        });
-
-        console.log("This is the state: " + state.products);
-    }
-
-    productFetcher()
     const products = [
         {
             id: 1,
@@ -68,9 +44,10 @@ function Home() {
         },
     ]
 
-    const itemClicked = (name) => {
+    function itemClicked(name) {
         setState({activeItem: name});
-    };
+        console.log(state.activeItem)
+    }
 
     return (
         // TODO: Figure out how to render pages on click and pass over the selected item
@@ -78,35 +55,31 @@ function Home() {
             <Menu fixed="top" borderless size="large">
                 {/* TODO: Figure out why the menu items do not show what is currently selected*/}
                 <Menu.Item
-                    name="products"
                     active={activeItem === "products"}
-                    onClick={itemClicked}
+                    onClick={() => itemClicked("products")}
                     position="left"
                     content="Products"
                 />
                 <Menu.Item
-                    name="account"
                     active={activeItem === "account"}
-                    onClick={itemClicked}
+                    onClick={() => itemClicked("account")}
                     content="Account"
                 />
                 <Menu.Item
-                    name="wishlist"
                     active={activeItem === "wishlist"}
-                    onClick={itemClicked}
+                    onClick={() => itemClicked("wishlist")}
                     content="Wishlist"
                 />
                 <Menu.Item
-                    name="cart"
                     active={activeItem === "cart"}
-                    onClick={itemClicked}
+                    onClick={() => itemClicked("cart")}
                     content="Cart"
                 />
             </Menu>
             <div className="content-body">
                 {/*Welcome to the homepage!*/}
                 <React.Suspense fallback={<Loader content="Loading"/>}>
-                    <ItemCards items={state.products}/>
+                    <ItemCards items={products}/>
                 </React.Suspense>
                 {/* TODO: Make the component for the account page*/}
                 {/*<AccountDetails fname="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>*/}
