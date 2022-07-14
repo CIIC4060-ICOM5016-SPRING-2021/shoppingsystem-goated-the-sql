@@ -8,8 +8,9 @@ function products(props) {
     return (
         <>
             <div className="product-list-body">
-                <React.Suspense fallback={<Loader content="Loading"/>}>
-                    <Card.Group itemsPerRow={3}>
+                {/*TODO: Make sure Suspense actually goes here*/}
+                {/*<React.Suspense fallback={<Loader content="Loading"/>}>*/}
+                <Card.Group itemsPerRow={3}>
                         {products.map((item) => (
                             <Card key={item.id}>
                                 <Image
@@ -40,7 +41,7 @@ function products(props) {
                             </Card>
                         ))}
                     </Card.Group>
-                </React.Suspense>
+                {/*</React.Suspense>*/}
             </div>
         </>
     );

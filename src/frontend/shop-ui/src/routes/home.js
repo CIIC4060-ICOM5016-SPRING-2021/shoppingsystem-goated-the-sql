@@ -1,13 +1,38 @@
 import React, {useState} from "react";
-import {Menu} from "semantic-ui-react";
-import ItemCard from "../components/products"
+import {Loader, Menu} from "semantic-ui-react";
+
+import ItemCards from "../components/products"
 
 import "./home.css"
+
+
 
 function Home() {
     const [state, setState] = useState({});
     const activeItem = state;
 
+    async function productFetcher() {
+        //Print action done and make fetch request
+        console.log('Fetching all products');
+        const res = await fetch(`http://127.0.0.1:5000/goated_the_sql/products/all`);
+
+        //Checks if the http request returns the appropiate status
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+
+        //Return the needed data
+        const data = await res.json();
+        // console.log(data);
+
+        setState({
+            products: data['Products']
+        });
+
+        console.log("This is the state: " + state.products);
+    }
+
+    productFetcher()
     const products = [
         {
             id: 1,
@@ -80,8 +105,11 @@ function Home() {
             </Menu>
             <div className="content-body">
                 {/*Welcome to the homepage!*/}
-                <ItemCard items={products}/>
+                <React.Suspense fallback={<Loader content="Loading"/>}>
+                    <ItemCards items={state.products}/>
+                </React.Suspense>
                 {/* TODO: Make the component for the account page*/}
+                {/*<AccountDetails fname="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>*/}
                 {/* TODO: Make the component for the wishlist page*/}
                 {/* TODO: Make the component for the cart page*/}
             </div>

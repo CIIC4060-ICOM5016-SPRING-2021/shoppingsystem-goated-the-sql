@@ -1,0 +1,15 @@
+.account-page-body {
+    padding-left: 15vw;
+    padding-right: 15vw;
+}
+.account-section-buttons {
+    padding: 1rem;
+}
+.account-current-details {
+    padding-bottom: 1.5rem;
+}
+
+.account-form-button {
+    padding-top: 1rem;
+    text-align: center;
+}
