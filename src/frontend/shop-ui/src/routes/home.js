@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Loader, Menu} from "semantic-ui-react";
 
 import ItemCards from "../components/products"
+import AccountDetails from "../components/account"
 
 import "./home.css"
 
@@ -78,11 +79,11 @@ function Home() {
             </Menu>
             <div className="content-body">
                 {/*Welcome to the homepage!*/}
-                <React.Suspense fallback={<Loader content="Loading"/>}>
-                    <ItemCards items={products}/>
-                </React.Suspense>
+                {/*<React.Suspense fallback={<Loader content="Loading"/>}>*/}
+                {/*    <ItemCards items={products}/>*/}
+                {/*</React.Suspense>*/}
                 {/* TODO: Make the component for the account page*/}
-                {/*<AccountDetails fname="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>*/}
+                <AccountDetails fname="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>
                 {/* TODO: Make the component for the wishlist page*/}
                 {/* TODO: Make the component for the cart page*/}
             </div>

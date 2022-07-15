@@ -3,7 +3,9 @@
     padding-right: 15vw;
 }
 .account-section-buttons {
-    padding: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 15vw;
+    padding-right: 15vw;
 }
 .account-current-details {
     padding-bottom: 1.5rem;
@@ -11,5 +13,10 @@
 
 .account-form-button {
     padding-top: 1rem;
+    align-items: center;
+}
+
+.orders-section-title {
+    padding: 1rem;
     text-align: center;
 }
