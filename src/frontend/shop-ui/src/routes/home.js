@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 import {Loader, Menu} from "semantic-ui-react";
-
-import ItemCards from "../components/item-card"
 import AccountDetails from "./account-page"
+import ItemCards from "../components/item-card";
 
 import "./home.css"
 
@@ -47,14 +46,36 @@ function Home() {
 
     function itemClicked(name) {
         setState({activeItem: name});
-        console.log(state.activeItem)
+        console.log(activeItem)
+    }
+
+    function PageToRender(props) {
+        switch (activeItem) {
+            case "account":
+                return <AccountDetails fname="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>;
+            case "products":
+                return (
+                    <React.Suspense fallback={<Loader content="Loading"/>}>
+                        <ItemCards items={products}/>
+                    </React.Suspense>
+                );
+            case "wishlist":
+                return "this should be the wishlist page";
+            case "cart":
+                return "this should be the cart page";
+            default:
+                setState({activeItem: "products"})
+                return (
+                    <React.Suspense fallback={<Loader content="Loading"/>}>
+                        <ItemCards items={products}/>
+                    </React.Suspense>
+                );
+        }
     }
 
     return (
-        // TODO: Figure out how to render pages on click and pass over the selected item
         <>
             <Menu fixed="top" borderless size="large">
-                {/* TODO: Figure out why the menu items do not show what is currently selected*/}
                 <Menu.Item
                     active={activeItem === "products"}
                     onClick={() => itemClicked("products")}
@@ -78,14 +99,7 @@ function Home() {
                 />
             </Menu>
             <div className="content-body">
-                {/*Welcome to the homepage!*/}
-                {/*<React.Suspense fallback={<Loader content="Loading"/>}>*/}
-                {/*    <ItemCards items={products}/>*/}
-                {/*</React.Suspense>*/}
-                {/* TODO: Make the component for the account page*/}
-                <AccountDetails fname="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>
-                {/* TODO: Make the component for the wishlist page*/}
-                {/* TODO: Make the component for the cart page*/}
+                <PageToRender/>
             </div>
         </>
     );
