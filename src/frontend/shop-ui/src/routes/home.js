@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Loader, Menu} from "semantic-ui-react";
 
-import ItemCards from "../components/products"
-import AccountDetails from "../components/account"
+import ItemCards from "../components/item-card"
+import AccountDetails from "./account-page"
 
 import "./home.css"
 
