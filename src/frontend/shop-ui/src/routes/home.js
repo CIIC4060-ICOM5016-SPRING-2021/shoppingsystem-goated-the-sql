@@ -46,10 +46,9 @@ function Home() {
 
     function itemClicked(name) {
         setState({activeItem: name});
-        console.log(activeItem)
     }
 
-    function PageToRender(props) {
+    function PageToRender() {
         switch (activeItem) {
             case "account":
                 return <AccountDetails fname="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>;

@@ -1,29 +1,11 @@
-import {
-    Button,
-    Container,
-    List,
-    ListContent,
-    ListDescription,
-    ListHeader,
-    ListIcon,
-    ListItem,
-    ListList,
-    Loader,
-    Modal,
-    ModalContent,
-    ModalHeader
-} from "semantic-ui-react";
-import React, {useState} from "react";
+import {Container, List, ListContent, ListDescription, ListHeader, ListIcon, ListItem, Loader} from "semantic-ui-react";
+import React from "react";
 
 import "./orders-section.css"
+import OrderDetails from "./order-details";
 
 function OrdersSection(props) {
-    const [state, setState] = useState({showModal: false});
     const orders = props.orders;
-
-    function modalVisible(bool) {
-        setState({showModal: bool})
-    }
 
     return (
         <>
@@ -35,46 +17,14 @@ function OrdersSection(props) {
                 <Container>
                     <List divided>
                         {/*TODO: Figure out why the ordered products only show up for a single order and not all of them*/}
-                        {orders.map(({order_id, time_of_order, products_ordered, order_total}) =>
-                            <ListItem className="orders-section-item" key={order_id}>
+                        {orders.map((order) =>
+                            <ListItem className="orders-section-item" key={order.order_id}>
                                 <ListIcon name="archive" size="large" verticalAlign="middle"/>
                                 <ListContent>
-                                    <Modal
-                                        onClose={() => modalVisible(false)}
-                                        onOpen={() => modalVisible(true)}
-                                        open={state.showModal}
-                                        trigger={<Button floated="right" basic content="Show Details"/>}
-                                    >
-                                        <ModalHeader content={"Products Ordered - Order#" + order_id}/>
-                                        <ModalContent>
-                                            {products_ordered.map(
-                                                (product, index) =>
-                                                    <List key={index}>
-                                                        {/*TODO: Maybe add the ability to click on item name and it will take you to the item's page*/}
-                                                        <ListItem>
-                                                            <ListIcon name="tag"/>
-                                                            <ListContent>
-                                                                <ListHeader content={product.name}/>
-                                                                <ListDescription>
-                                                                    <ListList>
-                                                                        <ListItem
-                                                                            content={"- Category: " + product.category}/>
-                                                                        <ListItem
-                                                                            content={"- Price Bought: $" + product.price_sold}/>
-                                                                        <ListItem
-                                                                            content={"- Quantity: " + product.quantity_bought}/>
-                                                                    </ListList>
-                                                                </ListDescription>
-                                                            </ListContent>
-                                                        </ListItem>
-                                                    </List>
-                                            )
-                                            }
-                                        </ModalContent>
-                                    </Modal>
-                                    <ListHeader content={"Order #" + order_id}/>
+                                    <OrderDetails orderID={order.order_id} products={order.products_ordered}/>
+                                    <ListHeader content={"Order #" + order.order_id}/>
                                     <ListDescription
-                                        content={new Date(time_of_order).toLocaleDateString() + " - Total: $" + order_total}/>
+                                        content={new Date(order.time_of_order).toLocaleDateString() + " - Total: $" + order.order_total}/>
                                 </ListContent>
                             </ListItem>
                         )}
