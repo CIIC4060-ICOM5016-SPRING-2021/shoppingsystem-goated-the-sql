@@ -6,7 +6,6 @@ import "./sign-up.css"
 
 function SignUp() {
   return (
-    // TODO: Edit so that it is in the center of the page
     <>
       <div className="sign-up-page-body">
         <Container>

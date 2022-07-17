@@ -13,10 +13,8 @@ function OrdersSection(props) {
                 <h1>Your Orders</h1>
             </Container>
             <React.Suspense fallback={<Loader content="Loading..."/>}>
-                {/*TODO: Make the following stuff their own components*/}
                 <Container>
                     <List divided>
-                        {/*TODO: Figure out why the ordered products only show up for a single order and not all of them*/}
                         {orders.map((order) =>
                             <ListItem className="orders-section-item" key={order.order_id}>
                                 <ListIcon name="archive" size="large" verticalAlign="middle"/>
