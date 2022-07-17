@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+
 import {Loader, Menu} from "semantic-ui-react";
 import AccountDetails from "./account-page"
 import ItemCards from "../components/item-card";
@@ -45,6 +46,7 @@ function Home() {
     ]
 
     function itemClicked(name) {
+        window.history.replaceState(null, name.toLocaleUpperCase(), name)
         setState({activeItem: name});
     }
 
