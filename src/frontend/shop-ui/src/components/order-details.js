@@ -1,16 +1,4 @@
-import {
-    Button,
-    List,
-    ListContent,
-    ListDescription,
-    ListHeader,
-    ListIcon,
-    ListItem,
-    ListList,
-    Modal,
-    ModalContent,
-    ModalHeader
-} from "semantic-ui-react";
+import {Button, List, Modal, ModalContent, ModalHeader} from "semantic-ui-react";
 import React, {useState} from "react";
 
 function OrderDetails(props) {
@@ -30,22 +18,22 @@ function OrderDetails(props) {
                     (product, index) =>
                         <List key={index}>
                             {/*TODO: Maybe add the ability to click on item name and it will take you to the item's page*/}
-                            <ListItem>
-                                <ListIcon name="tag"/>
-                                <ListContent>
-                                    <ListHeader content={product.name}/>
-                                    <ListDescription>
-                                        <ListList>
-                                            <ListItem
+                            <List.Item>
+                                <List.Icon name="tag"/>
+                                <List.Content>
+                                    <List.Header content={product.name}/>
+                                    <List.Description>
+                                        <List.List>
+                                            <List.Item
                                                 content={"- Category: " + product.category}/>
-                                            <ListItem
+                                            <List.Item
                                                 content={"- Price Bought: $" + product.price_sold}/>
-                                            <ListItem
+                                            <List.Item
                                                 content={"- Quantity: " + product.quantity_bought}/>
-                                        </ListList>
-                                    </ListDescription>
-                                </ListContent>
-                            </ListItem>
+                                        </List.List>
+                                    </List.Description>
+                                </List.Content>
+                            </List.Item>
                         </List>
                 )
                 }

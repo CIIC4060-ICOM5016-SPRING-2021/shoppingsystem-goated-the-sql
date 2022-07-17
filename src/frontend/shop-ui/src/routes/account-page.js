@@ -1,15 +1,4 @@
-import {
-    Button,
-    ButtonGroup,
-    Card,
-    CardContent, CardDescription,
-    CardHeader, CardMeta,
-    Container, Form, FormButton, FormGroup, FormInput,
-    Grid,
-    GridColumn,
-    GridRow,
-    Label, List, ListContent, ListDescription, ListHeader, ListIcon, ListItem, Loader
-} from "semantic-ui-react";
+import {Button, ButtonGroup, Container, Grid, GridRow} from "semantic-ui-react";
 
 import "./account-page.css"
 import React, {useState} from "react";
@@ -68,11 +57,11 @@ function AccountPage(props) {
     }
 
     function getAccountDetails() {
-    //TODO: Add logic here
+        //TODO: Add logic here
     }
 
     function getOrderDetails() {
-    //TODO: Add logic here
+        //TODO: Add logic here
     }
 
     return (
