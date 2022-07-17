@@ -67,7 +67,7 @@ function AccountPage(props) {
     return (
         <>
             <div className="account-page-body">
-                <Grid columns={2} celled="internally">
+                <Grid celled="internally">
                     <GridRow>
                         <Container textAlign="center" className="account-section-buttons">
                             <ButtonGroup fluid basic>

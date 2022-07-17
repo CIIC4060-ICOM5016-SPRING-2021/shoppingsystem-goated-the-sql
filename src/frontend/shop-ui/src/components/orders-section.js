@@ -1,4 +1,4 @@
-import {Container, List, ListContent, ListDescription, ListHeader, ListIcon, ListItem, Loader} from "semantic-ui-react";
+import {Container, List, Loader} from "semantic-ui-react";
 import React from "react";
 
 import "./orders-section.css"
@@ -16,15 +16,15 @@ function OrdersSection(props) {
                 <Container>
                     <List divided>
                         {orders.map((order) =>
-                            <ListItem className="orders-section-item" key={order.order_id}>
-                                <ListIcon name="archive" size="large" verticalAlign="middle"/>
-                                <ListContent>
+                            <List.Item className="orders-section-item" key={order.order_id}>
+                                <List.Icon name="archive" size="large" verticalAlign="middle"/>
+                                <List.Content>
                                     <OrderDetails orderID={order.order_id} products={order.products_ordered}/>
-                                    <ListHeader content={"Order #" + order.order_id}/>
-                                    <ListDescription
+                                    <List.Header content={"Order #" + order.order_id}/>
+                                    <List.Description
                                         content={new Date(order.time_of_order).toLocaleDateString() + " - Total: $" + order.order_total}/>
-                                </ListContent>
-                            </ListItem>
+                                </List.Content>
+                            </List.Item>
                         )}
                     </List>
                 </Container>

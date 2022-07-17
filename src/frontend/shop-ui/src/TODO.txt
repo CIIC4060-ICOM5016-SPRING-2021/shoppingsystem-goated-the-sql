@@ -1,0 +1,6 @@
+  - Add page history and any "page" can be accessed by their links without having to rewrite the same page logic
+    over and over again
+  - Make wishlist page
+  - Make cart page
+  - Make item details page
+  - Add filtering to products page

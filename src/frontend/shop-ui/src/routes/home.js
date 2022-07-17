@@ -5,9 +5,11 @@ import AccountDetails from "./account-page"
 import ItemCards from "../components/item-card";
 
 import "./home.css"
+import CartPage from "./cart-page";
 
-function Home() {
-    const [state, setState] = useState({activeItem: "products"});
+function Home(props) {
+    const selected = props.selected;
+    const [state, setState] = useState({activeItem: selected});
     const activeItem = state.activeItem;
 
     const products = [
@@ -46,6 +48,7 @@ function Home() {
     ]
 
     function itemClicked(name) {
+        // TODO: Find a more viable solution than the following:
         window.history.replaceState(null, name.toLocaleUpperCase(), name)
         setState({activeItem: name});
     }
@@ -54,7 +57,7 @@ function Home() {
         switch (activeItem) {
             case "account":
                 return <AccountDetails fname="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>;
-            case "products":
+            case "home":
                 return (
                     <React.Suspense fallback={<Loader content="Loading"/>}>
                         <ItemCards items={products}/>
@@ -63,9 +66,9 @@ function Home() {
             case "wishlist":
                 return "this should be the wishlist page";
             case "cart":
-                return "this should be the cart page";
+                return <CartPage/>;
             default:
-                setState({activeItem: "products"})
+                setState({activeItem: "home"})
                 return (
                     <React.Suspense fallback={<Loader content="Loading"/>}>
                         <ItemCards items={products}/>
@@ -78,8 +81,8 @@ function Home() {
         <>
             <Menu fixed="top" borderless size="large">
                 <Menu.Item
-                    active={activeItem === "products"}
-                    onClick={() => itemClicked("products")}
+                    active={activeItem === "home"}
+                    onClick={() => itemClicked("home")}
                     position="left"
                     content="Products"
                 />
