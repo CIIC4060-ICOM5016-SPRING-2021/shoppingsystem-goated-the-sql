@@ -1,6 +1,9 @@
   - Add page history and any "page" can be accessed by their links without having to rewrite the same page logic
     over and over again
   - Make wishlist page
-  - Make cart page
+    - Thinking about making it look similar to the products page, but instead of showing price, quantity and add to cart,
+      showing a remove button
+  - Make cart page ✅
   - Make item details page
   - Add filtering to products page
+  - Find a way to pass information between pages (probably react redux)

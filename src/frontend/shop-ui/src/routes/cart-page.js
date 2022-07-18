@@ -1,10 +1,13 @@
-import {Card, Container, Grid, Loader} from "semantic-ui-react";
-import React from "react";
+import {Button, Card, Divider, Grid, Loader} from "semantic-ui-react";
+import React, {useMemo, useState} from "react";
 
 import CartItem from "../components/cart-item";
+import CartTotalList from "../components/cart-total-list";
+
 import "./cart-page.css"
 
 function CartPage(props) {
+    const [state, setState] = useState({total: 0})
 
     const cartItems = [
         {
@@ -21,6 +24,15 @@ function CartPage(props) {
         }
     ];
 
+    const order_total = useMemo(() => getOrderTotal(state.total), [state.total]);
+
+    function getOrderTotal(total) {
+        for (const item of cartItems) {
+            total = total + (item.product_price * item.quantity);
+        }
+        return total;
+    }
+
     return (
         <>
             <div className="cart-page-body">
@@ -31,14 +43,18 @@ function CartPage(props) {
                                 <Grid.Column width={10}>
                                     <h1>Cart</h1>
                                     <React.Suspense fallback={<Loader content="Loading..."/>}>
-                                        <Container>
-                                            <CartItem items={cartItems}/>
-                                        </Container>
+                                        <CartItem items={cartItems}/>
                                     </React.Suspense>
                                 </Grid.Column>
                                 <Grid.Column width={6}>
+                                    <h1>Total</h1>
                                     <div className="cart-page-order-details">
-                                        <h1>Total</h1>
+                                        <CartTotalList items={cartItems}/>
+                                        <div className="cart-page-order-section-end">
+                                            <Divider clearing/>
+                                            <h1>${order_total}</h1>
+                                            <Button positive content="Checkout"/>
+                                        </div>
                                     </div>
                                 </Grid.Column>
                             </Grid.Row>

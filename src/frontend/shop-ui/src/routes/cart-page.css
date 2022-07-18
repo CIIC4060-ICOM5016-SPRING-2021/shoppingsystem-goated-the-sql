@@ -13,3 +13,8 @@
 .cart-page-order-details {
     text-align: right;
 }
+
+.cart-page-order-section-end{
+    padding: 1rem;
+    text-align: center;
+}
