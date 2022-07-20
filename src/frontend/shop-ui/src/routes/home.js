@@ -1,13 +1,17 @@
 import React, {useState} from "react";
-
 import {Loader, Menu} from "semantic-ui-react";
+import {useNavigate} from "react-router-dom"
+
+import WishlistPage from "./wishlist-page";
 import AccountDetails from "./account-page"
+import CartPage from "./cart-page";
 import ItemCards from "../components/item-card";
 
 import "./home.css"
-import CartPage from "./cart-page";
 
 function Home(props) {
+    const navigate = useNavigate();
+
     const selected = props.selected;
     const [state, setState] = useState({activeItem: selected});
     const activeItem = state.activeItem;
@@ -48,8 +52,9 @@ function Home(props) {
     ]
 
     function itemClicked(name) {
-        // TODO: Find a more viable solution than the following:
-        window.history.replaceState(null, name.toLocaleUpperCase(), name)
+        // TODO: Find more or decide from the options found for the changing URLs:
+        // window.history.replaceState(null, name.toLocaleUpperCase(), name)
+        navigate("/"+name);
         setState({activeItem: name});
     }
 
@@ -64,7 +69,7 @@ function Home(props) {
                     </React.Suspense>
                 );
             case "wishlist":
-                return "this should be the wishlist page";
+                return <WishlistPage items={products}/>;
             case "cart":
                 return <CartPage/>;
             default:
