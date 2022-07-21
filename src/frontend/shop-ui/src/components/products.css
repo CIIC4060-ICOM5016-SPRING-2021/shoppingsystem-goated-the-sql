@@ -1,33 +1,33 @@
 .item-card-body {
-    padding: 1rem;
-    justify-content: center;
-    align-items: center;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .item-card-price {
-    text-align: center;
+  text-align: center;
 
-    font-style: normal;
-    font-size: 1.5rem;
+  font-style: normal;
+  font-size: 1.5rem;
 }
 
 .price-n-quantity {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 
-    padding-bottom: 1rem;
+  padding-bottom: 1rem;
 }
 
 .product-list-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    padding-left: 10vw;
-    padding-right: 10vw;
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
 .item-card-cart-n-wishlist {
-    display: flex;
+  display: flex;
 }
