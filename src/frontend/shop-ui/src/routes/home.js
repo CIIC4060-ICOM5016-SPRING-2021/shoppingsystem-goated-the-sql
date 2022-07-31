@@ -16,8 +16,12 @@ function Home(props) {
     const navigate = useNavigate();
     const selected = props.selected;
 
+    const location = useLocation();
+
     const [state, setState] = useState({activeItem: selected});
     const [data, dataGetter] = useState({products: []})
+    const [user, userGetter] = useState({userId: location.state.id})
+
     const activeItem = state.activeItem;
     const products = data.products;
     // const products = [
@@ -56,19 +60,18 @@ function Home(props) {
     // ]
 
     let rendered = false;
-    const location = useLocation();
 
     function itemClicked(name) {
         // TODO: Find more or decide from the options found for the changing URLs:
         // window.history.replaceState(null, name.toLocaleUpperCase(), name)
-        navigate("/" + name);
+        navigate("/" + name, {state: {id: 0}});
         setState({activeItem: name});
     }
 
     async function fetchProducts() {
         const res = await fetch(`http://127.0.0.1:5000/goated_the_sql/products/all`);
 
-        //Checks if the http request returns the appropiate status
+        //Checks if the http request returns the appropriate status
         if (!res.ok) {
             throw new Error(`HTTP error! Status: ${res.status}`);
         }
@@ -79,12 +82,11 @@ function Home(props) {
         console.log(data["Products"]);
         console.log('data fetched')
     }
-    
+
     useEffect(() => {
         if (!rendered) {
             rendered = true;
             let promise = fetchProducts();
-
             console.log(location.state.id)
         }
         console.log('in use effect')
@@ -102,7 +104,7 @@ function Home(props) {
             //         </React.Suspense>
             //     );
             case "wishlist":
-                return <WishlistPage items={products}/>;
+                return <WishlistPage user={user.userId}/>;
             case "cart":
                 return <CartPage/>;
             case "sign-up":
