@@ -71,7 +71,7 @@ function Home(props) {
         if (!res.ok) {
             throw new Error(`HTTP error! Status: ${res.status}`);
         }
-
+        
         //Return the needed data
         const data = await res.json();
         setState({products: data['Products']})
