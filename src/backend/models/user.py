@@ -68,8 +68,8 @@ class UserModel:
     # Password Setter
     def set_password(self, password: str):
         # TODO: Update the Relational Table Diagram to represent the varchar limit increment
-        pwd_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        self.__password = pwd_hash
+        # pwd_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        self.__password = password
 
     # Phone Getter
     def get_phone_num(self):
