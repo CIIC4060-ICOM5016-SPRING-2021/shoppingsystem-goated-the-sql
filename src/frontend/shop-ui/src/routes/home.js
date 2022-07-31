@@ -79,7 +79,7 @@ function Home(props) {
         console.log(data["Products"]);
         console.log('data fetched')
     }
-
+    
     useEffect(() => {
         if (!rendered) {
             rendered = true;
