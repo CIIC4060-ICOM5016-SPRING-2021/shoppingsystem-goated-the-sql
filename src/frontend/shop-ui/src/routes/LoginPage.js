@@ -16,7 +16,7 @@ function LoginPage() {
 
         try {
             //Print action done and make fetch request
-            console.log('GET User');
+            // console.log('GET User');
             const res = await fetch(`http://127.0.0.1:5000/goated_the_sql/user/${user_id}`);
 
             //Checks if the http request returns the appropriate status
@@ -43,10 +43,10 @@ function LoginPage() {
     async function handleSubmit(event) {
         event.preventDefault();
         let dbpass = await get_user(userID);
-        console.log(dbpass)
+        // console.log(dbpass)
 
         if (password === dbpass['password']) {
-            console.log("Correct password")
+            // console.log("Correct password")
             movingHome(userID);
         } else {
             console.log("Incorrect password")
