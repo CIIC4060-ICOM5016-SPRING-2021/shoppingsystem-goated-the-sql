@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Loader, Menu} from "semantic-ui-react";
-import {useNavigate} from "react-router-dom"
+import {useLocation, useNavigate} from "react-router-dom"
 
 import WishlistPage from "./wishlist-page";
 import AccountDetails from "./account-page"
@@ -8,14 +8,16 @@ import CartPage from "./cart-page";
 import ItemCards from "../components/item-card";
 
 import "./home.css"
+import LoginPage from "./LoginPage";
+import SignUp from "./sign-up";
 
 function Home(props) {
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
     const selected = props.selected;
+
     const [state, setState] = useState({activeItem: selected});
     const activeItem = state.activeItem;
-
     const products = [
         {
             id: 1,
@@ -51,17 +53,35 @@ function Home(props) {
         },
     ]
 
+    const location = useLocation();
+    console.log(location.state.id)
+
+
     function itemClicked(name) {
         // TODO: Find more or decide from the options found for the changing URLs:
         // window.history.replaceState(null, name.toLocaleUpperCase(), name)
-        navigate("/"+name);
+        navigate("/" + name);
         setState({activeItem: name});
+    }
+
+    async function fetchProducts() {
+        const res = await fetch(`http://127.0.0.1:5000/goated_the_sql/products/all`);
+
+        //Checks if the http request returns the appropiate status
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+
+        //Return the needed data
+        const data = await res.json();
+        setState({products: data['Products']})
+        console.log(data);
     }
 
     function PageToRender() {
         switch (activeItem) {
             case "account":
-                return <AccountDetails fname="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>;
+                return <AccountDetails name="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>;
             case "home":
                 return (
                     <React.Suspense fallback={<Loader content="Loading"/>}>
@@ -72,8 +92,12 @@ function Home(props) {
                 return <WishlistPage items={products}/>;
             case "cart":
                 return <CartPage/>;
+            case "sign-up":
+                return <SignUp/>;
+            case "login":
+                return <LoginPage/>;
             default:
-                setState({activeItem: "home"})
+                fetchProducts();
                 return (
                     <React.Suspense fallback={<Loader content="Loading"/>}>
                         <ItemCards items={products}/>

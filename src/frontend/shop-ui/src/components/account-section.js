@@ -22,7 +22,7 @@ function AccountSection(props) {
                         <div className="account-current-details">
                             <Label content="Current details" size="medium" horizontal/>
                         </div>
-                        <CardHeader content={props.fname + " " + props.lname} textAlign="center"/>
+                        <CardHeader content={props.name + " " + props.lname} textAlign="center"/>
                         <CardMeta content={"Joined " + props.created} textAlign="center"/>
                         <CardDescription content={"Phone Number: " + props.pnum} textAlign="center"/>
                     </CardContent>
