@@ -14,11 +14,11 @@ import Home from "./routes/home";
 
 // React Redux
 import { configureStore } from "@reduxjs/toolkit";
-import allReducers from "./reducers";
+import allReducers  from "./reducers";
 import { Provider } from "react-redux";
 
 const storage = configureStore(
-  allReducers,
+  { reducer: allReducers },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
