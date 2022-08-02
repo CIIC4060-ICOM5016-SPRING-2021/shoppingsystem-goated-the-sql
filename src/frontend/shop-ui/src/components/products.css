@@ -28,6 +28,19 @@
   padding-right: 10vw;
 }
 
+.product-list-sort-selection {
+  width: inherit;
+  text-align: center;
+  vertical-align: middle;
+
+  padding-bottom: 1rem;
+  justify-content: space-around;
+}
+
+.product-list-item-cards {
+  padding-top: 2rem;
+}
+
 .item-card-cart-n-wishlist {
   display: flex;
 }

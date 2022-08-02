@@ -14,6 +14,8 @@ import {
 import React from "react";
 
 function AccountSection(props) {
+  const { details } = props;
+
   return (
     <>
       <GridColumn width={7}>
@@ -23,12 +25,15 @@ function AccountSection(props) {
               <Label content="Current details" size="medium" horizontal />
             </div>
             <CardHeader
-              content={props.fname + " " + props.lname}
+              content={details.fname + " " + details.lname}
               textAlign="center"
             />
-            <CardMeta content={"Joined " + props.created} textAlign="center" />
+            <CardMeta
+              content={"Joined " + details.created}
+              textAlign="center"
+            />
             <CardDescription
-              content={"Phone Number: " + props.pnum}
+              content={"Phone Number: " + details.pnum}
               textAlign="center"
             />
           </CardContent>

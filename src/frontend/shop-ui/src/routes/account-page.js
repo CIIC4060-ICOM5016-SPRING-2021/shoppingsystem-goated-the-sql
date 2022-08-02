@@ -92,7 +92,7 @@ function AccountPage(props) {
                                 if (activeSection === "account") {
                                     getAccountDetails()
                                     //TODO: Get props and pass them on to the component
-                                    return (<AccountSection/>);
+                                    return (<AccountSection details={props} />);
                                 } else if (activeSection === "orders") {
                                     getOrderDetails()
                                     //TODO: Get props and pass them on to the component
