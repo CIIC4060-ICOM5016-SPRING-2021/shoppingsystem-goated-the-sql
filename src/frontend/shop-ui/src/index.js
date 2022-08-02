@@ -1,7 +1,7 @@
 // Essential
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import "semantic-ui-css/semantic.min.css";
 
@@ -14,7 +14,7 @@ import Home from "./routes/home";
 
 // React Redux
 import { configureStore } from "@reduxjs/toolkit";
-import allReducers  from "./reducers";
+import allReducers from "./reducers";
 import { Provider } from "react-redux";
 
 const storage = configureStore(
@@ -24,7 +24,7 @@ const storage = configureStore(
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <Provider store={storage}>
+  <Provider store={storage}>
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
@@ -32,6 +32,7 @@ root.render(
           <Route path="/sign-up" element={<SignUp />} />
 
           <Route path="/home" element={<Home selected="home" />} />
+          <Route path="/statistics" element={<Home selected="statistics" />} />
           <Route path="/account" element={<Home selected="account" />} />
           <Route path="/wishlist" element={<Home selected="wishlist" />} />
           <Route path="/cart" element={<Home selected="cart" />} />
