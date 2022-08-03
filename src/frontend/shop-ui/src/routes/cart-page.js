@@ -1,8 +1,8 @@
 import {Button, Card, Divider, Grid, Loader} from "semantic-ui-react";
 import React, {useMemo, useState} from "react";
 
-import CartItem from "../components/cart-item";
-import CartTotalList from "../components/cart-total-list";
+import CartItem from "../components/cart-page/cart-item";
+import CartTotalList from "../components/cart-page/cart-total-list";
 
 import "./cart-page.css"
 

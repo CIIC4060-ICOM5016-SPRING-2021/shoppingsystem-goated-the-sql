@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import WishlistPage from "./wishlist-page";
 import AccountDetailsPage from "./account-page";
 import CartPage from "./cart-page";
-import ItemCards from "../components/item-card";
+import ItemCards from "../components/products-page/item-card";
 import StatsPage from "./stats-page";
 
 import "./home.css";

@@ -2,8 +2,8 @@ import {Button, ButtonGroup, Container, Grid, GridRow} from "semantic-ui-react";
 
 import "./account-page.css"
 import React, {useState} from "react";
-import AccountSection from "../components/account-section";
-import OrdersSection from "../components/orders-section";
+import AccountSection from "../components/account-page/account-section";
+import OrdersSection from "../components/account-page/orders-section";
 
 function AccountPage(props) {
     const [state, setState] = useState({activeSection: "account"})

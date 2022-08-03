@@ -1,6 +1,6 @@
 import { Button, Card, Icon, Image, Grid, Dropdown } from "semantic-ui-react";
 import React from "react";
-import "./products.css";
+import "./item-card.css";
 
 function products(props) {
   const products = props.items;
