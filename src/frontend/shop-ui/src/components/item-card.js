@@ -1,9 +1,52 @@
-import { Button, Card, Icon, Image, Grid } from "semantic-ui-react";
+import { Button, Card, Icon, Image, Grid, Dropdown } from "semantic-ui-react";
 import React from "react";
 import "./products.css";
 
 function products(props) {
   const products = props.items;
+
+  const categories = [
+    {
+      key: 0,
+      text: "Audio",
+    },
+    {
+      key: 1,
+      text: "Collectibles",
+    },
+    {
+      key: 2,
+      text: "Consoles",
+    },
+    {
+      key: 3,
+      text: "Controllers",
+    },
+    {
+      key: 4,
+      text: "Gift Cards",
+    },
+    {
+      key: 5,
+      text: "PC",
+    },
+    {
+      key: 6,
+      text: "Peripherals",
+    },
+    {
+      key: 7,
+      text: "Smartphones",
+    },
+    {
+      key: 8,
+      text: "Storage",
+    },
+    {
+      key: 9,
+      text: "Video Games",
+    },
+  ];
 
   return (
     <>
@@ -13,9 +56,14 @@ function products(props) {
         <Grid celled="internally">
           <Grid.Row>
             <div className="product-list-sort-selection">
-              Sort by Price:
-              <Button icon="up arrow" size="small" basic />
-              <Button icon="down arrow" size="small" basic />
+              <h1>Sort by</h1>
+              <Button icon="up arrow" basic content="Price: Ascending" />
+              <Button icon="down arrow" basic content="Price: Descending" />
+              <Dropdown
+                placeholder="Category"
+                selection
+                options={categories}
+              ></Dropdown>
             </div>
           </Grid.Row>
           <Grid.Row>
