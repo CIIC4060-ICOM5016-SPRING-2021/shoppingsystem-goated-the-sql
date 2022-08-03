@@ -63,6 +63,7 @@ function products(props) {
                 placeholder="Category"
                 selection
                 options={categories}
+                // TODO: Find out how to add onClick functionality to dynamic selection values
               ></Dropdown>
             </div>
           </Grid.Row>
