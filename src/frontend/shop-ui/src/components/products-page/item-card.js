@@ -9,42 +9,52 @@ function products(props) {
     {
       key: 0,
       text: "Audio",
+      value: "audio",
     },
     {
       key: 1,
       text: "Collectibles",
+      value: "collectibles",
     },
     {
       key: 2,
       text: "Consoles",
+      value: "consoles",
     },
     {
       key: 3,
       text: "Controllers",
+      value: "controllers",
     },
     {
       key: 4,
       text: "Gift Cards",
+      value: "gift cards",
     },
     {
       key: 5,
       text: "PC",
+      value: "pc",
     },
     {
       key: 6,
       text: "Peripherals",
+      value: "peripherals",
     },
     {
       key: 7,
       text: "Smartphones",
+      value: "smartphones",
     },
     {
       key: 8,
       text: "Storage",
+      value: "storage",
     },
     {
       key: 9,
       text: "Video Games",
+      value: "video games",
     },
   ];
 
@@ -63,6 +73,7 @@ function products(props) {
                 placeholder="Category"
                 selection
                 options={categories}
+
                 // TODO: Find out how to add onClick functionality to dynamic selection values
               ></Dropdown>
             </div>
