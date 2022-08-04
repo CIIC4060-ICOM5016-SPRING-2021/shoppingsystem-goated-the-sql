@@ -1,7 +1,7 @@
 import { Grid } from "semantic-ui-react";
-import HottestStats from "../components/stats-page/hottest-stats";
-import CheapestnMostExpensiveProducts from "../components/stats-page/cheap-or-expensive";
-import MostLikedProducts from "../components/stats-page/most-liked-products";
+import HottestStats from "../components/stats-page/global/hottest-stats";
+import CheapestnMostExpensiveProducts from "../components/stats-page/global/cheap-or-expensive";
+import MostLikedProducts from "../components/stats-page/global/most-liked-products";
 
 import "./stats-page.css"
 

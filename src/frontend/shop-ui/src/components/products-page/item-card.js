@@ -61,12 +61,12 @@ function products(props) {
   return (
     <>
       <div className="product-list-body">
-        {/*TODO: Make sure Suspense actually goes here*/}
-        {/*<React.Suspense fallback={<Loader content="Loading"/>}>*/}
         <Grid celled="internally">
           <Grid.Row>
             <div className="product-list-sort-selection">
               <h1>Sort by</h1>
+              {/* TODO: Add indicator of which button was clicked */}
+              {/* TODO: Disable category button if filter by price has been selected and vice versa */}
               <Button icon="up arrow" basic content="Price: Ascending" />
               <Button icon="down arrow" basic content="Price: Descending" />
               <Dropdown
