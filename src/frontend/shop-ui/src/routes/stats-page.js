@@ -1,7 +1,8 @@
 import { Grid } from "semantic-ui-react";
 import HottestStats from "../components/stats-page/global/hottest-stats";
-import CheapestnMostExpensiveProducts from "../components/stats-page/global/cheap-or-expensive";
+import CheapestnMostExpensiveProducts from "../components/stats-page/cheap-or-expensive";
 import MostLikedProducts from "../components/stats-page/global/most-liked-products";
+import MostBought from "../components/stats-page/personal/most-bought";
 
 import "./stats-page.css"
 
@@ -11,7 +12,7 @@ function StatsPage() {
         <Grid celled="internally">
           <Grid.Column width={8}>
             <h1>Global</h1>
-            <Grid>
+            <Grid padded="horizontally">
               <Grid.Row>
                 <HottestStats />
               </Grid.Row>
@@ -25,6 +26,14 @@ function StatsPage() {
           </Grid.Column>
           <Grid.Column width={8}>
             <h1>Personal</h1>
+            <Grid padded="horizontally">
+              <Grid.Row>
+                <MostBought />
+              </Grid.Row>
+              <Grid.Row>
+                <CheapestnMostExpensiveProducts />
+              </Grid.Row>
+            </Grid>
           </Grid.Column>
         </Grid>
       </div>
