@@ -14,7 +14,7 @@ function MostLikedProductsGraph(props) {
               <div className="most-liked-inside">
                 <List ordered>
                   {globalStats["Most Liked Products"].map((products) => (
-<ListItem content={products.name}/>
+                    <ListItem content={products.name}/>
                   ))}
                 </List>
               </div>
