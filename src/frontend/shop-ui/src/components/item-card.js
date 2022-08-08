@@ -18,7 +18,7 @@ function products(props) {
                                 <Card.Content>
                                     <Card.Header content={item.name}/>
                                     <Card.Meta content={item.category}/>
-                                    <Card.Description content={item.description}/>
+                                    <Card.Description content={item.desc}/>
                                 </Card.Content>
                                 <Card.Content>
                                     <div className="item-card-body">
