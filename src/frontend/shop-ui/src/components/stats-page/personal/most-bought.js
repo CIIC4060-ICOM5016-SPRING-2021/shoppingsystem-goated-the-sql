@@ -9,11 +9,11 @@ function MostBought(props) {
       <>
           <div>
               <Grid>
-                  <div className="hottest-stats-categories">
+                  <div className="most-bought-categories">
                       <Grid.Row>
                           <h3>Most Bought Categories</h3>
                           {/* TODO: Add CSS for the following */}
-                          <div className="hottest-stats-categories-inside">
+                          <div className="most-bought-categories-inside">
                               <BarChart width={335} height={150} data={accountStats[0]["Most Bought Categories"]}>
                                   <XAxis dataKey="name"/>
                                   <YAxis/>
@@ -31,11 +31,11 @@ function MostBought(props) {
                           </div>
                       </Grid.Row>
                   </div>
-                  <div className="hottest-stats-products">
+                  <div className="most-bought-products">
                       <Grid.Row>
                           <h3>Most Bought Products</h3>
                           {/* TODO: Add CSS for the following */}
-                          <div className="hottest-stats-products-inside">
+                          <div className="most-bought-products-inside">
                               <List ordered>
                                   {accountStats[1]["Most Bought Products"].map((product, index) => (
                                     <ListItem
