@@ -1651,7 +1651,7 @@ function StatsPage() {
               <CheapestnMostExpensiveProducts details={globalStats}/>
             </Grid.Row>
             <Grid.Row>
-              <MostLikedProducts details={[globalStats, accountStats]} />
+              <MostLikedProducts details={globalStats} />
             </Grid.Row>
           </Grid>
         </Grid.Column>
