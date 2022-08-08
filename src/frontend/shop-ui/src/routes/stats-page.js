@@ -1,6 +1,7 @@
 import { Grid } from "semantic-ui-react";
 import HottestStats from "../components/stats-page/global/hottest-stats";
-import CheapestnMostExpensiveProducts from "../components/stats-page/cheap-or-expensive";
+import CheapestnMostExpensiveProducts from "../components/stats-page/global/cheap-or-expensive-global";
+import CheapestnMostExpensiveProductsPersonal from "../components/stats-page/personal/cheap-or-expensive-personal";
 import MostLikedProducts from "../components/stats-page/global/most-liked-products";
 import MostBought from "../components/stats-page/personal/most-bought";
 
@@ -1647,9 +1648,7 @@ function StatsPage() {
               <HottestStats details={globalStats} />
             </Grid.Row>
             <Grid.Row>
-              <CheapestnMostExpensiveProducts
-                details={[globalStats, accountStats]}
-              />
+              <CheapestnMostExpensiveProducts details={globalStats}/>
             </Grid.Row>
             <Grid.Row>
               <MostLikedProducts details={[globalStats, accountStats]} />
@@ -1660,11 +1659,11 @@ function StatsPage() {
           <h1>Personal</h1>
           <Grid>
             <Grid.Row>
-              <MostBought details={[globalStats, accountStats]} />
+              <MostBought />
             </Grid.Row>
             <Grid.Row>
-              <CheapestnMostExpensiveProducts
-                details={[globalStats, accountStats]}
+              <CheapestnMostExpensiveProductsPersonal
+                details={accountStats}
               />
             </Grid.Row>
           </Grid>

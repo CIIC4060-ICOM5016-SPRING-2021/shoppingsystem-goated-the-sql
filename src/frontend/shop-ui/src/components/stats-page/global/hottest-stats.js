@@ -1,5 +1,5 @@
-import { Grid, List, ListItem } from "semantic-ui-react";
-import { BarChart, Bar, Cell } from "recharts";
+import {Grid, List, ListItem} from "semantic-ui-react";
+import {Bar, BarChart, Cell, XAxis, YAxis} from "recharts";
 
 function HottestStats(props) {
   const globalStats = props.details["Global Statistics"];
@@ -13,16 +13,15 @@ function HottestStats(props) {
               <h3>Hottest Categories</h3>
               {/* TODO: Add CSS for the following */}
               <div className="hottest-stats-categories-inside">
-                <BarChart
-                  width={150}
-                  height={40}
-                  data={globalStats["Hottest Categories"]}
-                >
+                <BarChart width={335} height={150} data={globalStats["Hottest Categories"]}>
+                  <XAxis dataKey="name"/>
+                  <YAxis/>
                   <Bar dataKey="quantity_bought">
-                    {globalStats["Hottest Categories"].map((entry, index) => (
+
+                    {globalStats["Hottest Categories"].map((category, index) => (
                       <Cell
                         cursor="pointer"
-                        fill="#82ca9d"
+                        fill="#0984e3"
                         key={`cell-${index}`}
                       />
                     ))}
@@ -37,8 +36,11 @@ function HottestStats(props) {
               {/* TODO: Add CSS for the following */}
               <div className="hottest-stats-products-inside">
                 <List ordered>
-                  {globalStats["Hottest Products"].map((product) => (
-                    <ListItem content={product.name} />
+                  {globalStats["Hottest Products"].map((product, index) => (
+                    <ListItem
+                      content={product.name}
+                      key={`list-item-${index}`}
+                    />
                   ))}
                 </List>
               </div>
