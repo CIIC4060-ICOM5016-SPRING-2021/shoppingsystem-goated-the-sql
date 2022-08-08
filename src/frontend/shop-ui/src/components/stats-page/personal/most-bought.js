@@ -1,9 +1,10 @@
 import {Grid, List, ListItem} from "semantic-ui-react";
 import {Bar, BarChart, Cell, Tooltip, XAxis, YAxis} from "recharts";
 
+import "./most-bought.css"
+
 function MostBought(props) {
     const accountStats = props.details["User Statistics"]
-
 
     return (
       <>
