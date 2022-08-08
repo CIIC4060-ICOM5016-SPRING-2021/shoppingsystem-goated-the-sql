@@ -1,6 +1,8 @@
 import {Grid, List, ListItem} from "semantic-ui-react";
 import {Bar, BarChart, Cell, Tooltip, XAxis, YAxis} from "recharts";
 
+import "./hottest-stats.css"
+
 function HottestStats(props) {
   const globalStats = props.details["Global Statistics"];
 
@@ -11,7 +13,6 @@ function HottestStats(props) {
           <div className="hottest-stats-categories">
             <Grid.Row>
               <h3>Hottest Categories</h3>
-              {/* TODO: Add CSS for the following */}
               <div className="hottest-stats-categories-inside">
                 <BarChart width={335} height={150} data={globalStats["Hottest Categories"]}>
                   <XAxis dataKey="name"/>
@@ -33,7 +34,6 @@ function HottestStats(props) {
           <div className="hottest-stats-products">
             <Grid.Row>
               <h3>Hottest Products</h3>
-              {/* TODO: Add CSS for the following */}
               <div className="hottest-stats-products-inside">
                 <List ordered>
                   {globalStats["Hottest Products"].map((product, index) => (

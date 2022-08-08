@@ -1,6 +1,8 @@
 import {Grid} from "semantic-ui-react";
 import {Funnel, FunnelChart, LabelList, Tooltip,} from "recharts";
 
+import "./cheap-or-expensive-global.css"
+
 function CheapnExpensiveProductsList(props) {
   const globalStats = props.details["Global Statistics"]
 
@@ -13,7 +15,6 @@ function CheapnExpensiveProductsList(props) {
           <div className="cheapest-stats">
             <Grid.Row>
               <h3>Cheapest Products</h3>
-              {/* TODO: Add CSS for the following */}
               <div className="cheapest-stats-inside">
                 <FunnelChart width={335} height={250} >
                   <Tooltip/>
@@ -23,9 +24,10 @@ function CheapnExpensiveProductsList(props) {
                 </FunnelChart>
               </div>
             </Grid.Row>
+          </div>
+          <div className="most-expensive-stats">
             <Grid.Row>
               <h3>Most Expensive Products</h3>
-              {/* TODO: Add CSS for the following */}
               <div className="cheapest-stats-inside">
                 <FunnelChart width={335} height={250} >
                   <Tooltip/>
