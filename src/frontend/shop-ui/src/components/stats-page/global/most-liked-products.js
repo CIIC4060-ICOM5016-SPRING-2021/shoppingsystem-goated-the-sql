@@ -13,8 +13,8 @@ function MostLikedProductsGraph(props) {
               {/* TODO: Add CSS for the following */}
               <div className="most-liked-inside">
                 <List ordered>
-                  {globalStats["Most Liked Products"].map((products) => (
-                    <ListItem content={products.name}/>
+                  {globalStats["Most Liked Products"].map((products,index) => (
+                    <ListItem content={products.name} key={`item-${index}`}/>
                   ))}
                 </List>
               </div>
