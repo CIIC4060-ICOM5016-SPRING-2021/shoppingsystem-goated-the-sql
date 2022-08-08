@@ -8,6 +8,9 @@ import OrdersSection from "../components/orders-section";
 function AccountPage(props) {
     const [state, setState] = useState({activeSection: "account"})
     const activeSection = state.activeSection;
+    const [userDetails, setUserDetails] = useState({
+        user_id: 0
+    })
 
     //TODO: Remove once logic is in place
     const ordersList = [

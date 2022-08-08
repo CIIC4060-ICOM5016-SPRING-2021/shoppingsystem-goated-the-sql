@@ -20,40 +20,6 @@ function Home(props) {
     const [data, dataGetter] = useState({products: []})
     const activeItem = state.activeItem;
     const products = data.products;
-    // const products = [
-    //     {
-    //         id: 1,
-    //         name: "Goomba",
-    //         price: 15,
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-    //         seller: "Nintendo"
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Koopa",
-    //         price: 35,
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-    //         seller: "AMD"
-    //     }, {
-    //         id: 3,
-    //         name: "Koopa",
-    //         price: 35,
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-    //         seller: "AMD"
-    //     }, {
-    //         id: 4,
-    //         name: "Koopa",
-    //         price: 35,
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-    //         seller: "AMD"
-    //     }, {
-    //         id: 5,
-    //         name: "Koopa",
-    //         price: 35,
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-    //         seller: "AMD"
-    //     },
-    // ]
 
     let rendered = false;
     const location = useLocation();
@@ -94,13 +60,7 @@ function Home(props) {
     function PageToRender() {
         switch (activeItem) {
             case "account":
-                return <AccountDetails name="Juanito" lname="Barrio" pnum={50595505} created="12/1/2345"/>;
-            // case "home":
-            //     return (
-            //         <React.Suspense fallback={<Loader content="Loading"/>}>
-            //             <ItemCards items={products}/>
-            //         </React.Suspense>
-            //     );
+                return <AccountDetails userID = {location.state.id}/>;
             case "wishlist":
                 return <WishlistPage items={products}/>;
             case "cart":
