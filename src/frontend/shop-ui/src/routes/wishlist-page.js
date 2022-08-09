@@ -2,10 +2,10 @@ import {Button, Card, Image} from "semantic-ui-react";
 import React from "react";
 
 import "./wishlist-page.css"
+import {useSelector} from "react-redux";
 
-function WishlistPage(props) {
-    const wishlistItems = props.items;
-
+function WishlistPage() {
+const wishlistItems = useSelector(store => store.wishlist.items);
     return (
         <>
             <div className="wishlist-body">
@@ -18,8 +18,8 @@ function WishlistPage(props) {
                                 src="https://i.ytimg.com/vi/z_wcL_zg2hM/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDo4Dzvudez6Op0QRM9DCt9INaCZQ"/>
                             <Card.Content>
                                 <Card.Header content={item.name}/>
-                                <Card.Meta content={item.seller}/>
-                                <Card.Description content={item.description}/>
+                                <Card.Meta content={item.category}/>
+                                <Card.Description content={item.desc}/>
                             </Card.Content>
                             <Card.Content>
                                 <div className="wishlist-item-buttons">

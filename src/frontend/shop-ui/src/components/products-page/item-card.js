@@ -86,14 +86,14 @@ function Products() {
             <Grid.Row>
               <div className="product-list-item-cards">
                 <Card.Group itemsPerRow={3}>
-                  {products.map((item) => (
+                  {products["Products"].map((item) => (
                     <Card key={item.id}>
                       <Image
                         src="https://i.ytimg.com/vi/z_wcL_zg2hM/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDo4Dzvudez6Op0QRM9DCt9INaCZQ"/>
                       <Card.Content>
                         <Card.Header content={item.name}/>
-                        <Card.Meta content={item.seller}/>
-                        <Card.Description content={item.description}/>
+                        <Card.Meta content={item.category}/>
+                        <Card.Description content={item.desc}/>
                       </Card.Content>
                       <Card.Content>
                         <div className="item-card-body">
