@@ -12,9 +12,14 @@ import LoginPage from "./routes/LoginPage";
 import SignUp from "./routes/sign-up";
 import Home from "./routes/home";
 
+//React Redux
+import { Provider } from "react-redux";
+import { reduxStorage } from "./redux-storage";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <React.StrictMode>
+  <React.StrictMode>
+    <Provider store={reduxStorage}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
@@ -27,7 +32,8 @@ root.render(
           <Route path="/cart" element={<Home selected="cart" />} />
         </Routes>
       </BrowserRouter>
-    </React.StrictMode>
+    </Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
