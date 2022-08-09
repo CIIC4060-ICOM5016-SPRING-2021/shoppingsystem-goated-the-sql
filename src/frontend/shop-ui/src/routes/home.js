@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Loader, Menu } from "semantic-ui-react";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {Menu} from "semantic-ui-react";
+import {useNavigate} from "react-router-dom";
 
 import WishlistPage from "./wishlist-page";
 import AccountDetailsPage from "./account-page";
@@ -14,38 +14,36 @@ function Home(props) {
   const navigate = useNavigate();
 
   const selected = props.selected;
-  const [state, setState] = useState({ activeItem: selected });
+  const [state, setState] = useState({activeItem: selected});
   const activeItem = state.activeItem;
 
   function itemClicked(name) {
     // TODO: Find more or decide from the options found for the changing URLs:
     // window.history.replaceState(null, name.toLocaleUpperCase(), name)
     navigate("/" + name);
-    setState({ activeItem: name });
+    setState({activeItem: name});
   }
 
   function PageToRender() {
     switch (activeItem) {
       case "home":
         return (
-            <ItemCards />
+          <ItemCards/>
         );
       case "statistics":
-        return <StatsPage />;
+        return <StatsPage/>;
       case "account":
         return (
           <AccountDetailsPage/>
         );
       case "wishlist":
-        return <WishlistPage />;
+        return <WishlistPage/>;
       case "cart":
-        return <CartPage />;
+        return <CartPage/>;
       default:
-        setState({ activeItem: "home" });
+        setState({activeItem: "home"});
         return (
-          <React.Suspense fallback={<Loader content="Loading" />}>
-            <ItemCards />
-          </React.Suspense>
+          <ItemCards/>
         );
     }
   }
@@ -81,7 +79,7 @@ function Home(props) {
         />
       </Menu>
       <div className="content-body">
-        <PageToRender />
+        <PageToRender/>
       </div>
     </>
   );
