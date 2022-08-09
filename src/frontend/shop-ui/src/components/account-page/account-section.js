@@ -3,7 +3,6 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardMeta,
   Form,
   FormButton,
   FormGroup,
@@ -12,9 +11,10 @@ import {
   Label,
 } from "semantic-ui-react";
 import React from "react";
+import {useSelector} from "react-redux";
 
-function AccountSection(props) {
-  const { details } = props;
+function AccountSection() {
+  const accountDetails = useSelector((store) => store.account.details);
 
   return (
     <>
@@ -25,15 +25,11 @@ function AccountSection(props) {
               <Label content="Current details" size="medium" horizontal />
             </div>
             <CardHeader
-              content={details.fname + " " + details.lname}
-              textAlign="center"
-            />
-            <CardMeta
-              content={"Joined " + details.created}
+              content={accountDetails["first name"] + " " + accountDetails["last name"]}
               textAlign="center"
             />
             <CardDescription
-              content={"Phone Number: " + details.pnum}
+              content={"Phone Number: " + accountDetails["phone #"]}
               textAlign="center"
             />
           </CardContent>

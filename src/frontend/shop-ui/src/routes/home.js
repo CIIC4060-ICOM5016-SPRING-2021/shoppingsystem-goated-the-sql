@@ -34,12 +34,7 @@ function Home(props) {
         return <StatsPage />;
       case "account":
         return (
-          <AccountDetailsPage
-            fname="Juanito"
-            lname="Barrio"
-            pnum={50595505}
-            created="12/1/2345"
-          />
+          <AccountDetailsPage/>
         );
       case "wishlist":
         return <WishlistPage />;

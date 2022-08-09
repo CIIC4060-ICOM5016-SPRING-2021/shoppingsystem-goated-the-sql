@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import AccountSection from "../components/account-page/account-section";
 import OrdersSection from "../components/account-page/orders-section";
 
-function AccountPage(props) {
+function AccountPage() {
     const [state, setState] = useState({activeSection: "account"})
     const activeSection = state.activeSection;
 
@@ -91,11 +91,9 @@ function AccountPage(props) {
                             (() => {
                                 if (activeSection === "account") {
                                     getAccountDetails()
-                                    //TODO: Get props and pass them on to the component
-                                    return (<AccountSection details={props} />);
+                                    return (<AccountSection />);
                                 } else if (activeSection === "orders") {
                                     getOrderDetails()
-                                    //TODO: Get props and pass them on to the component
                                     return (<OrdersSection orders={ordersList}/>);
                                 }
                             })()
