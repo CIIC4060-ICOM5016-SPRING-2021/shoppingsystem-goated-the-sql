@@ -6,25 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 import "semantic-ui-css/semantic.min.css";
 
 // Components
-import LoginPage from "./LoginPage";
+import LoginPage from "./routes/LoginPage";
 
 // Routes
 import SignUp from "./routes/sign-up";
 import Home from "./routes/home";
 
-// React Redux
-import { configureStore } from "@reduxjs/toolkit";
-import allReducers from "./reducers";
-import { Provider } from "react-redux";
-
-const storage = configureStore(
-  { reducer: allReducers },
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={storage}>
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
@@ -39,7 +28,6 @@ root.render(
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
-  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
