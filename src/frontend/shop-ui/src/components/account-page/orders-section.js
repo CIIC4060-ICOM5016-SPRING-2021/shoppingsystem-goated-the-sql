@@ -3,9 +3,11 @@ import React from "react";
 
 import "./orders-section.css";
 import OrderDetails from "./order-details";
+import {useSelector} from "react-redux";
 
-function OrdersSection(props) {
-  const orders = props.orders;
+function OrdersSection() {
+const orders = useSelector(state => state.user.orders);
+
 
   return (
     <>
