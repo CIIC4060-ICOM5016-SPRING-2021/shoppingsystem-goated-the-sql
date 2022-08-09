@@ -1,4 +1,4 @@
-import {Button, Card, Divider, Grid, Loader} from "semantic-ui-react";
+import {Button, Card, Divider, Grid} from "semantic-ui-react";
 import React from "react";
 
 import CartItem from "../components/cart-page/cart-item";
@@ -23,9 +23,7 @@ function CartPage() {
                 <Grid.Row columns={2}>
                   <Grid.Column width={10}>
                     <h1>Cart</h1>
-                    <React.Suspense fallback={<Loader content="Loading..."/>}>
-                      <CartItem items={cartItems}/>
-                    </React.Suspense>
+                    <CartItem items={cartItems}/>
                   </Grid.Column>
                   <Grid.Column width={6}>
                     <h1>Total</h1>

@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import Loading from "../utility/loading";
 
 function Products() {
-  const {products, isLoading} = useSelector((state) => state.product);
+  const {products, isLoading} = useSelector((store) => store.product);
 
   const categories = [
     {

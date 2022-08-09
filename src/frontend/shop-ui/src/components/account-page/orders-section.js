@@ -7,8 +7,8 @@ import {useSelector} from "react-redux";
 import Loading from "../utility/loading";
 
 function OrdersSection() {
-  const {isLoading} = useSelector(state => state.user);
-  const orders = useSelector(state => state.user.orders);
+  const {isLoading} = useSelector(store => store.user);
+  const orders = useSelector(store => store.user.orders);
 
   if (isLoading) {
     return (<Loading/>);

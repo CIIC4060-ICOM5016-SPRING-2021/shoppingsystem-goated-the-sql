@@ -10,7 +10,7 @@ import {useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
 
 function StatsPage() {
-  const {globalStats, accountStats, isLoading} = useSelector((state) => state.stats);
+  const {globalStats, accountStats, isLoading} = useSelector((store) => store.stats);
 
   if (isLoading) {
     return <Loading/>;
