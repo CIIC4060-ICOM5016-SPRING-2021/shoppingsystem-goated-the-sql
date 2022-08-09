@@ -1,11 +1,13 @@
-function productReducer(state = { products: [] }, action) {
-  switch (action.type) {
-    //   TODO: Add logic to this that actually works
-    case "products/getall":
-      return null;
-    default:
-      return state;
-  }
-}
+import {createSlice} from '@reduxjs/toolkit'
 
-export default productReducer;
+const productSlice = createSlice({
+  name: 'products',
+  initialState: {
+    products: []
+  },
+  reducers: {
+    getAllProducts: state => {}
+  }
+})
+
+export const { getAllProducts } = productSlice.actions
