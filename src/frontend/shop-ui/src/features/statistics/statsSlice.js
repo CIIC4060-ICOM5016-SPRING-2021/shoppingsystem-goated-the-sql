@@ -8,6 +8,7 @@ const statsSlice = createSlice({
   initialState: {
     globalStats: globalStats,
     accountStats: accountStats,
+    isLoading: false,
   },
   reducers: {},
 });

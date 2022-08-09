@@ -10,11 +10,11 @@ import wishlistReducer from "./features/wishlist/wishlistSlice";
 
 export const reduxStorage = configureStore({
   reducer: {
-    cart: cartReducer,
     product: productReducer,
     user: userReducer,
     stats: statsReducer,
     account: accountSlice,
     wishlist: wishlistReducer,
+    cart: cartReducer,
   }
 });

@@ -1,9 +1,12 @@
 import { Button, List } from "semantic-ui-react";
 import React, { useState } from "react";
+import {useSelector} from "react-redux";
 
 function CartItem(props) {
   const cartItems = props.items;
   let [state, setState] = useState(cartItems);
+
+  const {products} = useSelector(store => store.product);
 
   //TODO: Figure out why the button only shows the value the first time the state is changed
   function increaseQuantity(itemID) {
@@ -29,6 +32,11 @@ function CartItem(props) {
     console.log(state);
   }
 
+  function getProductName(product_id) {
+    const product = products["Products"].find(product => product.id === product_id);
+    return product.name;
+  }
+
   //TODO: Add functionality that sends an API call to add or remove a quantity for a product
   return (
     <List divided>
@@ -52,7 +60,9 @@ function CartItem(props) {
               />
             </Button.Group>
             {/* TODO: Get the details of the item via API call and place the name below*/}
-            <List.Header content="Item Name" />
+            <List.Header>
+              {getProductName(item.product_id)}
+            </List.Header>
             <List.Description content={" - $" + item.product_price} />
           </List.Content>
         </List.Item>
