@@ -17,49 +17,6 @@ function Home(props) {
   const [state, setState] = useState({ activeItem: selected });
   const activeItem = state.activeItem;
 
-  const products = [
-    {
-      id: 1,
-      name: "Goomba",
-      price: 15,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-      seller: "Nintendo",
-    },
-    {
-      id: 2,
-      name: "Koopa",
-      price: 35,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-      seller: "AMD",
-    },
-    {
-      id: 3,
-      name: "Koopa",
-      price: 35,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-      seller: "AMD",
-    },
-    {
-      id: 4,
-      name: "Koopa",
-      price: 35,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-      seller: "AMD",
-    },
-    {
-      id: 5,
-      name: "Koopa",
-      price: 35,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex blanditiis adipisci corrupti nostrum earum. Dignissimos, facere natus impedit enim quasi accusamus voluptatem illum! Facere voluptate veritatis fugiat autem libero dignissimos?",
-      seller: "AMD",
-    },
-  ];
-
   function itemClicked(name) {
     // TODO: Find more or decide from the options found for the changing URLs:
     // window.history.replaceState(null, name.toLocaleUpperCase(), name)
@@ -71,9 +28,7 @@ function Home(props) {
     switch (activeItem) {
       case "home":
         return (
-          <React.Suspense fallback={<Loader content="Loading" />}>
-            <ItemCards items={products} />
-          </React.Suspense>
+            <ItemCards />
         );
       case "statistics":
         return <StatsPage />;
@@ -87,14 +42,14 @@ function Home(props) {
           />
         );
       case "wishlist":
-        return <WishlistPage items={products} />;
+        return <WishlistPage />;
       case "cart":
         return <CartPage />;
       default:
         setState({ activeItem: "home" });
         return (
           <React.Suspense fallback={<Loader content="Loading" />}>
-            <ItemCards items={products} />
+            <ItemCards />
           </React.Suspense>
         );
     }
