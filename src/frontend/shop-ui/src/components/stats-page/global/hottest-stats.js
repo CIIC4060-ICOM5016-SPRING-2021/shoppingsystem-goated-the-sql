@@ -4,7 +4,7 @@ import {Bar, BarChart, Cell, Tooltip, XAxis, YAxis} from "recharts";
 import "./hottest-stats.css"
 
 function HottestStats(props) {
-  const globalStats = props.details["Global Statistics"];
+  const globalStats = props.details;
 
   return (
     <>

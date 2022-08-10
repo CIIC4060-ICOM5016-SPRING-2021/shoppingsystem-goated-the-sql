@@ -17,43 +17,45 @@ const statsSlice = createSlice({
   initialState: {
     globalStats: {},
     accountStats: accountStats,
-    isLoading: true,
+    isLoadingGlobal: true,
+    isLoadingPersonal: true,
   },
   reducers: {
     setAccountStats: (state, action) => {
       if (action.payload !== undefined) {
+        console.log("Setting account stats");
         state.accountStats = action.payload;
-        state.isLoading = false;
+        state.isLoadingPersonal = false;
       }
     },
     setGlobalStats: (state, action) => {
       console.log("Setting global stats");
       if (action.payload !== undefined) {
         state.globalStats = action.payload;
-        state.isLoading = false;
+        state.isLoadingGlobal = false;
       }
     }
   },
   extraReducers: {
     [fetchGlobalStats.pending]: (state) => {
-      state.isLoading = true;
+      state.isLoadingGlobal = true;
     },
     [fetchGlobalStats.fulfilled]: (state, action) => {
       state.globalStats = action.payload;
-      state.isLoading = false;
+      state.isLoadingGlobal = false;
     },
     [fetchGlobalStats.rejected]: (state) => {
-      state.isLoading = false;
+      state.isLoadingGlobal = false;
     },
     [fetchAccountStats.pending]: (state) => {
-      state.isLoading = true;
+      state.isLoadingPersonal = true;
     },
     [fetchAccountStats.fulfilled]: (state, action) => {
       state.accountStats = action.payload;
-      state.isLoading = false;
+      state.isLoadingPersonal = false;
     },
     [fetchAccountStats.rejected]: (state) => {
-      state.isLoading = false;
+      state.isLoadingPersonal = false;
     }
   }
 });

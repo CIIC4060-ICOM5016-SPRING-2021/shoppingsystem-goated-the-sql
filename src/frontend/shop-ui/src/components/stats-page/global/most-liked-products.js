@@ -3,7 +3,7 @@ import {Grid, List, ListItem} from "semantic-ui-react";
 import "./most-liked-products.css"
 
 function MostLikedProductsGraph(props) {
-  const globalStats = props.details["Global Statistics"]
+  const globalStats = props.details
 
   return (
     <>

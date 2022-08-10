@@ -4,7 +4,7 @@ import {Funnel, FunnelChart, LabelList, Tooltip,} from "recharts";
 import "./cheap-or-expensive-global.css"
 
 function CheapnExpensiveProductsList(props) {
-  const globalStats = props.details["Global Statistics"]
+  const globalStats = props.details
 
   return (
     <>
