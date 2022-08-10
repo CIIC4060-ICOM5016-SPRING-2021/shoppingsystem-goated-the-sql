@@ -1,32 +1,37 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-
-import {globalStats} from "../../dummy-info/dummy-global-stats";
 import {accountStats} from "../../dummy-info/dummy-account-stats";
 
-export const fetchGlobalStats = createAsyncThunk( 'stats/fetchGlobalStats', async () => {
+export const fetchGlobalStats = createAsyncThunk('stats/fetchGlobalStats', async () => {
   return fetch('http://')
     .then(res => res.json())
     .catch(err => console.log(err));
 });
-export const fetchAccountStats = createAsyncThunk( 'stats/fetchAccountStats', async () => {
- return fetch('http://')
-   .then(res => res.json())
-   .catch(err => console.log(err));
+export const fetchAccountStats = createAsyncThunk('stats/fetchAccountStats', async () => {
+  return fetch('http://')
+    .then(res => res.json())
+    .catch(err => console.log(err));
 });
 
 const statsSlice = createSlice({
   name: "stats",
   initialState: {
-    globalStats: globalStats,
+    globalStats: {},
     accountStats: accountStats,
-    isLoading: false,
+    isLoading: true,
   },
   reducers: {
     setAccountStats: (state, action) => {
-      state.accountStats = action.payload;
+      if (action.payload !== undefined) {
+        state.accountStats = action.payload;
+        state.isLoading = false;
+      }
     },
     setGlobalStats: (state, action) => {
-      state.globalStats = action.payload;
+      console.log("Setting global stats");
+      if (action.payload !== undefined) {
+        state.globalStats = action.payload;
+        state.isLoading = false;
+      }
     }
   },
   extraReducers: {

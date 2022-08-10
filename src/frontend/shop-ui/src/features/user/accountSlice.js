@@ -16,7 +16,7 @@ const accountSlice = createSlice({
     //TODO: With a get all orders request, this will include the user statistics so adjust accordingly
     orders: ordersList,
     //It is true because the user is fetched at the beginning
-    isLoading: false,
+    isLoading: true,
   },
   reducers: {},
   extraReducers: {

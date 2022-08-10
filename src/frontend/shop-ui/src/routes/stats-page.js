@@ -6,11 +6,29 @@ import MostLikedProducts from "../components/stats-page/global/most-liked-produc
 import MostBought from "../components/stats-page/personal/most-bought";
 
 import "./stats-page.css";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
+import {setGlobalStats} from "../features/statistics/statsSlice";
+import {getAllProducts} from "../features/products/productSlice";
 
 function StatsPage() {
+  const gStateStats = useSelector(store => store.product.products);
+  // const aStateStats = useSelector(store => store.user);
   const {globalStats, accountStats, isLoading} = useSelector((store) => store.stats);
+  const dispatch = useDispatch();
+
+  // Set global stats
+  if(gStateStats !== undefined || true) {
+    dispatch(setGlobalStats(gStateStats));
+  } else if(globalStats === undefined) {
+    dispatch(getAllProducts());
+    dispatch(setGlobalStats(gStateStats));
+  }
+
+  // Set account stats
+  if(accountStats !== undefined || true) {
+    // dispatch(setAccountStats());
+  }
 
   if (isLoading) {
     return <Loading/>;

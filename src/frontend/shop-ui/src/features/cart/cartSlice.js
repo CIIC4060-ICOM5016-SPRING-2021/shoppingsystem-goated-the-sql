@@ -1,7 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-import {cart} from "../../dummy-info/dummy-cart-info";
-
 export const getCartItems = createAsyncThunk('cart/getItems', (id) => {
   return fetch(`http://127.0.0.1:5000/goated_the_sql/cart/${id}`)
     .then((response) => response.json())
@@ -12,7 +10,7 @@ export const getCartItems = createAsyncThunk('cart/getItems', (id) => {
 export const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    cartItems: cart,
+    cartItems: [],
     total: 0,
     //It is true because the cart is fetched at the beginning
     isLoading: false,

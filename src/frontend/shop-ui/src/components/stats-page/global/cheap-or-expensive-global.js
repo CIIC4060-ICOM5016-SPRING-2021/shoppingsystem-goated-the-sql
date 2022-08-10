@@ -6,8 +6,6 @@ import "./cheap-or-expensive-global.css"
 function CheapnExpensiveProductsList(props) {
   const globalStats = props.details["Global Statistics"]
 
-  console.log(globalStats)
-
   return (
     <>
       <div>

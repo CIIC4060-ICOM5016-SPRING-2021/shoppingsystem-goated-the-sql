@@ -9,7 +9,7 @@ import {getAllLikes, removeLikedItem} from "../features/likes/likesSlice";
 function LikesPage() {
   const wishlistItems = useSelector(store => store.likes.items);
   const {isLoading} = useSelector(store => store.likes);
-  const {id} = useSelector(store => store.account.details);
+  const {id} = useSelector(store => store.user.details);
   const dispatch = useDispatch();
 
   useEffect(() => {

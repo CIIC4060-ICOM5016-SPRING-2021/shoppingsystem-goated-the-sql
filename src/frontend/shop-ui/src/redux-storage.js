@@ -4,7 +4,6 @@ import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import cartReducer from "./features/cart/cartSlice";
 import productReducer from "./features/products/productSlice";
 import userReducer from "./features/user/accountSlice";
-import accountSlice from "./features/user/accountSlice";
 import statsReducer from "./features/statistics/statsSlice";
 import likesReducer from "./features/likes/likesSlice";
 
@@ -12,7 +11,6 @@ const rootReducer = combineReducers({
   product: productReducer,
   user: userReducer,
   stats: statsReducer,
-  account: accountSlice,
   likes: likesReducer,
   cart: cartReducer
 });

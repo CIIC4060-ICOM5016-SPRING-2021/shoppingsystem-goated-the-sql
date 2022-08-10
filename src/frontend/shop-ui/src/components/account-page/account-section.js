@@ -16,8 +16,8 @@ import Loading from "../utility/loading";
 import {fetchAccountInfo} from "../../features/user/accountSlice";
 
 function AccountSection() {
-  const {isLoading} = useSelector(store => store.account);
-  const accountDetails = useSelector((store) => store.account.details);
+  const {isLoading} = useSelector(store => store.user);
+  const accountDetails = useSelector((store) => store.user.details);
   const dispatch= useDispatch();
 
   useEffect(() => {
