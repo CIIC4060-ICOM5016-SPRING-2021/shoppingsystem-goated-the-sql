@@ -1,17 +1,20 @@
 import { Button, Card, Icon, Image, Grid, Dropdown } from "semantic-ui-react";
-import React from "react";
+import React, {useEffect} from "react";
 
 import "./item-card.css";
 import Loading from "../utility/loading";
 
 import {useDispatch, useSelector} from "react-redux";
 import {addLikedItem} from "../../features/likes/likesSlice";
-import {filterByCat, orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
+import {filterByCat, getAllProducts, orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
 
 function Products() {
   const {products, isLoading} = useSelector((store) => store.product);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
   const categories = [
     {
       key: 0,

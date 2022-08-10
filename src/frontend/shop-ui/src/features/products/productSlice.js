@@ -43,14 +43,16 @@ export const productSlice = createSlice({
   },
   extraReducers: {
     [getAllProducts.pending]: (state) => {
+      console.log("Loading products");
       state.isLoading = true;
     },
     [getAllProducts.fulfilled]: (state, action) => {
-      console.log('The products have been fetched: ' + action)
+      console.log("Products loaded");
       state.products = action.payload;
       state.isLoading = false;
     },
     [getAllProducts.rejected]: (state) => {
+      console.log("Products loading failed");
       state.isLoading = false;
     }
   }

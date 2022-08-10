@@ -1,23 +1,21 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-import {likes} from "../../dummy-info/dummy-likes-info";
-
-export const addLikedItem = (id) => {
+export const addLikedItem = (userID) => {
   return createAsyncThunk('likes/addLike', () => {
-    return fetch(`http://${id}`);
+    return fetch(`http://http://127.0.0.1:5000/goated_the_sql/${userID}`);
   });
 }
 
-export const getAllLikes = createAsyncThunk('likes/getAllLikes', () => {
-  return fetch('http://');
+export const getAllLikes = createAsyncThunk('likes/getAllLikes', (userID) => {
+  return fetch(`http://127.0.0.1:5000/goated_the_sql/${userID}/liked_list`);
 });
 
 const likesSlice = createSlice({
   name: "likes",
   initialState: {
-    items: likes,
+    items: [],
     //It is true because the likes is fetched at the beginning
-    isLoading: false,
+    isLoading: true,
   },
   reducers: {
     removeLikedItem(state, action) {
@@ -27,25 +25,31 @@ const likesSlice = createSlice({
     },
   },
   extraReducers: {
-    [addLikedItem.pending] : (state) => {
+    [addLikedItem.pending]: (state) => {
       state.isLoading = true;
     },
-    [addLikedItem.fulfilled] : (state, action) => {
+    [addLikedItem.fulfilled]: (state, action) => {
       state.items.push(action.payload);
       state.isLoading = false;
     },
-    [addLikedItem.rejected] : (state) => {
+    [addLikedItem.rejected]: (state) => {
       state.isLoading = false;
     },
 
-    [getAllLikes.pending] : (state) => {
+    [getAllLikes.pending]: (state) => {
+      console.log("Loading likes");
       state.isLoading = true;
     },
-    [getAllLikes.fulfilled] : (state, action) => {
-      state.items = action.payload;
+    [getAllLikes.fulfilled]: (state, action) => {
+      console.log("Likes loaded");
+      //if action.payload is not a Response type
+      if (!(action.payload instanceof Response)) {
+        state.items = action.payload;
+      }
       state.isLoading = false;
     },
-    [getAllLikes.rejected] : (state) => {
+    [getAllLikes.rejected]: (state) => {
+      console.log("Likes loading failed");
       state.isLoading = false;
     }
   }
