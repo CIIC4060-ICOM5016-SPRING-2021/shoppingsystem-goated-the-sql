@@ -9,12 +9,12 @@ import {addLikedItem} from "../../features/likes/likesSlice";
 import {filterByCat, getAllProducts, orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
 
 function Products() {
-  const {products, isLoading} = useSelector((store) => store.product);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
+
+  const {products, isLoading} = useSelector((store) => store.product);
   const categories = [
     {
       key: 0,

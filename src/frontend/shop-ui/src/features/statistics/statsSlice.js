@@ -21,7 +21,14 @@ const statsSlice = createSlice({
     accountStats: accountStats,
     isLoading: false,
   },
-  reducers: {},
+  reducers: {
+    setAccountStats: (state, action) => {
+      state.accountStats = action.payload;
+    },
+    setGlobalStats: (state, action) => {
+      state.globalStats = action.payload;
+    }
+  },
   extraReducers: {
     [fetchGlobalStats.pending]: (state) => {
       state.isLoading = true;
@@ -46,4 +53,5 @@ const statsSlice = createSlice({
   }
 });
 
+export const {setAccountStats, setGlobalStats} = statsSlice.actions;
 export default statsSlice.reducer;

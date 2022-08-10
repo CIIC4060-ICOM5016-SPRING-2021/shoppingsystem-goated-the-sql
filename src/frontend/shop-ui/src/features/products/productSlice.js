@@ -1,7 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-import {products} from "../../dummy-info/dummy-products";
-
 export const getAllProducts = createAsyncThunk('products/getAllProducts', () => {
   return fetch('http://127.0.0.1:5000/goated_the_sql/products/all')
     .then((response) => response.json())
@@ -12,11 +10,10 @@ export const getAllProducts = createAsyncThunk('products/getAllProducts', () => 
 export const productSlice = createSlice({
   name: "product",
   initialState: {
-    products: products,
-    productsCopy: products["Products"],
+    products: [],
+    productsCopy: [],
     //It is true because the products are fetched at the beginning
-    //TODO: Change this to true when the products are fetched logic is implemented
-    isLoading: false,
+    isLoading: true,
     modified: false,
   },
   reducers: {
@@ -49,6 +46,7 @@ export const productSlice = createSlice({
     [getAllProducts.fulfilled]: (state, action) => {
       console.log("Products loaded");
       state.products = action.payload;
+      state.productsCopy = action.payload["Products"];
       state.isLoading = false;
     },
     [getAllProducts.rejected]: (state) => {
