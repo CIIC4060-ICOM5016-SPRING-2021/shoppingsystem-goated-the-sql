@@ -28,7 +28,7 @@ root.render(
           <Route path="/home" element={<Home selected="home" />} />
           <Route path="/statistics" element={<Home selected="statistics" />} />
           <Route path="/account" element={<Home selected="account" />} />
-          <Route path="/wishlist" element={<Home selected="wishlist" />} />
+          <Route path="/likes" element={<Home selected="likes" />} />
           <Route path="/cart" element={<Home selected="cart" />} />
         </Routes>
       </BrowserRouter>

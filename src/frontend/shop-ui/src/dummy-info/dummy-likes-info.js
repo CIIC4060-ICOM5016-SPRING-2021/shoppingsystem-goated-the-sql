@@ -1,4 +1,4 @@
-export const wishlist = [
+export const likes = [
   {
     "category": "Controllers",
     "desc": "Take control of your games 360 days a year...",

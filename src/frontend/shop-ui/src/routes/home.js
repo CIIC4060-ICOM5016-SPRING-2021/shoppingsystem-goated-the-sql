@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Menu} from "semantic-ui-react";
 import {useNavigate} from "react-router-dom";
 
-import WishlistPage from "./wishlist-page";
+import LikesPage from "./likes-page";
 import AccountDetailsPage from "./account-page";
 import CartPage from "./cart-page";
 import ItemCards from "../components/products-page/item-card";
@@ -26,24 +26,18 @@ function Home(props) {
   function PageToRender() {
     switch (activeItem) {
       case "home":
-        return (
-          <ItemCards/>
-        );
+        return <ItemCards/>;
       case "statistics":
         return <StatsPage/>;
       case "account":
-        return (
-          <AccountDetailsPage/>
-        );
-      case "wishlist":
-        return <WishlistPage/>;
+        return <AccountDetailsPage/>;
+      case "likes":
+        return <LikesPage/>;
       case "cart":
         return <CartPage/>;
       default:
         setState({activeItem: "home"});
-        return (
-          <ItemCards/>
-        );
+        return <ItemCards/>;
     }
   }
 
@@ -67,9 +61,9 @@ function Home(props) {
           content="Account"
         />
         <Menu.Item
-          active={activeItem === "wishlist"}
-          onClick={() => itemClicked("wishlist")}
-          content="Wishlist"
+          active={activeItem === "likes"}
+          onClick={() => itemClicked("likes")}
+          content="Likes"
         />
         <Menu.Item
           active={activeItem === "cart"}

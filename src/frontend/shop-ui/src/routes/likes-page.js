@@ -1,13 +1,20 @@
 import {Button, Card, Image} from "semantic-ui-react";
 import React from "react";
 
-import "./wishlist-page.css"
-import {useSelector} from "react-redux";
+import "./likes-page.css"
+import {useDispatch, useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
+import {removeLikedItem} from "../features/likes/likesSlice";
 
-function WishlistPage() {
-  const wishlistItems = useSelector(store => store.wishlist.items);
-  const {isLoading} = useSelector(store => store.wishlist);
+function LikesPage() {
+  const wishlistItems = useSelector(store => store.likes.items);
+  const {isLoading} = useSelector(store => store.likes);
+  const dispatch = useDispatch();
+
+
+  function removeItem(id) {
+    dispatch(removeLikedItem(id));
+  }
 
   if (isLoading) {
     return (<Loading/>);
@@ -27,7 +34,7 @@ function WishlistPage() {
                 </Card.Content>
                 <Card.Content>
                   <div className="wishlist-item-buttons">
-                    <Button fluid negative icon="trash"/>
+                    <Button fluid negative icon="trash" onClick={() => removeItem(item.id)}/>
                     <Button fluid positive icon="cart" content="Add to Cart"/>
                   </div>
                 </Card.Content>
@@ -40,4 +47,4 @@ function WishlistPage() {
   }
 }
 
-export default WishlistPage;
+export default LikesPage;
