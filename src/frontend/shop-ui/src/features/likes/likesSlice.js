@@ -1,10 +1,8 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-export const addLikedItem = (userID) => {
-  return createAsyncThunk('likes/addLike', () => {
-    return fetch(`http://http://127.0.0.1:5000/goated_the_sql/${userID}`)
-      .then(res => res.json())
-      .catch(err => console.log(err));
+export const addLikedItem = () => {
+  return createAsyncThunk('likes/addLike', ({userID, itemID}) => {
+    //TODO: post info to server using fetch (note I have no clue if this ^ is how you pass multiple variables to the method)
   });
 }
 

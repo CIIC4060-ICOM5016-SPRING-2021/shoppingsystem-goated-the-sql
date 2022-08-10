@@ -15,6 +15,7 @@ function Products() {
   }, [dispatch]);
 
   const {products, isLoading} = useSelector((store) => store.product);
+  const {id} = useSelector((store) => store.user.details);
   const categories = [
     {
       key: 0,
@@ -73,8 +74,8 @@ function Products() {
     },
   ];
 
-  function likeItem(id) {
-    dispatch(addLikedItem(id));
+  function likeItem(itemID) {
+    dispatch(addLikedItem({id ,itemID}));
   }
   function orderByPriceAscending() {
     dispatch(orderByPriceAsc());
@@ -127,11 +128,6 @@ function Products() {
                         <div className="item-card-body">
                           <div className="price-n-quantity">
                             <div className="item-card-price">${item.price}</div>
-                            <Button.Group basic size="medium">
-                              <Button icon="plus"/>
-                              <Button disabled content="14"/>
-                              <Button icon="minus"/>
-                            </Button.Group>
                           </div>
                           <div className="item-card-cart-n-wishlist">
                             <Button icon="heart" primary onClick={() => likeItem(item.id)}/>
