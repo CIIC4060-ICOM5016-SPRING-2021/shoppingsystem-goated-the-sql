@@ -10,7 +10,6 @@ function CartItem(props) {
   const dispatch = useDispatch();
   const {products} = useSelector(store => store.product);
 
-  //TODO: Figure out why the button only shows the value the first time the state is changed
   function increaseQuantity(itemID) {
     dispatch(increaseCartItemQuantity(itemID));
   }
@@ -33,10 +32,6 @@ function CartItem(props) {
           <List.Icon name="shopping cart" verticalAlign="middle"/>
           <List.Content>
             <Button.Group floated="right" basic compact>
-              {/*
-                TODO: Find a way for these changes to make their way to the cart-total-list so that it can
-                re-render the total amount for the order
-              */}
               <Button
                 icon="plus"
                 onClick={() => increaseQuantity(item.product_id)}
@@ -47,7 +42,6 @@ function CartItem(props) {
                 onClick={() => reduceQuantity(item.product_id)}
               />
             </Button.Group>
-            {/* TODO: Get the details of the item via API call and place the name below*/}
             <List.Header>
               {getProductName(item.product_id)}
             </List.Header>

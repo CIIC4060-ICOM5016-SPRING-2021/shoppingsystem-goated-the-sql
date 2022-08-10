@@ -1,11 +1,15 @@
 import { Button, Card, Icon, Image, Grid, Dropdown } from "semantic-ui-react";
 import React from "react";
+
 import "./item-card.css";
-import {useSelector} from "react-redux";
 import Loading from "../utility/loading";
+
+import {useDispatch, useSelector} from "react-redux";
+import {addLikedItem} from "../../features/likes/likesSlice";
 
 function Products() {
   const {products, isLoading} = useSelector((store) => store.product);
+  const dispatch = useDispatch();
 
   const categories = [
     {
@@ -60,6 +64,10 @@ function Products() {
     },
   ];
 
+  function likeItem(id) {
+    dispatch(addLikedItem(id));
+  }
+
   if (isLoading) {
     return <Loading/>
   } else {
@@ -106,7 +114,7 @@ function Products() {
                             </Button.Group>
                           </div>
                           <div className="item-card-cart-n-wishlist">
-                            <Button icon="heart" primary/>
+                            <Button icon="heart" primary onClick={() => likeItem(item.id)}/>
                             <Button positive animated="fade" size="medium" fluid>
                               <Button.Content visible>
                                 <Icon name="arrow right"/>

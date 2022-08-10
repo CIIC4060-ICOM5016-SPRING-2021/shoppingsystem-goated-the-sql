@@ -4,7 +4,7 @@ import React from "react";
 import "./likes-page.css"
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
-import {removeLikedItem} from "../features/wishlist/likesSlice";
+import {removeLikedItem} from "../features/likes/likesSlice";
 
 function LikesPage() {
   const wishlistItems = useSelector(store => store.likes.items);
