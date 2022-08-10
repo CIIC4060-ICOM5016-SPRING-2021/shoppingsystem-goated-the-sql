@@ -26,24 +26,18 @@ function Home(props) {
   function PageToRender() {
     switch (activeItem) {
       case "home":
-        return (
-          <ItemCards/>
-        );
+        return <ItemCards/>;
       case "statistics":
         return <StatsPage/>;
       case "account":
-        return (
-          <AccountDetailsPage/>
-        );
+        return <AccountDetailsPage/>;
       case "likes":
         return <LikesPage/>;
       case "cart":
         return <CartPage/>;
       default:
         setState({activeItem: "home"});
-        return (
-          <ItemCards/>
-        );
+        return <ItemCards/>;
     }
   }
 
