@@ -6,7 +6,7 @@ import Loading from "../utility/loading";
 
 import {useDispatch, useSelector} from "react-redux";
 import {addLikedItem} from "../../features/likes/likesSlice";
-import {orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
+import {filterByCat, orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
 
 function Products() {
   const {products, isLoading} = useSelector((store) => store.product);
@@ -74,6 +74,9 @@ function Products() {
   function orderByPriceDescending() {
     dispatch(orderByPriceDesc());
   }
+  function orderByCategory(e,category) {
+    dispatch(filterByCat(category));
+  }
 
   if (isLoading) {
     return <Loading/>
@@ -93,6 +96,7 @@ function Products() {
                   placeholder="Category"
                   selection
                   options={categories}
+                  onChange={orderByCategory}
 
                   // TODO: Find out how to add onClick functionality to dynamic selection values
                 ></Dropdown>
