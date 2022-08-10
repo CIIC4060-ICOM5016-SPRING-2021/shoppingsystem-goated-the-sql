@@ -29,8 +29,6 @@ function WishlistPage(props) {
         } catch (error) {
             console.log(error);
         }
-
-
     }
 
     useEffect(() => {
