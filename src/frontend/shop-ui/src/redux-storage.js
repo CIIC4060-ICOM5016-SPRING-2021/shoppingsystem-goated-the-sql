@@ -6,7 +6,7 @@ import productReducer from "./features/products/productSlice";
 import userReducer from "./features/user/accountSlice";
 import statsReducer from "./features/statistics/statsSlice";
 import accountSlice from "./features/user/accountSlice";
-import wishlistReducer from "./features/wishlist/wishlistSlice";
+import wishlistReducer from "./features/wishlist/likesSlice";
 
 export const reduxStorage = configureStore({
   reducer: {
@@ -14,7 +14,7 @@ export const reduxStorage = configureStore({
     user: userReducer,
     stats: statsReducer,
     account: accountSlice,
-    wishlist: wishlistReducer,
+    likes: wishlistReducer,
     cart: cartReducer,
   }
 });

@@ -111,7 +111,7 @@ function Products() {
                               <Button.Content visible>
                                 <Icon name="arrow right"/>
                               </Button.Content>
-                              <Button.Content hidden>Add to Cart</Button.Content>
+                              <Button.Content hidden>Buy</Button.Content>
                             </Button>
                           </div>
                         </div>
