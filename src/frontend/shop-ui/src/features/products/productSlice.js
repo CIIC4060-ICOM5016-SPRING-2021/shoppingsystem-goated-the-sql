@@ -13,7 +13,7 @@ export const productSlice = createSlice({
   name: "product",
   initialState: {
     products: products,
-    productsCopy: [],
+    productsCopy: products["Products"],
     //It is true because the products are fetched at the beginning
     //TODO: Change this to true when the products are fetched logic is implemented
     isLoading: false,
@@ -27,13 +27,17 @@ export const productSlice = createSlice({
       state.products["Products"].sort((a, b) => b.price - a.price);
     },
     filterByCat: (state, action) => {
-      if (state.modified === false) {
-        state.productsCopy = state.products["Products"];
-        state.products["Products"] = state.products["Products"].filter((product) => product.category.toLowerCase() === action.payload.value);
-        state.modified = true;
-      } else {
+      if (action.payload.value === "all") {
         state.products["Products"] = state.productsCopy;
-        state.products["Products"] = state.products["Products"].filter((product) => product.category.toLowerCase() === action.payload.value);
+        state.modified = false;
+      } else {
+        if (state.modified === false) {
+          state.products["Products"] = state.products["Products"].filter((product) => product.category.toLowerCase() === action.payload.value);
+          state.modified = true;
+        } else {
+          state.products["Products"] = state.productsCopy;
+          state.products["Products"] = state.products["Products"].filter((product) => product.category.toLowerCase() === action.payload.value);
+        }
       }
     },
   },

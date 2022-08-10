@@ -15,51 +15,56 @@ function Products() {
   const categories = [
     {
       key: 0,
+      text: "All",
+      value: "all",
+    },
+    {
+      key: 1,
       text: "Audio",
       value: "audio",
     },
     {
-      key: 1,
+      key: 2,
       text: "Collectibles",
       value: "collectibles",
     },
     {
-      key: 2,
+      key: 3,
       text: "Consoles",
       value: "consoles",
     },
     {
-      key: 3,
+      key: 4,
       text: "Controllers",
       value: "controllers",
     },
     {
-      key: 4,
+      key: 5,
       text: "Gift Cards",
       value: "gift cards",
     },
     {
-      key: 5,
+      key: 6,
       text: "PC",
       value: "pc",
     },
     {
-      key: 6,
+      key: 7,
       text: "Peripherals",
       value: "peripherals",
     },
     {
-      key: 7,
+      key: 8,
       text: "Smartphones",
       value: "smartphones",
     },
     {
-      key: 8,
+      key: 9,
       text: "Storage",
       value: "storage",
     },
     {
-      key: 9,
+      key: 10,
       text: "Video Games",
       value: "video games",
     },
@@ -96,6 +101,7 @@ function Products() {
                   placeholder="Category"
                   selection
                   options={categories}
+                  defaultValue="all"
                   onChange={orderByCategory}
 
                   // TODO: Find out how to add onClick functionality to dynamic selection values
