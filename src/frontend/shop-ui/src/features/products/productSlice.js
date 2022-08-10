@@ -24,8 +24,8 @@ export const productSlice = createSlice({
     },
     [getAllProducts.fulfilled]: (state, action) => {
       console.log('The products have been fetched: ' + action)
-      state.isLoading = false;
       state.products = action.payload;
+      state.isLoading = false;
     },
     [getAllProducts.rejected]: (state) => {
       state.isLoading = false;
