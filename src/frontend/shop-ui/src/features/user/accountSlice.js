@@ -1,10 +1,13 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-import {accountInfo} from "../../dummy-info/dummy-account-info";
-import {ordersList} from "../../dummy-info/dummy-orders-info";
-
-export const fetchAccountInfo = createAsyncThunk( 'account/fetchAccountInfo', async (userID) => {
+export const fetchAccountInfo = createAsyncThunk('account/fetchAccountInfo', async (userID) => {
   return fetch(`http://127.0.0.1:5000/goated_the_sql/user/${userID}`)
+    .then(res => res.json())
+    .catch(err => console.log(err));
+});
+
+export const fetchOrdersInfo = createAsyncThunk('account/fetchOrders', async (userID) => {
+  return fetch(`http://127.0.0.1:5000/goated_the_sql/user/${userID}/orders`)
     .then(res => res.json())
     .catch(err => console.log(err));
 });
@@ -12,23 +15,34 @@ export const fetchAccountInfo = createAsyncThunk( 'account/fetchAccountInfo', as
 const accountSlice = createSlice({
   name: "user",
   initialState: {
-    details: accountInfo,
+    details: [],
     //TODO: With a get all orders request, this will include the user statistics so adjust accordingly
-    orders: ordersList,
+    orders: [],
     //It is true because the user is fetched at the beginning
-    isLoading: true,
+    isLoadingAccount: true,
+    isLoadingOrders: true,
   },
   reducers: {},
   extraReducers: {
     [fetchAccountInfo.pending]: (state) => {
-      state.isLoading = true;
+      state.isLoadingAccount = true;
     },
     [fetchAccountInfo.fulfilled]: (state, action) => {
       state.details = action.payload;
-      state.isLoading = false;
+      state.isLoadingAccount = false;
     },
     [fetchAccountInfo.rejected]: (state) => {
-      state.isLoading = false;
+      state.isLoadingAccount = false;
+    },
+    [fetchOrdersInfo.pending]: (state) => {
+      state.isLoadingOrders = true;
+    },
+    [fetchOrdersInfo.fulfilled]: (state, action) => {
+      state.orders = action.payload["Orders"];
+      state.isLoadingOrders = false;
+    },
+    [fetchOrdersInfo.rejected]: (state) => {
+      state.isLoadingOrders = false;
     }
   }
 });

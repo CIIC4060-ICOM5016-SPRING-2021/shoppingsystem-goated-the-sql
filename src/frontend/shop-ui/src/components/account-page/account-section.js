@@ -13,19 +13,26 @@ import {
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../utility/loading";
+
+import "./account-section.css";
 import {fetchAccountInfo} from "../../features/user/accountSlice";
 
 function AccountSection() {
-  const {isLoading} = useSelector(store => store.user);
+  const {isLoadingAccount} = useSelector(store => store.user);
   const accountDetails = useSelector((store) => store.user.details);
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchAccountInfo(accountDetails.id));
-  }, [dispatch, accountDetails.id]);
+    //TODO: Change this value to the user's id when the log in stuff is ready
+    dispatch(fetchAccountInfo(187));
+  }, [dispatch]);
 
-  if (isLoading) {
-    return (<Loading/>);
+  if (isLoadingAccount === true || accountDetails === undefined) {
+    return (
+      <div className="loading-account-section">
+        <Loading/>
+      </div>
+    );
   } else {
     return (
       <>
