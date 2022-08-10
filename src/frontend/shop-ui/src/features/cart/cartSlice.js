@@ -1,6 +1,15 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {useSelector} from "react-redux";
 
 import {cart} from "../../dummy-info/dummy-cart-info";
+
+export const getItems = createAsyncThunk('cart/getItems', () => {
+  const {id} = useSelector((store) => store.account.details);
+  return fetch(`http://127.0.0.1:5000/goated_the_sql/cart/${id}`)
+    .then((response) => response.json())
+    .catch((error) =>
+      console.log(error));
+});
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -31,6 +40,19 @@ export const cartSlice = createSlice({
     setTotal: (state, action) => {
       state.total = action.payload;
     },
+  },
+  extraReducers: {
+    [getItems.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getItems.fulfilled]: (state, action) => {
+      console.log('The cart has been fetched: ' + action)
+      state.cartItems = action.payload;
+      state.isLoading = false;
+    },
+    [getItems.rejected]: (state) => {
+      state.isLoading = false;
+    }
   }
 });
 
