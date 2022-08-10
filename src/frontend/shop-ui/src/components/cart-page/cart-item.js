@@ -1,36 +1,24 @@
 import {Button, List} from "semantic-ui-react";
-import React, {useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+
+import {decreaseCartItemQuantity, increaseCartItemQuantity} from "../../features/cart/cartSlice";
+import React from "react";
 
 function CartItem(props) {
   const cartItems = props.items;
-  let [state, setState] = useState(cartItems);
 
+  const dispatch = useDispatch();
   const {products} = useSelector(store => store.product);
 
   //TODO: Figure out why the button only shows the value the first time the state is changed
   function increaseQuantity(itemID) {
-    const newCartItems = state.map((item) => {
-      if (item["product_id"] === itemID) item["quantity"] += 1;
-      return {...item};
-    });
-
-    setState(newCartItems);
-    console.log(state);
+    dispatch(increaseCartItemQuantity(itemID));
   }
 
   function reduceQuantity(itemID) {
-    const newCartItems = state.map((item) => {
-      if (item["product_id"] === itemID)
-        if (item["quantity"] > 0) item["quantity"] -= 1;
-        else item["quantity"] = 0;
-
-      return {...item};
-    });
-
-    setState(newCartItems);
-    console.log(state);
+    dispatch(decreaseCartItemQuantity(itemID));
   }
+
 
   function getProductName(product_id) {
     const product = products["Products"].find(product => product.id === product_id);

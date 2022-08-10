@@ -11,15 +11,28 @@ export const cartSlice = createSlice({
     isLoading: false,
   },
   reducers: {
-    setTotal: (state, action) => {
-      state.total = action.payload;
-    },
     clearCart: (state) => {
       state.cartItems = [];
       state.total = 0;
-    }
+    },
+    updateCart: (state, action) => {
+      state.cartItems = action.payload;
+    },
+    increaseCartItemQuantity: (state, action) => {
+      const cartItem = state.cartItems.find(cartItem => cartItem.product_id === action.payload);
+      cartItem.quantity++;
+      state.total += cartItem.product_price;
+    },
+    decreaseCartItemQuantity: (state, action) => {
+      const cartItem = state.cartItems.find(cartItem => cartItem.product_id === action.payload);
+      cartItem.quantity--;
+      state.total += cartItem.product_price;
+    },
+    setTotal: (state, action) => {
+      state.total = action.payload;
+    },
   }
 });
 
-export const {setTotal, clearCart} = cartSlice.actions;
+export const {setTotal, clearCart, decreaseCartItemQuantity, increaseCartItemQuantity, updateCart} = cartSlice.actions;
 export default cartSlice.reducer;
