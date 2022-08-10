@@ -37,6 +37,7 @@ function CartPage() {
                   <Grid.Column width={10}>
                     <h1>Cart</h1>
                     <CartItem items={cartItems}/>
+                    <Button fluid color="negative" basic content="Clear Cart" icon="trash"/>
                   </Grid.Column>
                   <Grid.Column width={6}>
                     <h1>Total</h1>
