@@ -17,7 +17,14 @@ export const productSlice = createSlice({
     //TODO: Change this to true when the products are fetched logic is implemented
     isLoading: false,
   },
-  reducers: {},
+  reducers: {
+    orderByPriceAsc: (state) => {
+      state.products["Products"].sort((a, b) => a.price - b.price);
+    },
+    orderByPriceDesc: (state) => {
+      state.products["Products"].sort((a, b) => b.price - a.price);
+    }
+  },
   extraReducers: {
     [getAllProducts.pending]: (state) => {
       state.isLoading = true;
@@ -33,4 +40,5 @@ export const productSlice = createSlice({
   }
 });
 
+export const {orderByPriceAsc, orderByPriceDesc} = productSlice.actions;
 export default productSlice.reducer;

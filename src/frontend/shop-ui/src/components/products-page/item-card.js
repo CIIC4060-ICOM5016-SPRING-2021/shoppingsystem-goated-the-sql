@@ -6,6 +6,7 @@ import Loading from "../utility/loading";
 
 import {useDispatch, useSelector} from "react-redux";
 import {addLikedItem} from "../../features/likes/likesSlice";
+import {orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
 
 function Products() {
   const {products, isLoading} = useSelector((store) => store.product);
@@ -67,6 +68,12 @@ function Products() {
   function likeItem(id) {
     dispatch(addLikedItem(id));
   }
+  function orderByPriceAscending() {
+    dispatch(orderByPriceAsc());
+  }
+  function orderByPriceDescending() {
+    dispatch(orderByPriceDesc());
+  }
 
   if (isLoading) {
     return <Loading/>
@@ -80,8 +87,8 @@ function Products() {
                 <h1>Sort by</h1>
                 {/* TODO: Add indicator of which button was clicked */}
                 {/* TODO: Disable category button if filter by price has been selected and vice versa */}
-                <Button icon="up arrow" basic content="Price: Ascending"/>
-                <Button icon="down arrow" basic content="Price: Descending"/>
+                <Button icon="up arrow" basic content="Price: Ascending" onClick={() => orderByPriceAscending()}/>
+                <Button icon="down arrow" basic content="Price: Descending" onClick={() => orderByPriceDescending()}/>
                 <Dropdown
                   placeholder="Category"
                   selection

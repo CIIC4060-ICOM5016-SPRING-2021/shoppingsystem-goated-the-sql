@@ -2,9 +2,11 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 import {likes} from "../../dummy-info/dummy-likes-info";
 
-export const addLikedItem = createAsyncThunk('likes/addLike', () => {
-  return fetch('http://');
-});
+export const addLikedItem = (id) => {
+  return createAsyncThunk('likes/addLike', () => {
+    return fetch(`http://${id}`);
+  });
+}
 
 export const getAllLikes = createAsyncThunk('likes/getAllLikes', () => {
   return fetch('http://');

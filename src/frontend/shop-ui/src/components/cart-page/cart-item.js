@@ -13,12 +13,9 @@ function CartItem(props) {
   function increaseQuantity(itemID) {
     dispatch(increaseCartItemQuantity(itemID));
   }
-
   function reduceQuantity(itemID) {
     dispatch(decreaseCartItemQuantity(itemID));
   }
-
-
   function getProductName(product_id) {
     const product = products["Products"].find(product => product.id === product_id);
     return product.name;
