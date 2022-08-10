@@ -4,10 +4,14 @@ import {globalStats} from "../../dummy-info/dummy-global-stats";
 import {accountStats} from "../../dummy-info/dummy-account-stats";
 
 export const fetchGlobalStats = createAsyncThunk( 'stats/fetchGlobalStats', async () => {
-  return fetch('http://');
+  return fetch('http://')
+    .then(res => res.json())
+    .catch(err => console.log(err));
 });
 export const fetchAccountStats = createAsyncThunk( 'stats/fetchAccountStats', async () => {
- return fetch('http://');
+ return fetch('http://')
+   .then(res => res.json())
+   .catch(err => console.log(err));
 });
 
 const statsSlice = createSlice({

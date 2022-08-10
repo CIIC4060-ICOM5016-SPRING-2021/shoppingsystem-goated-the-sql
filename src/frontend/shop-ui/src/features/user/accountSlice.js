@@ -3,8 +3,10 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {accountInfo} from "../../dummy-info/dummy-account-info";
 import {ordersList} from "../../dummy-info/dummy-orders-info";
 
-export const fetchAccountInfo = createAsyncThunk( 'account/fetchAccountInfo', async () => {
-  return fetch('http://');
+export const fetchAccountInfo = createAsyncThunk( 'account/fetchAccountInfo', async (userID) => {
+  return fetch(`http://127.0.0.1:5000/goated_the_sql/user/${userID}`)
+    .then(res => res.json())
+    .catch(err => console.log(err));
 });
 
 const accountSlice = createSlice({

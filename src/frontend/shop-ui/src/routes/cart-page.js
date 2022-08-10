@@ -7,11 +7,16 @@ import CartTotalList from "../components/cart-page/cart-total-list";
 import "./cart-page.css"
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
-import {clearCart, setTotal} from "../features/cart/cartSlice";
+import {clearCart, getCartItems, setTotal} from "../features/cart/cartSlice";
 
 function CartPage() {
   const {cartItems, isLoading, total} = useSelector(state => state.cart)
+  const {id} = useSelector(state => state.user.details)
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCartItems(id));
+  }, [dispatch, id]);
 
   function calculatedTotal(cartItems) {
     let total = 0;
@@ -20,7 +25,6 @@ function CartPage() {
     })
     return total;
   }
-
   function dispatchClearCart() {
     dispatch(clearCart());
   }
@@ -28,6 +32,7 @@ function CartPage() {
   useEffect(() => {
     dispatch(setTotal(calculatedTotal(cartItems)));
   } ,[cartItems, dispatch])
+
   if (isLoading) {
     return <Loading/>
   } else {

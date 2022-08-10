@@ -10,13 +10,19 @@ import {
   GridColumn,
   Label,
 } from "semantic-ui-react";
-import React from "react";
-import {useSelector} from "react-redux";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import Loading from "../utility/loading";
+import {fetchAccountInfo} from "../../features/user/accountSlice";
 
 function AccountSection() {
   const {isLoading} = useSelector(store => store.account);
   const accountDetails = useSelector((store) => store.account.details);
+  const dispatch= useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAccountInfo(accountDetails.id));
+  }, [dispatch, accountDetails.id]);
 
   if (isLoading) {
     return (<Loading/>);

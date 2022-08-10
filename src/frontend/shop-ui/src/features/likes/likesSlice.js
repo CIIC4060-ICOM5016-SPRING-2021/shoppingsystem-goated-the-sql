@@ -2,7 +2,9 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const addLikedItem = (userID) => {
   return createAsyncThunk('likes/addLike', () => {
-    return fetch(`http://http://127.0.0.1:5000/goated_the_sql/${userID}`);
+    return fetch(`http://http://127.0.0.1:5000/goated_the_sql/${userID}`)
+      .then(res => res.json())
+      .catch(err => console.log(err));
   });
 }
 
