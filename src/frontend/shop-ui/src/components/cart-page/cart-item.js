@@ -1,5 +1,5 @@
-import { Button, List } from "semantic-ui-react";
-import React, { useState } from "react";
+import {Button, List} from "semantic-ui-react";
+import React, {useState} from "react";
 import {useSelector} from "react-redux";
 
 function CartItem(props) {
@@ -12,7 +12,7 @@ function CartItem(props) {
   function increaseQuantity(itemID) {
     const newCartItems = state.map((item) => {
       if (item["product_id"] === itemID) item["quantity"] += 1;
-      return { ...item };
+      return {...item};
     });
 
     setState(newCartItems);
@@ -25,7 +25,7 @@ function CartItem(props) {
         if (item["quantity"] > 0) item["quantity"] -= 1;
         else item["quantity"] = 0;
 
-      return { ...item };
+      return {...item};
     });
 
     setState(newCartItems);
@@ -42,18 +42,18 @@ function CartItem(props) {
     <List divided>
       {cartItems.map((item) => (
         <List.Item key={item.product_id}>
-          <List.Icon name="shopping cart" verticalAlign="middle" />
+          <List.Icon name="shopping cart" verticalAlign="middle"/>
           <List.Content>
             <Button.Group floated="right" basic compact>
               {/*
-                            TODO: Find a way for these changes to make their way to the cart-total-list so that it can
-                            re-render the total amount for the order
-                            */}
+                TODO: Find a way for these changes to make their way to the cart-total-list so that it can
+                re-render the total amount for the order
+              */}
               <Button
                 icon="plus"
                 onClick={() => increaseQuantity(item.product_id)}
               />
-              <Button content={item.quantity} disabled />
+              <Button content={item.quantity} disabled/>
               <Button
                 icon="minus"
                 onClick={() => reduceQuantity(item.product_id)}
@@ -63,7 +63,7 @@ function CartItem(props) {
             <List.Header>
               {getProductName(item.product_id)}
             </List.Header>
-            <List.Description content={" - $" + item.product_price} />
+            <List.Description content={" - $" + item.product_price}/>
           </List.Content>
         </List.Item>
       ))}

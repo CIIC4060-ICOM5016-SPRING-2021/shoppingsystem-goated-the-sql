@@ -10,7 +10,16 @@ export const cartSlice = createSlice({
     //It is true because the cart is fetched at the beginning
     isLoading: false,
   },
-  reducers: {}
+  reducers: {
+    setTotal: (state, action) => {
+      state.total = action.payload;
+    },
+    clearCart: (state) => {
+      state.cartItems = [];
+      state.total = 0;
+    }
+  }
 });
 
+export const {setTotal, clearCart} = cartSlice.actions;
 export default cartSlice.reducer;

@@ -19,7 +19,6 @@ function Home(props) {
 
   function itemClicked(name) {
     // TODO: Find more or decide from the options found for the changing URLs:
-    // window.history.replaceState(null, name.toLocaleUpperCase(), name)
     navigate("/" + name);
     setState({activeItem: name});
   }
