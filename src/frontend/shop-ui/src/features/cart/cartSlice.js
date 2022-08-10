@@ -36,6 +36,10 @@ export const cartSlice = createSlice({
       const cartItem = state.cartItems.find(cartItem => cartItem.product_id === action.payload);
       cartItem.quantity--;
       state.total += cartItem.product_price;
+
+      if (cartItem.quantity <= 0) {
+        state.cartItems = state.cartItems.filter(cartItem => cartItem.product_id !== action.payload);
+      }
     },
     setTotal: (state, action) => {
       state.total = action.payload;
