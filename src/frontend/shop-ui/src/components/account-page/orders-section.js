@@ -14,12 +14,12 @@ function OrdersSection() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (id !== undefined) {
+    if (id !== undefined || isLoadingOrders === true) {
       dispatch(fetchOrdersInfo(id));
     } else {
       dispatch(fetchAccountInfo(187));
     }
-  }, [dispatch, id]);
+  }, [dispatch, id, orders, isLoadingOrders]);
 
   function showOrders() {
     if (isLoadingOrders) {
