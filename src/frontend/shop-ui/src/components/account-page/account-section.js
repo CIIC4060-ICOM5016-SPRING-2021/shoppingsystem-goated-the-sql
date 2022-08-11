@@ -25,7 +25,7 @@ function AccountSection() {
   useEffect(() => {
     if (accountDetails.id === undefined) {
       dispatch(fetchAccountInfo(187));
-    } else {
+    } else if(isLoadingAccount === true) {
       dispatch(fetchAccountInfo(accountDetails.id));
     }
   }, [dispatch, accountDetails]);
