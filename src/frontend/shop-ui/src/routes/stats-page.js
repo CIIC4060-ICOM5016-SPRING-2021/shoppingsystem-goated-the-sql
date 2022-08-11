@@ -22,31 +22,18 @@ function StatsPage() {
   const {globalStats, accountStats, isLoadingPersonal, isLoadingGlobal} = useSelector((store) => store.stats);
   const dispatch = useDispatch();
 
-  //fetch all products, then when done, dispatch action to set global stats
+  //Logic for setting the global stats
   useEffect(() => {
     if (gStateStats.products.length === 0) {
       dispatch(getAllProducts());
+    } else {
+      dispatch(setGlobalStats(gStateStats.products["Global Statistics"]));
     }
-  }, [gStateStats, dispatch]);
-  useEffect(() => {
-    if (aStateStats.length === 0)
+
+    if (id === undefined) {
       dispatch(fetchAccountInfo(187));
-  }, [aStateStats, dispatch]);
-  useEffect(() => {
-    if (gStateStats.products.length !== 0) {
-      dispatch(setGlobalStats(gStateStats.products["Global Statistics"]))
     }
-  }, [dispatch, gStateStats.products]);
-  useEffect(() => {
-    if (aStateStats.length !== 0) {
-      dispatch(fetchOrdersInfo(id));
-    }
-  }, [aStateStats, dispatch, id]);
-  useEffect(() => {
-    if (aStateStats.orders.length !== 0) {
-      dispatch(setAccountStats(aStateStats["User Statistics"]));
-    }
-  }, [aStateStats, dispatch]);
+  }, [dispatch, gStateStats.products, id]);
 
   if (isLoadingGlobal || isLoadingPersonal) {
     return <Loading/>;
