@@ -4,11 +4,14 @@ import { useState } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { Container, Segment, Form, Button } from "semantic-ui-react";
 
+import {fetchAccountInfo} from "../features/user/accountSlice";
+
 import "./sign-up.css"
 
 function SignUp() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   
   //State variables for user creation
   const [fname, setFname] = useState("");
@@ -17,17 +20,18 @@ function SignUp() {
   const [password, setPassword] = useState("");
 
   //Userid for new user made
-  const [userID, setUser] = useState("");
+  const [userID, setUserID] = useState();
 
   async function handleSubmit(e){
       e.preventDefault();
       await handleSignup();
       console.log(userID);
-      alert('Your user id is:' + userID);
+      //alert('Your user id is:' + userID);
       moveHome()
   }
 
   function moveHome() {
+    dispatch(fetchAccountInfo(userID));
     navigate('/home');
 }
 
@@ -60,10 +64,9 @@ function SignUp() {
 
         //Return the needed data
         const data = await res.json();
-        const newid = data['id'];
-        console.log(`New user id is: ${newid}`);
+        setUserID(data['id']);
+        console.log(`New user id is: ${userID}`);
         console.log(data);
-        setUser(newid);
 
     //Catches network errors returned by fetch
     } catch(error) {
