@@ -9,15 +9,15 @@ import {filterByCat, getAllProducts, orderByPriceAsc, orderByPriceDesc} from "..
 import {fetchAccountInfo} from "../../features/user/accountSlice";
 
 function Products() {
+  const {products, isLoading} = useSelector((store) => store.product);
+  const {id} = useSelector((store) => store.user.details);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (products.length === 0) {
       dispatch(getAllProducts());
     }
-  }, [dispatch]);
-
-  const {products, isLoading} = useSelector((store) => store.product);
-  const {id} = useSelector((store) => store.user.details);
+  }, [dispatch, products]);
 
   const categories = [
     {
@@ -145,7 +145,7 @@ function Products() {
                               <Button.Content visible>
                                 <Icon name="arrow right"/>
                               </Button.Content>
-                              <Button.Content hidden>Buy</Button.Content>
+                              <Button.Content hidden>Add to Cart</Button.Content>
                             </Button>
                           </div>
                         </div>
