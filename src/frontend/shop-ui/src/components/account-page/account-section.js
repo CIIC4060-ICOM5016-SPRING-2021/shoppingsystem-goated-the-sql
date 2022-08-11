@@ -23,9 +23,12 @@ function AccountSection() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //TODO: Change this value to the user's id when the log in stuff is ready
-    dispatch(fetchAccountInfo(187));
-  }, [dispatch]);
+    if (accountDetails.id === undefined) {
+      dispatch(fetchAccountInfo(187));
+    } else {
+      dispatch(fetchAccountInfo(accountDetails.id));
+    }
+  }, [dispatch, accountDetails]);
 
   if (isLoadingAccount === true || accountDetails === undefined) {
     return (

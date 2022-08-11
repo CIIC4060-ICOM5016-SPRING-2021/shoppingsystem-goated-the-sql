@@ -1,10 +1,10 @@
 import "./LoginPage.css";
 import {setUserDetails} from "../features/user/accountSlice";
 
-import { Button, Container, Form, Segment } from "semantic-ui-react";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {Button, Container, Form, Segment} from "semantic-ui-react";
+import {Link, useNavigate} from "react-router-dom";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
 
 
 function LoginPage() {
@@ -28,9 +28,8 @@ function LoginPage() {
         }
 
         //Return the needed data
-        const data = await res.json();
-        //console.log(data);
-        return data;
+      //console.log(data);
+        return await res.json();
 
         //Catches network errors returned by fetch
     } catch (error) {
@@ -39,7 +38,7 @@ function LoginPage() {
 
   }
 
-  function movingHome(userID) {
+  function movingHome() {
     navigate('/home');
   }
 
