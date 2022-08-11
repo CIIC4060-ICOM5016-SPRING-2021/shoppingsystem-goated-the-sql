@@ -60,4 +60,5 @@ const accountSlice = createSlice({
   }
 });
 
+export const {setUserDetails} = accountSlice.actions;
 export default accountSlice.reducer;
