@@ -43,7 +43,7 @@ const accountSlice = createSlice({
     },
     [fetchOrdersInfo.fulfilled]: (state, action) => {
       console.log("Orders loaded");
-      state.orders = action.payload["Orders"];
+      state.orders = action.payload;
       state.isLoadingOrders = false;
     },
     [fetchOrdersInfo.rejected]: (state) => {

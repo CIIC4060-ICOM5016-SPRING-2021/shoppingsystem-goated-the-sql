@@ -32,8 +32,18 @@ function StatsPage() {
 
     if (id === undefined) {
       dispatch(fetchAccountInfo(187));
+
+    //Logic for setting the account stats
+    } else {
+    //   dispatch(fetchOrdersInfo(id));
     }
-  }, [dispatch, gStateStats.products, id]);
+    //
+    // if( aStateStats.orders !== undefined) {
+    //   dispatch(setAccountStats(aStateStats.orders["User Statistics"]));
+    // }
+
+
+  }, [dispatch, gStateStats.products, id, aStateStats.orders]);
 
   if (isLoadingGlobal || isLoadingPersonal) {
     return <Loading/>;

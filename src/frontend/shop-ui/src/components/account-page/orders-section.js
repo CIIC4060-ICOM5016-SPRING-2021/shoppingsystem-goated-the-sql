@@ -10,7 +10,7 @@ import {fetchAccountInfo, fetchOrdersInfo} from "../../features/user/accountSlic
 function OrdersSection() {
   const {isLoadingOrders} = useSelector(store => store.user);
   const {id} = useSelector(store => store.user.details);
-  const orders = useSelector(store => store.user.orders);
+  const orders = useSelector(store => store.user.orders["Orders"]);
   const dispatch = useDispatch();
 
   useEffect(() => {
