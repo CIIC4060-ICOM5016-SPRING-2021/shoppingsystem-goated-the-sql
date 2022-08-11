@@ -7,6 +7,7 @@ import Loading from "../utility/loading";
 import {useDispatch, useSelector} from "react-redux";
 import {addLikedItem} from "../../features/likes/likesSlice";
 import {filterByCat, getAllProducts, orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
+import {fetchAccountInfo} from "../../features/user/accountSlice";
 
 function Products() {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ function Products() {
 
   const {products, isLoading} = useSelector((store) => store.product);
   const {id} = useSelector((store) => store.user.details);
+
   const categories = [
     {
       key: 0,
@@ -75,7 +77,11 @@ function Products() {
   ];
 
   function likeItem(itemID) {
-    dispatch(addLikedItem({id ,itemID}));
+    if(id === undefined) {
+      dispatch(fetchAccountInfo(187))
+    }else {
+        // dispatch(addLikedItem({id ,itemID}));
+    }
   }
   function orderByPriceAscending() {
     dispatch(orderByPriceAsc());

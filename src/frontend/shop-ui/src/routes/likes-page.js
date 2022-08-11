@@ -14,8 +14,10 @@ function LikesPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchAccountInfo(187));
-  }, [dispatch]);
+    if (id === undefined) {
+      dispatch(fetchAccountInfo(187));
+    }
+  }, [id, dispatch]);
   useEffect(() => {
     dispatch(getAllLikes(id));
   }, [dispatch, id]);

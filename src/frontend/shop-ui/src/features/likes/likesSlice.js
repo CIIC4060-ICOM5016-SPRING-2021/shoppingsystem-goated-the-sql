@@ -7,7 +7,9 @@ export const addLikedItem = () => {
 }
 
 export const getAllLikes = createAsyncThunk('likes/getAllLikes', (userID) => {
-  return fetch(`http://127.0.0.1:5000/goated_the_sql/${userID}/liked_list`);
+  return fetch(`http://127.0.0.1:5000/goated_the_sql/${userID}/liked_list`)
+    .then(res => res.json())
+    .catch(err => console.log(err));
 });
 
 const likesSlice = createSlice({
