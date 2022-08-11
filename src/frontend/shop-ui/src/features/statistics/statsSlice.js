@@ -18,7 +18,7 @@ const statsSlice = createSlice({
     globalStats: {},
     accountStats: accountStats,
     isLoadingGlobal: true,
-    isLoadingPersonal: true,
+    isLoadingPersonal: false,
   },
   reducers: {
     setAccountStats: (state, action) => {
