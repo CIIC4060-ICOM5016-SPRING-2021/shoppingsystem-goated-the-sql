@@ -22,7 +22,14 @@ const accountSlice = createSlice({
     isLoadingAccount: true,
     isLoadingOrders: true,
   },
-  reducers: {},
+  reducers: {
+    setUserDetails: (state, action) => {
+      if (action.payload !== undefined) {
+        state.details = action.payload;
+        state.isLoadingAccount = false;
+      }
+    }
+  },
   extraReducers: {
     [fetchAccountInfo.pending]: (state) => {
       console.log("Loading user");
@@ -53,4 +60,5 @@ const accountSlice = createSlice({
   }
 });
 
+export const {setUserDetails} = accountSlice.actions;
 export default accountSlice.reducer;

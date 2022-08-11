@@ -18,6 +18,7 @@ function StatsPage() {
   const aStateStats = useSelector(store => store.user);
 
   const {id} = useSelector(store => store.user.details);
+  const {isLoadingOrders} = useSelector(store => store.user);
 
   const {globalStats, accountStats, isLoadingPersonal, isLoadingGlobal} = useSelector((store) => store.stats);
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function StatsPage() {
       dispatch(fetchAccountInfo(187));
 
       //Logic for setting the account stats
-    } else {
+    } else if(isLoadingOrders === true) {
       dispatch(fetchOrdersInfo(id));
     }
 
@@ -43,7 +44,7 @@ function StatsPage() {
     }
 
 
-  }, [dispatch, gStateStats.products, id, aStateStats.orders]);
+  }, [dispatch, gStateStats.products, id, aStateStats.orders, isLoadingOrders]);
 
   if (isLoadingGlobal === true || isLoadingPersonal === true) {
     return <Loading/>;

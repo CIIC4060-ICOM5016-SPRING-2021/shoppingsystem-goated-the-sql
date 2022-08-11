@@ -1,18 +1,19 @@
-import { Button, Card, Icon, Image, Grid, Dropdown } from "semantic-ui-react";
+import {Button, Card, Dropdown, Grid, Icon, Image} from "semantic-ui-react";
 import React, {useEffect} from "react";
 
 import "./item-card.css";
 import Loading from "../utility/loading";
 
 import {useDispatch, useSelector} from "react-redux";
-import {addLikedItem} from "../../features/likes/likesSlice";
 import {filterByCat, getAllProducts, orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
 import {fetchAccountInfo} from "../../features/user/accountSlice";
 
 function Products() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllProducts());
+    if (products.length === 0) {
+      dispatch(getAllProducts());
+    }
   }, [dispatch]);
 
   const {products, isLoading} = useSelector((store) => store.product);
@@ -77,19 +78,22 @@ function Products() {
   ];
 
   function likeItem(itemID) {
-    if(id === undefined) {
+    if (id === undefined) {
       dispatch(fetchAccountInfo(187))
-    }else {
-        // dispatch(addLikedItem({id ,itemID}));
+    } else {
+      // dispatch(addLikedItem({id ,itemID}));
     }
   }
+
   function orderByPriceAscending() {
     dispatch(orderByPriceAsc());
   }
+
   function orderByPriceDescending() {
     dispatch(orderByPriceDesc());
   }
-  function orderByCategory(e,category) {
+
+  function orderByCategory(e, category) {
     dispatch(filterByCat(category));
   }
 
