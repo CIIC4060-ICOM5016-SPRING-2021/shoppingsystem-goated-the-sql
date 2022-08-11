@@ -5,7 +5,7 @@ import "./orders-section.css";
 import OrderDetails from "./order-details";
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../utility/loading";
-import {fetchOrdersInfo} from "../../features/user/accountSlice";
+import {fetchAccountInfo, fetchOrdersInfo} from "../../features/user/accountSlice";
 
 function OrdersSection() {
   const {isLoadingOrders} = useSelector(store => store.user);
@@ -14,7 +14,11 @@ function OrdersSection() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchOrdersInfo(id));
+    if (id !== undefined) {
+      dispatch(fetchOrdersInfo(id));
+    } else {
+      dispatch(fetchAccountInfo(187));
+    }
   }, [dispatch, id]);
 
   function showOrders() {
