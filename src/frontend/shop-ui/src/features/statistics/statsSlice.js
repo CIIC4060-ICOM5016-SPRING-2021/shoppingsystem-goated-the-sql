@@ -1,5 +1,4 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {accountStats} from "../../dummy-info/dummy-account-stats";
 
 export const fetchGlobalStats = createAsyncThunk('stats/fetchGlobalStats', async () => {
   return fetch('http://')
@@ -16,9 +15,9 @@ const statsSlice = createSlice({
   name: "stats",
   initialState: {
     globalStats: {},
-    accountStats: accountStats,
+    accountStats: {},
     isLoadingGlobal: true,
-    isLoadingPersonal: false,
+    isLoadingPersonal: true,
   },
   reducers: {
     setAccountStats: (state, action) => {

@@ -33,21 +33,21 @@ function StatsPage() {
     if (id === undefined) {
       dispatch(fetchAccountInfo(187));
 
-    //Logic for setting the account stats
+      //Logic for setting the account stats
     } else {
-    //   dispatch(fetchOrdersInfo(id));
+      dispatch(fetchOrdersInfo(id));
     }
-    //
-    // if( aStateStats.orders !== undefined) {
-    //   dispatch(setAccountStats(aStateStats.orders["User Statistics"]));
-    // }
+
+    if (aStateStats.orders !== undefined) {
+      dispatch(setAccountStats(aStateStats.orders["User Statistics"]));
+    }
 
 
   }, [dispatch, gStateStats.products, id, aStateStats.orders]);
 
-  if (isLoadingGlobal || isLoadingPersonal) {
+  if (isLoadingGlobal === true || isLoadingPersonal === true) {
     return <Loading/>;
-  } else {
+  } else if (isLoadingGlobal === false && isLoadingPersonal === false) {
     return (
       <div className="stats-body">
         <Grid celled="internally">

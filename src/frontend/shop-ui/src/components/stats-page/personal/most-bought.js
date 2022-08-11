@@ -4,7 +4,7 @@ import {Bar, BarChart, Cell, Tooltip, XAxis, YAxis} from "recharts";
 import "./most-bought.css"
 
 function MostBought(props) {
-    const accountStats = props.details["User Statistics"]
+    const accountStats = props.details
 
     return (
       <>

@@ -4,7 +4,7 @@ import {Funnel, FunnelChart, LabelList, Tooltip,} from "recharts";
 import "./cheap-or-expensive-personal.css"
 
 function CheapnExpensiveProductsList(props) {
-  const accountStats = props.details["User Statistics"]
+  const accountStats = props.details
 
 
   return (
