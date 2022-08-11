@@ -25,23 +25,29 @@ const accountSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchAccountInfo.pending]: (state) => {
+      console.log("Loading user");
       state.isLoadingAccount = true;
     },
     [fetchAccountInfo.fulfilled]: (state, action) => {
+      console.log("User loaded");
       state.details = action.payload;
       state.isLoadingAccount = false;
     },
     [fetchAccountInfo.rejected]: (state) => {
+      console.log("User loading failed");
       state.isLoadingAccount = false;
     },
     [fetchOrdersInfo.pending]: (state) => {
+      console.log("Loading orders");
       state.isLoadingOrders = true;
     },
     [fetchOrdersInfo.fulfilled]: (state, action) => {
+      console.log("Orders loaded");
       state.orders = action.payload["Orders"];
       state.isLoadingOrders = false;
     },
     [fetchOrdersInfo.rejected]: (state) => {
+      console.log("Orders loading failed");
       state.isLoadingOrders = false;
     }
   }
