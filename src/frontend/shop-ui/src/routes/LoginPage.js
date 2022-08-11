@@ -1,5 +1,5 @@
 import "./LoginPage.css";
-import {fetchAccountInfo} from "../features/user/accountSlice";
+import {setUserDetails} from "../features/user/accountSlice";
 
 import { Button, Container, Form, Segment } from "semantic-ui-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -50,7 +50,7 @@ function LoginPage() {
 
     if (password === accountDetails['password']) {
         // console.log("Correct password")
-        dispatch(fetchAccountInfo(userID));
+        dispatch(setUserDetails(accountDetails));
         movingHome(userID);
     } else {
         console.log("Incorrect password")
