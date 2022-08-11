@@ -14,7 +14,7 @@ function OrdersSection() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (id !== undefined || isLoadingOrders === true) {
+    if ((orders === undefined || orders.length === 0) && id === undefined) {
       dispatch(fetchOrdersInfo(id));
     } else {
       dispatch(fetchAccountInfo(187));
