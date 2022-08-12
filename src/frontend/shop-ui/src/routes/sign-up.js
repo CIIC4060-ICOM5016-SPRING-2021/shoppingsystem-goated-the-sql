@@ -20,19 +20,16 @@ function SignUp() {
   const [password, setPassword] = useState("");
 
   //Userid for new user made
-  const [userID, setUserID] = useState();
 
   async function handleSubmit(e){
       e.preventDefault();
-      await handleSignup();
-      console.log(userID);
-      //alert('Your user id is:' + userID);
-      moveHome()
+      const info = await handleSignup();
+      alert('New userID is: ' + info.id);
+      moveLogin()
   }
 
-  function moveHome() {
-    dispatch(fetchAccountInfo(userID));
-    navigate('/home');
+  function moveLogin() {
+    navigate('/');
 }
 
   //State values are turned into a JSON response to be sent to the backend
@@ -64,9 +61,8 @@ function SignUp() {
 
         //Return the needed data
         const data = await res.json();
-        setUserID(data['id']);
-        console.log(`New user id is: ${userID}`);
         console.log(data);
+        return data;
 
     //Catches network errors returned by fetch
     } catch(error) {
