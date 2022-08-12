@@ -51,7 +51,7 @@ function CartPage() {
                 <Grid.Row columns={2}>
                   <Grid.Column width={10}>
                     <h1>Cart</h1>
-                    <CartItem items={cartItems}/>
+                    <CartItem items={{items: cartItems, user_id: id}}/>
                     <Button fluid negative basic content="Clear Cart" icon="trash" onClick={dispatchClearCart}/>
                   </Grid.Column>
                   <Grid.Column width={6}>

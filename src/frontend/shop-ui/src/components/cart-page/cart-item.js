@@ -1,13 +1,13 @@
 import {Button, List} from "semantic-ui-react";
 import {useDispatch, useSelector} from "react-redux";
 
-import {decreaseCartItemQuantity, increaseCartItemQuantity} from "../../features/cart/cartSlice";
+import {decreaseCartItemQuantity, increaseCartItemQuantity, removeItemFromCartDB} from "../../features/cart/cartSlice";
 import React from "react";
 import Loading from "../utility/loading";
 import {getAllProducts} from "../../features/products/productSlice";
 
 function CartItem(props) {
-  const cartItems = props.items;
+  const cartItems = props.items.items;
 
   const dispatch = useDispatch();
   const {products} = useSelector(store => store.product);
@@ -16,6 +16,11 @@ function CartItem(props) {
     dispatch(increaseCartItemQuantity(itemID));
   }
   function reduceQuantity(itemID) {
+    // check if the item quantity is about to hit 0, if so, remove the item from the cart
+    if (cartItems.find(item => item.product_id === itemID).quantity === 1) {
+      dispatch(removeItemFromCartDB({product_id: itemID, user_id: props.items.user_id}));
+    }
+
     dispatch(decreaseCartItemQuantity(itemID));
   }
   function getProductName(product_id) {
