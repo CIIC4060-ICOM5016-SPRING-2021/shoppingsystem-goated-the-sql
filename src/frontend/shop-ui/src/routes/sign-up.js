@@ -1,10 +1,9 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import {useDispatch, useSelector} from "react-redux";
-import { Container, Segment, Form, Button } from "semantic-ui-react";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {Button, Container, Form, Segment} from "semantic-ui-react";
 
-import {fetchAccountInfo} from "../features/user/accountSlice";
+import {setUserDetails} from "../features/user/accountSlice";
 
 import "./sign-up.css"
 
@@ -12,7 +11,7 @@ function SignUp() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   //State variables for user creation
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -21,52 +20,52 @@ function SignUp() {
 
   //Userid for new user made
 
-  async function handleSubmit(e){
-      e.preventDefault();
-      const info = await handleSignup();
-      alert('New userID is: ' + info.id);
-      moveLogin()
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const info = await handleSignup();
+    dispatch(setUserDetails(info))
+    moveLogin()
   }
 
   function moveLogin() {
-    navigate('/');
-}
+    navigate('/home');
+  }
 
   //State values are turned into a JSON response to be sent to the backend
-  async function handleSignup(){
+  async function handleSignup() {
 
     const new_user_info = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            first_name: fname,
-            last_name: lname,
-            valid: true,
-            password: password,
-            phone: number,
-            admin: false
-        })
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        first_name: fname,
+        last_name: lname,
+        valid: true,
+        password: password,
+        phone: number,
+        admin: false
+      })
     }
 
-    try{
-        //Print action done and make fetch request
-        console.log('POST User');
-        const res = await fetch(
-            'http://127.0.0.1:5000/goated_the_sql/sign-up', new_user_info);
+    try {
+      //Print action done and make fetch request
+      console.log('POST User');
+      const res = await fetch(
+        'http://127.0.0.1:5000/goated_the_sql/sign-up', new_user_info);
 
-        //Checks if the http request returns the appropiate status
-        if(!res.ok) {
-            throw new Error(`HTTP error! Status: ${ res.status }`);
-        }
+      //Checks if the http request returns the appropiate status
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
 
-        //Return the needed data
-        const data = await res.json();
-        console.log(data);
-        return data;
+      //Return the needed data
+      const data = await res.json();
+      console.log(data);
+      return data;
 
-    //Catches network errors returned by fetch
-    } catch(error) {
-        console.log(error);
+      //Catches network errors returned by fetch
+    } catch (error) {
+      console.log(error);
     }
   }
 
