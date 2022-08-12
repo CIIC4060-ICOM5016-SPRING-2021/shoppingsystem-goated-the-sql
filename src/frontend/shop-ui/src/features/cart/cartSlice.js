@@ -46,6 +46,21 @@ export const removeItemFromCartDB = createAsyncThunk('cart/removeItemFromCart', 
     .then((response) => response.json())
     .catch((error) => console.log(error));
 });
+export const addOrderToDB = createAsyncThunk('cart/addOrderToDB', (requiredInfo) => {
+  const {user_id, cartItems} = requiredInfo;
+  const requestOptions = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      "user_id": user_id,
+      "order_products": cartItems,
+    })
+  }
+
+  return fetch('http://127.0.0.1:5000/goated_the_sql/checkout', requestOptions)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+});
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -117,6 +132,15 @@ export const cartSlice = createSlice({
     [removeItemFromCartDB.rejected]: () => {
       console.log("Item removing from cart failed");
     },
+    [addOrderToDB.pending]: () => {
+      console.log("Adding order to cart");
+    },
+    [addOrderToDB.fulfilled]: () => {
+      console.log("Order added to cart");
+    },
+    [addOrderToDB.rejected]: () => {
+      console.log("Order adding to cart failed");
+    }
   }
 });
 

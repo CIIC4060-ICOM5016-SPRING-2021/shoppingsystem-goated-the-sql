@@ -7,7 +7,7 @@ import CartTotalList from "../components/cart-page/cart-total-list";
 import "./cart-page.css"
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
-import {clearCart, clearCartDB, getCartItems, setTotal} from "../features/cart/cartSlice";
+import {addOrderToDB, clearCart, clearCartDB, getCartItems, setTotal} from "../features/cart/cartSlice";
 import {fetchAccountInfo} from "../features/user/accountSlice";
 
 function CartPage() {
@@ -22,6 +22,9 @@ function CartPage() {
       dispatch(fetchAccountInfo(187));
     }
   }, [dispatch, id]);
+  useEffect(() => {
+    dispatch(setTotal(calculatedTotal(cartItems)));
+  } ,[cartItems, dispatch])
 
   function calculatedTotal(cartItems) {
     let total = 0;
@@ -34,10 +37,9 @@ function CartPage() {
     dispatch(clearCart());
     dispatch(clearCartDB(id));
   }
-
-  useEffect(() => {
-    dispatch(setTotal(calculatedTotal(cartItems)));
-  } ,[cartItems, dispatch])
+  function createOrder(){
+    dispatch(addOrderToDB({user_id: id, cartItems: cartItems}));
+  }
 
   if (isLoading) {
     return <Loading/>
@@ -61,7 +63,7 @@ function CartPage() {
                       <div className="cart-page-order-section-end">
                         <Divider clearing/>
                         <h1>${total}</h1>
-                        <Button positive content="Checkout"/>
+                        <Button positive content="Checkout" onClick={() => createOrder()}/>
                       </div>
                     </div>
                   </Grid.Column>
