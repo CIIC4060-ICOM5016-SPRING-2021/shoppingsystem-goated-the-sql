@@ -24,11 +24,11 @@ function AccountSection() {
 
   useEffect(() => {
     if (accountDetails.id === undefined) {
-      dispatch(fetchAccountInfo(187));
+      dispatch(fetchAccountInfo(244));
     } else if(isLoadingAccount === true) {
       dispatch(fetchAccountInfo(accountDetails.id));
     }
-  }, [dispatch, accountDetails]);
+  }, [dispatch, accountDetails, isLoadingAccount]);
 
   if (isLoadingAccount === true || accountDetails === undefined) {
     return (

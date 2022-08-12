@@ -14,10 +14,10 @@ function OrdersSection() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if ((orders === undefined || orders.length === 0) && id === undefined) {
+    if (((orders === undefined) && id === undefined) || isLoadingOrders === true) {
       dispatch(fetchOrdersInfo(id));
     } else {
-      dispatch(fetchAccountInfo(187));
+      dispatch(fetchAccountInfo(244));
     }
   }, [dispatch, id, orders, isLoadingOrders]);
 
@@ -25,27 +25,31 @@ function OrdersSection() {
     if (isLoadingOrders) {
       return <Loading/>;
     } else {
-      return <List divided>
-        {orders.map((order) => (
-          <List.Item className="orders-section-item" key={order.order_id}>
-            <List.Icon name="archive" size="large" verticalAlign="middle"/>
-            <List.Content>
-              <OrderDetails
-                orderID={order.order_id}
-                products={order.products_ordered}
-              />
-              <List.Header content={"Order #" + order.order_id}/>
-              <List.Description
-                content={
-                  new Date(order.time_of_order).toLocaleDateString() +
-                  " - Total: $" +
-                  order.order_total
-                }
-              />
-            </List.Content>
-          </List.Item>
-        ))}
-      </List>
+      if (isLoadingOrders === false && orders === null) {
+        return <h2>No orders</h2>;
+      } else {
+        return <List divided>
+          {orders.map((order) => (
+            <List.Item className="orders-section-item" key={order.order_id}>
+              <List.Icon name="archive" size="large" verticalAlign="middle"/>
+              <List.Content>
+                <OrderDetails
+                  orderID={order.order_id}
+                  products={order.products_ordered}
+                />
+                <List.Header content={"Order #" + order.order_id}/>
+                <List.Description
+                  content={
+                    new Date(order.time_of_order).toLocaleDateString() +
+                    " - Total: $" +
+                    order.order_total
+                  }
+                />
+              </List.Content>
+            </List.Item>
+          ))}
+        </List>
+      }
     }
   }
 
