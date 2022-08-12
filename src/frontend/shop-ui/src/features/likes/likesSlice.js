@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-export const addLikedItem = createAsyncThunk('likes/addLike', (requiredInfo) => {
+export const addLikedItemDB = createAsyncThunk('likes/addLike', (requiredInfo) => {
   const {product, user_id} = requiredInfo;
   const requestOptions = {
     method: 'PUT',
@@ -35,16 +35,15 @@ const likesSlice = createSlice({
     },
   },
   extraReducers: {
-    [addLikedItem.pending]: () => {
+    [addLikedItemDB.pending]: () => {
       console.log("Adding like to item");
     },
-    [addLikedItem.fulfilled]: () => {
+    [addLikedItemDB.fulfilled]: () => {
       console.log("Added like to item");
     },
-    [addLikedItem.rejected]: () => {
+    [addLikedItemDB.rejected]: () => {
       console.log("Failed to add like to item");
     },
-
     [getAllLikes.pending]: (state) => {
       console.log("Loading likes");
       state.isLoading = true;

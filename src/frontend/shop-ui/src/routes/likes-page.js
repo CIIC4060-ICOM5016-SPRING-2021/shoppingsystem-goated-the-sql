@@ -4,7 +4,7 @@ import React, {useEffect} from "react";
 import "./likes-page.css"
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
-import {getAllLikes, removeLikedItem} from "../features/likes/likesSlice";
+import {addLikedItemDB, getAllLikes, removeLikedItem} from "../features/likes/likesSlice";
 import {fetchAccountInfo} from "../features/user/accountSlice";
 
 function LikesPage() {
@@ -24,8 +24,9 @@ function LikesPage() {
     }
   }, [dispatch, id]);
 
-  function removeItem(id) {
-    dispatch(removeLikedItem(id));
+  function removeItem(item, userId) {
+    dispatch(removeLikedItem(item.id));
+    dispatch(addLikedItemDB({product: item, user_id: userId}));
   }
 
   function showLikes(wishlistItems) {
@@ -46,7 +47,7 @@ function LikesPage() {
             </Card.Content>
             <Card.Content>
               <div className="wishlist-item-buttons">
-                <Button fluid negative icon="trash" onClick={() => removeItem(item.id)}/>
+                <Button fluid negative icon="trash" onClick={() => removeItem(item, id)}/>
                 <Button fluid positive icon="cart" content="Add to Cart"/>
               </div>
             </Card.Content>
