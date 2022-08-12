@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {filterByCat, getAllProducts, orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
 import {fetchAccountInfo} from "../../features/user/accountSlice";
 import {addProductToCartDB} from "../../features/cart/cartSlice";
+import {addLikedItem} from "../../features/likes/likesSlice";
 
 function Products() {
   const {products, isLoading} = useSelector((store) => store.product);
@@ -83,11 +84,7 @@ function Products() {
   ];
 
   function likeItem(itemID) {
-    if (id === undefined) {
-      dispatch(fetchAccountInfo(187))
-    } else {
-      // dispatch(addLikedItem({id ,itemID}));
-    }
+     dispatch(addLikedItem({user_id:id ,product:itemID}));
   }
 
   function orderByPriceAscending() {
@@ -149,7 +146,7 @@ dispatch(addProductToCartDB({product: item, user_id: id}));
                             <div className="item-card-price">${item.price}</div>
                           </div>
                           <div className="item-card-cart-n-wishlist">
-                            <Button icon="heart" primary onClick={() => likeItem(item.id)}/>
+                            <Button icon="heart" primary onClick={() => likeItem(item)}/>
                             <Button positive animated="fade" size="medium" fluid onClick={() => addToCart(item)}>
                               <Button.Content visible>
                                 <Icon name="arrow right"/>

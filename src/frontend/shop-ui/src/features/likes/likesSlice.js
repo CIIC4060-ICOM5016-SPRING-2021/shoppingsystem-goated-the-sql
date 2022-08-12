@@ -1,10 +1,19 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-export const addLikedItem = () => {
-  return createAsyncThunk('likes/addLike', ({userID, itemID}) => {
-    //TODO: post info to server using fetch (note I have no clue if this ^ is how you pass multiple variables to the method)
-  });
-}
+export const addLikedItem = createAsyncThunk('likes/addLike', (requiredInfo) => {
+  const {product, user_id} = requiredInfo;
+  const requestOptions = {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      "user_id": user_id,
+    })
+  }
+
+  return fetch(`http://127.0.0.1:5000/goated_the_sql/product/${product.id}`, requestOptions)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+});
 
 export const getAllLikes = createAsyncThunk('likes/getAllLikes', (userID) => {
   return fetch(`http://127.0.0.1:5000/goated_the_sql/${userID}/liked_list`)
@@ -27,15 +36,14 @@ const likesSlice = createSlice({
     },
   },
   extraReducers: {
-    [addLikedItem.pending]: (state) => {
-      state.isLoading = true;
+    [addLikedItem.pending]: () => {
+      console.log("Adding like to item");
     },
-    [addLikedItem.fulfilled]: (state, action) => {
-      state.items.push(action.payload);
-      state.isLoading = false;
+    [addLikedItem.fulfilled]: () => {
+      console.log("Added like to item");
     },
-    [addLikedItem.rejected]: (state) => {
-      state.isLoading = false;
+    [addLikedItem.rejected]: () => {
+      console.log("Failed to add like to item");
     },
 
     [getAllLikes.pending]: (state) => {
