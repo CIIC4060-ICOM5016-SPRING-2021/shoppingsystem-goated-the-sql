@@ -14,7 +14,6 @@ export const addLikedItem = createAsyncThunk('likes/addLike', (requiredInfo) => 
     .then((response) => response.json())
     .catch((error) => console.log(error));
 });
-
 export const getAllLikes = createAsyncThunk('likes/getAllLikes', (userID) => {
   return fetch(`http://127.0.0.1:5000/goated_the_sql/${userID}/liked_list`)
     .then(res => res.json())

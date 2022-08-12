@@ -7,7 +7,7 @@ import CartTotalList from "../components/cart-page/cart-total-list";
 import "./cart-page.css"
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
-import {clearCart, getCartItems, setTotal} from "../features/cart/cartSlice";
+import {clearCart, clearCartDB, getCartItems, setTotal} from "../features/cart/cartSlice";
 import {fetchAccountInfo} from "../features/user/accountSlice";
 
 function CartPage() {
@@ -32,6 +32,7 @@ function CartPage() {
   }
   function dispatchClearCart() {
     dispatch(clearCart());
+    dispatch(clearCartDB(id));
   }
 
   useEffect(() => {

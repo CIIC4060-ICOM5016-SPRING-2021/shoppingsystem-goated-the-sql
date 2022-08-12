@@ -6,7 +6,6 @@ export const getCartItems = createAsyncThunk('cart/getItems', (id) => {
     .catch((error) =>
       console.log(error));
 });
-
 export const addProductToCartDB = createAsyncThunk('cart/addProductToCart', (requiredInfo) => {
   const{product, user_id} = requiredInfo;
   const requestOptions = {
@@ -20,6 +19,16 @@ export const addProductToCartDB = createAsyncThunk('cart/addProductToCart', (req
   }
 
   return fetch(`http://127.0.0.1:5000/goated_the_sql/product/${user_id}`, requestOptions)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+});
+export const clearCartDB = createAsyncThunk('cart/clearCartDB', (user_id) => {
+  const requestOptions = {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'},
+  }
+
+  return fetch(`http://127.0.0.1:5000/goated_the_sql/cart/${user_id}`, requestOptions)
     .then((response) => response.json())
     .catch((error) => console.log(error));
 });
@@ -75,6 +84,15 @@ export const cartSlice = createSlice({
     },
     [addProductToCartDB.rejected]: () => {
       console.log("Product adding to cart failed");
+    },
+    [clearCartDB.pending]: () => {
+      console.log("Clearing cart");
+    },
+    [clearCartDB.fulfilled]: () => {
+      console.log("Cart cleared");
+    },
+    [clearCartDB.rejected]: () => {
+      console.log("Cart clearing failed");
     }
   }
 });
