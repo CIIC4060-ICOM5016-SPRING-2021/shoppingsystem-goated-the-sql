@@ -39,7 +39,7 @@ function CartPage() {
   }
 
   function createOrder() {
-    dispatch(addOrderToDB({user_id: id, cartItems: cartItems}));
+    dispatch(addOrderToDB({user_id: id, cartItems: cartItems}))
   }
 
   if (isLoading) {

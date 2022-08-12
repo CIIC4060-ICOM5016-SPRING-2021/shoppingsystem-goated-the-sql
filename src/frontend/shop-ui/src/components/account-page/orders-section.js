@@ -14,9 +14,10 @@ function OrdersSection() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (((orders === undefined) && id === undefined) || isLoadingOrders === true) {
+    //  if the user is logged in, fetch the orders
+    if (id !== undefined) {
       dispatch(fetchOrdersInfo(id));
-    } else {
+    } else if (id === undefined) {
       window.location.href = "/";
     }
   }, [dispatch, id, orders, isLoadingOrders]);
