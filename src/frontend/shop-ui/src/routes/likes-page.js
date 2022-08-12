@@ -2,10 +2,9 @@ import {Button, Card, Image} from "semantic-ui-react";
 import React, {useEffect} from "react";
 
 import "./likes-page.css"
-import {useDispatch, useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
+import {useDispatch, useSelector} from "react-redux";
 import {addLikedItemDB, getAllLikes, removeLikedItem} from "../features/likes/likesSlice";
-import {fetchAccountInfo} from "../features/user/accountSlice";
 
 function LikesPage() {
   const wishlistItems = useSelector(store => store.likes.items);
@@ -13,16 +12,14 @@ function LikesPage() {
   const {id} = useSelector(store => store.user.details);
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     if (id === undefined) {
-      dispatch(fetchAccountInfo(187));
-    }
-  }, [id, dispatch]);
-  useEffect(() => {
-    if (id !== undefined) {
+      window.location.href = "/";
+    } else {
       dispatch(getAllLikes(id));
     }
-  }, [dispatch, id]);
+  }, [id, dispatch]);
 
   function removeItem(item, userId) {
     dispatch(removeLikedItem(item.id));

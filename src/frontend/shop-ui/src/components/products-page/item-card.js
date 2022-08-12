@@ -6,7 +6,6 @@ import Loading from "../utility/loading";
 
 import {useDispatch, useSelector} from "react-redux";
 import {filterByCat, getAllProducts, orderByPriceAsc, orderByPriceDesc} from "../../features/products/productSlice";
-import {fetchAccountInfo} from "../../features/user/accountSlice";
 import {addProductToCartDB} from "../../features/cart/cartSlice";
 import {addLikedItemDB} from "../../features/likes/likesSlice";
 
@@ -21,7 +20,7 @@ function Products() {
     }
 
     if (id === undefined) {
-      dispatch(fetchAccountInfo(187));
+      window.location.href = "/";
     }
   }, [dispatch, products, id]);
 
@@ -84,7 +83,7 @@ function Products() {
   ];
 
   function likeItem(itemID) {
-     dispatch(addLikedItemDB({user_id:id ,product:itemID}));
+    dispatch(addLikedItemDB({user_id: id, product: itemID}));
   }
 
   function orderByPriceAscending() {
@@ -100,7 +99,7 @@ function Products() {
   }
 
   function addToCart(item) {
-dispatch(addProductToCartDB({product: item, user_id: id}));
+    dispatch(addProductToCartDB({product: item, user_id: id}));
   }
 
   if (isLoading) {

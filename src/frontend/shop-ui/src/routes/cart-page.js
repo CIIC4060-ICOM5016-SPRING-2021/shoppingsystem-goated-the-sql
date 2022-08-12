@@ -8,7 +8,6 @@ import "./cart-page.css"
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../components/utility/loading";
 import {addOrderToDB, clearCart, clearCartDB, getCartItems, setTotal} from "../features/cart/cartSlice";
-import {fetchAccountInfo} from "../features/user/accountSlice";
 
 function CartPage() {
   const {cartItems, isLoading, total} = useSelector(state => state.cart)
@@ -19,12 +18,12 @@ function CartPage() {
     if (id !== undefined) {
       dispatch(getCartItems(id));
     } else {
-      dispatch(fetchAccountInfo(187));
+      window.location.href = "/";
     }
   }, [dispatch, id]);
   useEffect(() => {
     dispatch(setTotal(calculatedTotal(cartItems)));
-  } ,[cartItems, dispatch])
+  }, [cartItems, dispatch])
 
   function calculatedTotal(cartItems) {
     let total = 0;
@@ -33,11 +32,13 @@ function CartPage() {
     })
     return total;
   }
+
   function dispatchClearCart() {
     dispatch(clearCart());
     dispatch(clearCartDB(id));
   }
-  function createOrder(){
+
+  function createOrder() {
     dispatch(addOrderToDB({user_id: id, cartItems: cartItems}));
   }
 

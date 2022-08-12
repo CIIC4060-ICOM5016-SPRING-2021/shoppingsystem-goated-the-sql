@@ -5,7 +5,7 @@ import "./orders-section.css";
 import OrderDetails from "./order-details";
 import {useDispatch, useSelector} from "react-redux";
 import Loading from "../utility/loading";
-import {fetchAccountInfo, fetchOrdersInfo} from "../../features/user/accountSlice";
+import {fetchOrdersInfo} from "../../features/user/accountSlice";
 
 function OrdersSection() {
   const {isLoadingOrders} = useSelector(store => store.user);
@@ -17,7 +17,7 @@ function OrdersSection() {
     if (((orders === undefined) && id === undefined) || isLoadingOrders === true) {
       dispatch(fetchOrdersInfo(id));
     } else {
-      dispatch(fetchAccountInfo(244));
+      window.location.href = "/";
     }
   }, [dispatch, id, orders, isLoadingOrders]);
 

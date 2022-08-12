@@ -24,7 +24,7 @@ function AccountSection() {
 
   useEffect(() => {
     if (accountDetails.id === undefined) {
-      dispatch(fetchAccountInfo(244));
+      window.location.href = "/";
     } else if(isLoadingAccount === true) {
       dispatch(fetchAccountInfo(accountDetails.id));
     }

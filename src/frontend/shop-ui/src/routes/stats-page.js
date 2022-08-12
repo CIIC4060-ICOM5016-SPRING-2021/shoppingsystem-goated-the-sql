@@ -11,7 +11,7 @@ import Loading from "../components/utility/loading";
 import {setAccountStats, setGlobalStats} from "../features/statistics/statsSlice";
 import {getAllProducts} from "../features/products/productSlice";
 import {useEffect} from "react";
-import {fetchAccountInfo, fetchOrdersInfo} from "../features/user/accountSlice";
+import {fetchOrdersInfo} from "../features/user/accountSlice";
 
 function StatsPage() {
   const gStateStats = useSelector(store => store.product);
@@ -32,10 +32,10 @@ function StatsPage() {
     }
 
     if (id === undefined) {
-      dispatch(fetchAccountInfo(187));
+      window.location.href = "/";
 
       //Logic for setting the account stats
-    } else if(isLoadingOrders === true) {
+    } else if (isLoadingOrders === true) {
       dispatch(fetchOrdersInfo(id));
     }
 
