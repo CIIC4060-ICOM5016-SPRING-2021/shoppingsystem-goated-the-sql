@@ -281,18 +281,19 @@ def orders_page(user_id):
 
 @app.route('/goated_the_sql/checkout', methods=['POST'])
 def checkout_page():
-    if request.data:
-        if request.json:
-            try:
-                # Check if the user exists
-                orderer_id = UserController.get_user(request.json['user_id'])
+    if request.method == 'POST':
+        if request.data:
+            if request.json:
+                try:
+                    # Check if the user exists
+                    orderer_id = UserController.get_user(request.json['user_id'])
 
-                if orderer_id[1] == 200:
-                    return OrderController.create_order(request.json['user_id'], request.json['order_products'])
-                else:
-                    return jsonify("User Not Found"), 404
-            except KeyError:
-                return OrderController.create_order_from_cart(request.json['user_id'])
+                    if orderer_id[1] == 200:
+                        return OrderController.create_order(request.json['user_id'], request.json['order_products'])
+                    else:
+                        return jsonify("User Not Found"), 404
+                except KeyError:
+                    return OrderController.create_order_from_cart(request.json['user_id'])
     else:
         return jsonify("No order information provided."), 400
 

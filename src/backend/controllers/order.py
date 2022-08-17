@@ -36,7 +36,7 @@ class OrderController:
                 else:
                     return jsonify(
                         "You have attempted to order a quantity larger than the current available stock. The order has "
-                        "failed")
+                        "failed"), 400
 
             return jsonify(cls.model_to_dict(new_order.db_add_order(user_id))), 200
         except AttributeError:
