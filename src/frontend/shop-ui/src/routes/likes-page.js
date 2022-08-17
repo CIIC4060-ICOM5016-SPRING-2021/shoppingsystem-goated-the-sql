@@ -5,6 +5,7 @@ import "./likes-page.css"
 import Loading from "../components/utility/loading";
 import {useDispatch, useSelector} from "react-redux";
 import {addLikedItemDB, getAllLikes, removeLikedItem} from "../features/likes/likesSlice";
+import {addProductToCartDB} from "../features/cart/cartSlice";
 
 function LikesPage() {
   const wishlistItems = useSelector(store => store.likes.items);
@@ -26,6 +27,10 @@ function LikesPage() {
     dispatch(addLikedItemDB({product: item, user_id: userId}));
   }
 
+  function addToCart(item) {
+    dispatch(addProductToCartDB({product: item, user_id: id}));
+  }
+
   function showLikes(wishlistItems) {
     if (wishlistItems.length === 0) {
       return (<div className="no-items-in-cart-message">
@@ -45,7 +50,7 @@ function LikesPage() {
             <Card.Content>
               <div className="wishlist-item-buttons">
                 <Button fluid negative icon="trash" onClick={() => removeItem(item, id)}/>
-                <Button fluid positive icon="cart" content="Add to Cart"/>
+                <Button fluid positive icon="cart" content="Add to Cart" onClick={()=>addToCart(item, id)}/>
               </div>
             </Card.Content>
           </Card>
