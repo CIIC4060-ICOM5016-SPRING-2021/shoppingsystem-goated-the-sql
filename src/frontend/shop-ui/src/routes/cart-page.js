@@ -40,6 +40,7 @@ function CartPage() {
 
   function createOrder() {
     dispatch(addOrderToDB({user_id: id, cartItems: cartItems}))
+    dispatchClearCart()
   }
 
   if (isLoading) {

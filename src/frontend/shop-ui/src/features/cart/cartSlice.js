@@ -48,17 +48,26 @@ export const removeItemFromCartDB = createAsyncThunk('cart/removeItemFromCart', 
 });
 export const addOrderToDB = createAsyncThunk('cart/addOrderToDB', (requiredInfo) => {
   const {user_id, cartItems} = requiredInfo;
+
+  const orderItems = cartItems.map(item => {
+    return {
+      product_id: item.product_id,
+      price_sold: item.product_price,
+      quantity_bought: item.quantity,
+    }
+  });
+
   const requestOptions = {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
       "user_id": user_id,
-      "order_products": cartItems,
+      "order_products": orderItems,
     })
   }
 
   return fetch('http://127.0.0.1:5000/goated_the_sql/checkout', requestOptions)
-    .then((response) => response.json())
+    .then((response) => console.log(response.json()))
     .catch((error) => console.log(error));
 });
 
