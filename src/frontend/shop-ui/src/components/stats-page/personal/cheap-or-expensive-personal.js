@@ -1,49 +1,74 @@
 import {Grid} from "semantic-ui-react";
-import {Funnel, FunnelChart, LabelList, Tooltip,} from "recharts";
+import {Bar, BarChart, CartesianGrid, Cell, Funnel, FunnelChart, LabelList, Tooltip, XAxis, YAxis,} from "recharts";
 
 import "./cheap-or-expensive-personal.css"
 
 function CheapnExpensiveProductsList(props) {
-  const accountStats = props.details
+    const accountStats = props.details
 
 
-  return (
-    <>
-      <div>
-        <Grid>
-          <div className="cheapest-bought-stats">
-            <Grid.Row>
-              <h3>Cheapest Bought Products</h3>
-              {/* TODO: Add CSS for the following */}
-              <div className="cheapest-bought-stats-inside">
-                <FunnelChart width={335} height={250}>
-                  <Tooltip/>
-                  <Funnel dataKey="price" data={accountStats[2]["Cheapest Bought Products"]} isAnimationActive>
-                    <LabelList position="center" fill="#000" stroke="none" dataKey="name"/>
-                  </Funnel>
-                </FunnelChart>
-              </div>
-            </Grid.Row>
-          </div>
-          <div className="most-expensive-bought-stats">
-            <Grid.Row>
-              <h3>Most Expensive Bought Products</h3>
-              {/* TODO: Add CSS for the following */}
-              <div className="most-expensive-bought-stats-inside">
-                <FunnelChart width={335} height={250}>
-                  <Tooltip/>
-                  <Funnel dataKey="price" data={accountStats[3]["Most Expensive Bought Products"]} isAnimationActive>
-                    <LabelList position="center" fill="#000" stroke="none" dataKey="name"/>
-                  </Funnel>
-                </FunnelChart>
-              </div>
-            </Grid.Row>
-          </div>
-        </Grid>
-      </div>
-    </>
-  )
-    ;
+    return (
+        <>
+            <div>
+                <Grid>
+                    <div className="cheapest-bought-stats">
+                        <Grid.Row>
+                            <h3>Cheapest Bought Products</h3>
+                            {/* TODO: Add CSS for the following */}
+                            <div className="cheapest-bought-stats-inside">
+                                <BarChart width={335} height={150} data={accountStats[2]["Cheapest Bought Products"]}>
+                                    <XAxis dataKey="name"/>
+                                    <YAxis
+                                        ticks={[0, 100, 200, 300, 400]}
+                                        domain={[0, 400]}
+                                        unit='$'/>
+                                    <Tooltip/>
+                                    <Bar dataKey="price">
+                                        {accountStats[2]["Cheapest Bought Products"].map((category, index) => (
+                                            <Cell
+                                                cursor="pointer"
+                                                fill="#E55812"
+                                                key={`cell-${index}`}
+                                            />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </div>
+                        </Grid.Row>
+                    </div>
+                    <div className="most-expensive-bought-stats">
+                        <Grid.Row>
+                            <h3>Most Expensive Bought Products</h3>
+                            {/* TODO: Add CSS for the following */}
+                            <div className="most-expensive-bought-stats-inside">
+                                <BarChart width={335} height={150}
+                                          data={accountStats[3]["Most Expensive Bought Products"]}>
+                                    <XAxis dataKey="name"
+                                    />
+                                    <YAxis
+                                        ticks={[0, 100, 200, 300, 1000]}
+                                        domain={[80, 200]}
+                                        unit='$'
+                                    />
+                                    <Tooltip/>
+                                    <Bar dataKey="price">
+                                        {accountStats[2]["Cheapest Bought Products"].map((category, index) => (
+                                            <Cell
+                                                cursor="pointer"
+                                                fill="#E55812"
+                                                key={`cell-${index}`}
+                                            />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </div>
+                        </Grid.Row>
+                    </div>
+                </Grid>
+            </div>
+        </>
+    )
+        ;
 }
 
 export default CheapnExpensiveProductsList;
