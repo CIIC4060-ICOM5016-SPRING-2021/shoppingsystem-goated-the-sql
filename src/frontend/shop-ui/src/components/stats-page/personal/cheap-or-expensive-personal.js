@@ -1,5 +1,5 @@
 import {Grid} from "semantic-ui-react";
-import {Bar, BarChart, CartesianGrid, Cell, Funnel, FunnelChart, LabelList, Tooltip, XAxis, YAxis,} from "recharts";
+import {Bar, BarChart, Cell, Tooltip, XAxis, YAxis,} from "recharts";
 
 import "./cheap-or-expensive-personal.css"
 
