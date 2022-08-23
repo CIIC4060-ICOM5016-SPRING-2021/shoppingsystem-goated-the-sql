@@ -10,9 +10,9 @@ export const updateProduct = createAsyncThunk('products/updateProduct', (require
   const {requesterId, product} = requiredInfo;
 
   const productBodyRequest = {
-    product_id: product.id,
+    product_id: product.product_id,
     name: product.name,
-    description: product.desc,
+    description: product.description,
     price: product.price,
     category: product.category,
     stock: product.stock,
@@ -31,7 +31,7 @@ export const updateProduct = createAsyncThunk('products/updateProduct', (require
     )
   }
 
-  return fetch(`http://127.0.0.1:5000/goated_the_sql/product/${product.id}`, requestOptions)
+  return fetch(`http://127.0.0.1:5000/goated_the_sql/product/${product.product_id}`, requestOptions)
       .then((response) => response.json())
       .catch((error) => console.log(error));
 });
@@ -60,14 +60,9 @@ export const productSlice = createSlice({
   },
   reducers: {
     setProductDetails: (state, action) => {
-      //find the product with the same id as the one we want to update and update it
-      const product = state.products["Products"].find((product) => product.id === action.payload.id);
-      product.name = action.payload.name;
-      product.desc = action.payload.desc;
-      product.price = action.payload.price;
-      product.category = action.payload.category;
-      product.stock = action.payload.stock;
-      product.visible = action.payload.visible;
+      //find the item in the products array with the same id as the one we want to update and update it
+      const index = state.products["Products"].findIndex(item => item.id === action.payload.id);
+      state.products["Products"][index] = action.payload;
     },
     orderByPriceAsc: (state) => {
       state.products["Products"].sort((a, b) => a.price - b.price);

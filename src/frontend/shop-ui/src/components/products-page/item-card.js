@@ -91,6 +91,7 @@ function Products() {
   function likeItem(itemID) {
     dispatch(addLikedItemDB({user_id: id, product: itemID}));
   }
+
   function addToCart(item) {
     dispatch(addProductToCartDB({product: item, user_id: id}));
   }
@@ -98,16 +99,21 @@ function Products() {
   function orderByPriceAscending() {
     dispatch(orderByPriceAsc());
   }
+
   function orderByPriceDescending() {
     dispatch(orderByPriceDesc());
   }
+
   function orderByCategory(e, category) {
     dispatch(filterByCat(category));
   }
 
   function removeProduct(item) {
-    dispatch(deleteProduct({requesterId: id, product: item})).then(() => {dispatch(getAllProducts())});
+    dispatch(deleteProduct({requesterId: id, product: item})).then(() => {
+      dispatch(getAllProducts())
+    });
   }
+
   function updateProductDetails(event, item) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -119,13 +125,13 @@ function Products() {
     const fs = formData.get("item_stock");
 
     const itemLabel = item.children[0].props.label;
-    const itemId = itemLabel.match(/\d+/)[0];
+    const itemId = parseInt(itemLabel.match(/\d+/)[0]);
 
     const pn = item.children[0].props.placeholder;
     const pc = item.children[1].props.placeholder;
     const pd = item.children[2].props.placeholder;
-    const pp = item.children[3].props.placeholder;
-    const ps = item.children[4].props.placeholder;
+    const pp = parseInt(item.children[3].props.placeholder);
+    const ps = parseInt(item.children[4].props.placeholder);
 
     const productDBCopy = {
       product_id: itemId,
@@ -145,8 +151,8 @@ function Products() {
       stock: fs ? fs : ps,
       visible: true,
     }
-
-    dispatch(updateProduct(productDBCopy)).then(() => {dispatch(setProductDetails(productStateCopy))});
+    dispatch(updateProduct({requesterId: id, product: productDBCopy}));
+    dispatch(setProductDetails(productStateCopy));
   }
 
   function showAdminDetails(item) {
