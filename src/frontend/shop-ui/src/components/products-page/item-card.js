@@ -108,6 +108,46 @@ function Products() {
   function removeProduct(item) {
     dispatch(deleteProduct({requesterId: id, product: item})).then(() => {dispatch(getAllProducts())});
   }
+  function updateProductDetails(event, item) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    const fn = formData.get("item_name");
+    const fc = formData.get("item_category");
+    const fd = formData.get("item_description");
+    const fp = formData.get("item_price");
+    const fs = formData.get("item_stock");
+
+    const itemLabel = item.children[0].props.label;
+    const itemId = itemLabel.match(/\d+/)[0];
+
+    const pn = item.children[0].props.placeholder;
+    const pc = item.children[1].props.placeholder;
+    const pd = item.children[2].props.placeholder;
+    const pp = item.children[3].props.placeholder;
+    const ps = item.children[4].props.placeholder;
+
+    const productDBCopy = {
+      product_id: itemId,
+      name: fn ? fn : pn,
+      description: fd ? fd : pd,
+      price: fp ? fp : pp,
+      category: fc ? fc : pc,
+      stock: fs ? fs : ps,
+      visible: true,
+    }
+    const productStateCopy = {
+      category: fc ? fc : pc,
+      desc: fd ? fd : pd,
+      id: itemId,
+      name: fn ? fn : pn,
+      price: fp ? fp : pp,
+      stock: fs ? fs : ps,
+      visible: true,
+    }
+
+    dispatch(updateProduct(productDBCopy)).then(() => {dispatch(setProductDetails(productStateCopy))});
+  }
 
   function showAdminDetails(item) {
     if (admin === true) {
@@ -116,12 +156,13 @@ function Products() {
             <Image
                 src="https://i.ytimg.com/vi/hYIsp4qA-z4/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDkz9Org_0z_DjBie5FR9YuflgXcg"/>
             <Card.Content>
-              <Form size="small">
-                <Form.Input label="Product" placeholder={item.name}/>
-                <Form.Input label="Category" placeholder={item.category}/>
-                <Form.TextArea label="Description" placeholder={item.desc}/>
-                <Form.Input label="Price" placeholder={item.price}/>
-                <Form.Input label="Stock" placeholder={item.stock}/>
+              <Form size="small" onSubmit={(e, item) => updateProductDetails(e, item)}>
+                <Form.Input label={`Product Name (ID:${item.id})`} placeholder={item.name} name="item_name"/>
+                <Form.Input label="Category" placeholder={item.category} name="item_category"/>
+                <Form.TextArea label="Description" placeholder={item.desc} name="item_description"/>
+                <Form.Input label="Price" placeholder={item.price} name="item_price"/>
+                <Form.Input label="Stock" placeholder={item.stock} name="item_stock"/>
+                <Form.Button primary fluid type="submit">Update</Form.Button>
               </Form>
             </Card.Content>
             <Card.Content>
