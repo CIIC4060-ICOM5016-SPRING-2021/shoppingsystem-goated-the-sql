@@ -193,8 +193,10 @@ function Products() {
             <Card.Content>
               <div className="item-card-body">
                 <div className="price-n-quantity">
-                  <div className="item-card-price">${item.price}</div>
-                  <h4>Available: ${item.stock}</h4>
+                  <div className="item-card-price">
+                    ${item.price}
+                    <h6>{item.stock} in stock</h6>
+                  </div>
                 </div>
                 <div className="item-card-cart-n-wishlist">
                   <Button icon="heart" primary onClick={() => likeItem(item)}/>
