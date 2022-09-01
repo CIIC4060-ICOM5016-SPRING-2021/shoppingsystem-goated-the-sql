@@ -21,6 +21,7 @@ import {addLikedItemDB} from "../../features/likes/likesSlice";
 function Products() {
   const {products, isLoading} = useSelector((store) => store.product);
   const {id, admin} = useSelector((store) => store.user.details);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -128,7 +129,7 @@ function Products() {
     const pn = item.children[0].props.placeholder;
     const pc = item.children[1].props.placeholder;
     const pd = item.children[2].props.placeholder;
-    const pp = parseInt(item.children[3].props.placeholder);
+    const pp = parseFloat(item.children[3].props.placeholder);
     const ps = parseInt(item.children[4].props.placeholder);
 
     const productDBCopy = {
@@ -154,52 +155,59 @@ function Products() {
   }
 
   function ShowAddProductButton() {
-    const [open, setOpen] = useState(false);
     if (admin === true) {
-      return (
-        <>
-          <Modal
-            onOpen={() => setOpen(true)}
-            onClose={() => setOpen(false)}
-            open={open}
-            trigger={<Button content="Add Product" icon="plus" positive onClick={() => setOpen(true)}/>}
-          >
-            <Modal.Header>Add Product</Modal.Header>
-            <Modal.Content>
-              <Form size="small" onSubmit={(e) => {
-                e.preventDefault();
-                const formData = new FormData(e.target);
+      if (isLoading) {
+        return <Loading/>;
+      } else {
+        return (
+          <>
+            <Modal
+              onOpen={() => setOpen(true)}
+              onClose={() => setOpen(false)}
+              open={open}
+              trigger={<Button content="Add Product" icon="plus" positive onClick={() => setOpen(true)}/>}
+            >
+              <Modal.Header>Add Product</Modal.Header>
+              <Modal.Content>
+                <Form size="small" onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.target);
 
-                const fn = formData.get("item_name");
-                const fc = formData.get("item_category");
-                const fd = formData.get("item_description");
-                const fp = formData.get("item_price");
-                const fs = formData.get("item_stock");
+                  const fn = formData.get("item_name");
+                  const fc = formData.get("item_category");
+                  const fd = formData.get("item_description");
+                  const fp = formData.get("item_price");
+                  const fs = formData.get("item_stock");
 
-                const newProductDetails = {
-                  name: fn,
-                  category: fc,
-                  description: fd,
-                  price: fp,
-                  stock: fs,
-                }
+                  const newProductDetails = {
+                    name: fn,
+                    category: fc,
+                    description: fd,
+                    price: fp,
+                    stock: fs,
+                  }
 
-                dispatch(addNewProductToDB({product: newProductDetails}))
-              }}>
-                {/*TODO: Verify if this is automatically picked up by the deserializer in the productSlice, otherwise rename everything accordingly*/}
-                <Form.Input label="Product Name" name="item_name"/>
-                <Form.Input label="Category" name="item_category"/>
-                <Form.TextArea label="Description" name="item_description"/>
-                <Form.Input label="Price" name="item_price"/>
-                <Form.Input label="Stock" name="item_stock"/>
-                <Form.Button primary fluid type="submit" content="Add Product"/>
-              </Form>
-            </Modal.Content>
-          </Modal>
-        </>
-      );
+                  dispatch(addNewProductToDB({product: newProductDetails}))
+                    .then(() => {
+                      dispatch(getAllProducts());
+                      setOpen(false);
+                    });
+                }}>
+                  <Form.Input label="Product Name" name="item_name"/>
+                  <Form.Input label="Category" name="item_category"/>
+                  <Form.TextArea label="Description" name="item_description"/>
+                  <Form.Input label="Price" name="item_price"/>
+                  <Form.Input label="Stock" name="item_stock"/>
+                  <Form.Button primary fluid type="submit" content="Add Product"/>
+                </Form>
+              </Modal.Content>
+            </Modal>
+          </>
+        );
+      }
     }
   }
+
   function showAdminDetails(item) {
     if (admin === true) {
       return (
