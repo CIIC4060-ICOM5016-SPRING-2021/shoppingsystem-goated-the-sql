@@ -48,6 +48,29 @@ export const deleteProduct = createAsyncThunk('products/deleteProduct', (require
       .then((response) => response.json())
       .catch((error) => console.log(error));
 });
+export const addNewProductToDB = createAsyncThunk('products/addNewProductToDB', (requiredInfo) => {
+  const {product} = requiredInfo;
+
+  const productBodyRequest = {
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    category: product.category,
+    stock: product.stock,
+  }
+
+  const requestOptions = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(
+          productBodyRequest
+    )
+  }
+
+  return fetch("http://127.0.0.1:5000/goated_the_sql/product/add", requestOptions)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+});
 
 export const productSlice = createSlice({
   name: "product",
@@ -110,6 +133,28 @@ export const productSlice = createSlice({
     },
     [updateProduct.rejected]: (state) => {
       console.log("Product update failed");
+      state.isLoading = false;
+    },
+    [deleteProduct.pending]: () => {
+      console.log("Deleting product");
+    },
+    [deleteProduct.fulfilled]: () => {
+      console.log("Product deleted");
+    },
+    [deleteProduct.rejected]: () => {
+      console.log("Product delete failed");
+    },
+    [addNewProductToDB.pending]: (state) => {
+      console.log("Adding product");
+      state.isLoading = true;
+    },
+    [addNewProductToDB.fulfilled]: (state, action) => {
+      console.log("Product added");
+      state.products["Products"].push(action.payload);
+      state.isLoading = false;
+    },
+    [addNewProductToDB.rejected]: (state) => {
+      console.log("Product add failed");
       state.isLoading = false;
     }
   }
