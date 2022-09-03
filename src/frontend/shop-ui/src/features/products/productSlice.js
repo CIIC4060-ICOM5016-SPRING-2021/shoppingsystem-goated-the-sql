@@ -93,6 +93,12 @@ export const productSlice = createSlice({
     orderByPriceDesc: (state) => {
       state.products["Products"].sort((a, b) => b.price - a.price);
     },
+    orderByNameAsc: (state) => {
+      state.products["Products"].sort((a, b) => a.name.localeCompare(b.name));
+    },
+    orderByNameDesc: (state) => {
+      state.products["Products"].sort((a, b) => b.name.localeCompare(a.name));
+    },
     filterByCat: (state, action) => {
       if (action.payload.value === "all") {
         state.products["Products"] = state.productsCopy;
@@ -160,5 +166,5 @@ export const productSlice = createSlice({
   }
 });
 
-export const {orderByPriceAsc, orderByPriceDesc, filterByCat, setProductDetails} = productSlice.actions;
+export const {orderByPriceAsc, orderByPriceDesc, orderByNameAsc, orderByNameDesc, filterByCat, setProductDetails} = productSlice.actions;
 export default productSlice.reducer;
