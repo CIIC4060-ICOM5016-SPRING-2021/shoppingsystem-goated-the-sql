@@ -142,13 +142,13 @@ export const cartSlice = createSlice({
       console.log("Item removing from cart failed");
     },
     [addOrderToDB.pending]: () => {
-      console.log("Adding order to cart");
+      console.log("Adding order to DB");
     },
     [addOrderToDB.fulfilled]: () => {
-      console.log("Order added to cart");
+      console.log("Order added to DB");
     },
     [addOrderToDB.rejected]: () => {
-      console.log("Order adding to cart failed");
+      console.log("Adding order to DB failed");
     }
   }
 });
