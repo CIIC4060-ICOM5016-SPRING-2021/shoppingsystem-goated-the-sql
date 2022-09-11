@@ -11,71 +11,76 @@ import StatsPage from "./stats-page";
 import "./home.css";
 
 function Home(props) {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const selected = props.selected;
-  const [state, setState] = useState({activeItem: selected});
-  const activeItem = state.activeItem;
+    const selected = props.selected;
+    const [state, setState] = useState({activeItem: selected});
+    const activeItem = state.activeItem;
 
-  function itemClicked(name) {
-    // TODO: Find more or decide from the options found for the changing URLs:
-    navigate("/" + name);
-    setState({activeItem: name});
-  }
-
-  function PageToRender() {
-    switch (activeItem) {
-      case "home":
-        return <ItemCards/>;
-      case "statistics":
-        return <StatsPage/>;
-      case "account":
-        return <AccountDetailsPage/>;
-      case "likes":
-        return <LikesPage/>;
-      case "cart":
-        return <CartPage/>;
-      default:
-        setState({activeItem: "home"});
-        return <ItemCards/>;
+    function itemClicked(name) {
+        // TODO: Find more or decide from the options found for the changing URLs:
+        navigate("/" + name);
+        setState({activeItem: name});
     }
-  }
 
-  return (
-    <>
-      <Menu fixed="top" borderless size="large">
-        <Menu.Item
-          active={activeItem === "home"}
-          onClick={() => itemClicked("home")}
-          content="Products"
-        />
-        <Menu.Item
-          active={activeItem === "statistics"}
-          onClick={() => itemClicked("statistics")}
-          position="left"
-          content="Statistics"
-        />
-        <Menu.Item
-          active={activeItem === "account"}
-          onClick={() => itemClicked("account")}
-          content="Account"
-        />
-        <Menu.Item
-          active={activeItem === "likes"}
-          onClick={() => itemClicked("likes")}
-          content="Likes"
-        />
-        <Menu.Item
-          active={activeItem === "cart"}
-          onClick={() => itemClicked("cart")}
-          content="Cart"
-        />
-      </Menu>
-      <div className="content-body">
-        <PageToRender/>
-      </div>
-    </>
-  );
+    function PageToRender() {
+        switch (activeItem) {
+            case "home":
+                return <ItemCards/>;
+            case "statistics":
+                return <StatsPage/>;
+            case "account":
+                return <AccountDetailsPage/>;
+            case "likes":
+                return <LikesPage/>;
+            case "cart":
+                return <CartPage/>;
+            default:
+                setState({activeItem: "home"});
+                return <ItemCards/>;
+        }
+    }
+
+    return (
+        <>
+            <Menu fixed="top" borderless size="large">
+                <Menu.Item
+                    active={activeItem === "home"}
+                    onClick={() => itemClicked("home")}
+                    content="Products"
+                />
+                <Menu.Item
+                    active={activeItem === "statistics"}
+                    onClick={() => itemClicked("statistics")}
+                    position="left"
+                    content="Statistics"
+                />
+                <Menu.Item
+                    active={activeItem === "account"}
+                    onClick={() => itemClicked("account")}
+                    content="Account"
+                />
+                <Menu.Item
+                    active={activeItem === "likes"}
+                    onClick={() => itemClicked("likes")}
+                    content="Likes"
+                />
+                <Menu.Item
+                    active={activeItem === "cart"}
+                    onClick={() => itemClicked("cart")}
+                    content="Cart"
+                />
+                <Menu.Item
+                    onClick={() => itemClicked("")}
+                    content="Logout"
+                    color='red'
+                />
+            </Menu>
+            <div className="content-body">
+                <PageToRender/>
+            </div>
+        </>
+    );
 }
 
 export default Home;
