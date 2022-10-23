@@ -1,6 +1,8 @@
 import React, {useState} from "react";
-import {Menu} from "semantic-ui-react";
+import {Button, Menu} from "semantic-ui-react";
 import {useNavigate} from "react-router-dom";
+
+import {useDispatch} from "react-redux";
 
 import LikesPage from "./likes-page";
 import AccountDetailsPage from "./account-page";
@@ -9,9 +11,11 @@ import ItemCards from "../components/products-page/item-card";
 import StatsPage from "./stats-page";
 
 import "./home.css";
+import {clearUserDetails} from "../features/user/accountSlice";
 
 function Home(props) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const selected = props.selected;
     const [state, setState] = useState({activeItem: selected});
@@ -19,8 +23,16 @@ function Home(props) {
 
     function itemClicked(name) {
         // TODO: Find more or decide from the options found for the changing URLs:
-        navigate("/" + name);
-        setState({activeItem: name});
+        if(name){
+            navigate("/" + name);
+            setState({activeItem: name});
+        } else {
+            dispatch(clearUserDetails());
+            navigate(name);
+            setState({activeItem: name});
+        }
+
+
     }
 
     function PageToRender() {
@@ -70,11 +82,9 @@ function Home(props) {
                     onClick={() => itemClicked("cart")}
                     content="Cart"
                 />
-                <Menu.Item
-                    onClick={() => itemClicked("")}
-                    content="Logout"
-                    color='red'
-                />
+                <Menu.Item>
+                    <Button onClick={() => itemClicked("")} content="Logout" color="red"/>
+                </Menu.Item>
             </Menu>
             <div className="content-body">
                 <PageToRender/>

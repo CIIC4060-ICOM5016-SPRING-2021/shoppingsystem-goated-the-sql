@@ -47,6 +47,12 @@ const accountSlice = createSlice({
         state.details = action.payload;
         state.isLoadingAccount = false;
       }
+    },
+    clearUserDetails: (state) => {
+      state.details = [];
+      state.orders = [];
+      state.isLoadingAccount = true;
+      state.isLoadingOrders = true;
     }
   },
   extraReducers: {
@@ -88,5 +94,5 @@ const accountSlice = createSlice({
   }
 });
 
-export const {setUserDetails} = accountSlice.actions;
+export const {setUserDetails, clearUserDetails} = accountSlice.actions;
 export default accountSlice.reducer;
